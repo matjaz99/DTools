@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sshResponse>
+    <command>ifconfig</command>
+    <date>2015/04/07 3:33:35</date>
+    <filename>ifconfig</filename>
+    <remark>Remark: </remark>
+    <sshClient>
+        <hostname>192.168.1.110</hostname>
+        <password>object00</password>
+        <port>22</port>
+        <username>root</username>
+    </sshClient>
+</sshResponse>

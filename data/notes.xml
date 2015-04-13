@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<notes>
+    <note>
+        <message>hkjsdhf asd aksjhka sdkja shdjkf akjsd laks dlkaj sldfk jalsdk fjlaksd lkaj sldkfj alksdj flkaj dslkf alksdjfl akjs dflk asldkjflaksj dflkajsdfjčlkčsldfg čsld fgčlks dfgčlksdčljlakhkjha sdf.</message>
+        <timestamp>2015/04/06 0:36:02</timestamp>
+    </note>
+    <note>
+        <message>preveri hosts tabelo</message>
+        <timestamp>2015/04/06 0:41:11</timestamp>
+    </note>
+    <note>
+        <message>http://google.com</message>
+        <timestamp>2015/04/06 1:09:37</timestamp>
+    </note>
+    <note>
+        <message>asdasd</message>
+        <timestamp>2015/04/06 1:11:51</timestamp>
+    </note>
+    <note>
+        <message>[root@localhost ~]# ifconfig&#xD;
+eth0      Link encap:Ethernet  HWaddr 08:00:27:9C:85:17  &#xD;
+          inet addr:192.168.1.110  Bcast:192.168.1.255  Mask:255.255.255.0&#xD;
+          inet6 addr: fe80::a00:27ff:fe9c:8517/64 Scope:Link&#xD;
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1&#xD;
+          RX packets:4606 errors:0 dropped:0 overruns:0 frame:0&#xD;
+          TX packets:1324 errors:0 dropped:0 overruns:0 carrier:0&#xD;
+          collisions:0 txqueuelen:1000 &#xD;
+          RX bytes:649849 (634.6 KiB)  TX bytes:158305 (154.5 KiB)&#xD;
+&#xD;
+lo        Link encap:Local Loopback  &#xD;
+          inet addr:127.0.0.1  Mask:255.0.0.0&#xD;
+          inet6 addr: ::1/128 Scope:Host&#xD;
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1&#xD;
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0&#xD;
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0&#xD;
+          collisions:0 txqueuelen:0 &#xD;
+          RX bytes:0 (0.0 b)  TX bytes:0 (0.0 b)&#xD;
+&#xD;
+[root@localhost ~]# </message>
+        <timestamp>2015/04/06 1:12:33</timestamp>
+    </note>
+</notes>

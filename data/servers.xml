@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<servers>
+    <server>
+        <description></description>
+        <hostname>localhost</hostname>
+        <name>iMac</name>
+    </server>
+    <server>
+        <description>CentOS in VirtualBox</description>
+        <hostname>192.168.1.110</hostname>
+        <name>CentOS 6</name>
+    </server>
+    <server>
+        <description>VirtualBox</description>
+        <hostname>192.168.1.106</hostname>
+        <name>Fedora 17</name>
+    </server>
+    <server>
+        <description></description>
+        <hostname>192.168.1.101</hostname>
+        <name>192.168.1.101</name>
+    </server>
+    <server>
+        <description></description>
+        <hostname>192.168.1.200</hostname>
+        <name>192.168.1.200</name>
+    </server>
+    <server>
+        <description></description>
+        <hostname>192.168.1.201</hostname>
+        <name>192.168.1.201</name>
+    </server>
+    <server>
+        <description></description>
+        <hostname>192.168.1.202</hostname>
+        <name>192.168.1.202</name>
+    </server>
+    <server>
+        <description></description>
+        <hostname>192.168.1.203</hostname>
+        <name>192.168.1.203</name>
+    </server>
+    <server>
+        <description></description>
+        <hostname>192.168.1.204</hostname>
+        <name>192.168.1.204</name>
+    </server>
+    <server>
+        <description></description>
+        <hostname>sdfg</hostname>
+        <name>sfdg</name>
+    </server>
+    <server>
+        <description>sdfgasd</description>
+        <hostname>sdfg</hostname>
+        <name>dfgsdfs</name>
+    </server>
+    <server>
+        <description></description>
+        <hostname>8.8.8.8</hostname>
+        <name>Google DNS</name>
+    </server>
+    <server>
+        <description></description>
+        <hostname>kjk</hostname>
+        <name>fg2</name>
+    </server>
+    <server>
+        <description></description>
+        <hostname>adf</hostname>
+        <name>fg123</name>
+    </server>
+</servers>

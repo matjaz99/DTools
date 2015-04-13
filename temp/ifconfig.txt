@@ -1,0 +1,23 @@
+Last login: Tue Apr  7 02:24:50 2015 from imac
+
+ifconfig
+[root@localhost ~]# ifconfig
+eth0      Link encap:Ethernet  HWaddr 08:00:27:9C:85:17  
+          inet addr:192.168.1.110  Bcast:192.168.1.255  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fe9c:8517/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:1287 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:563 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:149419 (145.9 KiB)  TX bytes:52435 (51.2 KiB)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:0 (0.0 b)  TX bytes:0 (0.0 b)
+
+[root@localhost ~]# 

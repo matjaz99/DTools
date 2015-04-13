@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<commands>
+    <command>ifconfig</command>
+    <command>ps -ef | grep java</command>
+    <command>tail -n 100 /private/var/log/system.log</command>
+    <command>who</command>
+    <command>more /etc/hosts</command>
+    <command>asasasasas</command>
+    <command>hostname</command>
+    <command>pwd</command>
+    <command>ping -c 1 192.168.1.110</command>
+    <command>shutdown -h now</command>
+    <command>reboot</command>
+    <command>more /private/var/log/system.log</command>
+    <command>nslookup google.com</command>
+</commands>

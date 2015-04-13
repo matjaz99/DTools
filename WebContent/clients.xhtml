@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:dt="http://dtools.com/facelets">
+    <h:head>
+        <title>DTools</title>
+        <h:outputStylesheet library="css" name="dstyles.css"/>
+    </h:head>
+    <h:body>
+    	
+    	<h:panelGrid columns="1" styleClass="background" cellpadding="0" cellspacing="0" width="100%">
+    		
+    		<ui:include src="/include/toolbar.xhtml"/>
+			
+			<h:outputText value="Clients" />
+			
+			<hr/>
+			
+			<h:form>
+				<fieldset>
+				<legend> Add new SSH client </legend>
+				<h:panelGrid columns="3" cellpadding="5" cellspacing="5">
+				
+					<h:outputLabel value="Hostname: " />
+					<h:inputText id="sshHost" value="#{clientsBean.hostname}" required="true"
+						 requiredMessage="Missing value">
+						<f:validator validatorId="newSshClientValidator"/>
+						<f:attribute name="port" value="#{sshPort}" />
+						<f:attribute name="user" value="#{sshUser}" />
+					</h:inputText>
+					<h:message for="sshHost" style="color: red;" />
+					
+					<h:outputLabel value="Port " />
+					<h:inputText id="sshPort" value="#{clientsBean.port}" binding="#{sshPort}"
+						required="true" requiredMessage="Missing value"></h:inputText>
+					<h:message for="sshPort" style="color: red;" />
+					
+					<h:outputLabel value="Username: " />
+					<h:inputText id="sshUser" value="#{clientsBean.username}" binding="#{sshUser}"
+						required="true" requiredMessage="Missing value"></h:inputText>
+					<h:message for="sshUser" style="color: red;" />
+					
+					<h:outputLabel value="Password: " />
+					<h:inputText value="#{clientsBean.password}" ></h:inputText>
+					<h:outputLabel value="" />
+					
+					<h:commandButton action="#{clientsBean.addClientAction}" value="Add"></h:commandButton>
+				</h:panelGrid>
+				</fieldset>
+			</h:form>
+			
+			
+			<hr/>
+			
+			<h:panelGrid columns="1" cellspacing="5px" width="100%">
+				<h:dataTable value="#{clientsBean.sshClientsList}" var="sshClient" 
+					styleClass="table"
+					rowClasses="tableOddRow,tableEvenRow"
+					cellpadding="0" cellspacing="0" width="100%">
+					
+					<h:column headerClass="col0 col1">
+						<f:facet name="header">Console</f:facet>
+						<h:form>
+							<h:commandLink action="#{clientsBean.openClient(sshClient)}">
+								<dt:icon img="terminal"/>
+							</h:commandLink>
+						</h:form>
+					</h:column>
+					
+					<h:column headerClass="col0 col3">
+						<f:facet name="header">SSH Client</f:facet>
+						<h:form>
+							<h:commandLink>
+								<h:outputText value="ssh://#{sshClient.username}@#{sshClient.hostname}:#{sshClient.port}" />
+							</h:commandLink>
+						</h:form>
+					</h:column>
+					
+					<h:column headerClass="col0">
+						<f:facet name="header">Actions</f:facet>
+						<h:form>
+							<h:commandLink action="#{clientsBean.deleteSshClientAction(sshClient)}">
+								<dt:icon img="remove"/>
+							</h:commandLink>
+						</h:form>
+					</h:column>
+					
+				</h:dataTable>
+			</h:panelGrid>
+			
+        
+        </h:panelGrid>
+        
+    </h:body>
+</html>
+
+

@@ -1,0 +1,155 @@
+@CHARSET "UTF-8";
+
+* {
+	font: 12px Arial, Helvetica, Verdana, sans-serif;
+	color: #282828;
+	padding: 0px;
+	margin: 0px;
+}
+
+.background {
+	background-color: #FAFAFA;
+}
+
+.backgroundToolbar {
+	background: rgb(255,255,255);
+background: -moz-linear-gradient(top,  rgb(255,255,255) 0%, rgb(246,246,246) 47%, rgb(237,237,237) 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(255,255,255)), color-stop(47%,rgb(246,246,246)), color-stop(100%,rgb(237,237,237)));
+background: -webkit-linear-gradient(top,  rgb(255,255,255) 0%,rgb(246,246,246) 47%,rgb(237,237,237) 100%);
+background: -o-linear-gradient(top,  rgb(255,255,255) 0%,rgb(246,246,246) 47%,rgb(237,237,237) 100%);
+background: -ms-linear-gradient(top,  rgb(255,255,255) 0%,rgb(246,246,246) 47%,rgb(237,237,237) 100%);
+background: linear-gradient(to bottom,  rgb(255,255,255) 0%,rgb(246,246,246) 47%,rgb(237,237,237) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
+
+
+
+
+
+}
+
+.title {
+	font-weight: bold;
+}
+
+.titleLarge {
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.codeStyle {
+	font: 12px monospace;
+}
+
+a, a:visited, a:link {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+.icon {
+/* 	width: 64px; */
+}
+
+.test {
+	border: 1px solid #FF0000;
+}
+
+.valign-middle {
+	vertical-align: middle;
+}
+
+.align-right {
+	text-align: right;
+}
+
+.table {   
+   border-collapse: collapse;
+   border: 1px solid #AAAAAA;
+}
+
+/* .tableHeader { */
+/* 	text-align: left; */
+/* 	font-weight: bold; */
+/* 	background-color: #f4e3a1; */
+/* 	border-bottom: 1px solid #AAAAAA;   */
+/* 	padding: 2px; */
+/* } */
+
+.tableOddRow {
+	background-color: #FFF;
+}
+
+.tableEvenRow {
+	background-color: #FAFAFA;
+}
+
+.col0 {
+	border-right: 1px solid #AAAAAA;
+	text-align: left;
+	font-weight: bold;
+	background-color: #f4e3b1;
+	border-bottom: 1px solid #AAAAAA;  
+	padding: 2px 5px;
+}
+.col1 {
+	width: 40px;
+}
+.col2 {
+	width: 20%;
+}
+.col3 {
+	width: 60%;
+}
+
+fieldset { 
+    display: block;
+    margin: 5px;
+    padding: 5px 10px;
+    border: 2px groove (internal value);
+}
+
+legend {
+	font-style: italic;
+}
+
+
+
+
+
+.largeText {
+	font-size: 24px;
+}
+
+.text-white {
+	color: white;
+}
+
+/* radio box */
+.text-white tr td label {
+	color: white;
+}
+
+/* .error tr td { */
+/* 	color: red; */
+/* } */
+
+
+
+.tagBorder {
+	border: 1px solid #555;
+	border-bottom-left-radius: 4px 4px;
+	border-bottom-right-radius: 4px 4px;
+	border-top-left-radius: 4px 4px;
+	border-top-right-radius: 4px 4px;
+	font-size: 14px;
+	padding: 3px;
+	margin-right: 5px;
+	margin-top: 5px;
+}
+
+
+
+
+
