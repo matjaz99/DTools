@@ -94,6 +94,21 @@ public class ServersBean {
 		
 	}
 	
+	public void toggleFavorite(Server server) {
+		server.setFavorite(!server.isFavorite());
+		DAO.getInstance().saveServers();
+	}
+	
+//	public String getFavoriteIcon(boolean isFavorite) {
+//		
+//		if (isFavorite) {
+//			return "star-full";
+//		}
+//		
+//		return "star-empty";
+//		
+//	}
+	
 	/**
 	 * Send ICMP ping on selected server.
 	 * @param server

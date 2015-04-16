@@ -10,6 +10,7 @@ public class Server {
 	private String name;
 	private String hostname;
 	private String description;
+	private boolean favorite = false;
 	private EPingStatus icmpPingStatus = EPingStatus.UNKNOWN;
 
 	public String getName() {
@@ -48,6 +49,15 @@ public class Server {
 		this.icmpPingStatus = status;
 	}
 	
+	public boolean isFavorite() {
+		return favorite;
+	}
+
+	@XmlElement
+	public void setFavorite(boolean favorite) {
+		this.favorite = favorite;
+	}
+
 	/**
 	 * Send ping on this server
 	 */

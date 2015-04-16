@@ -57,7 +57,6 @@ public class DToolsContext {
 		
 		HOME_DIR = homeDir;
 		
-		HOME_DIR = "/Users/matjaz/Documents/git/DTools";
 	}
 	
 	/**
@@ -113,7 +112,7 @@ public class DToolsContext {
 		logger.info("HOME_DIR=" + HOME_DIR);
 		logger.info("VERSION=" + version);
 		logger.info("OS=" + getOsType());
-		logger.info("LOG_FILE=" + "/log/" + logger.getFilename());		
+		logger.info("LOG_FILE=" + logger.getFilename());		
 		
 	}
 	

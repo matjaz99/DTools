@@ -51,7 +51,7 @@
 			
 			<hr/>
 			
-			<h:panelGrid columns="1" cellspacing="5px" width="100%">
+			<h:panelGrid columns="1" cellspacing="5" width="100%">
 			<h:dataTable value="#{serversBean.serversList}" var="server" 
 				styleClass="table"
 				rowClasses="tableOddRow,tableEvenRow"
@@ -97,6 +97,10 @@
 				<h:column headerClass="col0">
 					<f:facet name="header">Actions</f:facet>
 					<h:form>
+						<h:commandLink id="favoriteStar" action="#{serversBean.toggleFavorite(server)}">
+							<dt:icon img="#{server.favorite == true ? 'star-full' : 'star-empty'}"/>
+							<f:ajax render="favoriteStar" />
+						</h:commandLink>
 						<h:commandLink action="#{serversBean.deleteServerAction(server)}">
 							<dt:icon img="remove"/>
 						</h:commandLink>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="DTools" default="tar">
+	
+	<description>Ant buildfile</description>
+
+	<property name="project.version" value="1.0.0" />
+	<property name="src.dir" value="src" />
+	<property name="web.dir" value="WebContent" />
+	<property name="classes.dir" value="build/classes" />
+	<property name="lib.dir" value="${web.dir}/WEB-INF/lib" />
+	<property name="web.xml" value="${web.dir}/WEB-INF/web.xml" />
+	<property name="dist.dir" value="dist" />
+
+	<path id="compile.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+	
+	<target name="clean">
+	    <delete dir="${dist.dir}/${ant.project.name}-${project.version}" />
+	</target>
+	
+	<target name="init" depends="clean">
+		<echo file="config/version.txt">${project.version}</echo>
+		<mkdir dir="${classes.dir}"/>
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${dist.dir}/${ant.project.name}-${project.version}" />
+		
+		<mkdir dir="${dist.dir}/${ant.project.name}-${project.version}/src" />
+		<copy todir="${dist.dir}/${ant.project.name}-${project.version}/src">
+			<fileset dir="${src.dir}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		
+		<mkdir dir="${dist.dir}/${ant.project.name}-${project.version}/WebContent" />
+		<copy todir="${dist.dir}/${ant.project.name}-${project.version}/WebContent">
+			<fileset dir="${web.dir}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		
+		<mkdir dir="${dist.dir}/${ant.project.name}-${project.version}/server" />
+		<copy todir="${dist.dir}/${ant.project.name}-${project.version}/server">
+			<fileset dir="server">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		
+		<mkdir dir="${dist.dir}/${ant.project.name}-${project.version}/config" />
+		<copy todir="${dist.dir}/${ant.project.name}-${project.version}/config">
+			<fileset dir="config">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		
+		<mkdir dir="${dist.dir}/${ant.project.name}-${project.version}/data" />
+		
+		<mkdir dir="${dist.dir}/${ant.project.name}-${project.version}/log" />
+		
+		<mkdir dir="${dist.dir}/${ant.project.name}-${project.version}/temp" />
+			
+		<copy todir="${dist.dir}/${ant.project.name}-${project.version}">
+			<fileset dir=".">
+				<include name="build.xml" />
+				<include name="start.sh" />
+				<include name="stop.sh" />
+				<include name="start.bat" />
+				<include name="stop.bat" />
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="compile" depends="init" >
+		<javac destdir="${classes.dir}" debug="true" srcdir="${src.dir}">
+			<classpath refid="compile.classpath"/>
+		</javac>
+	</target>
+	
+	<target name="war" depends="compile">
+		<war destfile="${dist.dir}/${ant.project.name}-${project.version}/server/apache-tomcat-7.0.57/webapps/${ant.project.name}.war" webxml="${web.xml}">
+			<fileset dir="WebContent"/>
+			<lib dir="${lib.dir}"/>
+			<classes dir="${classes.dir}"/>
+		</war>
+	</target>
+	
+	<target name="tar" depends="war">
+		
+		<chmod file="${dist.dir}/${ant.project.name}-${project.version}/start.sh" perm="ugo+rx"/>
+		<chmod file="${dist.dir}/${ant.project.name}-${project.version}/stop.sh" perm="ugo+rx"/>
+		<chmod dir="${dist.dir}/${ant.project.name}-${project.version}/server/apache-tomcat-7.0.57/bin" perm="ugo+rx" includes="**/*.sh"/>
+			
+		<tar destfile="${dist.dir}/${ant.project.name}-${project.version}.tar.gz" basedir="${dist.dir}" includes="${ant.project.name}-${project.version}/**" compression="gzip" />
+			
+		<echo message="== building tar file successful ==" />
+	</target>
+	
+</project>

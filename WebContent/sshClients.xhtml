@@ -55,7 +55,7 @@
 			
 			<hr/>
 			
-			<h:panelGrid columns="1" cellspacing="5px" width="100%">
+			<h:panelGrid columns="1" cellspacing="5" width="100%">
 				<h:dataTable value="#{clientsBean.sshClientsList}" var="sshClient" 
 					styleClass="table"
 					rowClasses="tableOddRow,tableEvenRow"
@@ -73,7 +73,7 @@
 					<h:column headerClass="col0 col3">
 						<f:facet name="header">SSH Client</f:facet>
 						<h:form>
-							<h:commandLink>
+							<h:commandLink action="#{clientsBean.openClient(sshClient)}">
 								<h:outputText value="ssh://#{sshClient.username}@#{sshClient.hostname}:#{sshClient.port}" />
 							</h:commandLink>
 						</h:form>
