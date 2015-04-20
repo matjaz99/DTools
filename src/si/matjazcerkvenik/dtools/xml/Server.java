@@ -3,7 +3,7 @@ package si.matjazcerkvenik.dtools.xml;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import si.matjazcerkvenik.dtools.tools.IcmpPing;
+import si.matjazcerkvenik.dtools.tools.icmp.IcmpPing;
 
 public class Server {
 

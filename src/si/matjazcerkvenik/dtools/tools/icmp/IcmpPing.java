@@ -1,4 +1,4 @@
-package si.matjazcerkvenik.dtools.tools;
+package si.matjazcerkvenik.dtools.tools.icmp;
 
 import java.net.Inet4Address;
 import java.net.UnknownHostException;

@@ -1,4 +1,4 @@
-package si.matjazcerkvenik.dtools.tools;
+package si.matjazcerkvenik.dtools.tools.ssh;
 
 import java.io.BufferedReader;
 import java.io.IOException;

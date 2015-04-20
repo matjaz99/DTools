@@ -15,39 +15,39 @@
     		
     		<ui:include src="/include/toolbar.xhtml"/>
 			
-			<h:outputText value="Clients" />
+			<h:outputText value="FTP Clients" />
 			
 			<hr/>
 			
 			<h:form>
 				<fieldset>
-				<legend> Add new SSH client </legend>
+				<legend> Add new FTP client </legend>
 				<h:panelGrid columns="3" cellpadding="5" cellspacing="5">
 				
 					<h:outputLabel value="Hostname: " />
-					<h:inputText id="sshHost" value="#{sshClientsBean.hostname}" required="true"
+					<h:inputText id="ftpHost" value="#{ftpClientsBean.hostname}" required="true"
 						 requiredMessage="Missing value">
-						<f:validator validatorId="newSshClientValidator"/>
-						<f:attribute name="port" value="#{sshPort}" />
-						<f:attribute name="user" value="#{sshUser}" />
+						<f:validator validatorId="newFtpClientValidator"/>
+						<f:attribute name="port" value="#{ftpPort}" />
+						<f:attribute name="user" value="#{ftpUser}" />
 					</h:inputText>
-					<h:message for="sshHost" style="color: red;" />
+					<h:message for="ftpHost" style="color: red;" />
 					
 					<h:outputLabel value="Port " />
-					<h:inputText id="sshPort" value="#{sshClientsBean.port}" binding="#{sshPort}"
+					<h:inputText id="ftpPort" value="#{ftpClientsBean.port}" binding="#{ftpPort}"
 						required="true" requiredMessage="Missing value"></h:inputText>
-					<h:message for="sshPort" style="color: red;" />
+					<h:message for="ftpPort" style="color: red;" />
 					
 					<h:outputLabel value="Username: " />
-					<h:inputText id="sshUser" value="#{sshClientsBean.username}" binding="#{sshUser}"
+					<h:inputText id="ftpUser" value="#{ftpClientsBean.username}" binding="#{ftpUser}"
 						required="true" requiredMessage="Missing value"></h:inputText>
-					<h:message for="sshUser" style="color: red;" />
+					<h:message for="ftpUser" style="color: red;" />
 					
 					<h:outputLabel value="Password: " />
-					<h:inputText value="#{sshClientsBean.password}" ></h:inputText>
+					<h:inputText value="#{ftpClientsBean.password}" ></h:inputText>
 					<h:outputLabel value="" />
 					
-					<h:commandButton action="#{sshClientsBean.addClientAction}" value="Add"></h:commandButton>
+					<h:commandButton action="#{ftpClientsBean.addClientAction}" value="Add"></h:commandButton>
 				</h:panelGrid>
 				</fieldset>
 			</h:form>
@@ -56,7 +56,7 @@
 			<hr/>
 			
 			<h:panelGrid columns="1" cellspacing="5" width="100%">
-				<h:dataTable value="#{sshClientsBean.sshClientsList}" var="sshClient" 
+				<h:dataTable value="#{ftpClientsBean.ftpClientsList}" var="client" 
 					styleClass="table"
 					rowClasses="tableOddRow,tableEvenRow"
 					cellpadding="0" cellspacing="0" width="100%">
@@ -64,17 +64,17 @@
 					<h:column headerClass="col0 col1">
 						<f:facet name="header">Console</f:facet>
 						<h:form>
-							<h:commandLink action="#{sshClientsBean.openClient(sshClient)}">
+							<h:commandLink action="#{ftpClientsBean.openClient(client)}">
 								<dt:icon img="terminal"/>
 							</h:commandLink>
 						</h:form>
 					</h:column>
 					
 					<h:column headerClass="col0 col3">
-						<f:facet name="header">SSH Client</f:facet>
+						<f:facet name="header">FTP Client</f:facet>
 						<h:form>
-							<h:commandLink action="#{sshClientsBean.openClient(sshClient)}">
-								<h:outputText value="ssh://#{sshClient.username}@#{sshClient.hostname}:#{sshClient.port}" />
+							<h:commandLink action="#{ftpClientsBean.openClient(client)}">
+								<h:outputText value="ftp://#{client.username}@#{client.hostname}:#{client.port}" />
 							</h:commandLink>
 						</h:form>
 					</h:column>
@@ -82,7 +82,7 @@
 					<h:column headerClass="col0">
 						<f:facet name="header">Actions</f:facet>
 						<h:form>
-							<h:commandLink action="#{sshClientsBean.deleteSshClientAction(sshClient)}">
+							<h:commandLink action="#{ftpClientsBean.deleteFtpClientAction(client)}">
 								<dt:icon img="remove"/>
 							</h:commandLink>
 						</h:form>

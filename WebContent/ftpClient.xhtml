@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:dt="http://dtools.com/facelets">
+    <h:head>
+        <title>DTools</title>
+        <h:outputStylesheet library="css" name="dstyles.css"/>
+    </h:head>
+    <h:body>
+    	
+    	<h:panelGrid columns="1" styleClass="background" cellpadding="0" cellspacing="0" width="100%">
+    		
+    		<ui:include src="/include/toolbar.xhtml"/>
+			
+			<h:outputText value="ftp://#{ftpClientBean.ftpClient.username}@#{ftpClientBean.ftpClient.hostname}:#{ftpClientBean.ftpClient.port}" styleClass="titleLarge" />
+			
+			<hr/>
+			
+			
+			
+			<h:form id="exec">
+				<h:panelGrid columns="2">
+					<h:selectOneListbox value="#{ftpClientBean.selectedTransfer}" size="10"
+						onchange="submit()" valueChangeListener="#{ftpClientBean.transferValueChanged}">
+						<f:selectItems value="#{ftpClientBean.transfersAsStrings}" />
+					</h:selectOneListbox>
+					<h:commandButton action="#{ftpClientBean.execute}" value="Execute">
+						<f:ajax render="exec" />
+					</h:commandButton>
+					<h:outputText value="Source: " />
+					<h:inputText value="#{ftpClientBean.source}" />
+					<h:outputText value="Destination: " />
+					<h:inputText value="#{ftpClientBean.destination}" />
+					<h:commandButton action="#{ftpClientBean.addTransfer}" value="Add" />
+				</h:panelGrid>
+				
+				<hr/>
+				
+				
+				
+				<h:outputText value="> #{ftpClientBean.selectedTransfer}" />
+				<br/>
+				
+				
+			</h:form>
+			
+        
+        </h:panelGrid>
+        
+    </h:body>
+</html>
+
+

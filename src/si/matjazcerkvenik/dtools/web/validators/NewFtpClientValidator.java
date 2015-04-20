@@ -8,13 +8,13 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-import si.matjazcerkvenik.dtools.xml.SshClients;
 import si.matjazcerkvenik.dtools.xml.DAO;
-import si.matjazcerkvenik.dtools.xml.SshClient;
+import si.matjazcerkvenik.dtools.xml.FtpClient;
+import si.matjazcerkvenik.dtools.xml.FtpClients;
 
 // http://www.mkyong.com/jsf2/multi-components-validator-in-jsf-2-0/
-@FacesValidator(value="newSshClientValidator")
-public class NewSshClientValidator implements Validator {
+@FacesValidator(value="newFtpClientValidator")
+public class NewFtpClientValidator implements Validator {
 	
 	@Override
 	public void validate(FacesContext ctx, UIComponent comp, Object value)
@@ -28,17 +28,17 @@ public class NewSshClientValidator implements Validator {
         UIInput userComponent = (UIInput) comp.getAttributes().get("user");
         String user = (String) userComponent.getSubmittedValue();
         
-        SshClients clients = DAO.getInstance().loadSshClients();
+        FtpClients clients = DAO.getInstance().loadFtpClients();
         
-        for (SshClient sshClient : clients.getSshClientList()) {
+        for (FtpClient client : clients.getFtpClientList()) {
 			
-        	if (sshClient.getHostname().equalsIgnoreCase(host)
-        			&& (sshClient.getPort() + "").equalsIgnoreCase(port)
-        			&& sshClient.getUsername().equalsIgnoreCase(user)) {
+        	if (client.getHostname().equalsIgnoreCase(host)
+        			&& (client.getPort() + "").equalsIgnoreCase(port)
+        			&& client.getUsername().equalsIgnoreCase(user)) {
 				
         		portComponent.setValid(false); // So that it's marked invalid.
         		userComponent.setValid(false); // So that it's marked invalid.
-                throw new ValidatorException(new FacesMessage("Exactly the same SSH client already exists"));
+                throw new ValidatorException(new FacesMessage("Exactly the same FTP client already exists"));
         		
 			}
         	

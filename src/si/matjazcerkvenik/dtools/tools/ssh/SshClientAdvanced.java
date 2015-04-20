@@ -1,9 +1,11 @@
-package si.matjazcerkvenik.dtools.tools;
+package si.matjazcerkvenik.dtools.tools.ssh;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.UnknownHostException;
+
+import si.matjazcerkvenik.dtools.tools.AuthenticationException;
 
 import com.trilead.ssh2.ChannelCondition;
 import com.trilead.ssh2.Connection;

@@ -22,7 +22,9 @@ public class DAO {
 	private static DAO instance;
 
 	private Servers servers;
-	private Clients clients;
+	private SshClients sshClients;
+	private FtpClients ftpClients;
+	private FtpTransfers ftpTransfers;
 	private Commands commands;
 	private Notes notes;
 
@@ -102,50 +104,50 @@ public class DAO {
 
 	}
 
-	/* CLIENTS */
+	/* SSH CLIENTS */
 
-	public Clients loadClients() {
+	public SshClients loadSshClients() {
 
-		if (clients != null) {
-			return clients;
+		if (sshClients != null) {
+			return sshClients;
 		}
 
 		try {
 
-			File file = new File(DToolsContext.HOME_DIR + "/data/clients.xml");
+			File file = new File(DToolsContext.HOME_DIR + "/data/sshClients.xml");
 			if (!file.exists()) {
-				clients = new Clients();
+				sshClients = new SshClients();
 				JAXBContext jaxbContext = JAXBContext
-						.newInstance(Clients.class);
+						.newInstance(SshClients.class);
 				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,
 						true);
-				jaxbMarshaller.marshal(clients, file);
+				jaxbMarshaller.marshal(sshClients, file);
 			}
-			JAXBContext jaxbContext = JAXBContext.newInstance(Clients.class);
+			JAXBContext jaxbContext = JAXBContext.newInstance(SshClients.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			clients = (Clients) jaxbUnmarshaller.unmarshal(file);
-			if (clients.getSshClientList() == null) {
-				clients.setSshClientList(new ArrayList<SshClient>());
+			sshClients = (SshClients) jaxbUnmarshaller.unmarshal(file);
+			if (sshClients.getSshClientList() == null) {
+				sshClients.setSshClientList(new ArrayList<SshClient>());
 			}
 
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
 
-		return clients;
+		return sshClients;
 
 	}
 
-	public void saveClients() {
+	public void saveSshClients() {
 
 		try {
 
-			File file = new File(DToolsContext.HOME_DIR + "/data/clients.xml");
-			JAXBContext jaxbContext = JAXBContext.newInstance(Clients.class);
+			File file = new File(DToolsContext.HOME_DIR + "/data/sshClients.xml");
+			JAXBContext jaxbContext = JAXBContext.newInstance(SshClients.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			jaxbMarshaller.marshal(clients, file);
+			jaxbMarshaller.marshal(sshClients, file);
 
 		} catch (JAXBException e) {
 			e.printStackTrace();
@@ -155,17 +157,87 @@ public class DAO {
 
 	public void addSshClient(SshClient client) {
 
-		clients.addSshClientAction(client);
-		saveClients();
+		sshClients.addSshClientAction(client);
+		saveSshClients();
 
 	}
 
 	public void deleteSshClient(SshClient client) {
 
-		clients.deleteSshClient(client);
-		saveClients();
+		sshClients.deleteSshClient(client);
+		saveSshClients();
 
 	}
+	
+	
+	
+	/* FTP CLIENTS */
+	
+	
+	public FtpClients loadFtpClients() {
+
+		if (ftpClients != null) {
+			return ftpClients;
+		}
+
+		try {
+
+			File file = new File(DToolsContext.HOME_DIR + "/data/ftpClients.xml");
+			if (!file.exists()) {
+				ftpClients = new FtpClients();
+				JAXBContext jaxbContext = JAXBContext
+						.newInstance(FtpClients.class);
+				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,
+						true);
+				jaxbMarshaller.marshal(ftpClients, file);
+			}
+			JAXBContext jaxbContext = JAXBContext.newInstance(FtpClients.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			ftpClients = (FtpClients) jaxbUnmarshaller.unmarshal(file);
+			if (ftpClients.getFtpClientList() == null) {
+				ftpClients.setFtpClientList(new ArrayList<FtpClient>());
+			}
+
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+
+		return ftpClients;
+
+	}
+
+	public void saveFtpClients() {
+
+		try {
+
+			File file = new File(DToolsContext.HOME_DIR + "/data/ftpClients.xml");
+			JAXBContext jaxbContext = JAXBContext.newInstance(FtpClients.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.marshal(ftpClients, file);
+
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void addFtpClient(FtpClient client) {
+
+		ftpClients.addFtpClientAction(client);
+		saveFtpClients();
+
+	}
+
+	public void deleteFtpClient(FtpClient client) {
+
+		ftpClients.deleteFtpClient(client);
+		saveFtpClients();
+
+	}
+	
+	
 
 	/* COMMANDS */
 
@@ -231,6 +303,75 @@ public class DAO {
 		saveCommands();
 
 	}
+	
+	
+	/* FTP TRANSFERS */
+
+	public FtpTransfers loadTransfers() {
+
+		if (ftpTransfers != null) {
+			return ftpTransfers;
+		}
+
+		try {
+
+			File file = new File(DToolsContext.HOME_DIR + "/data/ftpTransfers.xml");
+			if (!file.exists()) {
+				ftpTransfers = new FtpTransfers();
+				JAXBContext jaxbContext = JAXBContext
+						.newInstance(FtpTransfers.class);
+				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,
+						true);
+				jaxbMarshaller.marshal(ftpTransfers, file);
+			}
+			JAXBContext jaxbContext = JAXBContext.newInstance(FtpTransfers.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			ftpTransfers = (FtpTransfers) jaxbUnmarshaller.unmarshal(file);
+			if (ftpTransfers.getTransfersList() == null) {
+				ftpTransfers.setTransfersList(new ArrayList<FtpTransfer>());
+			}
+
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+
+		return ftpTransfers;
+
+	}
+
+	public void saveTransfers() {
+
+		try {
+
+			File file = new File(DToolsContext.HOME_DIR + "/data/ftpTransfers.xml");
+			JAXBContext jaxbContext = JAXBContext.newInstance(FtpTransfers.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.marshal(ftpTransfers, file);
+
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void addFtpTransfer(FtpTransfer t) {
+
+		ftpTransfers.addFtpTransfer(t);
+		saveTransfers();
+
+	}
+
+	public void deleteFtpTransfer(FtpTransfer t) {
+
+		ftpTransfers.deleteFtpTransfer(t);
+		saveTransfers();
+
+	}
+	
+	
+	
 
 	/* NOTES */
 

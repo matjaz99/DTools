@@ -7,16 +7,16 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import si.matjazcerkvenik.dtools.xml.DAO;
-import si.matjazcerkvenik.dtools.xml.SshClient;
+import si.matjazcerkvenik.dtools.xml.FtpClient;
 
 @ManagedBean
 @SessionScoped
-public class ClientsBean {
+public class FtpClientsBean {
 
 	private String username;
 	private String password;
 	private String hostname;
-	private int port = 22;
+	private int port = 21;
 	
 	
 	
@@ -54,32 +54,32 @@ public class ClientsBean {
 
 	public void addClientAction() {
 
-		SshClient c = new SshClient();
+		FtpClient c = new FtpClient();
 		c.setUsername(username);
 		c.setPassword(password);
 		c.setHostname(hostname);
 		c.setPort(port);
 
-		DAO.getInstance().addSshClient(c);
+		DAO.getInstance().addFtpClient(c);
 
 		username = null;
 		password = null;
 		hostname = null;
-		port = 22;
+		port = 21;
 
 	}
 
-	public void deleteSshClientAction(SshClient c) {
-		DAO.getInstance().deleteSshClient(c);
+	public void deleteFtpClientAction(FtpClient c) {
+		DAO.getInstance().deleteFtpClient(c);
 	}
 
-	public List<SshClient> getSshClientsList() {
-		return DAO.getInstance().loadClients().getSshClientList();
+	public List<FtpClient> getFtpClientsList() {
+		return DAO.getInstance().loadFtpClients().getFtpClientList();
 	}
 
-	public String openClient(SshClient client) {
+	public String openClient(FtpClient client) {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("client", client);
-		return "sshClient";
+		return "ftpClient";
 	}
 	
 	
