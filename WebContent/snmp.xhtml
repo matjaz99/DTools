@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:dt="http://dtools.com/facelets">
+    <h:head>
+        <title>DTools</title>
+        <h:outputStylesheet library="css" name="dstyles.css"/>
+    </h:head>
+    <h:body>
+    	
+    	<h:panelGrid columns="1" styleClass="background" cellpadding="0" cellspacing="0" width="100%">
+    		
+    		<ui:include src="/include/toolbar.xhtml"/>
+			
+			<h:outputText value="SNMP Manager" />
+			
+			<hr/>
+			
+			<h:form id="snmpForm">
+				<fieldset>
+				<legend> SNMP Manager </legend>
+				
+				</fieldset>
+
+				<h:panelGrid columns="2">
+				
+					<h:outputLabel value="Hostname: " />
+					<h:inputText value="#{snmpBean.hostname}"></h:inputText>
+					
+					<h:outputLabel value="Port: " />
+					<h:inputText value="#{snmpBean.port}"></h:inputText>
+					
+					<h:outputText value="OID: " />
+					<h:inputText value="#{snmpBean.oid}" />
+					
+					<h:commandButton action="#{snmpBean.execute}" value="Execute">
+						<f:ajax render="snmpResult snmpForm" />
+					</h:commandButton>
+					<h:outputText value="" />
+					
+					<h:inputTextarea id="snmpResult" value="#{snmpBean.result}" 
+						cols="100" rows="15" styleClass="codeStyle" />
+					<h:outputText value="" />
+					
+				</h:panelGrid>
+			</h:form>
+			
+			
+			
+        
+        </h:panelGrid>
+        
+    </h:body>
+</html>
+
+
