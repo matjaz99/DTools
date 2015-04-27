@@ -27,6 +27,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 
 }
 
+.home-icon {
+	background: url(resources/img/home.png) no-repeat !important; 
+	height: 16px; 
+	width: 16px;
+}
+
+.network-icon {
+	background: url(img/network.png) no-repeat;
+	height: 16px; 
+	width: 16px;
+}
+
 .title {
 	font-weight: bold;
 }
