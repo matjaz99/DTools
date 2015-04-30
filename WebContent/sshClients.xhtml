@@ -7,13 +7,14 @@
     xmlns:dt="http://dtools.com/facelets">
     <h:head>
         <title>DTools</title>
-        <h:outputStylesheet library="css" name="dstyles.css"/>
     </h:head>
     <h:body>
     	
-    	<h:panelGrid columns="1" styleClass="background" cellpadding="0" cellspacing="0" width="100%">
+    	<h:outputStylesheet library="default" name="css/dstyles.css"/>
+    	
+    	<h:panelGrid columns="1" cellpadding="0" cellspacing="0" width="100%">
     		
-    		<ui:include src="/include/toolbar.xhtml"/>
+    		<ui:include src="/include/ptoolbar.xhtml"/>
 			
 			<h:outputText value="Clients" />
 			

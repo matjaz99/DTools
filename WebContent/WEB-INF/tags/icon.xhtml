@@ -4,8 +4,6 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets">
     
-    <h:graphicImage url="resources/img/#{img}.png" styleClass="icon"
-		onmouseover="onMouse(this, 'resources/img/#{img}.png')" 
-		onmouseout="onMouse(this, 'resources/img/#{img}.png')" />
+    <h:graphicImage library="default" name="img/#{img}.png" styleClass="icon" />
     
 </ui:composition>
