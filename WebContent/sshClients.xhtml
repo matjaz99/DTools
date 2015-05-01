@@ -16,14 +16,14 @@
     		
     		<ui:include src="/include/ptoolbar.xhtml"/>
 			
-			<h:outputText value="Clients" />
+			<h:outputText value="SSH Clients" styleClass="title" />
 			
 			<hr/>
 			
 			<h:form>
 				<fieldset>
 				<legend> Add new SSH client </legend>
-				<h:panelGrid columns="3" cellpadding="5" cellspacing="5">
+				<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
 				
 					<h:outputLabel value="Hostname: " />
 					<h:inputText id="sshHost" value="#{sshClientsBean.hostname}" required="true"
