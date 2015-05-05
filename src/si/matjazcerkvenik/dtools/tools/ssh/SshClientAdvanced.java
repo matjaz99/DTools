@@ -5,13 +5,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.UnknownHostException;
 
+import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.tools.AuthenticationException;
+import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 import com.trilead.ssh2.ChannelCondition;
 import com.trilead.ssh2.Connection;
 import com.trilead.ssh2.Session;
 
 public class SshClientAdvanced {
+	
+	private SimpleLogger logger;
 
 	private Connection sshConnection;
 	private Session sshSession;
@@ -21,7 +25,7 @@ public class SshClientAdvanced {
 	
 	
 	public SshClientAdvanced() {
-		
+		logger = DToolsContext.getInstance().getLogger();
 	}
 	
 	public boolean connect(String host, int port, String username, String password) 
@@ -30,6 +34,8 @@ public class SshClientAdvanced {
 		createConnection(host, port);
 		authenticate(username, password);
 		openSession();
+		
+		logger.info("SshClientAdvanced:connect(): connected: ssh://" + username + "@" + host + ":" + port);
 		
 		return true;
 		
@@ -41,6 +47,7 @@ public class SshClientAdvanced {
 		
 		sshConnection = new Connection(host, port);
 		sshConnection.connect(null, 10000, 0);
+		logger.debug("SshClientAdvanced:createConnection(): connection established: " + host + ":" + port);
 
 	}
 
@@ -52,6 +59,8 @@ public class SshClientAdvanced {
 		if (!b) {
 			throw new AuthenticationException();
 		}
+		
+		logger.debug("SshClientAdvanced:authenticate(): success");
 
 	}
 
@@ -63,10 +72,14 @@ public class SshClientAdvanced {
 		in = sshSession.getStdout();
 		out = sshSession.getStdin();
 		sshSession.waitForCondition(ChannelCondition.STDOUT_DATA, 3000);
+		
+		logger.debug("SshClientAdvanced:openSession(): success");
 
 	}
 
 	public void sendCommand(String cmd) {
+		
+		logger.info("SshClientAdvanced:sendCommand(): " + cmd);
 
 		try {
 			for (int i = 0; i < cmd.length(); i++) {
@@ -102,12 +115,15 @@ public class SshClientAdvanced {
 			e.printStackTrace();
 		}
 		
+		logger.debug("SshClientAdvanced:getResponse(): " + response);
+		
 		return response;
 	}
 
 	public void disconnect() {
 		sshSession.close();
 		sshConnection.close();
+		logger.info("SshClientAdvanced:disconnect(): disconnected");
 	}
 	
 	

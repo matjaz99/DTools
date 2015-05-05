@@ -23,7 +23,7 @@
 			<h:form>
 				<fieldset>
 				<legend> Add new FTP client </legend>
-				<h:panelGrid columns="3" cellpadding="5" cellspacing="5">
+				<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
 				
 					<h:outputLabel value="Hostname: " />
 					<h:inputText id="ftpHost" value="#{ftpClientsBean.hostname}" required="true"
@@ -33,6 +33,15 @@
 						<f:attribute name="user" value="#{ftpUser}" />
 					</h:inputText>
 					<h:message for="ftpHost" style="color: red;" />
+					
+					<h:outputLabel value="Protocol" />
+					<h:selectOneRadio value="#{ftpClientsBean.protocol}" onchange="submit()"
+						valueChangeListener="#{ftpClientsBean.protocolValueChanged}">
+						<f:ajax render="ftpPort" />
+						<f:selectItem itemLabel="FTP" itemValue="FTP" />
+						<f:selectItem itemLabel="SFTP" itemValue="SFTP" />
+					</h:selectOneRadio>
+					<h:outputText value="" />
 					
 					<h:outputLabel value="Port " />
 					<h:inputText id="ftpPort" value="#{ftpClientsBean.port}" binding="#{ftpPort}"
@@ -75,7 +84,7 @@
 						<f:facet name="header">FTP Client</f:facet>
 						<h:form>
 							<h:commandLink action="#{ftpClientsBean.openClient(client)}">
-								<h:outputText value="ftp://#{client.username}@#{client.hostname}:#{client.port}" />
+								<h:outputText value="#{client.protocolLowercase}://#{client.username}@#{client.hostname}:#{client.port}" />
 							</h:commandLink>
 						</h:form>
 					</h:column>

@@ -32,7 +32,7 @@ public class SshClientBean {
 	private String execStatusColor;
 	
 	private String filename;
-	private String remark = "Remark: ";
+	private String remark;
 	
 	@PostConstruct
 	public void init() {
@@ -91,6 +91,10 @@ public class SshClientBean {
 	
 
 	public void execute() {
+		
+		if (selectedCommand == null) {
+			selectedCommand = newCommand;
+		}
 		
 		try {
 			

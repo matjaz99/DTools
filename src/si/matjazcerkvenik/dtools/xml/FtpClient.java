@@ -8,6 +8,7 @@ public class FtpClient {
 	private String password;
 	private String hostname;
 	private int port;
+	private String protocol;
 
 	public String getUsername() {
 		return username;
@@ -43,6 +44,19 @@ public class FtpClient {
 	@XmlElement
 	public void setPort(int port) {
 		this.port = port;
+	}
+
+	public String getProtocol() {
+		return protocol;
+	}
+
+	@XmlElement
+	public void setProtocol(String protocol) {
+		this.protocol = protocol;
+	}
+	
+	public String getProtocolLowercase() {
+		return protocol.toLowerCase();
 	}
 
 }

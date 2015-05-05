@@ -27,69 +27,7 @@
 				
 				<ui:include src="/include/favorite-servers.xhtml"/>
 				
-				
-				
-				<h:dataTable value="#{historyBean.sshResponsesList}" var="sshResponse" 
-					styleClass="table"
-					rowClasses="tableOddRow,tableEvenRow"
-					cellpadding="0" cellspacing="10" width="100%">
-					
-					<h:column headerClass="col0 col1">
-						<f:facet name="header">View</f:facet>
-						<h:form>
-							<h:commandLink action="#{historyBean.openSshResponse(sshResponse)}">
-							<dt:icon img="view-file"/>
-						</h:commandLink>
-						</h:form>
-					</h:column>
-					
-					<h:column headerClass="col0">
-						<f:facet name="header">File</f:facet>
-						<h:form>
-							<h:commandLink>
-								<h:outputText value="#{sshResponse.filename}" />
-							</h:commandLink>
-						</h:form>
-					</h:column>
-					
-					<h:column headerClass="col0">
-						<f:facet name="header">Host</f:facet>
-						<h:form>
-							<h:commandLink>
-								<h:outputText value="ssh://#{sshResponse.sshClient.username}@#{sshResponse.sshClient.hostname}:#{sshResponse.sshClient.port}" />
-							</h:commandLink>
-						</h:form>
-					</h:column>
-					
-					<h:column headerClass="col0">
-						<f:facet name="header">Command</f:facet>
-						<h:form>
-							<h:commandLink>
-								<h:outputText value="#{sshResponse.command}" />
-							</h:commandLink>
-						</h:form>
-					</h:column>
-					
-					<h:column headerClass="col0">
-						<f:facet name="header">Date</f:facet>
-						<h:form>
-							<h:commandLink>
-								<h:outputText value="#{sshResponse.date}" />
-							</h:commandLink>
-						</h:form>
-					</h:column>
-					
-					<h:column headerClass="col0 col1">
-						<f:facet name="header">Delete</f:facet>
-						<h:form>
-							<h:commandLink action="#{historyBean.deleteSshResponse(sshResponse)}">
-							<dt:icon img="remove"/>
-						</h:commandLink>
-						</h:form>
-					</h:column>
-					
-				</h:dataTable>
-				
+				<ui:include src="/include/saved-files.xhtml"/>
 				
 				
 			</h:panelGrid>

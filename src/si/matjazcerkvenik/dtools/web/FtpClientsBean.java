@@ -5,6 +5,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 
 import si.matjazcerkvenik.dtools.xml.DAO;
 import si.matjazcerkvenik.dtools.xml.FtpClient;
@@ -17,7 +18,7 @@ public class FtpClientsBean {
 	private String password;
 	private String hostname;
 	private int port = 21;
-	
+	private String protocol = "FTP";
 	
 	
 	public String getUsername() {
@@ -52,6 +53,14 @@ public class FtpClientsBean {
 		this.port = port;
 	}
 
+	public String getProtocol() {
+		return protocol;
+	}
+
+	public void setProtocol(String protocol) {
+		this.protocol = protocol;
+	}
+
 	public void addClientAction() {
 
 		FtpClient c = new FtpClient();
@@ -59,6 +68,7 @@ public class FtpClientsBean {
 		c.setPassword(password);
 		c.setHostname(hostname);
 		c.setPort(port);
+		c.setProtocol(protocol);
 
 		DAO.getInstance().addFtpClient(c);
 
@@ -66,6 +76,7 @@ public class FtpClientsBean {
 		password = null;
 		hostname = null;
 		port = 21;
+		protocol = "FTP";
 
 	}
 
@@ -82,7 +93,14 @@ public class FtpClientsBean {
 		return "ftpClient";
 	}
 	
-	
+	public void protocolValueChanged(ValueChangeEvent e) {
+		protocol = e.getNewValue().toString();
+		if (protocol.equals("FTP")) {
+			port = 21;
+		} else if (protocol.equals("SFTP")) {
+			port = 22;
+		}
+	}
 	
 	
 	
