@@ -16,10 +16,12 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
+import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 public class DAO {
 
 	private static DAO instance;
+	private SimpleLogger logger;
 
 	private Servers servers;
 	private SshClients sshClients;
@@ -27,9 +29,17 @@ public class DAO {
 	private FtpTransfers ftpTransfers;
 	private Commands commands;
 	private Notes notes;
+	
+	private final String XML_SERVERS = "/config/servers.xml";
+	private final String XML_SSH_CLIENTS = "/config/sshClients.xml";
+	private final String XML_SSH_COMMANDS = "/config/commands.xml";
+	private final String XML_FTP_CLIENTS = "/config/ftpClients.xml";
+	private final String XML_FTP_TRANSFERS = "/config/ftpTransfers.xml";
+	private final String XML_NOTES = "/config/notes.xml";
 
 	private DAO() {
 		// singleton
+		logger = DToolsContext.getInstance().getLogger();
 	}
 
 	public static DAO getInstance() {
@@ -49,7 +59,7 @@ public class DAO {
 
 		try {
 
-			File file = new File(DToolsContext.HOME_DIR + "/data/servers.xml");
+			File file = new File(DToolsContext.HOME_DIR + XML_SERVERS);
 			if (!file.exists()) {
 				servers = new Servers();
 				JAXBContext jaxbContext = JAXBContext
@@ -65,9 +75,11 @@ public class DAO {
 			if (servers.getServerList() == null) {
 				servers.setServerList(new ArrayList<Server>());
 			}
+			
+			logger.info("DAO:loadServers(): " + file.getAbsolutePath());
 
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			logger.error("DAO:loadServers(): JAXBException: ", e);
 		}
 
 		return servers;
@@ -78,14 +90,14 @@ public class DAO {
 
 		try {
 
-			File file = new File(DToolsContext.HOME_DIR + "/data/servers.xml");
+			File file = new File(DToolsContext.HOME_DIR + XML_SERVERS);
 			JAXBContext jaxbContext = JAXBContext.newInstance(Servers.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(servers, file);
 
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			logger.error("DAO:saveServers(): JAXBException: ", e);
 		}
 
 	}
@@ -114,7 +126,7 @@ public class DAO {
 
 		try {
 
-			File file = new File(DToolsContext.HOME_DIR + "/data/sshClients.xml");
+			File file = new File(DToolsContext.HOME_DIR + XML_SSH_CLIENTS);
 			if (!file.exists()) {
 				sshClients = new SshClients();
 				JAXBContext jaxbContext = JAXBContext
@@ -132,7 +144,7 @@ public class DAO {
 			}
 
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			logger.error("DAO:loadSshClients(): JAXBException: ", e);
 		}
 
 		return sshClients;
@@ -143,14 +155,14 @@ public class DAO {
 
 		try {
 
-			File file = new File(DToolsContext.HOME_DIR + "/data/sshClients.xml");
+			File file = new File(DToolsContext.HOME_DIR + XML_SSH_CLIENTS);
 			JAXBContext jaxbContext = JAXBContext.newInstance(SshClients.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(sshClients, file);
 
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			logger.error("DAO:saveSshClients(): JAXBException: ", e);
 		}
 
 	}
@@ -182,7 +194,7 @@ public class DAO {
 
 		try {
 
-			File file = new File(DToolsContext.HOME_DIR + "/data/ftpClients.xml");
+			File file = new File(DToolsContext.HOME_DIR + XML_FTP_CLIENTS);
 			if (!file.exists()) {
 				ftpClients = new FtpClients();
 				JAXBContext jaxbContext = JAXBContext
@@ -200,7 +212,7 @@ public class DAO {
 			}
 
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			logger.error("DAO:loadFtpClients(): JAXBException: ", e);
 		}
 
 		return ftpClients;
@@ -211,14 +223,14 @@ public class DAO {
 
 		try {
 
-			File file = new File(DToolsContext.HOME_DIR + "/data/ftpClients.xml");
+			File file = new File(DToolsContext.HOME_DIR + XML_FTP_CLIENTS);
 			JAXBContext jaxbContext = JAXBContext.newInstance(FtpClients.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(ftpClients, file);
 
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			logger.error("DAO:saveFtpClients(): JAXBException: ", e);
 		}
 
 	}
@@ -249,7 +261,7 @@ public class DAO {
 
 		try {
 
-			File file = new File(DToolsContext.HOME_DIR + "/data/commands.xml");
+			File file = new File(DToolsContext.HOME_DIR + XML_SSH_COMMANDS);
 			if (!file.exists()) {
 				commands = new Commands();
 				JAXBContext jaxbContext = JAXBContext
@@ -267,7 +279,7 @@ public class DAO {
 			}
 
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			logger.error("DAO:loadCommands(): JAXBException: ", e);
 		}
 
 		return commands;
@@ -278,14 +290,14 @@ public class DAO {
 
 		try {
 
-			File file = new File(DToolsContext.HOME_DIR + "/data/commands.xml");
+			File file = new File(DToolsContext.HOME_DIR + XML_SSH_COMMANDS);
 			JAXBContext jaxbContext = JAXBContext.newInstance(Commands.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(commands, file);
 
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			logger.error("DAO:saveCommands(): JAXBException: ", e);
 		}
 
 	}
@@ -315,7 +327,7 @@ public class DAO {
 
 		try {
 
-			File file = new File(DToolsContext.HOME_DIR + "/data/ftpTransfers.xml");
+			File file = new File(DToolsContext.HOME_DIR + XML_FTP_TRANSFERS);
 			if (!file.exists()) {
 				ftpTransfers = new FtpTransfers();
 				JAXBContext jaxbContext = JAXBContext
@@ -333,7 +345,7 @@ public class DAO {
 			}
 
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			logger.error("DAO:loadTransfers(): JAXBException: ", e);
 		}
 
 		return ftpTransfers;
@@ -344,14 +356,14 @@ public class DAO {
 
 		try {
 
-			File file = new File(DToolsContext.HOME_DIR + "/data/ftpTransfers.xml");
+			File file = new File(DToolsContext.HOME_DIR + XML_FTP_TRANSFERS);
 			JAXBContext jaxbContext = JAXBContext.newInstance(FtpTransfers.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(ftpTransfers, file);
 
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			logger.error("DAO:saveTransfers(): JAXBException: ", e);
 		}
 
 	}
@@ -383,7 +395,7 @@ public class DAO {
 
 		try {
 
-			File file = new File(DToolsContext.HOME_DIR + "/data/notes.xml");
+			File file = new File(DToolsContext.HOME_DIR + XML_NOTES);
 			if (!file.exists()) {
 				notes = new Notes();
 				JAXBContext jaxbContext = JAXBContext.newInstance(Notes.class);
@@ -400,7 +412,7 @@ public class DAO {
 			}
 
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			logger.error("DAO:loadNotes(): JAXBException: ", e);
 		}
 
 		return notes;
@@ -411,14 +423,14 @@ public class DAO {
 
 		try {
 
-			File file = new File(DToolsContext.HOME_DIR + "/data/notes.xml");
+			File file = new File(DToolsContext.HOME_DIR + XML_NOTES);
 			JAXBContext jaxbContext = JAXBContext.newInstance(Notes.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(notes, file);
 
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			logger.error("DAO:saveNotes(): JAXBException: ", e);
 		}
 
 	}
@@ -452,7 +464,7 @@ public class DAO {
 			jaxbMarshaller.marshal(sshResponse, file);
 
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			logger.error("DAO:saveSshResponse(): JAXBException: ", e);
 		}
 
 		try {
@@ -462,7 +474,7 @@ public class DAO {
 			bw.write(sshResponse.getResponse());
 			bw.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("DAO:saveSshResponse(): IOException: ", e);
 		}
 
 	}
@@ -481,7 +493,7 @@ public class DAO {
 			}
 			br.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("DAO:loadSshResponse(): Exception: ", e);
 		}
 		
 		SshResponse sshResponse = new SshResponse();
@@ -494,7 +506,7 @@ public class DAO {
 			sshResponse = (SshResponse) jaxbUnmarshaller.unmarshal(file);
 
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			logger.error("DAO:loadSshResponse(): JAXBException: ", e);
 		}
 		
 		sshResponse.setResponse(resp);
