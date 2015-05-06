@@ -51,7 +51,7 @@ public class ServersBean {
 		this.description = description;
 	}
 
-	public void addServerAction() {
+	public String addServerAction() {
 		
 		Server s = new Server();
 		s.setName(name);
@@ -66,6 +66,8 @@ public class ServersBean {
 		description = null;
 		
 		addGrowlMessage("Created: " + s.getHostname(), FacesMessage.SEVERITY_INFO);
+		
+		return "network";
 		
 	}
 	
