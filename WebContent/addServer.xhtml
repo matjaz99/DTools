@@ -5,7 +5,7 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:dt="http://dtools.com/facelets">
+    xmlns:dt="http://dtools.com/ui">
     <h:head>
         <title>DTools</title>
     </h:head>
@@ -19,8 +19,7 @@
 	        <ui:include src="/include/ptoolbar.xhtml"/>
 			
 			<h:outputText value="Add new network element" styleClass="title" />
-			
-			<hr/>
+
 			
 			
 			<h:form id="addServerForm">
@@ -45,6 +44,7 @@
 					<h:outputLabel value="" />
 					
 					<p:commandButton value="Add" action="#{serversBean.addServerAction}" update="growl addServerForm" ajax="true" />
+					<p:button value="View" outcome="network" />
 					
 				</h:panelGrid>
 				</fieldset>

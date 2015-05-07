@@ -95,6 +95,8 @@ public class DAO {
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(servers, file);
+			
+			logger.info("DAO:saveServers(): " + file.getAbsolutePath());
 
 		} catch (JAXBException e) {
 			logger.error("DAO:saveServers(): JAXBException: ", e);
@@ -142,6 +144,8 @@ public class DAO {
 			if (sshClients.getSshClientList() == null) {
 				sshClients.setSshClientList(new ArrayList<SshClient>());
 			}
+			
+			logger.info("DAO:loadSshClients(): " + file.getAbsolutePath());
 
 		} catch (JAXBException e) {
 			logger.error("DAO:loadSshClients(): JAXBException: ", e);
@@ -160,6 +164,8 @@ public class DAO {
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(sshClients, file);
+			
+			logger.info("DAO:saveSshClients(): " + file.getAbsolutePath());
 
 		} catch (JAXBException e) {
 			logger.error("DAO:saveSshClients(): JAXBException: ", e);
@@ -210,6 +216,8 @@ public class DAO {
 			if (ftpClients.getFtpClientList() == null) {
 				ftpClients.setFtpClientList(new ArrayList<FtpClient>());
 			}
+			
+			logger.info("DAO:loadFtpClients(): " + file.getAbsolutePath());
 
 		} catch (JAXBException e) {
 			logger.error("DAO:loadFtpClients(): JAXBException: ", e);
@@ -228,6 +236,8 @@ public class DAO {
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(ftpClients, file);
+			
+			logger.info("DAO:saveFtpClients(): " + file.getAbsolutePath());
 
 		} catch (JAXBException e) {
 			logger.error("DAO:saveFtpClients(): JAXBException: ", e);
@@ -277,6 +287,8 @@ public class DAO {
 			if (commands.getCommands() == null) {
 				commands.setCommands(new ArrayList<String>());
 			}
+			
+			logger.info("DAO:loadCommands(): " + file.getAbsolutePath());
 
 		} catch (JAXBException e) {
 			logger.error("DAO:loadCommands(): JAXBException: ", e);
@@ -295,6 +307,8 @@ public class DAO {
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(commands, file);
+			
+			logger.info("DAO:saveCommands(): " + file.getAbsolutePath());
 
 		} catch (JAXBException e) {
 			logger.error("DAO:saveCommands(): JAXBException: ", e);
@@ -343,6 +357,8 @@ public class DAO {
 			if (ftpTransfers.getTransfersList() == null) {
 				ftpTransfers.setTransfersList(new ArrayList<FtpTransfer>());
 			}
+			
+			logger.info("DAO:loadTransfers(): " + file.getAbsolutePath());
 
 		} catch (JAXBException e) {
 			logger.error("DAO:loadTransfers(): JAXBException: ", e);
@@ -361,6 +377,8 @@ public class DAO {
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(ftpTransfers, file);
+			
+			logger.info("DAO:saveTransfers(): " + file.getAbsolutePath());
 
 		} catch (JAXBException e) {
 			logger.error("DAO:saveTransfers(): JAXBException: ", e);
@@ -410,6 +428,8 @@ public class DAO {
 			if (notes.getNotesList() == null) {
 				notes.setNotesList(new ArrayList<Note>());
 			}
+			
+			logger.info("DAO:loadNotes(): " + file.getAbsolutePath());
 
 		} catch (JAXBException e) {
 			logger.error("DAO:loadNotes(): JAXBException: ", e);
@@ -428,6 +448,8 @@ public class DAO {
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(notes, file);
+			
+			logger.info("DAO:saveNotes(): " + file.getAbsolutePath());
 
 		} catch (JAXBException e) {
 			logger.error("DAO:saveNotes(): JAXBException: ", e);
@@ -462,17 +484,21 @@ public class DAO {
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(sshResponse, file);
+			
+			logger.info("DAO:saveSshResponse(): " + file.getAbsolutePath());
 
 		} catch (JAXBException e) {
 			logger.error("DAO:saveSshResponse(): JAXBException: ", e);
 		}
 
 		try {
-			FileWriter fw = new FileWriter(DToolsContext.HOME_DIR + "/temp/"
-					+ filename + ".txt");
+			File txtFile = new File(DToolsContext.HOME_DIR
+					+ "/temp/" + filename + ".txt");
+			FileWriter fw = new FileWriter(txtFile);
 			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write(sshResponse.getResponse());
 			bw.close();
+			logger.info("DAO:saveSshResponse(): " + txtFile.getAbsolutePath());
 		} catch (IOException e) {
 			logger.error("DAO:saveSshResponse(): IOException: ", e);
 		}
@@ -484,14 +510,16 @@ public class DAO {
 		String resp = "";
 
 		try {
-			FileReader fr = new FileReader(DToolsContext.HOME_DIR
+			File txtFile = new File(DToolsContext.HOME_DIR
 					+ "/temp/" + filename + ".txt");
+			FileReader fr = new FileReader(txtFile);
 			BufferedReader br = new BufferedReader(fr);
 			String line;
 			while ((line = br.readLine()) != null) {
 				resp += line + "\n";
 			}
 			br.close();
+			logger.info("DAO:loadSshResponse(): " + txtFile.getAbsolutePath());
 		} catch (Exception e) {
 			logger.error("DAO:loadSshResponse(): Exception: ", e);
 		}
@@ -504,6 +532,8 @@ public class DAO {
 			JAXBContext jaxbContext = JAXBContext.newInstance(SshResponse.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			sshResponse = (SshResponse) jaxbUnmarshaller.unmarshal(file);
+			
+			logger.info("DAO:loadSshResponse(): " + file.getAbsolutePath());
 
 		} catch (JAXBException e) {
 			logger.error("DAO:loadSshResponse(): JAXBException: ", e);
