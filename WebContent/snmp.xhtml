@@ -4,6 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
     xmlns:dt="http://dtools.com/ui">
     <h:head>
         <title>DTools</title>
@@ -11,45 +12,88 @@
     <h:body>
     	
     	<h:outputStylesheet library="default" name="css/dstyles.css"/>
+    	<p:growl id="growl" life="2000"/>
     	
     	<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
     		
     		<ui:include src="/include/ptoolbar.xhtml"/>
 			
-			<h:outputText value="SNMP Manager" styleClass="title" />
+			<h:outputText value="SNMP Managers" styleClass="title" />
 			
-			<hr/>
 			
-			<h:form id="snmpForm">
+			<h:form id="addSnmpForm">
 				<fieldset>
-				<legend> SNMP Manager </legend>
-				
-				</fieldset>
+				<legend> Add new SNMP Manager </legend>
 
 				<h:panelGrid columns="2">
 				
+					<h:outputLabel value="Name: " />
+					<h:inputText value="#{snmpBean.name}"></h:inputText>
+					
 					<h:outputLabel value="Hostname: " />
 					<h:inputText value="#{snmpBean.hostname}"></h:inputText>
 					
 					<h:outputLabel value="Port: " />
 					<h:inputText value="#{snmpBean.port}"></h:inputText>
 					
-					<h:outputText value="OID: " />
-					<h:inputText value="#{snmpBean.oid}" />
+					<h:outputText value="SNMP version: " />
+					<h:inputText value="#{snmpBean.snmpVersion}" />
 					
-					<h:commandButton action="#{snmpBean.execute}" value="Execute">
-						<f:ajax render="snmpResult snmpForm" />
-					</h:commandButton>
-					<h:outputText value="" />
+					<h:outputText value="Community: " />
+					<h:inputText value="#{snmpBean.community}" />
 					
-					<h:inputTextarea id="snmpResult" value="#{snmpBean.result}" 
-						cols="100" rows="15" styleClass="codeStyle" />
-					<h:outputText value="" />
+					<p:commandButton value="Add" action="#{snmpBean.addSnmpManagerAction}" 
+						update="growl addSnmpForm snmpMngTable" ajax="true" />
 					
 				</h:panelGrid>
+				</fieldset>
 			</h:form>
 			
 			
+			<h:panelGrid columns="1" cellspacing="5" width="100%">
+				<h:dataTable id="snmpMngTable" value="#{snmpBean.snmpManagersList}" var="snmpMng" 
+					styleClass="table"
+					rowClasses="tableOddRow,tableEvenRow"
+					cellpadding="0" cellspacing="0" width="100%">
+					
+					<h:column headerClass="col0 col1">
+						<f:facet name="header">Console</f:facet>
+						<h:form>
+							<h:commandLink action="#{navigationBean.openSnmpMng(snmpMng)}">
+								<dt:icon img="terminal"/>
+							</h:commandLink>
+						</h:form>
+					</h:column>
+					
+					<h:column headerClass="col0 col2">
+						<f:facet name="header">Name</f:facet>
+						<h:form>
+							<h:commandLink action="#{navigationBean.openSnmpMng(snmpMng)}">
+								<h:outputText value="#{snmpMng.name}" />
+							</h:commandLink>
+						</h:form>
+					</h:column>
+					
+					<h:column headerClass="col0 col3">
+						<f:facet name="header">SNMP Manager</f:facet>
+						<h:form>
+							<h:commandLink action="#{navigationBean.openSnmpMng(snmpMng)}">
+								<h:outputText value="#{snmpMng.toUrlString()}" />
+							</h:commandLink>
+						</h:form>
+					</h:column>
+					
+					<h:column headerClass="col0">
+						<f:facet name="header">Actions</f:facet>
+						<h:form>
+							<h:commandLink action="#{snmpBean.deleteSnmpManagerAction(snmpMng)}">
+								<dt:icon img="remove"/>
+							</h:commandLink>
+						</h:form>
+					</h:column>
+					
+				</h:dataTable>
+			</h:panelGrid>
 			
         
         </h:panelGrid>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:dt="http://dtools.com/ui">
+    <h:head>
+        <title>DTools</title>
+    </h:head>
+    <h:body>
+    	
+    	<h:outputStylesheet library="default" name="css/dstyles.css"/>
+    	
+    	<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
+    		
+    		<ui:include src="/include/ptoolbar.xhtml"/>
+    		
+    		<p:breadCrumb>
+			    <p:menuitem value="Home" url="home.xhtml" />
+			    <p:menuitem value="SNMP Managers" url="snmp.xhtml" />
+			    <p:menuitem value="#{snmpManagerBean.snmpManager.toUrlString()}" url="#" />
+			</p:breadCrumb>
+			
+			<h:outputText value="#{snmpManagerBean.snmpManager.toUrlString()}" styleClass="titleLarge" />
+			
+			
+			<h:form id="exec">
+				<fieldset>
+				<legend> Execute </legend>
+
+				<h:panelGrid columns="2">
+					
+					<h:outputText value="Community: " />
+					<h:inputText value="#{snmpBean.community}" />
+					
+					<h:outputText value="OID: " />
+					<h:inputText value="#{snmpManagerBean.oid}" />
+					
+					<h:commandButton action="#{snmpManagerBean.execute}" value="Execute">
+						<f:ajax render="snmpResult" />
+					</h:commandButton>
+					
+				</h:panelGrid>
+				</fieldset>
+			</h:form>
+			
+			<h:inputTextarea id="snmpResult" value="#{snmpManagerBean.result}" 
+						cols="100" rows="15" styleClass="codeStyle" />
+			
+        
+        </h:panelGrid>
+        
+    </h:body>
+</html>
+
+

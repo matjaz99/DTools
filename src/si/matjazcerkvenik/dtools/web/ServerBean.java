@@ -12,6 +12,8 @@ import si.matjazcerkvenik.dtools.xml.DAO;
 import si.matjazcerkvenik.dtools.xml.FtpClient;
 import si.matjazcerkvenik.dtools.xml.FtpClients;
 import si.matjazcerkvenik.dtools.xml.Server;
+import si.matjazcerkvenik.dtools.xml.SnmpManager;
+import si.matjazcerkvenik.dtools.xml.SnmpManagers;
 import si.matjazcerkvenik.dtools.xml.SshClient;
 import si.matjazcerkvenik.dtools.xml.SshClients;
 
@@ -48,6 +50,15 @@ public class ServerBean {
 		
 		FtpClients allClients = DAO.getInstance().loadFtpClients();
 		List<FtpClient> tempList = allClients.getCustomFtpClientsList(server.getHostname());
+		
+		return tempList;
+		
+	}
+	
+	public List<SnmpManager> getListOfSnmpManagers() {
+		
+		SnmpManagers allMngs = DAO.getInstance().loadSnmpManagers();
+		List<SnmpManager> tempList = allMngs.getCustomSnmpManagersList(server.getHostname());
 		
 		return tempList;
 		

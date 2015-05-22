@@ -26,7 +26,7 @@ public class SimpleSnmpManager {
 	private Snmp snmp = null;
 	private String address = null;
 
-	public SimpleSnmpManager(String address, String port) {
+	public SimpleSnmpManager(String address, int port) {
 		this.address = "udp:" + address + "/" + port;
 		try {
 			start();
@@ -41,7 +41,7 @@ public class SimpleSnmpManager {
 		
 //		SimpleSnmpManager client = new SimpleSnmpManager("udp:127.0.0.1/6161"); // localhost
 //		SimpleSnmpManager client = new SimpleSnmpManager("udp:192.168.1.100/6161"); // iMac
-		SimpleSnmpManager client = new SimpleSnmpManager("192.168.1.110", "161"); // CentOS (first start snmpd)
+		SimpleSnmpManager client = new SimpleSnmpManager("192.168.1.110", 161); // CentOS (first start snmpd)
 		String sysDescr = client.getAsString(".1.3.6.1.2.1.1.1.0");
 		System.out.println(sysDescr);
 		String ifDesc1 = client.getAsString(".1.3.6.1.2.1.2.2.1");

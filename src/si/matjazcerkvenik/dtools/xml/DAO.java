@@ -28,6 +28,7 @@ public class DAO {
 	private FtpClients ftpClients;
 	private FtpTransfers ftpTransfers;
 	private Commands commands;
+	private SnmpManagers snmpManagers;
 	private Notes notes;
 	
 	private final String XML_SERVERS = "/config/servers.xml";
@@ -35,6 +36,7 @@ public class DAO {
 	private final String XML_SSH_COMMANDS = "/config/commands.xml";
 	private final String XML_FTP_CLIENTS = "/config/ftpClients.xml";
 	private final String XML_FTP_TRANSFERS = "/config/ftpTransfers.xml";
+	private final String XML_SNMP_MANAGERS = "/config/snmpManagers.xml";
 	private final String XML_NOTES = "/config/notes.xml";
 
 	private DAO() {
@@ -470,6 +472,82 @@ public class DAO {
 		saveNotes();
 
 	}
+	
+	
+	
+	
+	
+	/* SNMP MANAGERS */
+
+	public SnmpManagers loadSnmpManagers() {
+
+		if (snmpManagers != null) {
+			return snmpManagers;
+		}
+
+		try {
+
+			File file = new File(DToolsContext.HOME_DIR + XML_SNMP_MANAGERS);
+			if (!file.exists()) {
+				snmpManagers = new SnmpManagers();
+				JAXBContext jaxbContext = JAXBContext.newInstance(SnmpManagers.class);
+				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+				jaxbMarshaller.marshal(snmpManagers, file);
+			}
+			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpManagers.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			snmpManagers = (SnmpManagers) jaxbUnmarshaller.unmarshal(file);
+			if (snmpManagers.getSnmpManagerList() == null) {
+				snmpManagers.setSnmpManagerList(new ArrayList<SnmpManager>());
+			}
+			
+			logger.info("DAO:loadSnmpManagers(): " + file.getAbsolutePath());
+
+		} catch (JAXBException e) {
+			logger.error("DAO:loadSnmpManagers(): JAXBException: ", e);
+		}
+
+		return snmpManagers;
+
+	}
+
+	public void saveSnmpManagers() {
+
+		try {
+
+			File file = new File(DToolsContext.HOME_DIR + XML_SNMP_MANAGERS);
+			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpManagers.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.marshal(snmpManagers, file);
+			
+			logger.info("DAO:saveSnmpManagers(): " + file.getAbsolutePath());
+
+		} catch (JAXBException e) {
+			logger.error("DAO:saveSnmpManagers(): JAXBException: ", e);
+		}
+
+	}
+
+	public void addSnmpManager(SnmpManager m) {
+
+		snmpManagers.addSnmpManager(m);
+		saveSnmpManagers();
+
+	}
+
+	public void deleteSnmpManager(SnmpManager m) {
+
+		snmpManagers.deleteSnmpManager(m);
+		saveSnmpManagers();
+
+	}
+	
+	
+	
+	
+	
 
 	/* SSH RESPONSE */
 

@@ -23,7 +23,7 @@
 			    <p:menuitem value="#{ftpClientBean.ftpClient.toUrlString()}" url="#" />
 			</p:breadCrumb>
 			
-			<h:outputText value="#{ftpClientBean.ftpClient.protocolLowercase}://#{ftpClientBean.ftpClient.username}@#{ftpClientBean.ftpClient.hostname}:#{ftpClientBean.ftpClient.port}" styleClass="titleLarge" />
+			<h:outputText value="#{ftpClientBean.ftpClient.toUrlString()}" styleClass="titleLarge" />
 			
 			<hr/>
 			
