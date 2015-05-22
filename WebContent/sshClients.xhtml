@@ -75,7 +75,7 @@
 						<f:facet name="header">SSH Client</f:facet>
 						<h:form>
 							<h:commandLink action="#{sshClientsBean.openClient(sshClient)}">
-								<h:outputText value="ssh://#{sshClient.username}@#{sshClient.hostname}:#{sshClient.port}" />
+								<h:outputText value="#{sshClient.toUrlString()}" />
 							</h:commandLink>
 						</h:form>
 					</h:column>

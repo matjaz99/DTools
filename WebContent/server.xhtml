@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:dt="http://dtools.com/ui">
+    <h:head>
+        <title>DTools</title>
+    </h:head>
+    <h:body>
+    
+    	<h:outputStylesheet library="default" name="css/dstyles.css"/>
+    	<p:growl id="growl" life="2000"/>
+    	
+    	<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
+    	
+	        <ui:include src="/include/ptoolbar.xhtml"/>
+			
+			<p:breadCrumb>
+			    <p:menuitem value="Home" url="home.xhtml" />
+			    <p:menuitem value="Network" url="network.xhtml" />
+			    <p:menuitem value="#{serverBean.server.name}" url="#" />
+			</p:breadCrumb>
+			
+			<h:outputText value="Server details: #{serverBean.server.name}" styleClass="title" />
+			
+			<h:panelGrid columns="2">
+				<h:outputText value="Name:" />
+				<h:outputText value="#{serverBean.server.name}" />
+				<h:outputText value="Hostname:" />
+				<h:outputText value="#{serverBean.server.hostname}" />
+				<h:outputText value="Description:" />
+				<h:outputText value="#{serverBean.server.description}" />
+				<h:outputText value="ICMP status: " />
+				<h:outputText value="#{serverBean.server.icmpPingStatus}" />
+			</h:panelGrid>
+			
+			<h:panelGrid columns="1" cellspacing="5" width="100%">
+			<h:dataTable id="sshClientsTable" value="#{serverBean.listOfSshClients}" var="sshClient" 
+				styleClass="table" rowClasses="tableOddRow,tableEvenRow"
+				cellpadding="0" cellspacing="0" rendered="#{serverBean.listOfSshClients.size() > 0}">
+				
+				<h:column headerClass="col0 col1">
+					<f:facet name="header">Console</f:facet>
+					<h:form id="status">
+						<h:commandLink action="sshClient">
+							<f:param name="client" value="#{sshClient}" />
+							<dt:icon img="terminal"/>
+						</h:commandLink>
+					</h:form>
+				</h:column>
+				
+				<h:column headerClass="col0 col2">
+					<f:facet name="header">Client</f:facet>
+					<h:form>
+						<h:commandLink action="sshClient">
+							<f:param name="client" value="#{sshClient}" />
+							<h:outputText value="#{sshClient.toUrlString()}" />
+						</h:commandLink>
+					</h:form>
+				</h:column>
+				
+			</h:dataTable>
+			
+			<h:dataTable id="ftpClientsTable" value="#{serverBean.listOfFtpClients}" var="ftpClient" 
+				styleClass="table" rowClasses="tableOddRow,tableEvenRow"
+				cellpadding="0" cellspacing="0" rendered="#{serverBean.listOfFtpClients.size() > 0}">
+				
+				<h:column headerClass="col0 col1">
+					<f:facet name="header">Console</f:facet>
+					<h:form id="status">
+						<h:commandLink action="ftpClient">
+							<dt:icon img="terminal"/>
+						</h:commandLink>
+					</h:form>
+				</h:column>
+				
+				<h:column headerClass="col0 col2">
+					<f:facet name="header">Client</f:facet>
+					<h:form>
+						<h:commandLink>
+							<h:outputText value="#{ftpClient.toUrlString()}" />
+						</h:commandLink>
+					</h:form>
+				</h:column>
+				
+			</h:dataTable>
+			
+			</h:panelGrid>
+        
+        </h:panelGrid>
+        
+    </h:body>
+</html>
+
+

@@ -58,5 +58,9 @@ public class FtpClient {
 	public String getProtocolLowercase() {
 		return protocol.toLowerCase();
 	}
+	
+	public String toUrlString() {
+		return protocol.toLowerCase() + "://" + username + "@" + hostname + ":" + port;
+	}
 
 }

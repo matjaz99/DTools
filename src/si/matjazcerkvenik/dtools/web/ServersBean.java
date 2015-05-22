@@ -82,7 +82,7 @@ public class ServersBean {
 	
 	public String openServerDetails(Server s) {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("server", s);
-		return "serverDetails";
+		return "server";
 	}
 	
 	/**

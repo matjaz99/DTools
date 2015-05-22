@@ -1,5 +1,6 @@
 package si.matjazcerkvenik.dtools.xml;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -27,4 +28,17 @@ public class SshClients {
 		sshClientList.remove(c);
 	}
 	
+	public List<SshClient> getCustomSshClientsList(String hostname) {
+		
+		List<SshClient> list = new ArrayList<SshClient>();
+		
+		for (int i = 0; i < getSshClientList().size(); i++) {
+			if (getSshClientList().get(i).getHostname().equals(hostname)) {
+				list.add(getSshClientList().get(i));
+			}
+		}
+		
+		return list;
+		
+	}
 }

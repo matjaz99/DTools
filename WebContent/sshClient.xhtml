@@ -18,7 +18,7 @@
 			
 			<h:panelGrid columns="2">
 				<dt:icon img="terminal" />
-				<h:outputText value="ssh://#{sshClientBean.sshClient.username}@#{sshClientBean.sshClient.hostname}:#{sshClientBean.sshClient.port}" styleClass="titleLarge" />
+				<h:outputText value="#{sshClientBean.sshClient.toUrlString()}" styleClass="titleLarge" />
 			</h:panelGrid>
 			
 			<hr/>

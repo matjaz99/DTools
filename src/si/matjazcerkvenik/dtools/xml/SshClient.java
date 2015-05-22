@@ -44,5 +44,9 @@ public class SshClient {
 	public void setPort(int port) {
 		this.port = port;
 	}
+	
+	public String toUrlString() {
+		return "ssh://" + username + "@" + hostname + ":" + port;
+	}
 
 }

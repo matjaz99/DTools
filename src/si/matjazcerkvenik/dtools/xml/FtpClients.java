@@ -1,5 +1,6 @@
 package si.matjazcerkvenik.dtools.xml;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -25,6 +26,20 @@ public class FtpClients {
 	
 	public void deleteFtpClient(FtpClient c) {
 		ftpClientList.remove(c);
+	}
+	
+	public List<FtpClient> getCustomFtpClientsList(String hostname) {
+		
+		List<FtpClient> list = new ArrayList<FtpClient>();
+		
+		for (int i = 0; i < getFtpClientList().size(); i++) {
+			if (getFtpClientList().get(i).getHostname().equals(hostname)) {
+				list.add(getFtpClientList().get(i));
+			}
+		}
+		
+		return list;
+		
 	}
 	
 }
