@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 
 import si.matjazcerkvenik.dtools.xml.DAO;
@@ -87,11 +86,6 @@ public class FtpClientsBean {
 	public List<FtpClient> getFtpClientsList() {
 		return DAO.getInstance().loadFtpClients().getFtpClientList();
 	}
-
-	public String openClient(FtpClient client) {
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("client", client);
-		return "ftpClient";
-	}
 	
 	public void protocolValueChanged(ValueChangeEvent e) {
 		protocol = e.getNewValue().toString();
@@ -101,9 +95,6 @@ public class FtpClientsBean {
 			port = 22;
 		}
 	}
-	
-	
-	
 	
 
 }

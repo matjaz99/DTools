@@ -45,8 +45,7 @@
 				<h:column headerClass="col0 col1">
 					<f:facet name="header">Console</f:facet>
 					<h:form id="status">
-						<h:commandLink action="sshClient">
-							<f:param name="client" value="#{sshClient}" />
+						<h:commandLink action="#{navigationBean.openSshClient(sshClient)}">
 							<dt:icon img="terminal"/>
 						</h:commandLink>
 					</h:form>
@@ -55,8 +54,7 @@
 				<h:column headerClass="col0 col2">
 					<f:facet name="header">Client</f:facet>
 					<h:form>
-						<h:commandLink action="sshClient">
-							<f:param name="client" value="#{sshClient}" />
+						<h:commandLink action="#{navigationBean.openSshClient(sshClient)}">
 							<h:outputText value="#{sshClient.toUrlString()}" />
 						</h:commandLink>
 					</h:form>
@@ -72,6 +70,7 @@
 					<f:facet name="header">Console</f:facet>
 					<h:form id="status">
 						<h:commandLink action="ftpClient">
+							<f:param name="client" value="#{ftpClient}" />
 							<dt:icon img="terminal"/>
 						</h:commandLink>
 					</h:form>
@@ -80,7 +79,7 @@
 				<h:column headerClass="col0 col2">
 					<f:facet name="header">Client</f:facet>
 					<h:form>
-						<h:commandLink>
+						<h:commandLink action="#{navigationBean.openFtpClient(ftpClient)}">
 							<h:outputText value="#{ftpClient.toUrlString()}" />
 						</h:commandLink>
 					</h:form>

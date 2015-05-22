@@ -4,6 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
     xmlns:dt="http://dtools.com/ui">
     <h:head>
         <title>DTools</title>
@@ -11,16 +12,15 @@
     <h:body>
     	
     	<h:outputStylesheet library="default" name="css/dstyles.css"/>
+    	<p:growl id="growl" life="2000"/>
     	
-    	<h:panelGrid columns="1" cellpadding="0" cellspacing="0" width="100%">
+    	<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
     		
     		<ui:include src="/include/ptoolbar.xhtml"/>
 			
 			<h:outputText value="SSH Clients" styleClass="title" />
-			
-			<hr/>
-			
-			<h:form>
+						
+			<h:form id="addSshClientForm">
 				<fieldset>
 				<legend> Add new SSH client </legend>
 				<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
@@ -48,16 +48,15 @@
 					<h:inputText value="#{sshClientsBean.password}" ></h:inputText>
 					<h:outputLabel value="" />
 					
-					<h:commandButton action="#{sshClientsBean.addClientAction}" value="Add"></h:commandButton>
+					<p:commandButton value="Add" action="#{sshClientsBean.addClientAction}" 
+						update="growl addSshClientForm sshClientsTable" ajax="true" />
 				</h:panelGrid>
 				</fieldset>
 			</h:form>
 			
 			
-			<hr/>
-			
 			<h:panelGrid columns="1" cellspacing="5" width="100%">
-				<h:dataTable value="#{sshClientsBean.sshClientsList}" var="sshClient" 
+				<h:dataTable id="sshClientsTable" value="#{sshClientsBean.sshClientsList}" var="sshClient" 
 					styleClass="table"
 					rowClasses="tableOddRow,tableEvenRow"
 					cellpadding="0" cellspacing="0" width="100%">
@@ -65,7 +64,7 @@
 					<h:column headerClass="col0 col1">
 						<f:facet name="header">Console</f:facet>
 						<h:form>
-							<h:commandLink action="#{sshClientsBean.openClient(sshClient)}">
+							<h:commandLink action="#{navigationBean.openSshClient(sshClient)}">
 								<dt:icon img="terminal"/>
 							</h:commandLink>
 						</h:form>
@@ -74,7 +73,7 @@
 					<h:column headerClass="col0 col3">
 						<f:facet name="header">SSH Client</f:facet>
 						<h:form>
-							<h:commandLink action="#{sshClientsBean.openClient(sshClient)}">
+							<h:commandLink action="#{navigationBean.openSshClient(sshClient)}">
 								<h:outputText value="#{sshClient.toUrlString()}" />
 							</h:commandLink>
 						</h:form>

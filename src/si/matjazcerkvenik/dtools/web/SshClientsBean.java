@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 
 import si.matjazcerkvenik.dtools.xml.DAO;
 import si.matjazcerkvenik.dtools.xml.SshClient;
@@ -76,15 +75,6 @@ public class SshClientsBean {
 	public List<SshClient> getSshClientsList() {
 		return DAO.getInstance().loadSshClients().getSshClientList();
 	}
-
-	public String openClient(SshClient client) {
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("client", client);
-		return "sshClient";
-	}
-	
-	
-	
-	
 	
 	
 

@@ -4,6 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
     xmlns:dt="http://dtools.com/ui">
     <h:head>
         <title>DTools</title>
@@ -12,9 +13,15 @@
     	
     	<h:outputStylesheet library="default" name="css/dstyles.css"/>
     	
-    	<h:panelGrid columns="1" cellpadding="0" cellspacing="0" width="100%">
+    	<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
     		
     		<ui:include src="/include/ptoolbar.xhtml"/>
+    		
+    		<p:breadCrumb>
+			    <p:menuitem value="Home" url="home.xhtml" />
+			    <p:menuitem value="SSH Clients" url="sshClients.xhtml" />
+			    <p:menuitem value="#{sshClientBean.sshClient.toUrlString()}" url="#" />
+			</p:breadCrumb>
 			
 			<h:panelGrid columns="2">
 				<dt:icon img="terminal" />

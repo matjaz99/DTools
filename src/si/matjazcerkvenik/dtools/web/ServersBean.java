@@ -80,10 +80,7 @@ public class ServersBean {
 		return DAO.getInstance().loadServers().getServerList();
 	}
 	
-	public String openServerDetails(Server s) {
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("server", s);
-		return "server";
-	}
+	
 	
 	/**
 	 * Convert IcmpPingStatus to appropriate icon.

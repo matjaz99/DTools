@@ -4,6 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
     xmlns:dt="http://dtools.com/ui">
     <h:head>
         <title>DTools</title>
@@ -11,16 +12,15 @@
     <h:body>
     	
     	<h:outputStylesheet library="default" name="css/dstyles.css"/>
+    	<p:growl id="growl" life="2000"/>
     	
-    	<h:panelGrid columns="1" cellpadding="0" cellspacing="0" width="100%">
+    	<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
     		
     		<ui:include src="/include/ptoolbar.xhtml"/>
 			
-			<h:outputText value="FTP Clients" />
+			<h:outputText value="FTP Clients" styleClass="title" />
 			
-			<hr/>
-			
-			<h:form>
+			<h:form id="addFtpClientForm">
 				<fieldset>
 				<legend> Add new FTP client </legend>
 				<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
@@ -57,16 +57,15 @@
 					<h:inputText value="#{ftpClientsBean.password}" ></h:inputText>
 					<h:outputLabel value="" />
 					
-					<h:commandButton action="#{ftpClientsBean.addClientAction}" value="Add"></h:commandButton>
+					<p:commandButton value="Add" action="#{ftpClientsBean.addClientAction}" 
+						update="growl addFtpClientForm ftpClientsTable" ajax="true" />
 				</h:panelGrid>
 				</fieldset>
 			</h:form>
 			
 			
-			<hr/>
-			
 			<h:panelGrid columns="1" cellspacing="5" width="100%">
-				<h:dataTable value="#{ftpClientsBean.ftpClientsList}" var="client" 
+				<h:dataTable id="ftpClientsTable" value="#{ftpClientsBean.ftpClientsList}" var="client" 
 					styleClass="table"
 					rowClasses="tableOddRow,tableEvenRow"
 					cellpadding="0" cellspacing="0" width="100%">
@@ -74,7 +73,7 @@
 					<h:column headerClass="col0 col1">
 						<f:facet name="header">Console</f:facet>
 						<h:form>
-							<h:commandLink action="#{ftpClientsBean.openClient(client)}">
+							<h:commandLink action="#{navigationBean.openFtpClient(client)}">
 								<dt:icon img="terminal"/>
 							</h:commandLink>
 						</h:form>
@@ -83,8 +82,8 @@
 					<h:column headerClass="col0 col3">
 						<f:facet name="header">FTP Client</f:facet>
 						<h:form>
-							<h:commandLink action="#{ftpClientsBean.openClient(client)}">
-								<h:outputText value="#{client.protocolLowercase}://#{client.username}@#{client.hostname}:#{client.port}" />
+							<h:commandLink action="#{navigationBean.openFtpClient(client)}">
+								<h:outputText value="#{client.toUrlString()}" />
 							</h:commandLink>
 						</h:form>
 					</h:column>
