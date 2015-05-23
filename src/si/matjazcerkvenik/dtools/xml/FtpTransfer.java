@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 public class FtpTransfer {
 
+	private String direction;
 	private String from;
 	private String to;
 
@@ -23,6 +24,15 @@ public class FtpTransfer {
 	@XmlElement
 	public void setTo(String to) {
 		this.to = to;
+	}
+
+	public String getDirection() {
+		return direction;
+	}
+
+	@XmlElement
+	public void setDirection(String direction) {
+		this.direction = direction;
 	}
 
 }

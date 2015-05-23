@@ -88,19 +88,22 @@ public class SshClientBean {
 		newCommand = null;
 	}
 	
+	public void executeOne() {
+		selectedCommand = newCommand;
+		execute(newCommand);
+	}
 	
+	public void executeSelected() {
+		execute(selectedCommand);
+	}
 
-	public void execute() {
-		
-		if (selectedCommand == null) {
-			selectedCommand = newCommand;
-		}
+	private void execute(String command) {
 		
 		try {
 			
 			sshClientImpl = new SshClientAdvanced();
 			sshClientImpl.connect(client.getHostname(), client.getPort(), client.getUsername(), client.getPassword());
-			sshClientImpl.sendCommand(selectedCommand);
+			sshClientImpl.sendCommand(command);
 			response = sshClientImpl.getResponse();
 			sshClientImpl.disconnect();
 			

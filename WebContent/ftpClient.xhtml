@@ -12,6 +12,7 @@
     <h:body>
     	
     	<h:outputStylesheet library="default" name="css/dstyles.css"/>
+    	<p:growl id="growl" life="2000"/>
     	
     	<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
     		
@@ -25,35 +26,80 @@
 			
 			<h:outputText value="#{ftpClientBean.ftpClient.toUrlString()}" styleClass="titleLarge" />
 			
-			<hr/>
 			
-			
-			
-			<h:form id="exec">
-				<h:panelGrid columns="2">
-					<h:selectOneListbox value="#{ftpClientBean.selectedTransfer}" size="10"
-						onchange="submit()" valueChangeListener="#{ftpClientBean.transferValueChanged}">
-						<f:selectItems value="#{ftpClientBean.transfersAsStrings}" />
-					</h:selectOneListbox>
-					<h:commandButton action="#{ftpClientBean.execute}" value="Execute">
-						<f:ajax render="exec" />
-					</h:commandButton>
-					<h:outputText value="Source: " />
-					<h:inputText value="#{ftpClientBean.source}" />
-					<h:outputText value="Destination: " />
-					<h:inputText value="#{ftpClientBean.destination}" />
-					<h:commandButton action="#{ftpClientBean.addTransfer}" value="Add" />
+			<h:form id="addTransferForm">
+				<fieldset>
+				<legend> Add new FTP transfer </legend>
+				<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
+					
+					<h:outputLabel value="Direction: " />
+					<h:selectOneRadio value="#{ftpClientBean.direction}">
+						<f:selectItem itemLabel="Download" itemValue="Download" />
+						<f:selectItem itemLabel="Upload" itemValue="Upload" />
+					</h:selectOneRadio>
+					<h:outputText value="" />
+					
+					<h:outputLabel value="Source: " />
+					<h:inputText id="src" value="#{ftpClientBean.source}" required="true" 
+						requiredMessage="Missing source directory or file">
+					</h:inputText>
+					<h:message for="src" style="color: red;" />
+					
+					<h:outputLabel value="Destination: " />
+					<h:inputText id="dest" value="#{ftpClientBean.destination}" required="true" 
+						requiredMessage="Missing destination directory" />
+					<h:message for="dest" style="color: red;" />
+					
+					<p:commandButton value="Add" action="#{ftpClientBean.addTransfer}" 
+						update="growl addTransferForm transfersTable" ajax="true" />
+					
 				</h:panelGrid>
-				
-				<hr/>
-				
-				
-				
-				<h:outputText value="> #{ftpClientBean.selectedTransfer}" />
-				<br/>
-				
-				
+				</fieldset>
 			</h:form>
+			
+			
+			<h:panelGrid columns="1" cellspacing="5" width="100%">
+				<h:dataTable id="transfersTable" value="#{ftpClientBean.transfersList}" var="transfer" 
+					styleClass="table"
+					rowClasses="tableOddRow,tableEvenRow"
+					cellpadding="0" cellspacing="0" width="100%">
+					
+					<h:column headerClass="col0 col1">
+						<f:facet name="header">Type</f:facet>
+						<h:form>
+							<h:commandLink>
+								<dt:icon img="#{ftpClientBean.getIcon(transfer.direction)}"/>
+							</h:commandLink>
+						</h:form>
+					</h:column>
+					
+					<h:column headerClass="col0 col3">
+						<f:facet name="header">Transfer</f:facet>
+						<h:outputText value="From source: #{transfer.from} To destination: #{transfer.to}" />
+					</h:column>
+					
+					<h:column headerClass="col0">
+						<f:facet name="header">Run</f:facet>
+						<h:form>
+							<h:commandLink action="#{ftpClientBean.execute(transfer)}">
+								<dt:icon img="run"/>
+							</h:commandLink>
+						</h:form>
+					</h:column>
+					
+					<h:column headerClass="col0">
+						<f:facet name="header">Remove</f:facet>
+						<h:form>
+							<h:commandLink action="#{ftpClientBean.deleteTransfer(transfer)}">
+								<dt:icon img="remove"/>
+							</h:commandLink>
+						</h:form>
+					</h:column>
+					
+				</h:dataTable>
+			</h:panelGrid>
+			
+			
 			
         
         </h:panelGrid>

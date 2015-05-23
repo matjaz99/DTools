@@ -36,7 +36,7 @@
 				<h:outputLabel value="Enter command: " />
 				<h:inputText value="#{sshClientBean.newCommand}" />
 				<h:commandButton action="#{sshClientBean.addCommand}" value="Add to list" />
-				<h:commandButton action="#{sshClientBean.execute}" value="Execute"></h:commandButton>
+				<h:commandButton action="#{sshClientBean.executeOne}" value="Execute"></h:commandButton>
 				<hr/>
 				<h:outputText value="Or select command from the list" />
 				<h:panelGrid columns="2">
@@ -44,7 +44,7 @@
 						onchange="submit()" valueChangeListener="#{sshClientBean.commandValueChanged}">
 						<f:selectItems value="#{sshClientBean.commands}" />
 					</h:selectOneListbox>
-					<h:commandButton action="#{sshClientBean.execute}" value="Execute">
+					<h:commandButton action="#{sshClientBean.executeSelected}" value="Execute">
 						<f:ajax render="exec" />
 					</h:commandButton>
 				</h:panelGrid>
