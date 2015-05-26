@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import si.matjazcerkvenik.dtools.tools.ftp.VfsFtpSftpClient;
 import si.matjazcerkvenik.dtools.xml.DAO;
 import si.matjazcerkvenik.dtools.xml.FtpClient;
 import si.matjazcerkvenik.dtools.xml.FtpTransfer;
@@ -89,7 +90,19 @@ public class FtpClientBean {
 	}
 	
 	public void execute(FtpTransfer t) {
-		// TODO
+		
+		VfsFtpSftpClient c = new VfsFtpSftpClient(ftpClient.getHostname(), 
+				ftpClient.getPort(), 
+				ftpClient.getUsername(), 
+				ftpClient.getPassword(), 
+				ftpClient.getProtocol().toLowerCase());
+		
+		if (t.getDirection().equals("Upload")) {
+			c.upload(t.getFrom(), t.getTo());
+		} else {
+			c.download(t.getFrom(), t.getTo());
+		}
+		
 	}
 	
 	

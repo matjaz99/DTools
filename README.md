@@ -12,3 +12,7 @@ For a developer it should help to simplify common tasks
 - quick notes
 - external links, favorites
 
+
+
+Commons-logging is required by commons-vfs
+
