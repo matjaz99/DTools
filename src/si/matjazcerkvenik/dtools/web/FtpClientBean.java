@@ -100,7 +100,7 @@ public class FtpClientBean {
 		if (t.getDirection().equals("Upload")) {
 			c.upload(t.getFrom(), t.getTo());
 		} else {
-			c.download(t.getFrom(), t.getTo());
+			c.download(t.getTo(), t.getFrom());
 		}
 		
 	}
