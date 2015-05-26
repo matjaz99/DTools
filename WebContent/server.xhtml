@@ -31,6 +31,8 @@
 				<h:outputText value="#{serverBean.server.name}" />
 				<h:outputText value="Hostname:" />
 				<h:outputText value="#{serverBean.server.hostname}" />
+				<h:outputText value="IP address:" />
+				<h:outputText value="#{serverBean.getResolvedIpAddress()}" />
 				<h:outputText value="Description:" />
 				<h:outputText value="#{serverBean.server.description}" />
 				<h:outputText value="ICMP status: " />
@@ -52,7 +54,7 @@
 				</h:column>
 				
 				<h:column headerClass="col0 col2">
-					<f:facet name="header">Client</f:facet>
+					<f:facet name="header">SSH Clients</f:facet>
 					<h:form>
 						<h:commandLink action="#{navigationBean.openSshClient(sshClient)}">
 							<h:outputText value="#{sshClient.toUrlString()}" />
@@ -76,7 +78,7 @@
 				</h:column>
 				
 				<h:column headerClass="col0">
-					<f:facet name="header">Client</f:facet>
+					<f:facet name="header">FTP Clients</f:facet>
 					<h:form>
 						<h:commandLink action="#{navigationBean.openFtpClient(ftpClient)}">
 							<h:outputText value="#{ftpClient.toUrlString()}" />
@@ -100,7 +102,7 @@
 				</h:column>
 				
 				<h:column headerClass="col0">
-					<f:facet name="header">SNMP Manager</f:facet>
+					<f:facet name="header">SNMP Clients</f:facet>
 					<h:form>
 						<h:commandLink action="#{navigationBean.openSnmpMng(snmpMng)}">
 							<h:outputText value="#{snmpMng.toUrlString()}" />

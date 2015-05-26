@@ -23,7 +23,7 @@
 			<h:form id="addNoteForm">
 				<fieldset>
 				<legend> Add new note </legend>
-				<h:panelGrid columns="2" cellpadding="5" cellspacing="5">
+				<h:panelGrid columns="2" cellpadding="0" cellspacing="0">
 					<h:inputTextarea id="noteMsg" value="#{notesBean.message}" cols="50" rows="7" 
 						required="true" requiredMessage="Message is empty"/>
 					<h:message for="noteMsg" style="color: red;" />

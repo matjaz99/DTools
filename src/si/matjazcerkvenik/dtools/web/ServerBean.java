@@ -1,5 +1,7 @@
 package si.matjazcerkvenik.dtools.web;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
 
@@ -62,6 +64,18 @@ public class ServerBean {
 		
 		return tempList;
 		
+	}
+	
+	public String getResolvedIpAddress() {
+		String ip = "n/a";
+		try {
+			InetAddress address = InetAddress.getByName(server.getHostname());
+			ip = address.getHostAddress();
+		} catch (UnknownHostException e) {
+			ip = "n/a";
+			e.printStackTrace();
+		} 
+		return ip;
 	}
 	
 }
