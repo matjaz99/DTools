@@ -89,7 +89,6 @@ public class SshClientBean {
 	}
 	
 	public void executeOne() {
-		selectedCommand = newCommand;
 		execute(newCommand);
 	}
 	

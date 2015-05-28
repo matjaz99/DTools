@@ -21,8 +21,8 @@
 			<h:outputText value="SSH Clients" styleClass="title" />
 						
 			<h:form id="addSshClientForm">
-				<fieldset>
-				<legend> Add new SSH client </legend>
+				<p:fieldset legend="Add new SSH client" toggleable="true" toggleSpeed="300" collapsed="true">
+				<p:ajax event="toggle" />
 				<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
 				
 					<h:outputLabel value="Hostname: " />
@@ -51,7 +51,7 @@
 					<p:commandButton value="Add" action="#{sshClientsBean.addClientAction}" 
 						update="growl addSshClientForm sshClientsTable" ajax="true" />
 				</h:panelGrid>
-				</fieldset>
+				</p:fieldset>
 			</h:form>
 			
 			

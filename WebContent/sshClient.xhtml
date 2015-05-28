@@ -12,6 +12,7 @@
     <h:body>
     	
     	<h:outputStylesheet library="default" name="css/dstyles.css"/>
+    	<p:growl id="growl" life="2000"/>
     	
     	<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
     		
@@ -27,31 +28,37 @@
 				<dt:icon img="terminal" />
 				<h:outputText value="#{sshClientBean.sshClient.toUrlString()}" styleClass="titleLarge" />
 			</h:panelGrid>
+						
+			
+			<h:form id="execOne">
+				<fieldset>
+				<legend> Add new command </legend>
+					<h:outputLabel value="Command: " />
+					<h:inputText value="#{sshClientBean.newCommand}" size="50" />
+					<p:commandButton value="Add to list" action="#{sshClientBean.addCommand}" 
+						update="growl execSelected" ajax="true" />
+					<p:commandButton value="Execute" action="#{sshClientBean.executeOne}" 
+						update="growl exec" ajax="true" />
+				</fieldset>
+			</h:form>
 			
 			<hr/>
 			
-			
-			
-			<h:form id="exec">
-				<h:outputLabel value="Enter command: " />
-				<h:inputText value="#{sshClientBean.newCommand}" />
-				<h:commandButton action="#{sshClientBean.addCommand}" value="Add to list" />
-				<h:commandButton action="#{sshClientBean.executeOne}" value="Execute"></h:commandButton>
-				<hr/>
+			<h:form id="execSelected">
 				<h:outputText value="Or select command from the list" />
 				<h:panelGrid columns="2">
 					<h:selectOneListbox value="#{sshClientBean.selectedCommand}" size="10"
 						onchange="submit()" valueChangeListener="#{sshClientBean.commandValueChanged}">
 						<f:selectItems value="#{sshClientBean.commands}" />
 					</h:selectOneListbox>
-					<h:commandButton action="#{sshClientBean.executeSelected}" value="Execute">
-						<f:ajax render="exec" />
-					</h:commandButton>
+					<p:commandButton value="Execute" action="#{sshClientBean.executeSelected}" 
+						update="growl exec" ajax="true" />
 				</h:panelGrid>
+			</h:form>
+			
+			<hr/>
 				
-				<hr/>
-				
-				
+			<h:form id="exec">
 				<h:panelGrid columns="1" cellspacing="0">
 					<h:outputText value="$ #{sshClientBean.selectedCommand}" />
 					<h:message for="exec" style="color: #{sshClientBean.execStatusColor};" />
@@ -61,7 +68,7 @@
 						<f:ajax render="sshResponse exec"/>
 					</h:commandButton>
 				</h:panelGrid>
-				
+			</h:form>
 				
 				
 				
@@ -76,7 +83,7 @@
 					<h:commandButton action="#{sshClientBean.saveResponse}" value="Save result" />
 				</h:panelGrid>
 				
-			</h:form>
+			
 			
         
         </h:panelGrid>
