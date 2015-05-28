@@ -96,5 +96,10 @@ public class FtpClientsBean {
 		}
 	}
 	
+	public void toggleFavorite(FtpClient client) {
+		client.setFavorite(!client.isFavorite());
+		DAO.getInstance().saveFtpClients();
+	}
+	
 
 }

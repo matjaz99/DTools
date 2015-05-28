@@ -8,6 +8,7 @@ public class SshClient {
 	private String password;
 	private String hostname;
 	private int port;
+	private boolean favorite = false;
 
 	public String getUsername() {
 		return username;
@@ -43,6 +44,15 @@ public class SshClient {
 	@XmlElement
 	public void setPort(int port) {
 		this.port = port;
+	}
+	
+	public boolean isFavorite() {
+		return favorite;
+	}
+
+	@XmlElement
+	public void setFavorite(boolean favorite) {
+		this.favorite = favorite;
 	}
 	
 	public String toUrlString() {

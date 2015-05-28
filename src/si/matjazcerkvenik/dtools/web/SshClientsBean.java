@@ -76,6 +76,11 @@ public class SshClientsBean {
 		return DAO.getInstance().loadSshClients().getSshClientList();
 	}
 	
+	public void toggleFavorite(SshClient client) {
+		client.setFavorite(!client.isFavorite());
+		DAO.getInstance().saveSshClients();
+	}
+	
 	
 
 }

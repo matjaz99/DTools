@@ -9,6 +9,7 @@ public class FtpClient {
 	private String hostname;
 	private int port;
 	private String protocol;
+	private boolean favorite = false;
 
 	public String getUsername() {
 		return username;
@@ -53,6 +54,15 @@ public class FtpClient {
 	@XmlElement
 	public void setProtocol(String protocol) {
 		this.protocol = protocol;
+	}
+	
+	public boolean isFavorite() {
+		return favorite;
+	}
+
+	@XmlElement
+	public void setFavorite(boolean favorite) {
+		this.favorite = favorite;
 	}
 	
 	public String getProtocolLowercase() {

@@ -27,7 +27,7 @@
 					<h:inputTextarea id="noteMsg" value="#{notesBean.message}" cols="50" rows="7" 
 						required="true" requiredMessage="Message is empty"/>
 					<h:message for="noteMsg" style="color: red;" />
-					<p:commandButton value="Add" action="#{notesBean.addNoteAction}" update="growl addNoteForm" ajax="true" />
+					<p:commandButton value="Add" action="#{notesBean.addNoteAction}" update="growl addNoteForm notesTable" ajax="true" />
 				</h:panelGrid>
 				</fieldset>
 			</h:form>
@@ -35,7 +35,7 @@
 			<hr/>
 			
 			<h:panelGrid columns="1" cellspacing="5" width="100%">
-				<h:dataTable value="#{notesBean.notes}" var="note" 
+				<h:dataTable id="notesTable" value="#{notesBean.notes}" var="note" 
 					styleClass="table"
 					rowClasses="tableOddRow,tableEvenRow"
 					cellpadding="0" cellspacing="0" width="100%">
