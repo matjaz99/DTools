@@ -76,6 +76,12 @@ body {
 	width: 32px;
 }
 
+.ui-menuitem-icon.ui-icon.info-icon {
+	background: url("#{resource['default:img/info.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}
+
 
 
 .title {
