@@ -32,7 +32,7 @@
 			
 			<h:form id="execOne">
 				<fieldset>
-				<legend> Add new command </legend>
+				<legend> Enter new command </legend>
 					<h:outputLabel value="Command: " />
 					<h:inputText value="#{sshClientBean.newCommand}" size="50" />
 					<p:commandButton value="Add to list" action="#{sshClientBean.addCommand}" 
@@ -71,8 +71,8 @@
 			</h:form>
 				
 				
-				
-				<h:panelGrid columns="2" cellspacing="0">
+			<h:form id="save">
+				<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
 					
 					<h:outputText value="Save as filename: " />
 					<h:inputText value="#{sshClientBean.filename}" />
@@ -80,9 +80,10 @@
 					<h:outputText value="Comments: " />
 					<h:inputTextarea value="#{sshClientBean.remark}" cols="30" rows="3" />
 					
-					<h:commandButton action="#{sshClientBean.saveResponse}" value="Save result" />
+					<p:commandButton value="Save result" action="#{sshClientBean.saveResponse}" 
+						update="save" ajax="true" />
 				</h:panelGrid>
-				
+			</h:form>
 			
 			
         

@@ -9,6 +9,7 @@ public class SnmpClient {
 	private int port;
 	private String snmpVersion;
 	private String community;
+	private boolean favorite = false;
 
 	public String getName() {
 		return name;
@@ -52,6 +53,15 @@ public class SnmpClient {
 	@XmlElement
 	public void setCommunity(String community) {
 		this.community = community;
+	}
+	
+	public boolean isFavorite() {
+		return favorite;
+	}
+
+	@XmlElement
+	public void setFavorite(boolean favorite) {
+		this.favorite = favorite;
 	}
 	
 	public String toUrlString() {

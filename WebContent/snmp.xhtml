@@ -35,7 +35,10 @@
 					<h:inputText value="#{snmpBean.port}"></h:inputText>
 					
 					<h:outputText value="SNMP version: " />
-					<h:inputText value="#{snmpBean.snmpVersion}" />
+					<h:selectOneRadio value="#{snmpBean.snmpVersion}" >
+						<f:selectItem itemLabel="v1" itemValue="v1" />
+						<f:selectItem itemLabel="v2c" itemValue="v2c" />
+					</h:selectOneRadio>
 					
 					<h:outputText value="Community: " />
 					<h:inputText value="#{snmpBean.community}" />
@@ -82,7 +85,17 @@
 					</h:column>
 					
 					<h:column headerClass="col0">
-						<f:facet name="header">Actions</f:facet>
+						<f:facet name="header">Favorite</f:facet>
+						<h:form>
+							<h:commandLink id="favoriteStar" action="#{snmpBean.toggleFavorite(client)}">
+								<dt:icon img="#{client.favorite == true ? 'star-full' : 'star-empty'}"/>
+								<f:ajax render="favoriteStar" />
+							</h:commandLink>
+						</h:form>
+					</h:column>
+					
+					<h:column headerClass="col0">
+						<f:facet name="header">Delete</f:facet>
 						<h:form>
 							<h:commandLink action="#{snmpBean.deleteSnmpClientAction(client)}">
 								<dt:icon img="remove"/>

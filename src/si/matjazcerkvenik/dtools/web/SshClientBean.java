@@ -142,6 +142,9 @@ public class SshClientBean {
 		
 		DAO.getInstance().saveSshResponse(filename, r);
 		
+		filename = null;
+		remark = null;
+		
 	}
 
 	public String getFilename() {

@@ -12,6 +12,7 @@
     <h:body>
     	
     	<h:outputStylesheet library="default" name="css/dstyles.css"/>
+    	<p:growl id="growl" life="2000"/>
     	
     	<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
     		
@@ -27,23 +28,18 @@
 			
 			
 			<h:form id="exec">
-				<fieldset>
-				<legend> Execute </legend>
+				<p:fieldset legend="SNMP Query" toggleable="true" toggleSpeed="300" collapsed="false">
 
 				<h:panelGrid columns="2">
-					
-					<h:outputText value="Community: " />
-					<h:inputText value="#{snmpBean.community}" />
 					
 					<h:outputText value="OID: " />
 					<h:inputText value="#{snmpClientBean.oid}" />
 					
-					<h:commandButton action="#{snmpClientBean.execute}" value="Execute">
-						<f:ajax render="snmpResult" />
-					</h:commandButton>
+					<p:commandButton value="Execute" action="#{snmpClientBean.execute}" 
+						update="growl snmpResult" ajax="true" />
 					
 				</h:panelGrid>
-				</fieldset>
+				</p:fieldset>
 			</h:form>
 			
 			<h:inputTextarea id="snmpResult" value="#{snmpClientBean.result}" 

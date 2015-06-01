@@ -87,7 +87,11 @@ public class SnmpBean {
 	public List<SnmpClient> getSnmpClientsList() {
 		return DAO.getInstance().loadSnmpClients().getSnmpClientsList();
 	}
-
+	
+	public void toggleFavorite(SnmpClient client) {
+		client.setFavorite(!client.isFavorite());
+		DAO.getInstance().saveSnmpClients();
+	}
 	
 
 }
