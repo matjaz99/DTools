@@ -19,11 +19,11 @@
     		
     		<p:breadCrumb>
 			    <p:menuitem value="Home" url="home.xhtml" />
-			    <p:menuitem value="SNMP Managers" url="snmp.xhtml" />
-			    <p:menuitem value="#{snmpManagerBean.snmpManager.toUrlString()}" url="#" />
+			    <p:menuitem value="SNMP Clients" url="snmp.xhtml" />
+			    <p:menuitem value="#{snmpClientBean.snmpClient.toUrlString()}" url="#" />
 			</p:breadCrumb>
 			
-			<h:outputText value="#{snmpManagerBean.snmpManager.toUrlString()}" styleClass="titleLarge" />
+			<h:outputText value="#{snmpClientBean.snmpClient.toUrlString()}" styleClass="titleLarge" />
 			
 			
 			<h:form id="exec">
@@ -36,9 +36,9 @@
 					<h:inputText value="#{snmpBean.community}" />
 					
 					<h:outputText value="OID: " />
-					<h:inputText value="#{snmpManagerBean.oid}" />
+					<h:inputText value="#{snmpClientBean.oid}" />
 					
-					<h:commandButton action="#{snmpManagerBean.execute}" value="Execute">
+					<h:commandButton action="#{snmpClientBean.execute}" value="Execute">
 						<f:ajax render="snmpResult" />
 					</h:commandButton>
 					
@@ -46,7 +46,7 @@
 				</fieldset>
 			</h:form>
 			
-			<h:inputTextarea id="snmpResult" value="#{snmpManagerBean.result}" 
+			<h:inputTextarea id="snmpResult" value="#{snmpClientBean.result}" 
 						cols="100" rows="15" styleClass="codeStyle" />
 			
         

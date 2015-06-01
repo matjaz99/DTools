@@ -28,7 +28,7 @@ public class DAO {
 	private FtpClients ftpClients;
 	private FtpTransfers ftpTransfers;
 	private Commands commands;
-	private SnmpManagers snmpManagers;
+	private SnmpClients snmpClients;
 	private Notes notes;
 	private Todos todos;
 	
@@ -37,7 +37,7 @@ public class DAO {
 	private final String XML_SSH_COMMANDS = "/config/commands.xml";
 	private final String XML_FTP_CLIENTS = "/config/ftpClients.xml";
 	private final String XML_FTP_TRANSFERS = "/config/ftpTransfers.xml";
-	private final String XML_SNMP_MANAGERS = "/config/snmpManagers.xml";
+	private final String XML_SNMP_CLIENTS = "/config/snmpClients.xml";
 	private final String XML_NOTES = "/config/notes.xml";
 	private final String XML_TODOS = "/config/todos.xml";
 
@@ -548,70 +548,70 @@ public class DAO {
 	
 	
 	
-	/* SNMP MANAGERS */
+	/* SNMP CLIENTS */
 
-	public SnmpManagers loadSnmpManagers() {
+	public SnmpClients loadSnmpClients() {
 
-		if (snmpManagers != null) {
-			return snmpManagers;
+		if (snmpClients != null) {
+			return snmpClients;
 		}
 
 		try {
 
-			File file = new File(DToolsContext.HOME_DIR + XML_SNMP_MANAGERS);
+			File file = new File(DToolsContext.HOME_DIR + XML_SNMP_CLIENTS);
 			if (!file.exists()) {
-				snmpManagers = new SnmpManagers();
-				JAXBContext jaxbContext = JAXBContext.newInstance(SnmpManagers.class);
+				snmpClients = new SnmpClients();
+				JAXBContext jaxbContext = JAXBContext.newInstance(SnmpClients.class);
 				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-				jaxbMarshaller.marshal(snmpManagers, file);
+				jaxbMarshaller.marshal(snmpClients, file);
 			}
-			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpManagers.class);
+			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpClients.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			snmpManagers = (SnmpManagers) jaxbUnmarshaller.unmarshal(file);
-			if (snmpManagers.getSnmpManagerList() == null) {
-				snmpManagers.setSnmpManagerList(new ArrayList<SnmpManager>());
+			snmpClients = (SnmpClients) jaxbUnmarshaller.unmarshal(file);
+			if (snmpClients.getSnmpClientsList() == null) {
+				snmpClients.setSnmpClientsList(new ArrayList<SnmpClient>());
 			}
 			
-			logger.info("DAO:loadSnmpManagers(): " + file.getAbsolutePath());
+			logger.info("DAO:loadSnmpClients(): " + file.getAbsolutePath());
 
 		} catch (JAXBException e) {
-			logger.error("DAO:loadSnmpManagers(): JAXBException: ", e);
+			logger.error("DAO:loadSnmpClients(): JAXBException: ", e);
 		}
 
-		return snmpManagers;
+		return snmpClients;
 
 	}
 
-	public void saveSnmpManagers() {
+	public void saveSnmpClients() {
 
 		try {
 
-			File file = new File(DToolsContext.HOME_DIR + XML_SNMP_MANAGERS);
-			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpManagers.class);
+			File file = new File(DToolsContext.HOME_DIR + XML_SNMP_CLIENTS);
+			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpClients.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			jaxbMarshaller.marshal(snmpManagers, file);
+			jaxbMarshaller.marshal(snmpClients, file);
 			
-			logger.info("DAO:saveSnmpManagers(): " + file.getAbsolutePath());
+			logger.info("DAO:saveSnmpClients(): " + file.getAbsolutePath());
 
 		} catch (JAXBException e) {
-			logger.error("DAO:saveSnmpManagers(): JAXBException: ", e);
+			logger.error("DAO:saveSnmpClients(): JAXBException: ", e);
 		}
 
 	}
 
-	public void addSnmpManager(SnmpManager m) {
+	public void addSnmpClient(SnmpClient c) {
 
-		snmpManagers.addSnmpManager(m);
-		saveSnmpManagers();
+		snmpClients.addSnmpClient(c);
+		saveSnmpClients();
 
 	}
 
-	public void deleteSnmpManager(SnmpManager m) {
+	public void deleteSnmpClients(SnmpClient c) {
 
-		snmpManagers.deleteSnmpManager(m);
-		saveSnmpManagers();
+		snmpClients.deleteSnmpClient(c);
+		saveSnmpClients();
 
 	}
 	

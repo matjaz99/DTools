@@ -14,8 +14,8 @@ import si.matjazcerkvenik.dtools.xml.DAO;
 import si.matjazcerkvenik.dtools.xml.FtpClient;
 import si.matjazcerkvenik.dtools.xml.FtpClients;
 import si.matjazcerkvenik.dtools.xml.Server;
-import si.matjazcerkvenik.dtools.xml.SnmpManager;
-import si.matjazcerkvenik.dtools.xml.SnmpManagers;
+import si.matjazcerkvenik.dtools.xml.SnmpClient;
+import si.matjazcerkvenik.dtools.xml.SnmpClients;
 import si.matjazcerkvenik.dtools.xml.SshClient;
 import si.matjazcerkvenik.dtools.xml.SshClients;
 
@@ -57,10 +57,10 @@ public class ServerBean {
 		
 	}
 	
-	public List<SnmpManager> getListOfSnmpManagers() {
+	public List<SnmpClient> getListOfSnmpClients() {
 		
-		SnmpManagers allMngs = DAO.getInstance().loadSnmpManagers();
-		List<SnmpManager> tempList = allMngs.getCustomSnmpManagersList(server.getHostname());
+		SnmpClients allMngs = DAO.getInstance().loadSnmpClients();
+		List<SnmpClient> tempList = allMngs.getCustomSnmpClientsList(server.getHostname());
 		
 		return tempList;
 		

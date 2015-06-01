@@ -6,7 +6,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import si.matjazcerkvenik.dtools.xml.DAO;
-import si.matjazcerkvenik.dtools.xml.SnmpManager;
+import si.matjazcerkvenik.dtools.xml.SnmpClient;
 
 @ManagedBean
 @SessionScoped
@@ -61,16 +61,16 @@ public class SnmpBean {
 
 	
 	
-	public void addSnmpManagerAction() {
+	public void addSnmpClient() {
 
-		SnmpManager m = new SnmpManager();
-		m.setName(name);
-		m.setHostname(hostname);
-		m.setPort(port);
-		m.setSnmpVersion(snmpVersion);
-		m.setCommunity(community);
+		SnmpClient c = new SnmpClient();
+		c.setName(name);
+		c.setHostname(hostname);
+		c.setPort(port);
+		c.setSnmpVersion(snmpVersion);
+		c.setCommunity(community);
 
-		DAO.getInstance().addSnmpManager(m);
+		DAO.getInstance().addSnmpClient(c);
 
 		name = null;
 		hostname = null;
@@ -80,12 +80,12 @@ public class SnmpBean {
 
 	}
 
-	public void deleteSnmpManagerAction(SnmpManager m) {
-		DAO.getInstance().deleteSnmpManager(m);
+	public void deleteSnmpClientAction(SnmpClient c) {
+		DAO.getInstance().deleteSnmpClients(c);
 	}
 
-	public List<SnmpManager> getSnmpManagersList() {
-		return DAO.getInstance().loadSnmpManagers().getSnmpManagerList();
+	public List<SnmpClient> getSnmpClientsList() {
+		return DAO.getInstance().loadSnmpClients().getSnmpClientsList();
 	}
 
 	

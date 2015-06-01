@@ -2,7 +2,7 @@ package si.matjazcerkvenik.dtools.xml;
 
 import javax.xml.bind.annotation.XmlElement;
 
-public class SnmpManager {
+public class SnmpClient {
 
 	private String name;
 	private String hostname;
