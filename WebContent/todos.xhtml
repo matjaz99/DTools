@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:dt="http://dtools.com/ui">
+    <h:head>
+        <title>DTools</title>
+    </h:head>
+    <h:body>
+    	
+    	<h:outputStylesheet library="default" name="css/dstyles.css"/>
+    	<p:growl id="growl" life="2000"/>
+    	
+    	<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
+    		
+    		<ui:include src="/include/ptoolbar.xhtml"/>
+			
+			<h:outputText value="Todo list" styleClass="title" />
+			
+			<h:form id="addTodoForm">
+				<p:fieldset legend="Add new Todo" toggleable="true" toggleSpeed="300">
+				<h:panelGrid columns="3" cellpadding="2" cellspacing="0">
+				
+					<h:outputLabel value="Title: " />
+					<p:inputText id="title" value="#{todosBean.title}" required="true"
+						 requiredMessage="Missing value">
+					</p:inputText>
+					<h:message for="title" style="color: red;" />
+					
+					<h:outputLabel value="Deadline: " />
+					<p:calendar id="deadline" value="#{todosBean.deadline}" pattern="dd/MM/yyyy HH:mm" />
+					<h:outputText value="" />
+					
+					<h:outputLabel value="Description: " />
+					<p:inputText id="description" value="#{todosBean.description}"></p:inputText>
+					<h:message for="description" style="color: red;" />
+					
+					<p:commandButton value="Add" action="#{todosBean.addTodoAction}" 
+						update="growl addTodoForm todosTable" ajax="true" />
+				</h:panelGrid>
+				</p:fieldset>
+				
+				<p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
+					<p:panelGrid id="display" columns="2" columnClasses="label,value">
+						<h:outputText value="Datetime:" />
+				            <h:outputText value="#{todosBean.deadline}">
+				                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+				            </h:outputText>
+					</p:panelGrid>
+				</p:dialog>
+			</h:form>
+			
+			
+			<h:panelGrid columns="1" cellspacing="5" width="100%">
+				<p:dataTable id="todosTable" value="#{todosBean.todoList}" var="todo" 
+					styleClass="table"
+					rowClasses="tableOddRow,tableEvenRow"
+					cellpadding="0" cellspacing="0" width="100%">
+					
+					<p:column headerClass="col0 col1" style="#{todo.backgroundColor}" >
+						<f:facet name="header">Icon</f:facet>
+						<h:form>
+							<h:commandLink action="#">
+								<dt:icon img="notes"/>
+							</h:commandLink>
+						</h:form>
+					</p:column>
+					
+					<p:column headerClass="col0 col3" style="#{todo.backgroundColor}" sortBy="#{todo.deadline}" >
+						<f:facet name="header">Deadline</f:facet>
+						<h:form>
+							<h:commandLink action="#">
+								<h:outputText value="#{todo.formattedDate}" />
+							</h:commandLink>
+						</h:form>
+					</p:column>
+					
+					<p:column headerClass="col0 col3" style="#{todo.backgroundColor}" sortBy="#{todo.title}" >
+						<f:facet name="header">Title</f:facet>
+						<h:form>
+							<h:commandLink action="#">
+								<h:outputText value="#{todo.title}" />
+							</h:commandLink>
+						</h:form>
+					</p:column>
+					
+					<p:column headerClass="col0" style="#{todo.backgroundColor}" >
+						<f:facet name="header">Delay</f:facet>
+						<h:form>
+							<h:panelGrid columns="3" cellpadding="3">
+							<h:commandLink action="#{todosBean.delay(todo, 1)}" value="+1d" >
+								<f:ajax render="todosTable" />
+							</h:commandLink>
+							<h:commandLink action="#{todosBean.delay(todo, 7)}" value="+1w" >
+								<f:ajax render="todosTable" />
+							</h:commandLink>
+							<h:commandLink action="#{todosBean.delay(todo, 30)}" value="+1m" >
+								<f:ajax render="todosTable" />
+							</h:commandLink>
+							</h:panelGrid>
+						</h:form>
+					</p:column>
+					
+					<p:column headerClass="col0" style="#{todo.backgroundColor}" sortBy="#{todo.completed}" >
+						<f:facet name="header">Completed</f:facet>
+						<h:form>
+							<h:commandLink id="completedStatus" action="#{todosBean.toggleCompleted(todo)}">
+								<dt:icon img="#{todo.completed == true ? 'accept' : 'accept-grey'}"/>
+								<f:ajax render="completedStatus todosTable" />
+							</h:commandLink>
+						</h:form>
+					</p:column>
+					
+					<p:column headerClass="col0" style="#{todo.backgroundColor}" >
+						<f:facet name="header">Delete</f:facet>
+						<h:form>
+							<h:commandLink action="#{todosBean.deleteTodo(todo)}">
+								<dt:icon img="remove"/>
+							</h:commandLink>
+						</h:form>
+					</p:column>
+					
+				</p:dataTable>
+			</h:panelGrid>
+			
+        
+        </h:panelGrid>
+        
+    </h:body>
+</html>
+
+

@@ -70,6 +70,12 @@ body {
 	width: 32px;
 }
 
+.ui-menuitem-icon.ui-icon.todo-icon {
+	background: url("#{resource['default:img/todo.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}
+
 .ui-menuitem-icon.ui-icon.google-icon {
 	background: url("#{resource['default:img/google.png']}") no-repeat;
 	height: 32px; 

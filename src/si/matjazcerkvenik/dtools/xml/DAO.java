@@ -30,6 +30,7 @@ public class DAO {
 	private Commands commands;
 	private SnmpManagers snmpManagers;
 	private Notes notes;
+	private Todos todos;
 	
 	private final String XML_SERVERS = "/config/servers.xml";
 	private final String XML_SSH_CLIENTS = "/config/sshClients.xml";
@@ -38,6 +39,7 @@ public class DAO {
 	private final String XML_FTP_TRANSFERS = "/config/ftpTransfers.xml";
 	private final String XML_SNMP_MANAGERS = "/config/snmpManagers.xml";
 	private final String XML_NOTES = "/config/notes.xml";
+	private final String XML_TODOS = "/config/todos.xml";
 
 	private DAO() {
 		// singleton
@@ -470,6 +472,75 @@ public class DAO {
 
 		notes.deleteNote(n);
 		saveNotes();
+
+	}
+	
+	
+	
+	/* TODOS */
+	
+	public Todos loadTodos() {
+
+		if (todos != null) {
+			return todos;
+		}
+
+		try {
+
+			File file = new File(DToolsContext.HOME_DIR + XML_TODOS);
+			if (!file.exists()) {
+				todos = new Todos();
+				JAXBContext jaxbContext = JAXBContext.newInstance(Todos.class);
+				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+				jaxbMarshaller.marshal(todos, file);
+			}
+			JAXBContext jaxbContext = JAXBContext.newInstance(Todos.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			todos = (Todos) jaxbUnmarshaller.unmarshal(file);
+			if (todos.getTodoList() == null) {
+				todos.setTodoList(new ArrayList<Todo>());
+			}
+			
+			logger.info("DAO:loadTodos(): " + file.getAbsolutePath());
+
+		} catch (JAXBException e) {
+			logger.error("DAO:loadTodos(): JAXBException: ", e);
+		}
+
+		return todos;
+
+	}
+
+	public void saveTodos() {
+
+		try {
+
+			File file = new File(DToolsContext.HOME_DIR + XML_TODOS);
+			JAXBContext jaxbContext = JAXBContext.newInstance(Todos.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.marshal(todos, file);
+			
+			logger.info("DAO:saveTodos(): " + file.getAbsolutePath());
+
+		} catch (JAXBException e) {
+			logger.error("DAO:saveTodos(): JAXBException: ", e);
+		}
+
+	}
+
+	public void addTodo(Todo t) {
+
+		todos.addTodo(t);
+		saveTodos();
+
+	}
+
+	public void deleteTodo(Todo t) {
+
+		todos.deleteTodo(t);
+		saveTodos();
 
 	}
 	
