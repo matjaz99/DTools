@@ -119,6 +119,7 @@
 						<h:form>
 							<h:commandLink action="#{todosBean.deleteTodo(todo)}">
 								<dt:icon img="remove"/>
+								<f:ajax render="todosTable" />
 							</h:commandLink>
 						</h:form>
 					</p:column>
