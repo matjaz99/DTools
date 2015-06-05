@@ -626,17 +626,8 @@ public class DAO {
 	 */
 	public void saveReceivedTrapsAsTxt(String filename, String trapsString) {
 		
-		try {
-			File txtFile = new File(DToolsContext.HOME_DIR
-					+ "/temp/" + filename + "-" + System.currentTimeMillis() + ".txt");
-			FileWriter fw = new FileWriter(txtFile);
-			BufferedWriter bw = new BufferedWriter(fw);
-			bw.write(trapsString);
-			bw.close();
-			logger.info("DAO:saveReceivedTrapsAsTxt(): " + txtFile.getAbsolutePath());
-		} catch (IOException e) {
-			logger.error("DAO:saveReceivedTrapsAsTxt(): IOException: ", e);
-		}
+		writePlainTextFile(DToolsContext.HOME_DIR
+					+ "/temp/" + filename + "-" + System.currentTimeMillis() + ".txt", trapsString);
 		
 	}
 	
@@ -664,17 +655,7 @@ public class DAO {
 			logger.error("DAO:saveSshResponse(): JAXBException: ", e);
 		}
 
-		try {
-			File txtFile = new File(DToolsContext.HOME_DIR
-					+ "/temp/" + filename + ".txt");
-			FileWriter fw = new FileWriter(txtFile);
-			BufferedWriter bw = new BufferedWriter(fw);
-			bw.write(sshResponse.getResponse());
-			bw.close();
-			logger.info("DAO:saveSshResponse(): " + txtFile.getAbsolutePath());
-		} catch (IOException e) {
-			logger.error("DAO:saveSshResponse(): IOException: ", e);
-		}
+		writePlainTextFile(DToolsContext.HOME_DIR + "/temp/" + filename + ".txt", sshResponse.getResponse());
 
 	}
 
@@ -753,5 +734,33 @@ public class DAO {
 		return list;
 		
 	}
+	
+	
+	
+	
+	
+	
+	/* GENERIC METHODS */
+	
+	/**
+	 * Write data to txt file.
+	 * @param absoluteFilepath
+	 * @param data
+	 */
+	public void writePlainTextFile(String absoluteFilepath, String data) {
+		
+		try {
+			File txtFile = new File(absoluteFilepath);
+			FileWriter fw = new FileWriter(txtFile);
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write(data);
+			bw.close();
+			logger.info("DAO:writePlainTextFile(): " + txtFile.getAbsolutePath());
+		} catch (IOException e) {
+			logger.error("DAO:writePlainTextFile(): IOException: ", e);
+		}
+		
+	}
+	
 
 }
