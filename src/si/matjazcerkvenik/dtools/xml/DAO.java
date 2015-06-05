@@ -617,6 +617,30 @@ public class DAO {
 	
 	
 	
+	/* SAVE RECEIVED TRAPS */
+	
+	/**
+	 * Save received snmp traps in plain text file.
+	 * @param filename
+	 * @param trapsString
+	 */
+	public void saveReceivedTrapsAsTxt(String filename, String trapsString) {
+		
+		try {
+			File txtFile = new File(DToolsContext.HOME_DIR
+					+ "/temp/" + filename + "-" + System.currentTimeMillis() + ".txt");
+			FileWriter fw = new FileWriter(txtFile);
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write(trapsString);
+			bw.close();
+			logger.info("DAO:saveReceivedTrapsAsTxt(): " + txtFile.getAbsolutePath());
+		} catch (IOException e) {
+			logger.error("DAO:saveReceivedTrapsAsTxt(): IOException: ", e);
+		}
+		
+	}
+	
+	
 	
 	
 

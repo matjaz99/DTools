@@ -34,8 +34,8 @@ body {
 	width: 32px;
 }
 
-.ui-menuitem-icon.ui-icon.clients-icon {
-	background: url("#{resource['default:img/clients.png']}") no-repeat;
+.ui-menuitem-icon.ui-icon.tools-icon {
+	background: url("#{resource['default:img/tools.png']}") no-repeat;
 	height: 32px; 
 	width: 32px;
 }
@@ -54,6 +54,12 @@ body {
 
 .ui-menuitem-icon.ui-icon.tractor-icon {
 	background: url("#{resource['default:img/tractor.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}
+
+.ui-menuitem-icon.ui-icon.rocket-icon {
+	background: url("#{resource['default:img/rocket.png']}") no-repeat;
 	height: 32px; 
 	width: 32px;
 }
