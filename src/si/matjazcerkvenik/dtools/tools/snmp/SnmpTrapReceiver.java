@@ -59,6 +59,7 @@ public class SnmpTrapReceiver implements CommandResponder {
 //		listenAddress = GenericAddress.parse("udp:0.0.0.0/6162");
 			listenAddress = new UdpAddress(ip + "/" + port); // localhost/6162
 
+			@SuppressWarnings("rawtypes")
 			TransportMapping transport;
 
 			if (listenAddress instanceof UdpAddress) {
@@ -81,10 +82,10 @@ public class SnmpTrapReceiver implements CommandResponder {
 			SecurityModels.getInstance().addSecurityModel(usm);
 			snmp.listen();
 			
-			logger.info("SnmpTrapReceiver:start(): listening on port " + port);
+			logger.info("SnmpTrapReceiver.start(): listening on port " + port);
 			
 		} catch (IOException e) {
-			logger.error("SnmpTrapReceiver:start(): IOException", e);
+			logger.error("SnmpTrapReceiver.start(): IOException", e);
 		}
 		
 	}
@@ -94,9 +95,9 @@ public class SnmpTrapReceiver implements CommandResponder {
 			snmp.close();
 			threadPool.interrupt();
 		} catch (IOException e) {
-			logger.error("SnmpTrapReceiver:stop(): IOException", e);
+			logger.error("SnmpTrapReceiver.stop(): IOException", e);
 		}
-		logger.info("SnmpTrapReceiver:stop(): stop listening");
+		logger.info("SnmpTrapReceiver.stop(): stop listening");
 	}
 	
 	/**
@@ -104,7 +105,6 @@ public class SnmpTrapReceiver implements CommandResponder {
 	 * specified in the listen() method
 	 */
 	public synchronized void processPdu(CommandResponderEvent cmdRespEvent) {
-		System.out.println("Received PDU...");
 		PDU pdu = cmdRespEvent.getPDU();
 		
 		if (receivedTraps.size() > 100) {
@@ -116,9 +116,7 @@ public class SnmpTrapReceiver implements CommandResponder {
 		
 		if (pdu != null) {
 
-			System.out.println("Trap Type = " + pdu.getType());
-			System.out.println("Variable Bindings = "
-					+ pdu.getVariableBindings());
+			logger.trace("SnmpTrapReceiver.processPdu(): PDU = " + pdu.toString());
 			int pduType = pdu.getType();
 			if ((pduType != PDU.TRAP) && (pduType != PDU.V1TRAP)
 					&& (pduType != PDU.REPORT) && (pduType != PDU.RESPONSE)) {
@@ -128,7 +126,7 @@ public class SnmpTrapReceiver implements CommandResponder {
 				StatusInformation statusInformation = new StatusInformation();
 				StateReference ref = cmdRespEvent.getStateReference();
 				try {
-					System.out.println(cmdRespEvent.getPDU());
+					logger.trace("SnmpTrapReceiver.processPdu(): response PDU = " + cmdRespEvent.getPDU().toString());
 					cmdRespEvent.getMessageDispatcher().returnResponsePdu(
 							cmdRespEvent.getMessageProcessingModel(),
 							cmdRespEvent.getSecurityModel(),
@@ -136,9 +134,8 @@ public class SnmpTrapReceiver implements CommandResponder {
 							cmdRespEvent.getSecurityLevel(), pdu,
 							cmdRespEvent.getMaxSizeResponsePDU(), ref,
 							statusInformation);
-				} catch (MessageException ex) {
-					System.err.println("Error while sending response: "
-							+ ex.getMessage());
+				} catch (MessageException e) {
+					logger.error("SnmpTrapReceiver.processPdu(): MessageException: ", e);
 				}
 			}
 		}
