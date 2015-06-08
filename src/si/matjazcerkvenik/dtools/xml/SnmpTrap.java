@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlElement;
 
 public class SnmpTrap {
 	
+	private String trapName;
+	
 	// common parameters
 	private String version = "v2c";
 	private String community = "public";
@@ -23,6 +25,15 @@ public class SnmpTrap {
 	private String snmpTrapOid;
 	private String sysUpTime;
 	
+
+	public String getTrapName() {
+		return trapName;
+	}
+
+	@XmlElement
+	public void setTrapName(String trapName) {
+		this.trapName = trapName;
+	}
 
 	public String getVersion() {
 		return version;
@@ -126,6 +137,18 @@ public class SnmpTrap {
 		v.setValue(value);
 		
 		varbind.add(v);
+	}
+	
+	public String varbindsToString() {
+		String s = "[";
+		for (int i = 0; i < varbind.size(); i++) {
+			s += varbind.get(i).getOid() + "=" + varbind.get(i).getValue();
+			if (i < varbind.size()) {
+				s += ", ";
+			}
+		}
+		s += "]";
+		return s;
 	}
 	
 }

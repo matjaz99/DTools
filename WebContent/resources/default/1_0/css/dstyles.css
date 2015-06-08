@@ -64,6 +64,12 @@ body {
 	width: 32px;
 }
 
+.ui-menuitem-icon.ui-icon.boat-icon {
+	background: url("#{resource['default:img/boat.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}
+
 .ui-menuitem-icon.ui-icon.favorites-icon {
 	background: url("#{resource['default:img/star-full.png']}") no-repeat;
 	height: 32px; 

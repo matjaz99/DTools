@@ -12,24 +12,18 @@ import java.util.Properties;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
+
 @ManagedBean
 @SessionScoped
 public class UtilsBean {
 	
 	public String getLocalIpAddress() {
-		try {
-			return InetAddress.getLocalHost().getHostAddress();
-		} catch (UnknownHostException e) {
-			return "UnknownHost";
-		}
+		return LocalhostInfo.getLocalIpAddress();
 	}
 	
 	public String getSystemUser() {
-		String u = System.getProperty("user.name");
-		if (u == null) {
-			return "user";
-		}
-		return u;
+		return LocalhostInfo.getSystemUser();
 	}
 	
 	

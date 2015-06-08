@@ -19,4 +19,12 @@ public class SnmpTraps {
 		this.traps = traps;
 	}
 	
+	public void addTrap(SnmpTrap t) {
+		traps.add(t);
+	}
+	
+	public void deleteTrap(SnmpTrap t) {
+		traps.remove(t);
+	}
+	
 }

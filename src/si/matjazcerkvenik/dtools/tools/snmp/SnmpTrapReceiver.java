@@ -35,6 +35,7 @@ public class SnmpTrapReceiver implements CommandResponder {
 	
 	private SimpleLogger logger;
 	private SimpleLogger trapsLogger;
+	
 	private ThreadPool threadPool;
 	private MessageDispatcher dispatcher;
 	private Address listenAddress;

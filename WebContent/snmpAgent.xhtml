@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:dt="http://dtools.com/ui">
+    <h:head>
+        <title>DTools</title>
+    </h:head>
+    <h:body>
+    	
+    	<h:outputStylesheet library="default" name="css/dstyles.css"/>
+    	<p:growl id="growl" life="2000"/>
+    	
+    	<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
+    		
+    		<ui:include src="/include/ptoolbar.xhtml"/>
+			
+			<h:outputText value="SNMP Agent" styleClass="title" />
+			
+			<h:form id="agentForm">
+				<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+					
+					<h:outputLabel value="Start agent on IP: " />
+					<p:inputText value="#{snmpTrapSenderBean.localIp}" />
+					
+					<h:outputLabel value="Port: " />
+					<p:inputText value="#{snmpTrapSenderBean.localPort}" />
+					
+					<p:commandButton value="#{snmpTrapSenderBean.listening == true ? 'Stop' : 'Start'} agent" 
+						action="#{snmpTrapSenderBean.toggleRunning()}" 
+						update="growl agentForm" ajax="true" />
+					
+				</h:panelGrid>
+			</h:form>
+			
+			<hr/>
+			
+			
+			<h:outputText value="Trap composer" styleClass="title" />
+			<p:tabView activeIndex="3">
+		        <p:tab title="SNMP Trap V1">
+		        	
+		        	<h:form id="trapV1Form">
+		            <h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+		                <h:outputLabel value="Save trap as: " />
+		                <p:inputText value="#{snmpTrapSenderBean.trapNameV1}" />
+		                <h:outputLabel value="Community: " />
+		                <p:inputText value="#{snmpTrapSenderBean.community}" />
+		                <h:outputLabel value="Source IP: " />
+		                <p:inputText value="#{snmpTrapSenderBean.sourceIp}" />
+		                <h:outputLabel value="Generic Trap: " />
+		                <p:inputText value="#{snmpTrapSenderBean.genericTrap}" />
+		                <h:outputLabel value="Specific Trap: " />
+		                <p:inputText value="#{snmpTrapSenderBean.specificTrap}" />
+		                <h:outputLabel value="Enterprise OID: " />
+		                <p:inputText value="#{snmpTrapSenderBean.enterpriseOid}" />
+		                <h:outputLabel value="Timestamp (sec): " />
+		                <p:inputText value="#{snmpTrapSenderBean.timestamp}" />
+		            </h:panelGrid>
+		            
+		            <h:outputText value="OIDs:" />
+		            <p:dataTable id="oidsTableV1" value="#{snmpTrapSenderBean.varbindsV1}" var="vb" 
+						styleClass="table"
+						rowClasses="tableOddRow,tableEvenRow"
+						cellpadding="0" cellspacing="0" width="100%">
+						<p:column>
+							<f:facet name="header">Name</f:facet>
+								<p:inplace editor="true">
+						            <p:inputText value="#{vb.oidName}" required="true" label="text" />
+						        </p:inplace>
+						</p:column>
+						<p:column>
+							<f:facet name="header">OID</f:facet>
+								<p:inplace editor="true">
+						            <p:inputText value="#{vb.oid}" required="true" label="text" />
+						        </p:inplace>
+						</p:column>
+						<p:column>
+							<f:facet name="header">Type</f:facet>
+								<p:inplace editor="true">
+						            <p:inputText value="#{vb.type}" required="true" label="text" />
+						        </p:inplace>
+						</p:column>
+						<p:column>
+							<f:facet name="header">Value</f:facet>
+								<p:inplace editor="true">
+						            <p:inputText value="#{vb.value}" required="true" label="text" />
+						        </p:inplace>
+						</p:column>
+						<p:column>
+							<f:facet name="header">Remove</f:facet>
+								<p:commandButton value="Remove" 
+									action="#{snmpTrapSenderBean.removeOidV1(vb)}" 
+									update="oidsTableV1" ajax="true" />
+						</p:column>
+		            </p:dataTable>
+		            <p:commandButton value="Add OID" 
+						action="#{snmpTrapSenderBean.addNewOidLineV1()}" 
+						update="oidsTableV1" ajax="true" />
+					<p:commandButton value="Save trap" 
+						action="#{snmpTrapSenderBean.saveTrapV1()}"
+						update="growl trapDestinationForm" ajax="true" />
+					<p:commandButton value="Reset trap" 
+						action="#{snmpTrapSenderBean.resetTrapV1()}" 
+						update="trapV1Form" ajax="true" />
+					<p:commandButton value="Send trap" 
+						action="#" ajax="true" />
+						
+		        </h:form>
+		        
+		        </p:tab>
+		        <p:tab title="SNMP Trap V2C">
+		        	<h:form id="trapV2CForm">
+		            <h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+		                <h:outputLabel value="Save trap as: " />
+		                <p:inputText value="#{snmpTrapSenderBean.trapNameV2C}" />
+		                <h:outputLabel value="Community: " />
+		                <p:inputText value="#{snmpTrapSenderBean.community}" />
+		                <h:outputLabel value="Source IP: " />
+		                <p:inputText value="#{snmpTrapSenderBean.sourceIp}" />
+		            </h:panelGrid>
+		            
+		            <h:outputText value="OIDs:" />
+		            <p:dataTable id="oidsTableV2C" value="#{snmpTrapSenderBean.varbindsV2C}" var="vb" 
+						styleClass="table"
+						rowClasses="tableOddRow,tableEvenRow"
+						cellpadding="0" cellspacing="0" width="100%">
+						<p:column>
+							<f:facet name="header">Name</f:facet>
+								<p:inplace editor="true">
+						            <p:inputText value="#{vb.oidName}" required="true" label="text" />
+						        </p:inplace>
+						</p:column>
+						<p:column>
+							<f:facet name="header">OID</f:facet>
+								<p:inplace editor="true">
+						            <p:inputText value="#{vb.oid}" required="true" label="text" />
+						        </p:inplace>
+						</p:column>
+						<p:column>
+							<f:facet name="header">Type</f:facet>
+								<p:inplace editor="true">
+						            <p:inputText value="#{vb.type}" required="true" label="text" />
+						        </p:inplace>
+						</p:column>
+						<p:column>
+							<f:facet name="header">Value</f:facet>
+								<p:inplace editor="true">
+						            <p:inputText value="#{vb.value}" required="true" label="text" />
+						        </p:inplace>
+						</p:column>
+						<p:column>
+							<f:facet name="header">Remove</f:facet>
+								<p:commandButton value="Remove" 
+									action="#{snmpTrapSenderBean.removeOidV2C(vb)}" 
+									update="oidsTableV2C" ajax="true" />
+						</p:column>
+		            </p:dataTable>
+		            <p:commandButton value="Add OID" 
+						action="#{snmpTrapSenderBean.addNewOidLineV2C()}" 
+						update="oidsTableV2C" ajax="true" />
+					<p:commandButton value="Save trap" 
+						action="#{snmpTrapSenderBean.saveTrapV2C()}"
+						update="growl trapDestinationForm" ajax="true" />
+					<p:commandButton value="Reset trap" 
+						action="#{snmpTrapSenderBean.resetTrapV2C()}" 
+						update="trapV2CForm" ajax="true" />
+					<p:commandButton value="Send trap" 
+						action="#" ajax="true" />
+		            
+		            </h:form>
+		        </p:tab>
+        	</p:tabView>
+			
+			
+			
+			<hr/>
+			
+			
+			<h:outputText value="Trap sender" styleClass="title" />
+			<h:form id="trapDestinationForm">
+				<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+					
+					<h:outputLabel value="Destination IP: " />
+					<p:inputText value="#{snmpTrapSenderBean.destinationIp}" />
+					
+					<h:outputLabel value="Port: " />
+					<p:inputText value="#{snmpTrapSenderBean.destinationPort}" />
+					
+				</h:panelGrid>
+			
+				<h:panelGrid columns="1" cellspacing="5" width="100%">
+					<p:dataTable id="trapsTable" value="#{snmpTrapSenderBean.snmpTrapsList}" var="trap" 
+						styleClass="table"
+						rowClasses="tableOddRow,tableEvenRow"
+						cellpadding="0" cellspacing="0" width="100%">
+						
+						<p:column>
+							<f:facet name="header">Name</f:facet>
+							<h:outputText value="#{trap.trapName}" />
+						</p:column>
+						
+						<p:column>
+							<f:facet name="header">Version</f:facet>
+							<h:outputText value="#{trap.version}" />
+						</p:column>
+						
+						<p:column>
+							<f:facet name="header">OIDs</f:facet>
+							<h:outputText value="#{trap.varbindsToString()}" />
+						</p:column>
+						
+						<p:column>
+							<f:facet name="header">Actions</f:facet>
+								<p:commandButton value="Send" 
+									action="#{snmpTrapSenderBean.sendTrap(trap)}"
+									update="growl" ajax="true" />
+								<p:commandButton value="Modify" 
+									action="#" ajax="true" />
+								<p:commandButton value="Delete" 
+									action="#{snmpTrapSenderBean.deleteTrap(trap)}" 
+									update="growl trapDestinationForm" ajax="true" />
+						</p:column>
+						
+					</p:dataTable>
+				</h:panelGrid>
+			</h:form>
+        
+        </h:panelGrid>
+        
+    </h:body>
+</html>
+
+

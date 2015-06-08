@@ -29,15 +29,17 @@ public class DAO {
 	private FtpTransfers ftpTransfers;
 	private Commands commands;
 	private SnmpClients snmpClients;
+	private SnmpTraps snmpTraps;
 	private Notes notes;
 	private Todos todos;
 	
 	private final String XML_SERVERS = "/config/servers.xml";
 	private final String XML_SSH_CLIENTS = "/config/sshClients.xml";
-	private final String XML_SSH_COMMANDS = "/config/commands.xml";
+	private final String XML_SSH_COMMANDS = "/config/sshCommands.xml";
 	private final String XML_FTP_CLIENTS = "/config/ftpClients.xml";
 	private final String XML_FTP_TRANSFERS = "/config/ftpTransfers.xml";
 	private final String XML_SNMP_CLIENTS = "/config/snmpClients.xml";
+	private final String XML_SNMP_TRAPS = "/config/snmpTraps.xml";
 	private final String XML_NOTES = "/config/notes.xml";
 	private final String XML_TODOS = "/config/todos.xml";
 
@@ -630,6 +632,77 @@ public class DAO {
 					+ "/temp/" + filename + "-" + System.currentTimeMillis() + ".txt", trapsString);
 		
 	}
+	
+	
+	
+	
+	/* SNMP TRAPS */
+	
+	public SnmpTraps loadSnmpTraps() {
+
+		if (snmpTraps != null) {
+			return snmpTraps;
+		}
+
+		try {
+
+			File file = new File(DToolsContext.HOME_DIR + XML_SNMP_TRAPS);
+			if (!file.exists()) {
+				snmpTraps = new SnmpTraps();
+				JAXBContext jaxbContext = JAXBContext.newInstance(SnmpTraps.class);
+				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+				jaxbMarshaller.marshal(snmpTraps, file);
+			}
+			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpTraps.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			snmpTraps = (SnmpTraps) jaxbUnmarshaller.unmarshal(file);
+			if (snmpTraps.getTraps() == null) {
+				snmpTraps.setTraps(new ArrayList<SnmpTrap>());
+			}
+			
+			logger.info("DAO:loadSnmpTraps(): " + file.getAbsolutePath());
+
+		} catch (JAXBException e) {
+			logger.error("DAO:loadSnmpTraps(): JAXBException: ", e);
+		}
+
+		return snmpTraps;
+
+	}
+
+	public void saveSnmpTraps() {
+
+		try {
+
+			File file = new File(DToolsContext.HOME_DIR + XML_SNMP_TRAPS);
+			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpTraps.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.marshal(snmpTraps, file);
+			
+			logger.info("DAO:saveSnmpTraps(): " + file.getAbsolutePath());
+
+		} catch (JAXBException e) {
+			logger.error("DAO:saveSnmpTraps(): JAXBException: ", e);
+		}
+
+	}
+
+	public void addSnmpTrap(SnmpTrap t) {
+
+		snmpTraps.addTrap(t);
+		saveSnmpTraps();
+
+	}
+
+	public void deleteSnmpTrap(SnmpTrap t) {
+
+		snmpTraps.deleteTrap(t);
+		saveSnmpTraps();
+
+	}
+	
 	
 	
 	
