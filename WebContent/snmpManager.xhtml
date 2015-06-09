@@ -24,10 +24,10 @@
 			<h:form id="startForm">
 				<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
 					
-					<h:outputLabel value="IP: " />
+					<h:outputLabel value="Listening IP: " />
 					<p:inputText value="#{snmpTrapReceiverBean.ip}" />
 					
-					<h:outputLabel value="Port: " />
+					<h:outputLabel value="Listening port: " />
 					<p:inputText value="#{snmpTrapReceiverBean.port}" />
 					
 					<p:commandButton value="#{snmpTrapReceiverBean.listening == true ? 'Stop' : 'Start'} listening" 

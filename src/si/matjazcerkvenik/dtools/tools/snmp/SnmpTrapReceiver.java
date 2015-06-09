@@ -47,6 +47,7 @@ public class SnmpTrapReceiver implements CommandResponder {
 		logger = DToolsContext.getInstance().getLogger();
 		
 		trapsLogger = new SimpleLogger(DToolsContext.HOME_DIR+ "/log/snmp-traps.log");
+		trapsLogger.setVerbose(logger.isVerbose());
 	}
 	
 	public void start(String ip, int port) {
@@ -113,7 +114,7 @@ public class SnmpTrapReceiver implements CommandResponder {
 		}
 		receivedTraps.add(pdu);
 		
-		trapsLogger.info(pdu.getVariableBindings().toString());
+		trapsLogger.info("SnmpTrapReceiver.processPdu(): PDU = " + pdu.getVariableBindings().toString());
 		
 		if (pdu != null) {
 

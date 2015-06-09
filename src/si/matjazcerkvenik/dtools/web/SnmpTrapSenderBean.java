@@ -171,11 +171,11 @@ public class SnmpTrapSenderBean {
 	}
 	
 	public void addNewOidLineV1() {
-		varbindsV1.add(new VarBind("oidName", "1.2.3.4.5", TYPE.OCTET_STRING, "value"));
+		varbindsV1.add(new VarBind("oidName", "1.", TYPE.OCTET_STRING, "value"));
 	}
 	
 	public void addNewOidLineV2C() {
-		varbindsV2C.add(new VarBind("oidName", "1.2.3.4.5", TYPE.OCTET_STRING, "value"));
+		varbindsV2C.add(new VarBind("oidName", "1.", TYPE.OCTET_STRING, "value"));
 	}
 	
 	public void removeOidV1(VarBind vb) {
@@ -229,7 +229,35 @@ public class SnmpTrapSenderBean {
 		sourceIp = LocalhostInfo.getLocalIpAddress();
 		varbindsV2C = null;
 	}
-
+	
+	public void sendCustomV1Trap() {
+		
+		SnmpTrap trap = new SnmpTrap();
+		trap.setTrapName(trapNameV1);
+		trap.setVersion("v1");
+		trap.setCommunity(community);
+		trap.setGenericTrap(genericTrap);
+		trap.setSpecificTrap(specificTrap);
+		trap.setEnterpriseOid(enterpriseOid);
+		trap.setSourceIp(sourceIp);
+		trap.setTimestamp(timestamp);
+		trap.setVarbind(varbindsV1);
+		
+		trapSender.sendTrap(destinationIp, destinationPort, trap);
+		
+	}
+	
+	public void sendCustomV2CTrap() {
+		
+		SnmpTrap trap = new SnmpTrap();
+		trap.setTrapName(trapNameV2C);
+		trap.setVersion("v2c");
+		trap.setCommunity(community);
+		trap.setSourceIp(sourceIp);
+		trap.setVarbind(varbindsV2C);
+		
+		trapSender.sendTrap(destinationIp, destinationPort, trap);
+	}
 
 	
 	
@@ -241,6 +269,26 @@ public class SnmpTrapSenderBean {
 	
 	public void sendTrap(SnmpTrap trap) {
 		trapSender.sendTrap(destinationIp, destinationPort, trap);
+	}
+	
+	public void modify(SnmpTrap trap) {
+		
+		if (trap.getVersion().equals("v1")) {
+			trapNameV1 = trap.getTrapName();
+			community = trap.getCommunity();
+			genericTrap = trap.getGenericTrap();
+			specificTrap = trap.getSpecificTrap();
+			enterpriseOid = trap.getEnterpriseOid();
+			sourceIp = trap.getSourceIp();
+			timestamp = trap.getTimestamp();
+			varbindsV1 = trap.getVarbind();
+		} else {
+			trapNameV2C = trap.getTrapName();
+			community = trap.getCommunity();
+			sourceIp = trap.getSourceIp();
+			varbindsV2C = trap.getVarbind();
+		}
+		
 	}
 	
 	public void deleteTrap(SnmpTrap trap) {

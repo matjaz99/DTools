@@ -6,6 +6,7 @@ import javax.servlet.ServletContextListener;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.web.SnmpTrapReceiverBean;
+import si.matjazcerkvenik.dtools.web.SnmpTrapSenderBean;
 
 public class ShutdownListener implements ServletContextListener {
 	
@@ -18,6 +19,13 @@ public class ShutdownListener implements ServletContextListener {
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
 		System.out.println("DTools:ShutdownListener:contextDestroyed()");
+		
+		// close snmp trap sender
+		SnmpTrapSenderBean snmpTS = (SnmpTrapSenderBean) FacesContext.getCurrentInstance().
+				getExternalContext().getApplicationMap().get("snmpTrapSenderBean");
+		if (snmpTS.isListening()) {
+			snmpTS.toggleRunning();
+		}
 		
 		// close snmp trap receiver
 		SnmpTrapReceiverBean snmpTR = (SnmpTrapReceiverBean) FacesContext.getCurrentInstance().

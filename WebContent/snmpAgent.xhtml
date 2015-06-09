@@ -21,13 +21,17 @@
 			<h:outputText value="SNMP Agent" styleClass="title" />
 			
 			<h:form id="agentForm">
-				<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+				<h:panelGrid columns="3" cellpadding="2" cellspacing="0">
 					
 					<h:outputLabel value="Start agent on IP: " />
-					<p:inputText value="#{snmpTrapSenderBean.localIp}" />
+					<p:inputText id="localIp" value="#{snmpTrapSenderBean.localIp}" required="true"
+						requiredMessage="Missing local IP address" />
+					<h:message for="localIp" style="color: red;" />
 					
 					<h:outputLabel value="Port: " />
-					<p:inputText value="#{snmpTrapSenderBean.localPort}" />
+					<p:inputText id="localPort" value="#{snmpTrapSenderBean.localPort}" required="true"
+						requiredMessage="Missing local port" />
+					<h:message for="localPort" style="color: red;" />
 					
 					<p:commandButton value="#{snmpTrapSenderBean.listening == true ? 'Stop' : 'Start'} agent" 
 						action="#{snmpTrapSenderBean.toggleRunning()}" 
@@ -39,14 +43,14 @@
 			<hr/>
 			
 			
-			<h:outputText value="Trap composer" styleClass="title" />
+			<h:outputText value="Agent simulator" styleClass="title" />
 			<p:tabView activeIndex="3">
 		        <p:tab title="SNMP Trap V1">
 		        	
 		        	<h:form id="trapV1Form">
 		            <h:panelGrid columns="2" cellpadding="2" cellspacing="0">
 		                <h:outputLabel value="Save trap as: " />
-		                <p:inputText value="#{snmpTrapSenderBean.trapNameV1}" />
+		                <p:inputText id="trapNameV1" value="#{snmpTrapSenderBean.trapNameV1}" />
 		                <h:outputLabel value="Community: " />
 		                <p:inputText value="#{snmpTrapSenderBean.community}" />
 		                <h:outputLabel value="Source IP: " />
@@ -107,11 +111,12 @@
 						action="#{snmpTrapSenderBean.resetTrapV1()}" 
 						update="trapV1Form" ajax="true" />
 					<p:commandButton value="Send trap" 
-						action="#" ajax="true" />
-						
+						action="#{snmpTrapSenderBean.sendCustomV1Trap()}" ajax="true" />
 		        </h:form>
-		        
 		        </p:tab>
+		        
+		        
+		        
 		        <p:tab title="SNMP Trap V2C">
 		        	<h:form id="trapV2CForm">
 		            <h:panelGrid columns="2" cellpadding="2" cellspacing="0">
@@ -169,8 +174,7 @@
 						action="#{snmpTrapSenderBean.resetTrapV2C()}" 
 						update="trapV2CForm" ajax="true" />
 					<p:commandButton value="Send trap" 
-						action="#" ajax="true" />
-		            
+						action="#{snmpTrapSenderBean.sendCustomV2CTrap()}" ajax="true" />
 		            </h:form>
 		        </p:tab>
         	</p:tabView>
@@ -219,7 +223,8 @@
 									action="#{snmpTrapSenderBean.sendTrap(trap)}"
 									update="growl" ajax="true" />
 								<p:commandButton value="Modify" 
-									action="#" ajax="true" />
+									action="#{snmpTrapSenderBean.modify(trap)}" 
+									update="growl" ajax="true" />
 								<p:commandButton value="Delete" 
 									action="#{snmpTrapSenderBean.deleteTrap(trap)}" 
 									update="growl trapDestinationForm" ajax="true" />
