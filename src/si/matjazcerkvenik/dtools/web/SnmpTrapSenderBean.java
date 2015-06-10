@@ -3,6 +3,7 @@ package si.matjazcerkvenik.dtools.web;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
@@ -170,6 +171,8 @@ public class SnmpTrapSenderBean {
 		this.varbindsV2C = varbindsV2C;
 	}
 	
+	
+	
 	public void addNewOidLineV1() {
 		varbindsV1.add(new VarBind("oidName", "1.", TYPE.OCTET_STRING, "value"));
 	}
@@ -186,7 +189,15 @@ public class SnmpTrapSenderBean {
 		varbindsV2C.remove(vb);
 	}
 	
+	
+	
 	public void saveTrapV1() {
+		
+		if (trapNameV1 == null || trapNameV1.trim().isEmpty()) {
+			Growl.addGrowlMessage("Missing trap name", FacesMessage.SEVERITY_WARN);
+			return;
+		}
+		
 		SnmpTrap trap = new SnmpTrap();
 		trap.setTrapName(trapNameV1);
 		trap.setVersion("v1");
@@ -199,9 +210,17 @@ public class SnmpTrapSenderBean {
 		trap.setVarbind(varbindsV1);
 		
 		DAO.getInstance().addSnmpTrap(trap);
+		
+		Growl.addGrowlMessage("Trap saved", FacesMessage.SEVERITY_INFO);
 	}
 	
 	public void saveTrapV2C() {
+		
+		if (trapNameV2C == null || trapNameV2C.trim().isEmpty()) {
+			Growl.addGrowlMessage("Missing trap name", FacesMessage.SEVERITY_WARN);
+			return;
+		}
+		
 		SnmpTrap trap = new SnmpTrap();
 		trap.setTrapName(trapNameV2C);
 		trap.setVersion("v2c");
@@ -210,6 +229,8 @@ public class SnmpTrapSenderBean {
 		trap.setVarbind(varbindsV2C);
 		
 		DAO.getInstance().addSnmpTrap(trap);
+		
+		Growl.addGrowlMessage("Trap saved", FacesMessage.SEVERITY_INFO);
 	}
 	
 	public void resetTrapV1() {
@@ -268,7 +289,12 @@ public class SnmpTrapSenderBean {
 	
 	
 	public void sendTrap(SnmpTrap trap) {
+		if (trapSender == null) {
+			Growl.addGrowlMessage("Agent is not running", FacesMessage.SEVERITY_WARN);
+			return;
+		}
 		trapSender.sendTrap(destinationIp, destinationPort, trap);
+		Growl.addGrowlMessage("Trap sent", FacesMessage.SEVERITY_INFO);
 	}
 	
 	public void modify(SnmpTrap trap) {
@@ -293,6 +319,7 @@ public class SnmpTrapSenderBean {
 	
 	public void deleteTrap(SnmpTrap trap) {
 		DAO.getInstance().deleteSnmpTrap(trap);
+		Growl.addGrowlMessage("Trap deleted", FacesMessage.SEVERITY_INFO);
 	}
 	
 	
@@ -302,10 +329,12 @@ public class SnmpTrapSenderBean {
 		if (trapSender == null) {
 			trapSender = new SnmpTrapSender();
 			trapSender.start(localIp, localPort);
+			Growl.addGrowlMessage("Agent running", FacesMessage.SEVERITY_INFO);
 		} else {
 			// already listening
 			trapSender.stop();
 			trapSender = null;
+			Growl.addGrowlMessage("Agent stopped", FacesMessage.SEVERITY_INFO);
 		}
 		
 	}

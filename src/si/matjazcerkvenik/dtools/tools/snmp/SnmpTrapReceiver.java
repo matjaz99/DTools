@@ -114,7 +114,7 @@ public class SnmpTrapReceiver implements CommandResponder {
 		}
 		receivedTraps.add(pdu);
 		
-		trapsLogger.info("SnmpTrapReceiver.processPdu(): PDU = " + pdu.getVariableBindings().toString());
+		trapsLogger.info("SnmpTrapReceiver.processPdu(): PDU = " + pdu.toString());
 		
 		if (pdu != null) {
 

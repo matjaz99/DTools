@@ -44,6 +44,10 @@ public class VarBind {
 	public void setType(TYPE type) {
 		this.type = type;
 	}
+	
+	public String getTypeString() {
+		return type.toString();
+	}
 
 	public String getValue() {
 		return value;

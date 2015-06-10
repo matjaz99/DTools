@@ -1,5 +1,6 @@
 package si.matjazcerkvenik.dtools.web;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
@@ -40,10 +41,12 @@ public class SnmpTrapReceiverBean {
 		if (trapReceiver == null) {
 			trapReceiver = new SnmpTrapReceiver();
 			trapReceiver.start(ip, port);
+			Growl.addGrowlMessage("Start listening for traps", FacesMessage.SEVERITY_INFO);
 		} else {
 			// already listening
 			trapReceiver.stop();
 			trapReceiver = null;
+			Growl.addGrowlMessage("Stop listening", FacesMessage.SEVERITY_INFO);
 		}
 		
 	}
@@ -65,6 +68,7 @@ public class SnmpTrapReceiverBean {
 		Object[] array = trapReceiver.getReceivedTraps().toArray();
 		for (int i = 0; i < array.length; i++) {
 			PDU pdu = (PDU) array[i];
+			receivedTrapsAsString += PDU.getTypeString(pdu.getType()) + " ";
 			receivedTrapsAsString += pdu.getVariableBindings() + "\n";
 		}
 //		receivedTrapsAsString = receivedTrapsAsString.replaceAll(", ", "\n");
