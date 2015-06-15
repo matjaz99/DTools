@@ -82,8 +82,8 @@ public class SnmpTrapSender {
 			
 			for (int i = 0; i < trap.getVarbind().size(); i++) {
 				VarBind vb = trap.getVarbind().get(i);
-				// TODO create vb according to type
-				pdu.add(new VariableBinding(new OID(vb.getOid()), new OctetString(vb.getValue())));
+//				pdu.add(new VariableBinding(new OID(vb.getOid()), new OctetString(vb.getValue())));
+				pdu.add(trap.getVarbind().get(i).getSnmp4jVarBind());
 			}
 			
 			sendTrapV1(pdu, target);
@@ -101,13 +101,16 @@ public class SnmpTrapSender {
 			pdu.setType(PDU.NOTIFICATION);
 			
 			// need to specify the system up time
-			pdu.add(new VariableBinding(SnmpConstants.sysUpTime, new OctetString(new Date().toString())));
-			pdu.add(new VariableBinding(SnmpConstants.snmpTrapOID, new OID()));
-			pdu.add(new VariableBinding(SnmpConstants.snmpTrapAddress, new IpAddress(trap.getSourceIp())));
+//			pdu.add(new VariableBinding(SnmpConstants.sysUpTime, new OctetString(new Date().toString())));
+//			pdu.add(new VariableBinding(SnmpConstants.snmpTrapOID, new OID()));
+//			pdu.add(new VariableBinding(SnmpConstants.snmpTrapAddress, new IpAddress(trap.getSourceIp())));
 			
-			// variable binding for Enterprise Specific objects, Severity
-			// (should be defined in MIB file)
-			pdu.add(new VariableBinding(new OID("1.2.3"), new OctetString("Major")));
+			// variable binding for Enterprise Specific objects
+			for (int i = 0; i < trap.getVarbind().size(); i++) {
+				VarBind vb = trap.getVarbind().get(i);
+//				pdu.add(new VariableBinding(new OID(vb.getOid()), new OctetString(vb.getValue())));
+				pdu.add(trap.getVarbind().get(i).getSnmp4jVarBind());
+			}
 			
 			sendTrapV2C(pdu, target);
 			

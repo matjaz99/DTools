@@ -125,7 +125,7 @@ public class SnmpTrap {
 		this.varbind = varbind;
 	}
 	
-	public void addVarbind(String oid, VarBind.TYPE type, String value) {
+	public void addVarbind(String oid, String type, String value) {
 		
 		if (varbind == null) {
 			varbind = new ArrayList<VarBind>();

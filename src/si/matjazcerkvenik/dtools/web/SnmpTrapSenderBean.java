@@ -148,7 +148,7 @@ public class SnmpTrapSenderBean {
 	public List<VarBind> getVarbindsV1() {
 		if (varbindsV1 == null) {
 			varbindsV1 = new ArrayList<VarBind>();
-			varbindsV1.add(new VarBind("Timestamp", "1.2.3.1", TYPE.OCTET_STRING, "999"));
+			varbindsV1.add(new VarBind("Timestamp", "1.2.3.1", VarBind.TYPE_OCTET_STRING, "999"));
 		}
 		return varbindsV1;
 	}
@@ -160,9 +160,9 @@ public class SnmpTrapSenderBean {
 	public List<VarBind> getVarbindsV2C() {
 		if (varbindsV2C == null) {
 			varbindsV2C = new ArrayList<VarBind>();
-			varbindsV2C.add(new VarBind("snmpTrapOid", "1.3.6.1.6.3.1.1.4.1.0", TYPE.OCTET_STRING, "9.9.9"));
-			varbindsV2C.add(new VarBind("sysUpTime", "1.3.6.1.2.1.1.3.0", TYPE.OCTET_STRING, "0"));
-			varbindsV2C.add(new VarBind("sourceIp", "1.3.6.1.6.3.18.1.3.0", TYPE.OCTET_STRING, LocalhostInfo.getLocalIpAddress()));
+			varbindsV2C.add(new VarBind("snmpTrapOid", "1.3.6.1.6.3.1.1.4.1.0", VarBind.TYPE_OCTET_STRING, "9.9.9"));
+			varbindsV2C.add(new VarBind("sysUpTime", "1.3.6.1.2.1.1.3.0", VarBind.TYPE_OCTET_STRING, "0"));
+			varbindsV2C.add(new VarBind("sourceIp", "1.3.6.1.6.3.18.1.3.0", VarBind.TYPE_OCTET_STRING, LocalhostInfo.getLocalIpAddress()));
 		}
 		return varbindsV2C;
 	}
@@ -174,11 +174,11 @@ public class SnmpTrapSenderBean {
 	
 	
 	public void addNewOidLineV1() {
-		varbindsV1.add(new VarBind("oidName", "1.", TYPE.OCTET_STRING, "value"));
+		varbindsV1.add(new VarBind("oidName", "1.", VarBind.TYPE_OCTET_STRING, "value"));
 	}
 	
 	public void addNewOidLineV2C() {
-		varbindsV2C.add(new VarBind("oidName", "1.", TYPE.OCTET_STRING, "value"));
+		varbindsV2C.add(new VarBind("oidName", "1.", VarBind.TYPE_OCTET_STRING, "value"));
 	}
 	
 	public void removeOidV1(VarBind vb) {

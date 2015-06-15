@@ -1,5 +1,18 @@
 package si.matjazcerkvenik.dtools.xml;
 
+import javax.xml.bind.annotation.XmlElement;
+
+import org.snmp4j.smi.Counter32;
+import org.snmp4j.smi.Counter64;
+import org.snmp4j.smi.Gauge32;
+import org.snmp4j.smi.Integer32;
+import org.snmp4j.smi.IpAddress;
+import org.snmp4j.smi.OID;
+import org.snmp4j.smi.OctetString;
+import org.snmp4j.smi.TimeTicks;
+import org.snmp4j.smi.UnsignedInteger32;
+import org.snmp4j.smi.VariableBinding;
+
 public class VarBind {
 
 	public enum TYPE {
@@ -8,13 +21,23 @@ public class VarBind {
 
 	private String oid;
 	private String oidName;
-	private TYPE type = TYPE.OCTET_STRING;
+	private String type = TYPE_OCTET_STRING;
 	private String value;
+	
+	public static final String TYPE_OCTET_STRING = "OCTET_STRING";
+	public static final String TYPE_INTEGER = "INTEGER";
+	public static final String TYPE_OID = "OID";
+	public static final String TYPE_GAUGE = "GAUGE";
+	public static final String TYPE_COUNTER32 = "COUNTER32";
+	public static final String TYPE_IP_ADDRESS = "IP_ADDRESS";
+	public static final String TYPE_TIMETICKS = "TIMETICKS";
+	public static final String TYPE_COUNTER64 = "COUNTER64";
+	public static final String TYPE_UNSIGNED_INTEGER = "UNSIGNED_INTEGER";
 	
 	public VarBind() {
 	}
 
-	public VarBind(String oidName, String oid, TYPE type, String value) {
+	public VarBind(String oidName, String oid, String type, String value) {
 		this.oid = oid;
 		this.oidName = oidName;
 		this.type = type;
@@ -25,6 +48,7 @@ public class VarBind {
 		return oid;
 	}
 
+	@XmlElement
 	public void setOid(String oid) {
 		this.oid = oid;
 	}
@@ -33,30 +57,50 @@ public class VarBind {
 		return oidName;
 	}
 
+	@XmlElement
 	public void setOidName(String oidName) {
 		this.oidName = oidName;
 	}
 
-	public TYPE getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(TYPE type) {
+	@XmlElement
+	public void setType(String type) {
 		this.type = type;
-	}
-	
-	public String getTypeString() {
-		return type.toString();
 	}
 
 	public String getValue() {
 		return value;
 	}
 
+	@XmlElement
 	public void setValue(String value) {
 		this.value = value;
 	}
 	
-	// TODO return snmp4j variables
+	public VariableBinding getSnmp4jVarBind() {
+		if (type.equals(TYPE_OCTET_STRING)) {
+			return new VariableBinding(new OID(oid), new OctetString(value));
+		} else if (type.equals(TYPE_INTEGER)) {
+			return new VariableBinding(new OID(oid), new Integer32(Integer.parseInt(value)));
+		} else if (type.equals(TYPE_OID)) {
+			return new VariableBinding(new OID(oid), new OID(value));
+		} else if (type.equals(TYPE_GAUGE)) {
+			return new VariableBinding(new OID(oid), new Gauge32(Long.parseLong(value)));
+		} else if (type.equals(TYPE_COUNTER32)) {
+			return new VariableBinding(new OID(oid), new Counter32(Long.parseLong(value)));
+		} else if (type.equals(TYPE_IP_ADDRESS)) {
+			return new VariableBinding(new OID(oid), new IpAddress(value));
+		} else if (type.equals(TYPE_TIMETICKS)) {
+			return new VariableBinding(new OID(oid), new TimeTicks(Long.parseLong(value)));
+		} else if (type.equals(TYPE_COUNTER64)) {
+			return new VariableBinding(new OID(oid), new Counter64(Long.parseLong(value)));
+		} else if (type.equals(TYPE_UNSIGNED_INTEGER)) {
+			return new VariableBinding(new OID(oid), new UnsignedInteger32(Integer.parseInt(value)));
+		}
+		return new VariableBinding(new OID(oid), new OctetString(value));
+	}
 
 }
