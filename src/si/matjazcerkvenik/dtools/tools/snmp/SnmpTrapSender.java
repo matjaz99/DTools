@@ -1,7 +1,6 @@
 package si.matjazcerkvenik.dtools.tools.snmp;
 
 import java.io.IOException;
-import java.util.Date;
 
 import org.snmp4j.CommunityTarget;
 import org.snmp4j.PDU;
@@ -13,12 +12,10 @@ import org.snmp4j.smi.IpAddress;
 import org.snmp4j.smi.OID;
 import org.snmp4j.smi.OctetString;
 import org.snmp4j.smi.UdpAddress;
-import org.snmp4j.smi.VariableBinding;
 import org.snmp4j.transport.DefaultUdpTransportMapping;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.xml.SnmpTrap;
-import si.matjazcerkvenik.dtools.xml.VarBind;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 public class SnmpTrapSender {
@@ -31,6 +28,11 @@ public class SnmpTrapSender {
 		logger = DToolsContext.getInstance().getLogger();
 	}
 	
+	/**
+	 * Start SNMP agent
+	 * @param localIp
+	 * @param localPort
+	 */
 	public void start(String localIp, int localPort) {
 		
 		try {
@@ -50,6 +52,9 @@ public class SnmpTrapSender {
 		
 	}
 	
+	/**
+	 * Stop SNMP agent
+	 */
 	public void stop() {
 		try {
 			snmp.close();
@@ -59,6 +64,12 @@ public class SnmpTrapSender {
 		logger.info("SnmpTrapSender.stop(): stop agent");
 	}
 	
+	/**
+	 * Send the SNMP trap to manager at selected ip (hostname) and port.
+	 * @param ip
+	 * @param port
+	 * @param trap
+	 */
 	public void sendTrap(String ip, int port, SnmpTrap trap) {
 		
 		// Create Target
@@ -81,8 +92,6 @@ public class SnmpTrapSender {
 			pdu.setAgentAddress(new IpAddress(trap.getSourceIp()));
 			
 			for (int i = 0; i < trap.getVarbind().size(); i++) {
-				VarBind vb = trap.getVarbind().get(i);
-//				pdu.add(new VariableBinding(new OID(vb.getOid()), new OctetString(vb.getValue())));
 				pdu.add(trap.getVarbind().get(i).getSnmp4jVarBind());
 			}
 			
@@ -100,15 +109,8 @@ public class SnmpTrapSender {
 			PDU pdu = new PDU();
 			pdu.setType(PDU.NOTIFICATION);
 			
-			// need to specify the system up time
-//			pdu.add(new VariableBinding(SnmpConstants.sysUpTime, new OctetString(new Date().toString())));
-//			pdu.add(new VariableBinding(SnmpConstants.snmpTrapOID, new OID()));
-//			pdu.add(new VariableBinding(SnmpConstants.snmpTrapAddress, new IpAddress(trap.getSourceIp())));
-			
 			// variable binding for Enterprise Specific objects
 			for (int i = 0; i < trap.getVarbind().size(); i++) {
-				VarBind vb = trap.getVarbind().get(i);
-//				pdu.add(new VariableBinding(new OID(vb.getOid()), new OctetString(vb.getValue())));
 				pdu.add(trap.getVarbind().get(i).getSnmp4jVarBind());
 			}
 			
@@ -127,8 +129,6 @@ public class SnmpTrapSender {
 	 */
 	private void sendTrapV1(PDUv1 pdu, CommunityTarget target) {
 		try {
-
-			// Send the PDU
 			System.out.println("Sending V1 Trap to " + target.getAddress());
 			snmp.send(pdu, target);
 		} catch (Exception e) {
@@ -142,8 +142,6 @@ public class SnmpTrapSender {
 	 */
 	private void sendTrapV2C(PDU pdu, CommunityTarget target) {
 		try {
-
-			// Send the PDU
 			System.out.println("Sending V2C Trap to " + target.getAddress());
 			snmp.send(pdu, target);
 		} catch (Exception e) {

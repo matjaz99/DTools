@@ -22,29 +22,29 @@
 						
 			<h:form id="addSshClientForm">
 				<p:fieldset legend="Add new SSH client" toggleable="true" toggleSpeed="300" collapsed="true">
-				<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
+				<h:panelGrid columns="3" cellpadding="2" cellspacing="0">
 				
 					<h:outputLabel value="Hostname: " />
-					<h:inputText id="sshHost" value="#{sshClientsBean.hostname}" required="true"
+					<p:inputText id="sshHost" value="#{sshClientsBean.hostname}" required="true"
 						 requiredMessage="Missing value">
 						<f:validator validatorId="newSshClientValidator"/>
 						<f:attribute name="port" value="#{sshPort}" />
 						<f:attribute name="user" value="#{sshUser}" />
-					</h:inputText>
+					</p:inputText>
 					<h:message for="sshHost" style="color: red;" />
 					
 					<h:outputLabel value="Port " />
-					<h:inputText id="sshPort" value="#{sshClientsBean.port}" binding="#{sshPort}"
-						required="true" requiredMessage="Missing value"></h:inputText>
+					<p:inputText id="sshPort" value="#{sshClientsBean.port}" binding="#{sshPort}"
+						required="true" requiredMessage="Missing value" />
 					<h:message for="sshPort" style="color: red;" />
 					
 					<h:outputLabel value="Username: " />
-					<h:inputText id="sshUser" value="#{sshClientsBean.username}" binding="#{sshUser}"
-						required="true" requiredMessage="Missing value"></h:inputText>
+					<p:inputText id="sshUser" value="#{sshClientsBean.username}" binding="#{sshUser}"
+						required="true" requiredMessage="Missing value" />
 					<h:message for="sshUser" style="color: red;" />
 					
 					<h:outputLabel value="Password: " />
-					<h:inputText value="#{sshClientsBean.password}" ></h:inputText>
+					<p:inputText value="#{sshClientsBean.password}" />
 					<h:outputLabel value="" />
 					
 					<p:commandButton value="Add" action="#{sshClientsBean.addClientAction}" 

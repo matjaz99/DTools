@@ -7,12 +7,13 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
+import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrapSender;
 import si.matjazcerkvenik.dtools.xml.DAO;
 import si.matjazcerkvenik.dtools.xml.SnmpTrap;
+import si.matjazcerkvenik.dtools.xml.SnmpTraps;
 import si.matjazcerkvenik.dtools.xml.VarBind;
-import si.matjazcerkvenik.dtools.xml.VarBind.TYPE;
 
 @ManagedBean
 @ApplicationScoped
@@ -148,7 +149,7 @@ public class SnmpTrapSenderBean {
 	public List<VarBind> getVarbindsV1() {
 		if (varbindsV1 == null) {
 			varbindsV1 = new ArrayList<VarBind>();
-			varbindsV1.add(new VarBind("Timestamp", "1.2.3.1", VarBind.TYPE_OCTET_STRING, "999"));
+			varbindsV1.add(new VarBind("customVarBind", "1.2.3.4", VarBind.TYPE_OCTET_STRING, "abcd"));
 		}
 		return varbindsV1;
 	}
@@ -160,9 +161,9 @@ public class SnmpTrapSenderBean {
 	public List<VarBind> getVarbindsV2C() {
 		if (varbindsV2C == null) {
 			varbindsV2C = new ArrayList<VarBind>();
+			varbindsV2C.add(new VarBind("sysUpTime", "1.3.6.1.2.1.1.3.0", VarBind.TYPE_TIMETICKS, "" + DToolsContext.getSysUpTime()/10));
 			varbindsV2C.add(new VarBind("snmpTrapOid", "1.3.6.1.6.3.1.1.4.1.0", VarBind.TYPE_OCTET_STRING, "9.9.9"));
-			varbindsV2C.add(new VarBind("sysUpTime", "1.3.6.1.2.1.1.3.0", VarBind.TYPE_OCTET_STRING, "0"));
-			varbindsV2C.add(new VarBind("sourceIp", "1.3.6.1.6.3.18.1.3.0", VarBind.TYPE_OCTET_STRING, LocalhostInfo.getLocalIpAddress()));
+			varbindsV2C.add(new VarBind("sourceIp", "1.3.6.1.6.3.18.1.3.0", VarBind.TYPE_IP_ADDRESS, LocalhostInfo.getLocalIpAddress()));
 		}
 		return varbindsV2C;
 	}
@@ -197,6 +198,13 @@ public class SnmpTrapSenderBean {
 			Growl.addGrowlMessage("Missing trap name", FacesMessage.SEVERITY_WARN);
 			return;
 		}
+		List<SnmpTrap> list = DAO.getInstance().loadSnmpTraps().getTraps();
+		for (SnmpTrap snmpTrap : list) {
+			if (snmpTrap.getTrapName().equals(trapNameV1)) {
+				Growl.addGrowlMessage("Name already exists", FacesMessage.SEVERITY_WARN);
+				return;
+			}
+		}
 		
 		SnmpTrap trap = new SnmpTrap();
 		trap.setTrapName(trapNameV1);
@@ -210,7 +218,7 @@ public class SnmpTrapSenderBean {
 		trap.setVarbind(varbindsV1);
 		
 		DAO.getInstance().addSnmpTrap(trap);
-		
+		resetTrapV1();
 		Growl.addGrowlMessage("Trap saved", FacesMessage.SEVERITY_INFO);
 	}
 	
@@ -219,6 +227,13 @@ public class SnmpTrapSenderBean {
 		if (trapNameV2C == null || trapNameV2C.trim().isEmpty()) {
 			Growl.addGrowlMessage("Missing trap name", FacesMessage.SEVERITY_WARN);
 			return;
+		}
+		List<SnmpTrap> list = DAO.getInstance().loadSnmpTraps().getTraps();
+		for (SnmpTrap snmpTrap : list) {
+			if (snmpTrap.getTrapName().equals(trapNameV2C)) {
+				Growl.addGrowlMessage("Name already exists", FacesMessage.SEVERITY_WARN);
+				return;
+			}
 		}
 		
 		SnmpTrap trap = new SnmpTrap();
@@ -229,7 +244,7 @@ public class SnmpTrapSenderBean {
 		trap.setVarbind(varbindsV2C);
 		
 		DAO.getInstance().addSnmpTrap(trap);
-		
+		resetTrapV2C();
 		Growl.addGrowlMessage("Trap saved", FacesMessage.SEVERITY_INFO);
 	}
 	
@@ -240,7 +255,7 @@ public class SnmpTrapSenderBean {
 		genericTrap = "6";
 		specificTrap = "0";
 		enterpriseOid = "1.";
-		timestamp = "0";
+		timestamp = "" + DToolsContext.getSysUpTime()/1000;
 		varbindsV1 = null;
 	}
 	

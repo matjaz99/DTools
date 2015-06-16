@@ -24,22 +24,22 @@
 			
 			<h:form id="addServerForm">
 				<p:fieldset legend="Add new server">
-				<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
+				<h:panelGrid columns="3" cellpadding="2" cellspacing="0">
 				
 					<h:outputLabel value="Name: " />
-					<h:inputText id="srvName" value="#{serversBean.name}" required="true" 
+					<p:inputText id="srvName" value="#{serversBean.name}" required="true" 
 						requiredMessage="Missing server name">
 						<f:validator validatorId="newServerValidator"/>
-					</h:inputText>
+					</p:inputText>
 					<h:message for="srvName" style="color: red;" />
 					
 					<h:outputLabel value="Hostname: " />
-					<h:inputText id="srvHostname" value="#{serversBean.hostname}" required="true" 
+					<p:inputText id="srvHostname" value="#{serversBean.hostname}" required="true" 
 						requiredMessage="Missing hostname or ip" />
 					<h:message for="srvHostname" style="color: red;" />
 					
 					<h:outputLabel value="Description: " />
-					<h:inputText value="#{serversBean.description}" ></h:inputText>
+					<p:inputText value="#{serversBean.description}" />
 					<h:outputLabel value="" />
 					
 					<p:commandButton value="Add" action="#{serversBean.addServerAction}" update="growl addServerForm" ajax="true" />

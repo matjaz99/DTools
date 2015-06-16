@@ -26,13 +26,13 @@
 				<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
 				
 					<h:outputLabel value="Name: " />
-					<h:inputText value="#{snmpBean.name}"></h:inputText>
+					<p:inputText value="#{snmpBean.name}"></p:inputText>
 					
 					<h:outputLabel value="Hostname: " />
-					<h:inputText value="#{snmpBean.hostname}"></h:inputText>
+					<p:inputText value="#{snmpBean.hostname}" />
 					
 					<h:outputLabel value="Port: " />
-					<h:inputText value="#{snmpBean.port}"></h:inputText>
+					<p:inputText value="#{snmpBean.port}" />
 					
 					<h:outputText value="SNMP version: " />
 					<h:selectOneRadio value="#{snmpBean.snmpVersion}" >
@@ -41,7 +41,7 @@
 					</h:selectOneRadio>
 					
 					<h:outputText value="Community: " />
-					<h:inputText value="#{snmpBean.community}" />
+					<p:inputText value="#{snmpBean.community}" />
 					
 					<p:commandButton value="Add" action="#{snmpBean.addSnmpClient}" 
 						update="growl addSnmpForm snmpClientsTable" ajax="true" />

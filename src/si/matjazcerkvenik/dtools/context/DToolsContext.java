@@ -20,7 +20,7 @@ public class DToolsContext {
 	private Properties props;
 	
 	private SimpleLogger logger;
-	
+	private long startTime;
 	
 	private DToolsContext() {
 		setHomeDir();
@@ -33,6 +33,7 @@ public class DToolsContext {
 		
 		if (instance == null) {
 			instance = new DToolsContext();
+			instance.startTime = System.currentTimeMillis();
 		}
 		return instance;
 		
@@ -141,6 +142,10 @@ public class DToolsContext {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd H:mm:ss");
 		return sdf.format(d);
 		
+	}
+	
+	public static long getSysUpTime() {
+		return System.currentTimeMillis() - instance.startTime;
 	}
 	
 }

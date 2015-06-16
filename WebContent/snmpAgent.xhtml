@@ -42,12 +42,12 @@
 			
 			<hr/>
 			
-			
+			<h:form id="mainForm">
 			<h:outputText value="Agent simulator" styleClass="title" />
 			<p:tabView activeIndex="3">
 		        <p:tab title="SNMP Trap V1">
 		        	
-		        	<h:form id="trapV1Form">
+		        	
 		            <h:panelGrid columns="2" cellpadding="2" cellspacing="0">
 		                <h:outputLabel value="Save trap as: " />
 		                <p:inputText id="trapNameV1" value="#{snmpTrapSenderBean.trapNameV1}" />
@@ -115,19 +115,18 @@
 						update="oidsTableV1" ajax="true" />
 					<p:commandButton value="Save trap" 
 						action="#{snmpTrapSenderBean.saveTrapV1()}"
-						update="growl trapDestinationForm" ajax="true" />
+						update="growl mainForm" ajax="true" />
 					<p:commandButton value="Reset trap" 
 						action="#{snmpTrapSenderBean.resetTrapV1()}" 
-						update="trapV1Form" ajax="true" />
+						update="mainForm" ajax="true" />
 					<p:commandButton value="Send trap" 
 						action="#{snmpTrapSenderBean.sendCustomV1Trap()}" ajax="true" />
-		        </h:form>
+		        
 		        </p:tab>
 		        
 		        
 		        
 		        <p:tab title="SNMP Trap V2C">
-		        	<h:form id="trapV2CForm">
 		            <h:panelGrid columns="2" cellpadding="2" cellspacing="0">
 		                <h:outputLabel value="Save trap as: " />
 		                <p:inputText value="#{snmpTrapSenderBean.trapNameV2C}" />
@@ -187,13 +186,12 @@
 						update="oidsTableV2C" ajax="true" />
 					<p:commandButton value="Save trap" 
 						action="#{snmpTrapSenderBean.saveTrapV2C()}"
-						update="growl trapDestinationForm" ajax="true" />
+						update="growl mainForm" ajax="true" />
 					<p:commandButton value="Reset trap" 
 						action="#{snmpTrapSenderBean.resetTrapV2C()}" 
-						update="trapV2CForm" ajax="true" />
+						update="mainForm" ajax="true" />
 					<p:commandButton value="Send trap" 
 						action="#{snmpTrapSenderBean.sendCustomV2CTrap()}" ajax="true" />
-		            </h:form>
 		        </p:tab>
         	</p:tabView>
 			
@@ -203,7 +201,6 @@
 			
 			
 			<h:outputText value="Trap sender" styleClass="title" />
-			<h:form id="trapDestinationForm">
 				<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
 					
 					<h:outputLabel value="Destination IP: " />
@@ -242,10 +239,10 @@
 									update="growl" ajax="true" />
 								<p:commandButton value="Modify" 
 									action="#{snmpTrapSenderBean.modify(trap)}" 
-									update="growl" ajax="true" />
+									update="growl mainForm" ajax="true" />
 								<p:commandButton value="Delete" 
 									action="#{snmpTrapSenderBean.deleteTrap(trap)}" 
-									update="growl trapDestinationForm" ajax="true" />
+									update="growl trapsTable" ajax="true" />
 						</p:column>
 						
 					</p:dataTable>

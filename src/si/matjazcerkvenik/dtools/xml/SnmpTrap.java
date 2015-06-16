@@ -20,6 +20,9 @@ public class SnmpTrap {
 	private String specificTrap;
 	private String enterpriseOid;
 	private String timestamp;
+	// coldStart trap (0), warmStart trap (1), linkDown trap(2)
+	// linkUp trap(3), authenticationFailure trap(4), egpNeighborLoss trap(5)
+	// enterprise specific (6)
 	
 	// v2c parameters
 	private String snmpTrapOid;
