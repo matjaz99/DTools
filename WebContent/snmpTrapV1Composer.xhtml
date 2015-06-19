@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:dt="http://dtools.com/ui">
+    <h:head>
+        <title>DTools</title>
+    </h:head>
+    <h:body>
+    
+	    <h:outputStylesheet library="default" name="css/dstyles.css"/>
+	    <p:growl id="growl" life="2000"/>
+	    
+	    <h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
+	    
+	    	<ui:include src="/include/ptoolbar.xhtml"/>
+	    	
+	    	<p:breadCrumb>
+			    <p:menuitem value="Home" url="home.xhtml" />
+			    <p:menuitem value="SNMP Agent" url="snmpAgent.xhtml" />
+			    <p:menuitem value="Trap V1 Composer" url="#" />
+			</p:breadCrumb>
+			
+			<h:outputText value="SNMP Trap V1 Composer" styleClass="title" />
+    
+    		<h:form id="mainForm">
+    	
+    			<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+		                <h:outputLabel value="Save trap as: " />
+		                <p:inputText id="trapName" value="#{snmpTrapV1Composer.trapName}" />
+		                <h:outputLabel value="Community: " />
+		                <p:inputText value="#{snmpTrapV1Composer.community}" />
+		                <h:outputLabel value="Source IP: " />
+		                <p:inputText value="#{snmpTrapV1Composer.sourceIp}" />
+		                <h:outputLabel value="Generic Trap: " />
+		                <p:inputText value="#{snmpTrapV1Composer.genericTrap}" />
+		                <h:outputLabel value="Specific Trap: " />
+		                <p:inputText value="#{snmpTrapV1Composer.specificTrap}" />
+		                <h:outputLabel value="Enterprise OID: " />
+		                <p:inputText value="#{snmpTrapV1Composer.enterpriseOid}" />
+		                <h:outputLabel value="Timestamp (sec): " />
+		                <p:inputText value="#{snmpTrapV1Composer.timestamp}" />
+		            </h:panelGrid>
+		            
+		            <h:outputText value="OIDs:" />
+		            <p:dataTable id="oidsTable" value="#{snmpTrapV1Composer.varbinds}" var="vb" 
+						styleClass="table"
+						rowClasses="tableOddRow,tableEvenRow"
+						cellpadding="0" cellspacing="0" width="100%">
+						<p:column>
+							<f:facet name="header">OID Name</f:facet>
+								<p:inplace editor="true">
+						            <p:inputText value="#{vb.oidName}" required="true" label="text" />
+						        </p:inplace>
+						</p:column>
+						<p:column>
+							<f:facet name="header">OID</f:facet>
+								<p:inplace editor="true">
+						            <p:inputText value="#{vb.oid}" required="true" label="text" />
+						        </p:inplace>
+						</p:column>
+						<p:column>
+							<f:facet name="header">Type</f:facet>
+								<h:selectOneMenu value="#{vb.type}">
+									<f:selectItem itemValue="OCTET_STRING" />
+									<f:selectItem itemValue="INTEGER" />
+									<f:selectItem itemValue="OID" />
+									<f:selectItem itemValue="GAUGE" />
+									<f:selectItem itemValue="COUNTER32" />
+									<f:selectItem itemValue="IP_ADDRESS" />
+									<f:selectItem itemValue="TIMETICKS" />
+									<f:selectItem itemValue="COUNTER64" />
+									<f:selectItem itemValue="UNSIGNED_INTEGER" />
+									<f:selectItem itemValue="BITS" />
+								</h:selectOneMenu>
+						</p:column>
+						<p:column>
+							<f:facet name="header">Value</f:facet>
+								<p:inplace editor="true">
+						            <p:inputText value="#{vb.value}" required="true" label="text" />
+						        </p:inplace>
+						</p:column>
+						<p:column>
+							<f:facet name="header">Remove</f:facet>
+								<p:commandButton value="Remove" 
+									action="#{snmpTrapV1Composer.removeOid(vb)}" 
+									update="oidsTable" ajax="true" />
+						</p:column>
+		            </p:dataTable>
+		            <p:commandButton value="Add OID" 
+						action="#{snmpTrapV1Composer.addNewOid()}" 
+						update="oidsTable" ajax="true" />
+					<p:commandButton value="Save trap" 
+						action="#{snmpTrapV1Composer.saveTrap()}"
+						update="growl mainForm" ajax="true" />
+					<p:commandButton value="Reset trap" 
+						action="#{snmpTrapV1Composer.resetTrap()}" 
+						update="mainForm" ajax="true" />
+
+        	</h:form>
+        
+        </h:panelGrid>
+        
+    </h:body>
+</html>
+
+

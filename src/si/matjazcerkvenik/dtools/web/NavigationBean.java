@@ -7,6 +7,7 @@ import javax.faces.context.FacesContext;
 import si.matjazcerkvenik.dtools.xml.FtpClient;
 import si.matjazcerkvenik.dtools.xml.Server;
 import si.matjazcerkvenik.dtools.xml.SnmpClient;
+import si.matjazcerkvenik.dtools.xml.SnmpTrap;
 import si.matjazcerkvenik.dtools.xml.SshClient;
 
 @ManagedBean
@@ -33,6 +34,12 @@ public class NavigationBean {
 		return "snmpClient";
 	}
 	
-	
+	public String openSnmpTrap(SnmpTrap trap) {
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("trap", trap);
+		if (trap.getVersion().equals("v1")) {
+			return "snmpTrapV1Composer";
+		}
+		return "snmpTrapV2CComposer";
+	}
 	
 }

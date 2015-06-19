@@ -60,15 +60,6 @@
 					rowClasses="tableOddRow,tableEvenRow"
 					cellpadding="0" cellspacing="0" width="100%">
 					
-					<p:column headerClass="col0 col1" style="#{todo.backgroundColor}" >
-						<f:facet name="header">Icon</f:facet>
-						<h:form>
-							<h:commandLink action="#">
-								<dt:icon img="notes"/>
-							</h:commandLink>
-						</h:form>
-					</p:column>
-					
 					<p:column headerClass="col0 col3" style="#{todo.backgroundColor}" sortBy="#{todo.deadline}" >
 						<f:facet name="header">Deadline</f:facet>
 						<h:form>

@@ -73,7 +73,7 @@
 	</target>
 	
 	<target name="compile" depends="init" >
-		<javac destdir="${classes.dir}" debug="true" srcdir="${src.dir}">
+		<javac destdir="${classes.dir}" debug="true" srcdir="${src.dir}" source="1.6" target="1.6">
 			<classpath refid="compile.classpath"/>
 		</javac>
 	</target>
