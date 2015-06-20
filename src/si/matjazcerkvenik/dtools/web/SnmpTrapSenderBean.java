@@ -1,6 +1,5 @@
 package si.matjazcerkvenik.dtools.web;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,16 +7,12 @@ import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
 
-import si.matjazcerkvenik.dtools.context.DToolsContext;
-import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrapSender;
 import si.matjazcerkvenik.dtools.xml.DAO;
 import si.matjazcerkvenik.dtools.xml.SnmpTrap;
-import si.matjazcerkvenik.dtools.xml.VarBind;
 
 @ManagedBean
 @ApplicationScoped

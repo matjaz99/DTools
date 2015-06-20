@@ -30,7 +30,8 @@
     	
     			<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
 		                <h:outputLabel value="Save trap as: " />
-		                <p:inputText id="trapName" value="#{snmpTrapV2CComposer.trapName}" />
+		                <p:inputText id="trapName" value="#{snmpTrapV2CComposer.trapName}"
+		                	required="true" requiredMessage="Missing trap name" />
 		                <h:outputLabel value="Community: " />
 		                <p:inputText value="#{snmpTrapV2CComposer.community}" />
 		                <h:outputLabel value="Source IP: " />

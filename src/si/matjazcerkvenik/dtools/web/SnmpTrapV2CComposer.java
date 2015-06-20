@@ -2,10 +2,13 @@ package si.matjazcerkvenik.dtools.web;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
@@ -21,6 +24,20 @@ public class SnmpTrapV2CComposer {
 	private String community = "public";
 	private String sourceIp = LocalhostInfo.getLocalIpAddress();
 	private List<VarBind> varbinds;
+	private boolean modifyMode = false;
+	
+	@PostConstruct
+	public void init() {
+		Map<String, Object> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+		SnmpTrap trap = (SnmpTrap) requestParameterMap.get("trap");
+		if (trap != null) {
+			modifyMode = true;
+			trapName = trap.getTrapName();
+			community = trap.getCommunity();
+			sourceIp = trap.getSourceIp();
+			varbinds = trap.getVarbind();
+		}
+	}
 
 	public String getTrapName() {
 		return trapName;
@@ -70,28 +87,32 @@ public class SnmpTrapV2CComposer {
 	
 	public String saveTrap() {
 		
-		if (trapName == null || trapName.trim().isEmpty()) {
-			Growl.addGrowlMessage("Missing trap name", FacesMessage.SEVERITY_WARN);
-			return null;
-		}
-		List<SnmpTrap> list = DAO.getInstance().loadSnmpTraps().getTraps();
-		for (SnmpTrap snmpTrap : list) {
-			if (snmpTrap.getTrapName().equals(trapName)) {
-				Growl.addGrowlMessage("Name already exists", FacesMessage.SEVERITY_WARN);
-				return null;
+		if (modifyMode) {
+			List<SnmpTrap> list = DAO.getInstance().loadSnmpTraps().getTraps();
+			for (SnmpTrap snmpTrap : list) {
+				if (snmpTrap.getTrapName().equals(trapName)) {
+					snmpTrap.setVersion("v2c");
+					snmpTrap.setCommunity(community);
+					snmpTrap.setSourceIp(sourceIp);
+					snmpTrap.setVarbind(varbinds);
+					DAO.getInstance().saveSnmpTraps();
+					Growl.addGrowlMessage("Trap " + trapName + " modified", FacesMessage.SEVERITY_INFO);
+					break;
+				}
 			}
+		} else {
+			SnmpTrap trap = new SnmpTrap();
+			trap.setTrapName(trapName);
+			trap.setVersion("v2c");
+			trap.setCommunity(community);
+			trap.setSourceIp(sourceIp);
+			trap.setVarbind(varbinds);
+			DAO.getInstance().addSnmpTrap(trap);
+			Growl.addGrowlMessage("Trap saved", FacesMessage.SEVERITY_INFO);
 		}
 		
-		SnmpTrap trap = new SnmpTrap();
-		trap.setTrapName(trapName);
-		trap.setVersion("v2c");
-		trap.setCommunity(community);
-		trap.setSourceIp(sourceIp);
-		trap.setVarbind(varbinds);
-		
-		DAO.getInstance().addSnmpTrap(trap);
 		resetTrap();
-		Growl.addGrowlMessage("Trap saved", FacesMessage.SEVERITY_INFO);
+		modifyMode = false;
 		
 		return "snmpAgent";
 	}
