@@ -13,11 +13,7 @@ import org.snmp4j.smi.TimeTicks;
 import org.snmp4j.smi.UnsignedInteger32;
 import org.snmp4j.smi.VariableBinding;
 
-public class VarBind {
-
-	public enum TYPE {
-		OCTET_STRING, INTEGER, OID, GAUGE, COUNTER32, IP_ADDRESS, TIMETICKS, COUNTER64, UNSIGNED_INTEGER, BITS
-	}
+public class VarBind implements Cloneable {
 
 	private String oid;
 	private String oidName;
@@ -101,6 +97,22 @@ public class VarBind {
 			return new VariableBinding(new OID(oid), new UnsignedInteger32(Integer.parseInt(value)));
 		}
 		return new VariableBinding(new OID(oid), new OctetString(value));
+	}
+	
+	@Override
+	public String toString() {
+		return oid + "=" + value;
+	}
+	
+	
+	public VarBind makeClone() {
+		VarBind vb = null;
+		try {
+			vb = (VarBind) this.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return vb;
 	}
 
 }

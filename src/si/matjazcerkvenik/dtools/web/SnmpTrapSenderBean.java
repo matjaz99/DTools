@@ -99,28 +99,8 @@ public class SnmpTrapSenderBean {
 			return;
 		}
 		trapSender.sendTrap(destinationIp, destinationPort, trap);
-		Growl.addGrowlMessage("Trap sent", FacesMessage.SEVERITY_INFO);
+		Growl.addGrowlMessage("Trap sent to " + destinationIp + ":" + destinationPort, FacesMessage.SEVERITY_INFO);
 	}
-	
-//	public void modify(SnmpTrap trap) {
-//		
-//		if (trap.getVersion().equals("v1")) {
-//			trapNameV1 = new String(trap.getTrapName());
-//			community = new String(trap.getCommunity());
-//			genericTrap = new String(trap.getGenericTrap());
-//			specificTrap = new String(trap.getSpecificTrap());
-//			enterpriseOid = new String(trap.getEnterpriseOid());
-//			sourceIp = new String(trap.getSourceIp());
-//			timestamp = new String(trap.getTimestamp());
-//			varbindsV1 = new ArrayList<VarBind>(trap.getVarbind());
-//		} else {
-//			trapNameV2C = new String(trap.getTrapName());
-//			community = new String(trap.getCommunity());
-//			sourceIp = new String(trap.getSourceIp());
-//			varbindsV2C = new ArrayList<VarBind>(trap.getVarbind());
-//		}
-//		
-//	}
 	
 	public void deleteTrap(SnmpTrap trap) {
 		DAO.getInstance().deleteSnmpTrap(trap);

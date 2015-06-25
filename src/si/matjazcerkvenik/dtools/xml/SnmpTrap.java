@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 
-public class SnmpTrap {
+public class SnmpTrap implements Cloneable {
 	
 	private String trapName;
 	
@@ -145,13 +145,40 @@ public class SnmpTrap {
 	public String varbindsToString() {
 		String s = "[";
 		for (int i = 0; i < varbind.size(); i++) {
-			s += varbind.get(i).getOid() + "=" + varbind.get(i).getValue();
-			if (i < varbind.size()) {
+			s += varbind.get(i).toString();
+			if (i < varbind.size() - 1) {
 				s += ", ";
 			}
 		}
 		s += "]";
 		return s;
+	}
+	
+	/**
+	 * Clone this trap and make deep copy of varbinds
+	 * @return trap
+	 */
+	public SnmpTrap makeClone() {
+		SnmpTrap trap = null;
+		try {
+			trap = (SnmpTrap) this.clone();
+			trap.setVarbind(cloneVarbinds());
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return trap;
+	}
+	
+	/**
+	 * Create deep copy of varbinds
+	 * @return varbinds
+	 */
+	public List<VarBind> cloneVarbinds() {
+		List<VarBind> copy = new ArrayList<VarBind>();
+		for (int i = 0; i < varbind.size(); i++) {
+			copy.add(varbind.get(i).makeClone());
+		}
+		return copy;
 	}
 	
 }
