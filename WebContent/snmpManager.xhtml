@@ -46,7 +46,8 @@
 							update="receivedTraps" ajax="true" />
 						<p:commandButton value="Clear" action="#{snmpTrapReceiverBean.clearData()}" 
 							update="receivedTraps" ajax="true" />
-						<p:commandButton value="Save as .txt" action="#{snmpTrapReceiverBean.saveData()}" ajax="true" />
+						<p:commandButton value="Save as .txt" action="#{snmpTrapReceiverBean.saveData()}" 
+							update="growl" ajax="true" />
 					</h:panelGrid>
 					
 					<h:inputTextarea id="receivedTraps" value="#{snmpTrapReceiverBean.receivedTrapsAsString}" 

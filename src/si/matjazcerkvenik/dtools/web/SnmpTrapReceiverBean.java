@@ -87,7 +87,8 @@ public class SnmpTrapReceiverBean {
 	}
 	
 	public void saveData() {
-		DAO.getInstance().saveReceivedTrapsAsTxt("snmp-traps", getReceivedTrapsAsString());
+		String file = DAO.getInstance().saveReceivedTrapsAsTxt("snmp-traps", getReceivedTrapsAsString());
+		Growl.addGrowlMessage("Saved as " + file, FacesMessage.SEVERITY_INFO);
 	}
 	
 }

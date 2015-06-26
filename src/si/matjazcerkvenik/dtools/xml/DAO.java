@@ -626,10 +626,11 @@ public class DAO {
 	 * @param filename
 	 * @param trapsString
 	 */
-	public void saveReceivedTrapsAsTxt(String filename, String trapsString) {
+	public String saveReceivedTrapsAsTxt(String filename, String trapsString) {
 		
-		writePlainTextFile(DToolsContext.HOME_DIR
-					+ "/temp/" + filename + "-" + System.currentTimeMillis() + ".txt", trapsString);
+		String file = "/temp/" + filename + "-" + System.currentTimeMillis() + ".txt";
+		writePlainTextFile(DToolsContext.HOME_DIR + file, trapsString);
+		return file;
 		
 	}
 	

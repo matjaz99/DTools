@@ -154,7 +154,7 @@ public class SnmpTrapV2CComposer {
 		community = "public";
 		sourceIp = LocalhostInfo.getLocalIpAddress();
 		varbinds = null;
-		
+		originalTrap = null;
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("trap");
 	}
 	
