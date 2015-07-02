@@ -64,10 +64,13 @@
 		<copy todir="${dist.dir}/${ant.project.name}-${project.version}">
 			<fileset dir=".">
 				<include name="build.xml" />
+				<include name="build-update.xml" />
 				<include name="start.sh" />
 				<include name="stop.sh" />
+				<include name="update.sh" />
 				<include name="start.bat" />
 				<include name="stop.bat" />
+				<include name="update.bat" />
 			</fileset>
 		</copy>
 	</target>
@@ -87,10 +90,6 @@
 	</target>
 	
 	<target name="tar" depends="war">
-		
-		<chmod file="${dist.dir}/${ant.project.name}-${project.version}/start.sh" perm="ugo+rx"/>
-		<chmod file="${dist.dir}/${ant.project.name}-${project.version}/stop.sh" perm="ugo+rx"/>
-		<chmod dir="${dist.dir}/${ant.project.name}-${project.version}/server/apache-tomcat-7.0.57/bin" perm="ugo+rx" includes="**/*.sh"/>
 			
 		<tar destfile="${dist.dir}/${ant.project.name}-${project.version}.tar.gz" basedir="${dist.dir}" includes="${ant.project.name}-${project.version}/**" compression="gzip" />
 			

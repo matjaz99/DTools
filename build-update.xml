@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="update" basedir="." default="jar">
+
+	<property name="src.dir" value="src-update" />
+	<property name="build.dir" value="build-update" />
+	<property name="dist.dir" value="config" />
+	<property name="version" value="1.0" />
+
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="compile" depends="clean">
+		<mkdir dir="${build.dir}" />
+		<javac srcdir="${src.dir}" destdir="${build.dir}" />
+	</target>
+
+	<target name="jar" depends="compile">
+		<tstamp>
+			<format property="TODAY" pattern="dd.MM.yyyy hh:mm" />
+		</tstamp>
+		<jar destfile="${dist.dir}/${ant.project.name}.jar" basedir="${build.dir}">
+			<manifest>
+				<attribute name="Manifest-Version" value="1.0" />
+				<attribute name="Creation-Date" value="${TODAY}" />
+				<attribute name="Created-By" value="Matjaz Cerkvenik" />
+				<attribute name="Main-Class" value="si.matjazcerkvenik.dtools.update.Update" />
+				<attribute name="Class-Path" value="." />
+				<attribute name="Content" value="DTools update utility" />
+				<attribute name="Project-Version" value="${version}" />
+				<attribute name="Compiled-By" value="${ant.java.version}" />
+			</manifest>
+		</jar>
+	</target>
+
+</project>
