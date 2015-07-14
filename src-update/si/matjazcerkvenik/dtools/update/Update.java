@@ -91,10 +91,9 @@ public class Update {
 			System.exit(0);
 		}
 		
-		if (MD5Checksum.getMd5Checksum("DTools.war").equals(u.md5Checksum)) {
-			System.out.println("MD5 checksum is correct");
-		} else {
-			System.out.println("ERROR: File is corrupted, please try downloading again");
+		// check MD5 checksum
+		if (!MD5Checksum.getMd5Checksum("DTools.war").equals(u.md5Checksum)) {
+			System.out.println("ERROR: Downloaded file is corrupted, please try downloading again");
 			System.exit(0);
 		}
 		
@@ -362,9 +361,10 @@ public class Update {
 				buffer = 1 << 16;
 			}
 //			System.out.println("Remaining size: " + remainingSize);
+//			System.out.println("Size: " + (remainingSize + transferedSize)/1000/1000 + " MB");
 
 			if (transferedSize == remainingSize) {
-				System.out.println("Download complete");
+				System.out.println(" 100%");
 				rbc.close();
 				return true;
 			}
