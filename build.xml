@@ -17,6 +17,8 @@
 		</fileset>
 	</path>
 	
+	<ant antfile="build-update.xml" target="jar"/>
+	
 	<target name="clean">
 	    <delete dir="${dist.dir}/${ant.project.name}-${project.version}" />
 	</target>

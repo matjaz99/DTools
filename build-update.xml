@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project name="update" basedir="." default="jar">
 
-	<property name="src.dir" value="src-update" />
-	<property name="build.dir" value="build-update" />
-	<property name="dist.dir" value="config" />
-	<property name="version" value="1.0" />
+	<property name="updSrc.dir" value="src-update" />
+	<property name="updBuild.dir" value="build-update" />
+	<property name="updDist.dir" value="config" />
+	<property name="updVersion" value="1.0" />
 
 
 	<target name="clean">
-		<delete dir="${build.dir}" />
+		<delete dir="${updBuild.dir}" />
 	</target>
 
 	<target name="compile" depends="clean">
-		<mkdir dir="${build.dir}" />
-		<javac srcdir="${src.dir}" destdir="${build.dir}" />
+		<mkdir dir="${updBuild.dir}" />
+		<javac srcdir="${updSrc.dir}" destdir="${updBuild.dir}" source="1.6" target="1.6" />
 	</target>
 
 	<target name="jar" depends="compile">
 		<tstamp>
 			<format property="TODAY" pattern="dd.MM.yyyy hh:mm" />
 		</tstamp>
-		<jar destfile="${dist.dir}/${ant.project.name}.jar" basedir="${build.dir}">
+		<jar destfile="${updDist.dir}/${ant.project.name}.jar" basedir="${updBuild.dir}">
 			<manifest>
 				<attribute name="Manifest-Version" value="1.0" />
 				<attribute name="Creation-Date" value="${TODAY}" />
@@ -28,10 +28,11 @@
 				<attribute name="Main-Class" value="si.matjazcerkvenik.dtools.update.Update" />
 				<attribute name="Class-Path" value="." />
 				<attribute name="Content" value="DTools update utility" />
-				<attribute name="Project-Version" value="${version}" />
+				<attribute name="Project-Version" value="${updVersion}" />
 				<attribute name="Compiled-By" value="${ant.java.version}" />
 			</manifest>
 		</jar>
+		<echo message="== building update.jar file successful ==" />
 	</target>
 
 </project>
