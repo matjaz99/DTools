@@ -29,27 +29,6 @@
 		<mkdir dir="${dist.dir}" />
 		<mkdir dir="${dist.dir}/${ant.project.name}-${project.version}" />
 		
-		<mkdir dir="${dist.dir}/${ant.project.name}-${project.version}/src" />
-		<copy todir="${dist.dir}/${ant.project.name}-${project.version}/src">
-			<fileset dir="${src.dir}">
-				<include name="**/*" />
-			</fileset>
-		</copy>
-		
-		<mkdir dir="${dist.dir}/${ant.project.name}-${project.version}/src-update" />
-		<copy todir="${dist.dir}/${ant.project.name}-${project.version}/src-update">
-			<fileset dir="src-update">
-				<include name="**/*" />
-			</fileset>
-		</copy>
-		
-		<mkdir dir="${dist.dir}/${ant.project.name}-${project.version}/WebContent" />
-		<copy todir="${dist.dir}/${ant.project.name}-${project.version}/WebContent">
-			<fileset dir="${web.dir}">
-				<include name="**/*" />
-			</fileset>
-		</copy>
-		
 		<mkdir dir="${dist.dir}/${ant.project.name}-${project.version}/server" />
 		<copy todir="${dist.dir}/${ant.project.name}-${project.version}/server">
 			<fileset dir="server">
@@ -79,8 +58,6 @@
 			
 		<copy todir="${dist.dir}/${ant.project.name}-${project.version}">
 			<fileset dir=".">
-				<include name="build.xml" />
-				<include name="build-update.xml" />
 				<include name="start.sh" />
 				<include name="stop.sh" />
 				<include name="update.sh" />

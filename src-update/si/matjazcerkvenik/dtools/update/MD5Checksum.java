@@ -2,10 +2,7 @@ package si.matjazcerkvenik.dtools.update;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 public class MD5Checksum {
 	
@@ -38,7 +35,7 @@ public class MD5Checksum {
 			
 			fis.close();
 		} catch (Exception e) {
-			System.out.println("ERROR: cannot determine md5 checksum");
+			System.out.println("ERROR: cannot determine MD5 checksum");
 		}
 		
 	    return sb.toString();

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -16,6 +17,13 @@ import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
+/**
+ * This class is used to compare versions of local .war file and the one on 
+ * the server and performs upgrade if user decides to upgrade to newer version.
+ * 
+ * @author matjaz
+ *
+ */
 public class Update {
 	
 	private static String lastVersionUrl = "http://www.matjazcerkvenik.si/projects/dtools/getLastVersion.php";
@@ -31,10 +39,13 @@ public class Update {
 	
 	private String md5Checksum = "0";
 	
+	private boolean debugMode = false;
+	
 	public static void main(String[] args) {
 		
 		Update u = new Update();
 		
+		// check input arguments if any
 		if (args.length > 0) {
 			
 			if (args[0].equalsIgnoreCase("-h") 
@@ -42,6 +53,33 @@ public class Update {
 					|| args[0].equalsIgnoreCase("help")
 					|| args[0].equalsIgnoreCase("?")) {
 				u.printHelp();
+				System.exit(0);
+			} else if (args[0].equalsIgnoreCase("-d")) {
+				u.debugMode = true;
+				System.out.println("Debug mode: ON");
+			} else if (args[0].equalsIgnoreCase("-c")) {
+				u.getCurrentVersionFromTxt();
+				u.getLastVersionFromTheServer();
+				System.exit(0);
+			} else if (args[0].equalsIgnoreCase("-m")) {
+				System.out.println("MD5[DTools.war]=" + MD5Checksum.getMd5Checksum(warFile));
+				System.exit(0);
+			} else if (args[0].equalsIgnoreCase("-s")) {
+				u.showRepository();
+				System.exit(0);
+			} else if (args[0].equalsIgnoreCase("-v")) {
+				u.getCurrentVersionFromTxt();
+				System.exit(0);
+			} else if (args[0].equalsIgnoreCase("-r")) {
+				if (args.length > 1) {
+					u.restore(args[1]);
+				} else {
+					System.out.println("WARN: Missing version argument");
+				}
+				System.exit(0);
+			} else {
+				u.printHelp();
+				System.exit(0);
 			}
 			
 		}
@@ -60,7 +98,7 @@ public class Update {
 		}
 		
 		// ask user to proceed
-		while (true) {
+		while (proceed) {
 			
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	        System.out.print("Do you want to upgrade now? [y/n]: ");
@@ -70,7 +108,7 @@ public class Update {
 					System.out.println("Exit");
 					System.exit(0);
 				} else if (s.equalsIgnoreCase("y") || s.equalsIgnoreCase("yes")) {
-					break;
+					proceed = false;
 				} else {
 					System.out.println("Choose yes or no!");
 				}
@@ -92,28 +130,18 @@ public class Update {
 		}
 		
 		// check MD5 checksum
-		if (!MD5Checksum.getMd5Checksum("DTools.war").equals(u.md5Checksum)) {
-			System.out.println("ERROR: Downloaded file is corrupted, please try downloading again");
+		if (MD5Checksum.getMd5Checksum("DTools.war").equals(u.md5Checksum)) {
+			System.out.println("MD5 checksum: OK");
+		} else {
+			System.out.println("ERROR: Downloaded file is corrupted, please run update again");
 			System.exit(0);
 		}
 		
 		// move old war to repository
 		proceed = u.moveFile(warFile, repositoryDir + "/" + currentVersion);
-		if (proceed) {
-//			System.out.println("moved old");
-		} else {
-//			System.out.println("not moved");
-		}
 		
 		// move new war to webapps
 		proceed = u.moveFile("DTools.war", webappsDir);
-		if (proceed) {
-//			System.out.println("moved new");
-		} else {
-//			System.out.println("not moved");
-		}
-//		u.deleteFile(new File(warFile));
-		
 		
 		u.updateVersion(lastVersion);
 		System.out.println("Successfully updated to " + lastVersion);
@@ -122,10 +150,14 @@ public class Update {
 	
 	public void printHelp() {
 		
-		System.out.println("DTools update help");
-		System.out.println("-h or --help\tprint help");
-		System.out.println("-c or --check\tcheck for new version only");
-		System.out.println("-m or --md5\tmd5 checksum");
+		println("DTools update help");
+		println("-h\tprint help");
+		println("-c\tcheck last version");
+		println("-m\tmd5 checksum");
+		println("-d\tdebugger output");
+		println("-r x.y.z\trestore version");
+		println("-s\tshow respository");
+		println("-v\tshow current version");
 		
 	}
 	
@@ -137,7 +169,7 @@ public class Update {
 	public boolean isTomcatRunning() {
 		try {
 		    new URL("http://localhost:8080").openConnection().connect();
-		    System.out.println("WARN: Please stop the server before updating!");
+		    println("WARN: Please stop the server before updating!");
 			System.exit(0);
 		    return true;
 		} catch (IOException e) {
@@ -163,11 +195,11 @@ public class Update {
 			ver = br.readLine().trim();
 			dis.close();
 			
-			System.out.println("Current version: " + ver);
+			println("Current version: " + ver);
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("ERROR: cannot read " + versionTxt);
+			println("ERROR: cannot read " + versionTxt);
 			System.exit(0);
 		}
 
@@ -200,13 +232,13 @@ public class Update {
 			md5Checksum = array[1];
 
 			// print result
-			System.out.println("Last version: " + lastVersion);
+			println("Last version: " + lastVersion);
 
 		} catch (MalformedURLException e) {
-			System.out.println("ERROR: MalformedURLException: cannot read version from the server");
+			println("ERROR: MalformedURLException: cannot read version from the server");
 			System.exit(0);
 		} catch (IOException e) {
-			System.out.println("ERROR: IOException: cannot retrieve data from the server");
+			println("ERROR: IOException: cannot retrieve data from the server");
 			System.exit(0);
 		}
 		
@@ -259,7 +291,7 @@ public class Update {
 	public boolean isUpdateRequired(String currentVersion, String lastVersion) {
 		
 		if (currentVersion.contains("alpha") || currentVersion.contains("beta")) {
-			System.out.println("Cannot update developer version!");
+			println("Cannot update developer version!");
 			System.exit(0);
 			return false;
 		}
@@ -268,7 +300,7 @@ public class Update {
 		int lastVer = convertToInteger(lastVersion);
 		
 		if (lastVer == currVer) {
-			System.out.println("DTools is up to date");
+			println("DTools is up to date");
 			System.exit(0);
 			return false;
 		}
@@ -281,6 +313,12 @@ public class Update {
 		
 	}
 	
+	/**
+	 * Move a source file to chosen destination directory.
+	 * @param sourceFile
+	 * @param destDir
+	 * @return true if successfully moved
+	 */
 	private boolean moveFile(String sourceFile, String destDir) {
 		File srcFile = new File(sourceFile);
 		File destFile = new File(destDir + File.separator + srcFile.getName());
@@ -313,19 +351,6 @@ public class Update {
 	
 	
 	/**
-	 * Delete single file
-	 * @param file
-	 * @return true on success
-	 */
-	private boolean deleteFile(File file) {
-		if (file.exists()) {
-			return file.delete();
-		}
-		return false;
-	}
-	
-	
-	/**
 	 * Download latest war from the matjazcerkvenik.si server into /server/apache-tomcat-7.0.57/webapps directory.
 	 * War will be automatically deployed when server starts.
 	 * @throws IOException 
@@ -345,7 +370,14 @@ public class Update {
 
 	}
 
-	public boolean transferData(String url, String filename) throws IOException {
+	/**
+	 * This method does actual reading of data from the file channel
+	 * @param url
+	 * @param filename
+	 * @return true if download completed
+	 * @throws IOException
+	 */
+	private boolean transferData(String url, String filename) throws IOException {
 		
 		long transferedSize = getFileSize(filename);
 		
@@ -364,30 +396,30 @@ public class Update {
 //			System.out.println("Size: " + (remainingSize + transferedSize)/1000/1000 + " MB");
 
 			if (transferedSize == remainingSize) {
-				System.out.println(" 100%");
+				println(" 100%");
 				rbc.close();
 				return true;
 			}
 
 			FileOutputStream fos = new FileOutputStream(filename, true);
 			
-//			System.out.println("Downloading at " + transferedSize);
+			debug("Downloading at " + transferedSize);
 			while (remainingSize > 0) {
 				long delta = fos.getChannel().transferFrom(rbc, transferedSize, buffer);
 				transferedSize += delta;
-//				System.out.println(transferedSize + " bytes received");
-				System.out.print(".");
+				debug(transferedSize + " bytes received");
+				print(".");
 				if (delta == 0) {
 					break;
 				}
 			}
 			fos.close();
-//			System.out.println("Download incomplete, retrying");
+			debug("Download incomplete, retrying");
 			
 		} catch (MalformedURLException e) {
-			System.out.println("ERROR: MalformedURLException: cannot download " + url);
+			println("ERROR: MalformedURLException: cannot download " + url);
 		} catch (IOException e) {
-			System.out.println("ERROR: IOException: cannot download " + url);
+			println("ERROR: IOException: cannot download " + url);
 			throw new IOException();
 		}
 		
@@ -413,7 +445,74 @@ public class Update {
 			bw.write(version);
 			bw.close();
 		} catch (IOException e) {
-			System.out.println("ERROR: IOException: cannot update config/version.txt");
+			println("ERROR: IOException: cannot update config/version.txt");
+		}
+	}
+	
+	/**
+	 * Restore selected version from repository. This method is used to downgrade 
+	 * DTools to one of previous versions.
+	 * @param version
+	 */
+	public void restore(String version) {
+		
+		File f = new File(repositoryDir + "/" + version + "/DTools.war");
+		if (!f.exists()) {
+			println("WARN: version " + version + " not found in repository");
+			return;
+		}
+		
+		// delete work directories
+		deleteDirectory(new File("server/apache-tomcat-7.0.57/work/Catalina/localhost/DTools"));
+		deleteDirectory(new File("server/apache-tomcat-7.0.57/webapps/DTools"));
+		
+		// move old war to repository
+		moveFile(warFile, repositoryDir + "/" + getCurrentVersionFromTxt());
+		
+		// move selected war to webapps
+		moveFile(repositoryDir + "/" + version + "/DTools.war", webappsDir);
+		
+		updateVersion(version);
+		System.out.println("Successfully restored version " + version);
+		
+	}
+	
+	public void showRepository() {
+		
+		File dir = new File(repositoryDir);
+		File[] files = dir.listFiles(new FileFilter() {
+			
+			@Override
+			public boolean accept(File pathname) {
+				return pathname.isDirectory();
+			}
+		});
+		
+		if (files == null || files.length == 0) {
+			println("Repository is empty");
+			return;
+		}
+		
+		for (int i = 0; i < files.length; i++) {
+			println(files[i].getName());
+		}
+		
+	}
+	
+	
+	private void print(String s) {
+		if (!debugMode) {
+			System.out.print(s);
+		}
+	}
+	
+	private void println(String s) {
+		System.out.println(s);
+	}
+	
+	private void debug(String s) {
+		if (debugMode) {
+			System.out.println(s);
 		}
 	}
 	
