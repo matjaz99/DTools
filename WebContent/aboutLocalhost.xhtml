@@ -39,18 +39,6 @@
 			</h:panelGrid>
 			
 			
-			<h:form id="encryptForm">
-			<h:panelGrid columns="2">
-				<h:outputText value="Key" />
-				<p:inputText value="#{encryptorBean.key}" maxlength="16"></p:inputText>
-				<h:outputText value="Text" />
-				<p:inputText value="#{encryptorBean.text}"></p:inputText>
-			</h:panelGrid>
-			<h:outputText value="Encrypted: #{encryptorBean.textEnc}" /><br/>
-			<h:outputText value="Decrypted: #{encryptorBean.textDec}" /><br/>
-			<p:commandButton value="Encrypt" action="#{encryptorBean.encrypt}" update="encryptForm" ajax="true" />
-			</h:form>
-			
         
         </h:panelGrid>
         
