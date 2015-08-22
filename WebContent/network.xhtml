@@ -21,6 +21,57 @@
 			<h:outputText value="Network" styleClass="title" />
 			
 			
+			
+			
+			<h:form>
+			    <p:commandButton value="Add new device" onclick="PF('addDevDlg').show();" />
+			 				 
+			    <p:dialog header="Add new device" widgetVar="addDevDlg" resizable="false">
+			    	
+			    	<h:panelGrid columns="3" cellpadding="2" cellspacing="0">
+						
+						<h:outputLabel for="srvName" value="Name: " />
+						<p:inputText id="srvName" value="#{serversBean.name}" required="true" 
+							requiredMessage="Missing server name">
+							<f:validator validatorId="newServerValidator"/>
+						</p:inputText>
+						<h:message for="srvName" style="color: red;" />
+						
+						<h:outputLabel for="srvHostname" value="Hostname: " />
+						<p:inputText id="srvHostname" value="#{serversBean.hostname}" required="true" 
+							requiredMessage="Missing hostname or ip" />
+						<h:message for="srvHostname" style="color: red;" />
+						
+						<h:outputLabel value="Description: " />
+						<p:inputText value="#{serversBean.description}" />
+						<h:outputLabel value="" />
+						
+						<f:facet name="footer">
+			                <p:commandButton value="Add" update="growl serversTable" actionListener="#{serversBean.addServerAction}"
+			                	oncomplete="handleAddDeviceRequest(xhr, status, args)" />
+			                <p:commandButton value="Cancel" onclick="PF('addDevDlg').hide();" />
+			            </f:facet>
+						
+					</h:panelGrid>
+			    	
+			    </p:dialog>
+			</h:form>
+			 
+			<script type="text/javascript">
+			    function handleAddDeviceRequest(xhr, status, args) {
+			        if (!args.success) {
+			            PF('addDevDlg').jq.effect("shake", {times:5}, 100);
+			        } else {
+			            PF('addDevDlg').hide();
+			        }
+			    }
+			</script>
+			
+			
+			
+			
+			
+			
 			<h:panelGrid columns="1" cellspacing="5" width="100%">
 			<h:dataTable id="serversTable" value="#{serversBean.serversList}" var="server" 
 				styleClass="table"

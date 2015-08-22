@@ -21,10 +21,10 @@ package si.matjazcerkvenik.dtools.web;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
+
+import org.primefaces.context.RequestContext;
 
 import si.matjazcerkvenik.dtools.xml.DAO;
 import si.matjazcerkvenik.dtools.xml.EPingStatus;
@@ -69,7 +69,7 @@ public class ServersBean {
 		this.description = description;
 	}
 
-	public String addServerAction() {
+	public void addServerAction() {
 		
 		Server s = new Server();
 		s.setName(name);
@@ -83,15 +83,16 @@ public class ServersBean {
 		hostname = null;
 		description = null;
 		
-		addGrowlMessage("Created: " + s.getHostname(), FacesMessage.SEVERITY_INFO);
+		Growl.addGrowlMessage("Created: " + s.getName(), FacesMessage.SEVERITY_INFO);
 		
-		return "network";
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.addCallbackParam("success", true);
 		
 	}
 	
 	public void deleteServerAction(Server server) {
 		DAO.getInstance().deleteServer(server);
-		addGrowlMessage("Deleted: " + server.getHostname(), FacesMessage.SEVERITY_INFO);
+		Growl.addGrowlMessage("Deleted: " + server.getHostname(), FacesMessage.SEVERITY_INFO);
 	}
 	
 	public List<Server> getServersList() {
@@ -145,9 +146,5 @@ public class ServersBean {
 		server.updateIcmpStatus();
 	}
 	
-	public void addGrowlMessage(String summary, Severity severity) {
-        FacesMessage message = new FacesMessage(severity, summary,  null);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
 
 }

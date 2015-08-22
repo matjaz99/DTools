@@ -43,8 +43,7 @@ public class NewServerValidator implements Validator {
 		for (Server srv : servers.getServerList()) {
 			if (srv.getName().equalsIgnoreCase(newServerName)) {
 				FacesMessage message = new FacesMessage();
-				message.setDetail(newServerName + " already exists");
-				message.setSummary("Error");
+				message.setSummary(newServerName + " already exists");
 				message.setSeverity(FacesMessage.SEVERITY_ERROR);
 				throw new ValidatorException(message);
 			}

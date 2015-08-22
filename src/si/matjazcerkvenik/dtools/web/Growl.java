@@ -24,8 +24,13 @@ import javax.faces.context.FacesContext;
 
 public class Growl {
 	
-	public static void addGrowlMessage(String summary, Severity severity) {
-        FacesMessage message = new FacesMessage(severity, summary,  null);
+	public static void addGrowlMessage(String title, Severity severity) {
+        FacesMessage message = new FacesMessage(severity, title,  null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+	
+	public static void addGrowlMessage(String title, String detail, Severity severity) {
+        FacesMessage message = new FacesMessage(severity, title,  detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 	
