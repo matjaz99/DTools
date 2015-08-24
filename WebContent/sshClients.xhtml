@@ -12,6 +12,7 @@
     <h:body>
     	
     	<h:outputStylesheet library="default" name="css/dstyles.css"/>
+    	<h:outputScript library="default" name="js/dtools.js" />
     	<p:growl id="growl" life="2000"/>
     	
     	<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
@@ -20,38 +21,47 @@
 			
 			<h:outputText value="SSH Clients" styleClass="title" />
 						
-			<h:form id="addSshClientForm">
-				<p:fieldset legend="Add new SSH client" toggleable="true" toggleSpeed="300" collapsed="true">
-				<h:panelGrid columns="3" cellpadding="2" cellspacing="0">
-				
-					<h:outputLabel value="Hostname: " />
-					<p:inputText id="sshHost" value="#{sshClientsBean.hostname}" required="true"
-						 requiredMessage="Missing value">
-						<f:validator validatorId="newSshClientValidator"/>
-						<f:attribute name="port" value="#{sshPort}" />
-						<f:attribute name="user" value="#{sshUser}" />
-					</p:inputText>
-					<h:message for="sshHost" style="color: red;" />
-					
-					<h:outputLabel value="Port " />
-					<p:inputText id="sshPort" value="#{sshClientsBean.port}" binding="#{sshPort}"
-						required="true" requiredMessage="Missing value" />
-					<h:message for="sshPort" style="color: red;" />
-					
-					<h:outputLabel value="Username: " />
-					<p:inputText id="sshUser" value="#{sshClientsBean.username}" binding="#{sshUser}"
-						required="true" requiredMessage="Missing value" />
-					<h:message for="sshUser" style="color: red;" />
-					
-					<h:outputLabel value="Password: " />
-					<p:inputText value="#{sshClientsBean.password}" />
-					<h:outputLabel value="" />
-					
-					<p:commandButton value="Add" action="#{sshClientsBean.addClientAction}" 
-						update="growl addSshClientForm sshClientsTable" ajax="true" />
-				</h:panelGrid>
-				</p:fieldset>
+			
+			<h:form>
+			
+				<p:commandButton value="Add new SSH client" onclick="PF('addSshDlg').show();" />
+			 				 
+			    <p:dialog header="Add new SSH client" widgetVar="addSshDlg" resizable="false">
+			    	
+			    	<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+						
+						<h:outputLabel for="sshHost" value="Hostname: " />
+						<p:inputText id="sshHost" value="#{sshClientsBean.hostname}" required="true" 
+							requiredMessage="Missing hostname or IP">
+							<f:validator validatorId="newSshClientValidator"/>
+							<f:attribute name="port" value="#{sshPort}" />
+							<f:attribute name="user" value="#{sshUser}" />
+						</p:inputText>
+						
+						<h:outputLabel for="sshPort" value="Port: " />
+						<p:inputText id="sshPort" value="#{sshClientsBean.port}" binding="#{sshPort}" 
+							required="true" requiredMessage="Missing port" />
+						
+						<h:outputLabel value="Username: " />
+						<p:inputText id="sshUser" value="#{sshClientsBean.username}" binding="#{sshUser}"
+							required="true" requiredMessage="Missing username" />
+						
+						<h:outputLabel value="Password: " />
+						<p:inputText value="#{sshClientsBean.password}" />
+						
+						<f:facet name="footer">
+			                <p:commandButton value="Add" action="#{sshClientsBean.addClientAction}" 
+								update="growl sshHost sshPort sshUser sshClientsTable"
+								oncomplete="handleDialogRequest('addSshDlg', xhr, status, args)" />
+			                <p:commandButton value="Cancel" onclick="PF('addSshDlg').hide();" />
+			            </f:facet>
+						
+					</h:panelGrid>
+			    	
+			    </p:dialog>
+			    
 			</h:form>
+			
 			
 			
 			<h:panelGrid columns="1" cellspacing="5" width="100%">

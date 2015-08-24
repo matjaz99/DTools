@@ -20,8 +20,11 @@ package si.matjazcerkvenik.dtools.web;
 
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+
+import org.primefaces.context.RequestContext;
 
 import si.matjazcerkvenik.dtools.xml.DAO;
 import si.matjazcerkvenik.dtools.xml.SshClient;
@@ -78,11 +81,15 @@ public class SshClientsBean {
 		c.setPort(port);
 
 		DAO.getInstance().addSshClient(c);
+		Growl.addGrowlMessage("Created SSH client: " + c.getHostname(), FacesMessage.SEVERITY_INFO);
 
 		username = null;
 		password = null;
 		hostname = null;
 		port = 22;
+		
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.addCallbackParam("success", true);
 
 	}
 

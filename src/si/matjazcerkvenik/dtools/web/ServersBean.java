@@ -78,12 +78,11 @@ public class ServersBean {
 		s.setIcmpPingStatus(EPingStatus.UNKNOWN);
 		
 		DAO.getInstance().addServer(s);
+		Growl.addGrowlMessage("Created: " + s.getName(), FacesMessage.SEVERITY_INFO);
 		
 		name = null;
 		hostname = null;
 		description = null;
-		
-		Growl.addGrowlMessage("Created: " + s.getName(), FacesMessage.SEVERITY_INFO);
 		
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.addCallbackParam("success", true);
