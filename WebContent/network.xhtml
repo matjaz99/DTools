@@ -26,14 +26,14 @@
 			<h:form>
 			    <p:commandButton value="Add new device" onclick="PF('addDevDlg').show();" />
 			 				 
-			    <p:dialog header="Add new device" widgetVar="addDevDlg" resizable="false">
+			    <p:dialog header="Add new IP device" widgetVar="addDevDlg" resizable="false" dynamic="true">
 			    	
 			    	<h:panelGrid columns="3" cellpadding="2" cellspacing="0">
 						
 						<h:outputLabel for="srvName" value="Name: " />
 						<p:inputText id="srvName" value="#{serversBean.name}" required="true" 
-							requiredMessage="Missing server name">
-							<f:validator validatorId="newServerValidator"/>
+							requiredMessage="Missing device name">
+							<f:validator validatorId="newDeviceValidator"/>
 						</p:inputText>
 						<h:message for="srvName" style="color: red;" />
 						

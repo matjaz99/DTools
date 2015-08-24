@@ -29,8 +29,8 @@ import si.matjazcerkvenik.dtools.xml.DAO;
 import si.matjazcerkvenik.dtools.xml.Server;
 import si.matjazcerkvenik.dtools.xml.Servers;
 
-@FacesValidator(value="newServerValidator")
-public class NewServerValidator implements Validator {
+@FacesValidator(value="newDeviceValidator")
+public class NewDeviceValidator implements Validator {
 
 	@Override
 	public void validate(FacesContext ctx, UIComponent comp, Object value)
