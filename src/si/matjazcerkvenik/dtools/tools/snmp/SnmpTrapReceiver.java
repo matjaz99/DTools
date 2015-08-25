@@ -59,7 +59,7 @@ public class SnmpTrapReceiver implements CommandResponder {
 	private Address listenAddress;
 	private Snmp snmp;
 	
-	private ConcurrentLinkedQueue<PDU> receivedTraps = new ConcurrentLinkedQueue<PDU>();
+	private ConcurrentLinkedQueue<TrapNotification> receivedTrapNotifications = new ConcurrentLinkedQueue<TrapNotification>();
 	
 	public SnmpTrapReceiver() {
 		logger = DToolsContext.getInstance().getLogger();
@@ -127,12 +127,21 @@ public class SnmpTrapReceiver implements CommandResponder {
 	public synchronized void processPdu(CommandResponderEvent cmdRespEvent) {
 		PDU pdu = cmdRespEvent.getPDU();
 		
-		if (receivedTraps.size() > 100) {
-			receivedTraps.poll();
-		}
-		receivedTraps.add(pdu);
+		TrapNotification tn = new TrapNotification();
+		tn.setPdu(pdu);
+		String peerAddr = cmdRespEvent.getPeerAddress().toString();
+		tn.setFromIp(peerAddr.substring(0, peerAddr.indexOf("/")));
 		
-		trapsLogger.info("SnmpTrapReceiver.processPdu(): PDU = " + pdu.toString());
+		TrapProcessor tProc = new TrapProcessor();
+		tProc.init();
+		tn = (TrapNotification) tProc.process(tn);
+		
+		if (receivedTrapNotifications.size() > 100) {
+			receivedTrapNotifications.poll();
+		}
+		receivedTrapNotifications.add(tn);
+		
+		trapsLogger.info("SnmpTrapReceiver.processPdu(): " + tn.toString());
 		
 		if (pdu != null) {
 
@@ -147,6 +156,7 @@ public class SnmpTrapReceiver implements CommandResponder {
 				StateReference ref = cmdRespEvent.getStateReference();
 				try {
 					logger.trace("SnmpTrapReceiver.processPdu(): response PDU = " + cmdRespEvent.getPDU().toString());
+					// response to INFORM
 					cmdRespEvent.getMessageDispatcher().returnResponsePdu(
 							cmdRespEvent.getMessageProcessingModel(),
 							cmdRespEvent.getSecurityModel(),
@@ -161,12 +171,12 @@ public class SnmpTrapReceiver implements CommandResponder {
 		}
 	}
 
-	public ConcurrentLinkedQueue<PDU> getReceivedTraps() {
-		return receivedTraps;
+	public ConcurrentLinkedQueue<TrapNotification> getReceivedTrapNotifications() {
+		return receivedTrapNotifications;
 	}
 	
 	public void clearReceivedTraps() {
-		receivedTraps.clear();
+		receivedTrapNotifications.clear();
 	}
 	
 	

@@ -68,7 +68,7 @@ public class DToolsContext {
 		
 		// if -Ddtools.home VM arg is not set, use ../server/ directory as default
 		if (homeDir == null || homeDir.length() == 0) {
-			String[] temp = System.getProperty("catalina.home").split("server" + File.pathSeparator + "apache-tomcat");
+			String[] temp = System.getProperty("catalina.home").split("server" + File.separator + "apache-tomcat");
 			homeDir = temp[0];
 		}
 		if (homeDir.endsWith("/") || homeDir.endsWith("\\")) {

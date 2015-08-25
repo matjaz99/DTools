@@ -81,7 +81,7 @@ public class SshClientsBean {
 		c.setPort(port);
 
 		DAO.getInstance().addSshClient(c);
-		Growl.addGrowlMessage("Created SSH client: " + c.getHostname(), FacesMessage.SEVERITY_INFO);
+		Growl.addGrowlMessage("Created SSH client: " + c.toUrlString(), FacesMessage.SEVERITY_INFO);
 
 		username = null;
 		password = null;

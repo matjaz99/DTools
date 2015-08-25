@@ -57,7 +57,7 @@ public class NewSshClientValidator implements Validator {
         		portComponent.setValid(false); // So that it's marked invalid.
         		userComponent.setValid(false); // So that it's marked invalid.
         		FacesMessage message = new FacesMessage();
-				message.setSummary(sshClient.getHostname() + " already exists");
+				message.setSummary(sshClient.toUrlString() + " already exists");
 				message.setSeverity(FacesMessage.SEVERITY_ERROR);
 				throw new ValidatorException(message);        		
 			}
