@@ -80,7 +80,7 @@ public class Update {
 				u.getLastVersionFromTheServer();
 				System.exit(0);
 			} else if (args[0].equalsIgnoreCase("-m")) {
-				System.out.println("MD5[DTools.war]=" + MD5Checksum.getMd5Checksum(warFile));
+				System.out.println("MD5[DTools.war]=" + MD5.getMd5(warFile));
 				System.exit(0);
 			} else if (args[0].equalsIgnoreCase("-s")) {
 				u.showRepository();
@@ -148,7 +148,7 @@ public class Update {
 		}
 		
 		// check MD5 checksum
-		if (MD5Checksum.getMd5Checksum("DTools.war").equals(u.md5Checksum)) {
+		if (MD5.getMd5("DTools.war").equals(u.md5Checksum)) {
 			System.out.println("MD5 checksum: OK");
 		} else {
 			System.out.println("ERROR: Downloaded file is corrupted, please run update again");

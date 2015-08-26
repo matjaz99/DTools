@@ -22,9 +22,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.security.MessageDigest;
 
-public class MD5Checksum {
+public class MD5 {
 	
-	public static String getMd5Checksum(String file) {
+	public static String getMd5(String file) {
 		
 		File f = new File(file);
 		if (!f.exists()) {
