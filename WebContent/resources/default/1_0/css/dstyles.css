@@ -22,12 +22,6 @@ body {
 	width: 32px;
 }
 
-.ui-menuitem-icon.ui-icon.server-add-icon {
-	background: url("#{resource['default:img/add.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
-}
-
 .ui-menuitem-icon.ui-icon.server-icon {
 	background: url("#{resource['default:img/server.png']}") no-repeat;
 	height: 32px; 
