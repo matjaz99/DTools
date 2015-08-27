@@ -17,13 +17,9 @@
 	</target>
 
 	<target name="jar" depends="compile">
-		<tstamp>
-			<format property="TODAY" pattern="dd.MM.yyyy hh:mm" />
-		</tstamp>
 		<jar destfile="${updDist.dir}/${ant.project.name}.jar" basedir="${updBuild.dir}">
 			<manifest>
 				<attribute name="Manifest-Version" value="1.0" />
-				<attribute name="Creation-Date" value="${TODAY}" />
 				<attribute name="Created-By" value="Matjaz Cerkvenik" />
 				<attribute name="Main-Class" value="si.matjazcerkvenik.dtools.update.Update" />
 				<attribute name="Class-Path" value="." />
