@@ -24,6 +24,7 @@ import javax.faces.bean.ManagedBean;
 
 import org.snmp4j.PDU;
 
+import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrapReceiver;
 import si.matjazcerkvenik.dtools.tools.snmp.TrapNotification;
 import si.matjazcerkvenik.dtools.xml.DAO;
@@ -33,7 +34,7 @@ import si.matjazcerkvenik.dtools.xml.DAO;
 public class SnmpTrapReceiverBean {
 	
 	private SnmpTrapReceiver trapReceiver = null;
-	private String ip = "localhost";
+	private String ip = LocalhostInfo.getLocalIpAddress();
 	private int port = 6162;
 	
 	private String receivedTrapsAsString;
@@ -58,7 +59,7 @@ public class SnmpTrapReceiverBean {
 	public void toggleListening() {
 		
 		if (trapReceiver == null) {
-			trapReceiver = new SnmpTrapReceiver();
+			trapReceiver = new SnmpTrapReceiver("default");
 			trapReceiver.start(ip, port);
 			Growl.addGrowlMessage("Start listening for traps", FacesMessage.SEVERITY_INFO);
 		} else {
@@ -78,6 +79,12 @@ public class SnmpTrapReceiverBean {
 	}
 	
 	
+	
+	
+	public SnmpTrapReceiver getTrapReceiver() {
+		return trapReceiver;
+	}
+
 	public String getReceivedTrapsAsString() {
 		
 		if (trapReceiver == null) {
@@ -89,7 +96,7 @@ public class SnmpTrapReceiverBean {
 			TrapNotification tn = (TrapNotification) array[i];
 			PDU pdu = tn.getPdu();
 			receivedTrapsAsString += PDU.getTypeString(pdu.getType()) + " ";
-			receivedTrapsAsString += tn.getFromIp() + "";
+			receivedTrapsAsString += tn.getPeerAddress() + "";
 			receivedTrapsAsString += pdu.getVariableBindings() + "\n";
 		}
 //		receivedTrapsAsString = receivedTrapsAsString.replaceAll(", ", "\n");

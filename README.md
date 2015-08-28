@@ -20,6 +20,8 @@ Commons-logging is required by commons-vfs
 0.2.0
 
 - added GNU GPL license
+- javascript parser for traps
+- trap monitor
 
 -----------------------------------------------------------
 

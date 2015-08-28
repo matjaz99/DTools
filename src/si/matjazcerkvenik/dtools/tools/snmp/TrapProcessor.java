@@ -11,17 +11,24 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
+import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 public class TrapProcessor {
 	
+	private SimpleLogger logger;
+	
 	private ScriptEngineManager scriptManager; 
     private ScriptEngine engine;
-    private MyContext myctx;
+    private SnmpContext myctx;
+    
+    public TrapProcessor() {
+    	logger = DToolsContext.getInstance().getLogger();
+	}
     
     public void init() {
     	scriptManager = new ScriptEngineManager();
         engine = scriptManager.getEngineByName("JavaScript");  
-        myctx = new MyContext();
+        myctx = new SnmpContext();
         myctx.setSomeCtx(1000);
         
         Reader reader;
@@ -30,11 +37,11 @@ public class TrapProcessor {
 			engine.eval(reader);
 	        reader.close();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			logger.error("TrapProcessor.init(): FileNotFoundException", e);
 		} catch (ScriptException e) {
-			e.printStackTrace();
+			logger.error("TrapProcessor.init(): ScriptException", e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("TrapProcessor.init(): IOException", e);
 		}
         
         engine.put("myctx", myctx);
@@ -48,11 +55,12 @@ public class TrapProcessor {
 		try {
 			result = inv.invokeFunction("processTrap", alarm);
 		} catch (ScriptException e) {
-			e.printStackTrace();
+			logger.error("TrapProcessor.init(): ScriptException", e);
+			return alarm;
 		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
+			logger.error("TrapProcessor.init(): NoSuchMethodException", e);
+			return alarm;
 		}
-        System.out.println(result.toString());
         return result;
 	}
 	

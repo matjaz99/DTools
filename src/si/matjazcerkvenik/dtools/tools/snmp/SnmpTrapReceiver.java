@@ -59,11 +59,13 @@ public class SnmpTrapReceiver implements CommandResponder {
 	private Address listenAddress;
 	private Snmp snmp;
 	
+	private String trapReceiverName = "default";
+	private int counterOfReceivedTraps = 0;
 	private ConcurrentLinkedQueue<TrapNotification> receivedTrapNotifications = new ConcurrentLinkedQueue<TrapNotification>();
 	
-	public SnmpTrapReceiver() {
+	public SnmpTrapReceiver(String name) {
 		logger = DToolsContext.getInstance().getLogger();
-		
+		trapReceiverName = name;
 		trapsLogger = new SimpleLogger(DToolsContext.HOME_DIR+ "/log/snmp-traps.log");
 		trapsLogger.setVerbose(logger.isVerbose());
 	}
@@ -127,10 +129,9 @@ public class SnmpTrapReceiver implements CommandResponder {
 	public synchronized void processPdu(CommandResponderEvent cmdRespEvent) {
 		PDU pdu = cmdRespEvent.getPDU();
 		
-		TrapNotification tn = new TrapNotification();
-		tn.setPdu(pdu);
-		String peerAddr = cmdRespEvent.getPeerAddress().toString();
-		tn.setFromIp(peerAddr.substring(0, peerAddr.indexOf("/")));
+		// create TrapNotification
+		TrapNotification tn = new TrapNotification(counterOfReceivedTraps++, trapReceiverName, pdu);
+		tn.setPeerAddress(cmdRespEvent.getPeerAddress().toString());		
 		
 		TrapProcessor tProc = new TrapProcessor();
 		tProc.init();
