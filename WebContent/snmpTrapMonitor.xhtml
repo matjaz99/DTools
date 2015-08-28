@@ -57,9 +57,9 @@
 						<h:outputText value="#{trap.group}" />
 					</h:column>
 					
-					<h:column headerClass="col0">
+					<h:column headerClass="col0 col3">
 						<f:facet name="header">Time</f:facet>
-						<h:outputText value="#{trap.timestamp}" />
+						<h:outputText value="#{trap.getDate()}" />
 					</h:column>
 					
 				</h:dataTable>
