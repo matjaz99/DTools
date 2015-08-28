@@ -15,9 +15,9 @@ function processTrap(trap) {
     trap.setSeverity(4);
     trap.setGroup("Alarm");
     
-    if (isV1) {
+    if (trap.isV1) {
     	
-    } else if (isV2C) {
+    } else if (trap.isV2C) {
     }
     var response = new Object();
     var u = myctx.getSomeCtx();
