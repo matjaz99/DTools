@@ -20,7 +20,7 @@ function processTrap(trap) {
     } else if (trap.isV2C) {
     }
     var response = new Object();
-    var u = myctx.getSomeCtx();
+    var u = ctx.getSomeCtx();
     u = sestej(u);
     trap.setTimestamp(u);
     return trap;

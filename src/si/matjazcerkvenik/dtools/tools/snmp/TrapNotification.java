@@ -1,5 +1,25 @@
+/* 
+ * Copyright (C) 2015 Matjaz Cerkvenik
+ * 
+ * DTools is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * DTools is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with DTools. If not, see <http://www.gnu.org/licenses/>.
+ * 
+ */
+
 package si.matjazcerkvenik.dtools.tools.snmp;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -46,12 +66,20 @@ public class TrapNotification {
 	
 
 
+	/**
+	 * Return sequence number of trap.
+	 * @return no
+	 */
 	public int getNo() {
 		return no;
 	}
 
 
 
+	/**
+	 * Return unique ID of trap. If ID is not set, null is returned.
+	 * @return uid
+	 */
 	public String getUid() {
 		return uid;
 	}
@@ -59,7 +87,7 @@ public class TrapNotification {
 
 
 	/**
-	 * Unique ID of trap
+	 * Set unique ID of trap.
 	 * @param uid
 	 */
 	public void setUid(String uid) {
@@ -83,6 +111,7 @@ public class TrapNotification {
 	}
 
 	public void setPeerAddress(String address) {
+		// TODO remove from API
 		this.peerAddress = address;
 	}
 
@@ -95,8 +124,14 @@ public class TrapNotification {
 	 * @return hostname
 	 */
 	public String getPeerHostname() {
-		// TODO
-		return null;
+		String hostname = getPeerIp();
+		try {
+			InetAddress addr = InetAddress.getByName(getPeerIp());
+			hostname = addr.getHostName();
+		} catch (UnknownHostException e) {
+			
+		}
+		return hostname;
 	}
 
 	public String getNodeName() {
@@ -379,6 +414,14 @@ public class TrapNotification {
 	@Override
 	public String toString() {
 		return "PDU from " + peerAddress + "@" + timestamp + "severity=" + severity + " " + pdu.toString() + " customText=" + customText;
+	}
+	
+	public String toStringRaw() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(PDU.getTypeString(pdu.getType()) + " ");
+		sb.append(getPeerIp() + " ");
+		sb.append(pdu.getVariableBindings());
+		return sb.toString();
 	}
 	
 }

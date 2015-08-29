@@ -52,6 +52,7 @@
 					
 					<h:inputTextarea id="receivedTraps" value="#{snmpTrapReceiverBean.receivedTrapsAsString}" 
 						cols="100" rows="30" styleClass="codeStyle" />
+					<p:poll interval="10" update="receivedTraps" />
 					
 				</h:panelGrid>
 			</h:form>

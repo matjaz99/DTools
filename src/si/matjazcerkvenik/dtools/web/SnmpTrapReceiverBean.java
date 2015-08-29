@@ -22,8 +22,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
-import org.snmp4j.PDU;
-
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrapReceiver;
 import si.matjazcerkvenik.dtools.tools.snmp.TrapNotification;
@@ -94,10 +92,7 @@ public class SnmpTrapReceiverBean {
 		Object[] array = trapReceiver.getReceivedTrapNotifications().toArray();
 		for (int i = 0; i < array.length; i++) {
 			TrapNotification tn = (TrapNotification) array[i];
-			PDU pdu = tn.getPdu();
-			receivedTrapsAsString += PDU.getTypeString(pdu.getType()) + " ";
-			receivedTrapsAsString += tn.getPeerAddress() + "";
-			receivedTrapsAsString += pdu.getVariableBindings() + "\n";
+			receivedTrapsAsString += tn.toStringRaw() + "\n";
 		}
 //		receivedTrapsAsString = receivedTrapsAsString.replaceAll(", ", "\n");
 		return receivedTrapsAsString;

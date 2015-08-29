@@ -61,11 +61,18 @@ public class SnmpTrapReceiver implements CommandResponder {
 	
 	private String trapReceiverName = "default";
 	private int counterOfReceivedTraps = 0;
+	private int queueSize = 100;
 	private ConcurrentLinkedQueue<TrapNotification> receivedTrapNotifications = new ConcurrentLinkedQueue<TrapNotification>();
 	
 	public SnmpTrapReceiver(String name) {
 		logger = DToolsContext.getInstance().getLogger();
 		trapReceiverName = name;
+		String size = DToolsContext.getInstance().getProperty("snmp.receiver.queue.size");
+		try {
+			queueSize = Integer.parseInt(size);
+		} catch (NumberFormatException e) {
+			queueSize = 100;
+		}
 		trapsLogger = new SimpleLogger(DToolsContext.HOME_DIR+ "/log/snmp-traps.log");
 		trapsLogger.setVerbose(logger.isVerbose());
 	}
@@ -137,12 +144,12 @@ public class SnmpTrapReceiver implements CommandResponder {
 		tProc.init();
 		tn = (TrapNotification) tProc.process(tn);
 		
-		if (receivedTrapNotifications.size() > 100) {
+		if (receivedTrapNotifications.size() > queueSize) {
 			receivedTrapNotifications.poll();
 		}
 		receivedTrapNotifications.add(tn);
 		
-		trapsLogger.info("SnmpTrapReceiver.processPdu(): " + tn.toString());
+		trapsLogger.info("SnmpTrapReceiver.processPdu(): " + tn.toStringRaw());
 		
 		if (pdu != null) {
 

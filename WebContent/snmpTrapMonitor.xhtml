@@ -20,51 +20,58 @@
 			
 			<h:outputText value="SNMP Trap Monitor" styleClass="title" />
 			
-			
-			<h:panelGrid columns="1" cellspacing="5" width="100%">
-				<h:dataTable id="trapsTable" value="#{snmpTrapMonitorBean.getTrapNotifications()}" var="trap" 
-					styleClass="table"
-					rowClasses="tableOddRow,tableEvenRow"
-					cellpadding="0" cellspacing="0" width="100%">
-					
-					<h:column headerClass="col0 col1">
-						<f:facet name="header">No</f:facet>
-						<h:outputText value="#{trap.no}" />
-					</h:column>
-					
-					<h:column headerClass="col0 col2">
-						<f:facet name="header">IP</f:facet>
-						<h:outputText value="#{trap.peerIp}" />
-					</h:column>
-					
-					<h:column headerClass="col0 col2">
-						<f:facet name="header">Node name</f:facet>
-						<h:outputText value="#{trap.nodeName}" />
-					</h:column>
-					
-					<h:column headerClass="col0 col2">
-						<f:facet name="header">Version</f:facet>
-						<h:outputText value="#{trap.version}" />
-					</h:column>
-					
-					<h:column headerClass="col0">
-						<f:facet name="header">Severity</f:facet>
-						<h:outputText value="#{trap.severity}" />
-					</h:column>
-					
-					<h:column headerClass="col0 col2">
-						<f:facet name="header">Group</f:facet>
-						<h:outputText value="#{trap.group}" />
-					</h:column>
-					
-					<h:column headerClass="col0 col3">
-						<f:facet name="header">Time</f:facet>
-						<h:outputText value="#{trap.getDate()}" />
-					</h:column>
-					
-				</h:dataTable>
-			</h:panelGrid>
-			
+			<h:form>
+				<h:panelGrid columns="1" cellspacing="5" width="100%">
+					<p:commandButton value="Refresh" action="#" update="trapsTable" ajax="true" />
+					<h:dataTable id="trapsTable" value="#{snmpTrapMonitorBean.getTrapNotifications()}" var="trap" 
+						styleClass="table"
+						rowClasses="#{snmpTrapMonitorBean.backgroundColors}"
+						cellpadding="0" cellspacing="0" width="100%">
+						
+						<h:column headerClass="col0 col1">
+							<f:facet name="header">No</f:facet>
+							<h:outputText value="#{trap.no}" />
+						</h:column>
+						
+						<h:column headerClass="col0 col2">
+							<f:facet name="header">IP</f:facet>
+							<h:outputText value="#{trap.peerIp}" />
+						</h:column>
+						
+						<h:column headerClass="col0 col2">
+							<f:facet name="header">Node name</f:facet>
+							<h:outputText value="#{trap.nodeName}" />
+						</h:column>
+						
+						<h:column headerClass="col0 col2">
+							<f:facet name="header">Version</f:facet>
+							<h:outputText value="#{trap.version}" />
+						</h:column>
+						
+						<h:column headerClass="col0">
+							<f:facet name="header">Severity</f:facet>
+							<h:outputText value="#{trap.severity}" />
+						</h:column>
+						
+						<h:column headerClass="col0">
+							<f:facet name="header">Custom text</f:facet>
+							<h:outputText value="#{trap.customText}" />
+						</h:column>
+						
+						<h:column headerClass="col0 col2">
+							<f:facet name="header">Group</f:facet>
+							<h:outputText value="#{trap.group}" />
+						</h:column>
+						
+						<h:column headerClass="col0 col3">
+							<f:facet name="header">Time</f:facet>
+							<h:outputText value="#{trap.getDate()}" />
+						</h:column>
+						
+					</h:dataTable>
+					<p:poll interval="10" update="trapsTable" />
+				</h:panelGrid>
+			</h:form>
         
         </h:panelGrid>
         

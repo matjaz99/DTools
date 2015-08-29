@@ -1,3 +1,21 @@
+/* 
+ * Copyright (C) 2015 Matjaz Cerkvenik
+ * 
+ * DTools is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * DTools is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with DTools. If not, see <http://www.gnu.org/licenses/>.
+ * 
+ */
+
 package si.matjazcerkvenik.dtools.tools.snmp;
 
 import java.io.FileNotFoundException;
@@ -13,13 +31,19 @@ import javax.script.ScriptException;
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
+/**
+ * This class calls javascript trap rules.
+ * @author matjaz
+ *
+ */
 public class TrapProcessor {
 	
 	private SimpleLogger logger;
+	private boolean isInitialized = false;
 	
 	private ScriptEngineManager scriptManager; 
     private ScriptEngine engine;
-    private SnmpContext myctx;
+    private SnmpContext ctx;
     
     public TrapProcessor() {
     	logger = DToolsContext.getInstance().getLogger();
@@ -28,14 +52,16 @@ public class TrapProcessor {
     public void init() {
     	scriptManager = new ScriptEngineManager();
         engine = scriptManager.getEngineByName("JavaScript");  
-        myctx = new SnmpContext();
-        myctx.setSomeCtx(1000);
+        ctx = new SnmpContext();
+        ctx.setSomeCtx(1000);
         
         Reader reader;
 		try {
-			reader = new FileReader(DToolsContext.HOME_DIR + "/config/parser.js");
+			reader = new FileReader(DToolsContext.HOME_DIR + "/" + DToolsContext.getInstance().getProperty("snmp.rules.file"));
 			engine.eval(reader);
 	        reader.close();
+	        engine.put("ctx", ctx);
+	        isInitialized = true;
 		} catch (FileNotFoundException e) {
 			logger.error("TrapProcessor.init(): FileNotFoundException", e);
 		} catch (ScriptException e) {
@@ -44,11 +70,13 @@ public class TrapProcessor {
 			logger.error("TrapProcessor.init(): IOException", e);
 		}
         
-        engine.put("myctx", myctx);
-        
 	}
     
     public Object process(TrapNotification alarm) {
+    	if (!isInitialized) {
+    		logger.warn("TrapProcessor.process(): engine not initialized");
+			return alarm;
+		}
         alarm.setCustomText("to je tekst");
         Invocable inv = (Invocable) engine;
         Object result = null;

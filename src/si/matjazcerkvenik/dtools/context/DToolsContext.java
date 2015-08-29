@@ -120,6 +120,20 @@ public class DToolsContext {
 		}
 	}
 	
+	
+	/**
+	 * Return property form dtools.properties
+	 * @param key
+	 * @return
+	 */
+	public String getProperty(String key) {
+		if (props == null) {
+			loadProperties();
+		}
+		return props.getProperty(key);
+	}
+	
+	
 	private void initLogger() {
 		
 		logger = new SimpleLogger(props);

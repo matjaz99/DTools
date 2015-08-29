@@ -173,6 +173,27 @@ a:hover {
 	width: 60%;
 }
 
+.bgTrapColor-Critical {
+	background-color: Red;
+}
+.bgTrapColor-Major {
+	background-color: DarkOrange;
+}
+.bgTrapColor-Minor {
+	background-color: Orange;
+}
+.bgTrapColor-Warning {
+	background-color: Yellow;
+}
+.bgTrapColor-Clear {
+	background-color: PaleGreen;
+}
+.bgTrapColor-Info {
+	background-color: Plum;
+}
+
+
+
 fieldset { 
     display: block;
     margin: 5px;
