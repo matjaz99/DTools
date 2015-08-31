@@ -22,11 +22,9 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Properties;
 
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
@@ -36,14 +34,13 @@ public class DToolsContext {
 
 	public static String HOME_DIR;
 	public static String version;
-	private Properties props;
 	
 	private SimpleLogger logger;
 	private long startTime;
 	
 	private DToolsContext() {
 		setHomeDir();
-		loadProperties();
+		DProps.loadProperties();
 		readVersion();
 		initLogger();
 	}
@@ -102,41 +99,13 @@ public class DToolsContext {
 
 	}
 	
-	/**
-	 * Read dtools.properties and load parameters.
-	 * @return properties
-	 */
-	private void loadProperties() {
-		
-		props = new Properties();
-		
-		try {
-			props.load(new FileInputStream(HOME_DIR + "/config/dtools.properties"));
-			// overwrite logger file location
-			props.setProperty("simplelogger.filename", HOME_DIR + "/log/" + props.getProperty("simplelogger.filename"));
-		} catch (IOException e) {
-			props = null;
-			e.printStackTrace();
-		}
-	}
-	
-	
-	/**
-	 * Return property form dtools.properties
-	 * @param key
-	 * @return
-	 */
-	public String getProperty(String key) {
-		if (props == null) {
-			loadProperties();
-		}
-		return props.getProperty(key);
-	}
 	
 	
 	private void initLogger() {
 		
-		logger = new SimpleLogger(props);
+		logger = new SimpleLogger(DProps.getProperties());
+		// overwrite logger file location
+		logger.setFilename(HOME_DIR + "/log/" + DProps.getProperty(DProps.SIMPLELOGGER_FILENAME));
 		
 		logger.info("");
 		logger.info("\t+---------------------------------+");

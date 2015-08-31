@@ -46,6 +46,7 @@ import org.snmp4j.transport.DefaultUdpTransportMapping;
 import org.snmp4j.util.MultiThreadedMessageDispatcher;
 import org.snmp4j.util.ThreadPool;
 
+import si.matjazcerkvenik.dtools.context.DProps;
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
@@ -67,7 +68,7 @@ public class SnmpTrapReceiver implements CommandResponder {
 	public SnmpTrapReceiver(String name) {
 		logger = DToolsContext.getInstance().getLogger();
 		trapReceiverName = name;
-		String size = DToolsContext.getInstance().getProperty("snmp.receiver.queue.size");
+		String size = DProps.getProperty(DProps.SNMP_RECEIVER_QUEUE_SIZE);
 		try {
 			queueSize = Integer.parseInt(size);
 		} catch (NumberFormatException e) {

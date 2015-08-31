@@ -28,6 +28,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import si.matjazcerkvenik.dtools.context.DProps;
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
@@ -57,7 +58,7 @@ public class TrapProcessor {
         
         Reader reader;
 		try {
-			reader = new FileReader(DToolsContext.HOME_DIR + "/" + DToolsContext.getInstance().getProperty("snmp.rules.file"));
+			reader = new FileReader(DToolsContext.HOME_DIR + "/" + DProps.getProperty(DProps.SNMP_RECEIVER_RULES_FILE));
 			engine.eval(reader);
 	        reader.close();
 	        engine.put("ctx", ctx);

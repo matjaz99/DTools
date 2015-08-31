@@ -20,19 +20,19 @@ Commons-logging is required by commons-vfs
 
 XX. august 2015
 
-- show network interfaces (in raw format)
 
 -----------------------------------------------------------
 
 0.2.0
 
-30. august 2015
+XX. august 2015
 
 - added GNU GPL license
 - javascript rules for traps
 - trap monitor (colors based on severities)
 - periodic polling (trap monitor)
 - show network interfaces (in raw format)
+- check and save properties after loading
 
 -----------------------------------------------------------
 
