@@ -64,6 +64,12 @@ body {
 	width: 32px;
 }
 
+.ui-menuitem-icon.ui-icon.fire-truck-icon {
+	background: url("#{resource['default:img/fire_truck.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}
+
 .ui-menuitem-icon.ui-icon.favorites-icon {
 	background: url("#{resource['default:img/star-full.png']}") no-repeat;
 	height: 32px; 
