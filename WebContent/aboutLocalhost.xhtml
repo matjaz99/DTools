@@ -24,6 +24,10 @@
 			
 			<h:panelGrid columns="1" cellpadding="1" cellspacing="1" width="100%">
 				
+				<pre>#{utilsBean.getNetworkInterfaces()}</pre>
+				
+				
+				<hr/>
 				
 				<h:dataTable value="#{utilsBean.localhostInfo}" var="item"
 					styleClass="table"

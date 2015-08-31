@@ -19,10 +19,21 @@
 package si.matjazcerkvenik.dtools.tools.localhost;
 
 import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Enumeration;
 
 public class LocalhostInfo {
-	
+
+	/**
+	 * Get local IP address. Works good on Windows and OS X. On CentOS 6 it
+	 * always returns 'UnknownHost' because many network interfaces could exist
+	 * and it doesn't resolve eth0 as default interface.<br>
+	 * See method printNetworkInterfaces() below.
+	 * 
+	 * @return ip address
+	 */
 	public static String getLocalIpAddress() {
 		try {
 			return InetAddress.getLocalHost().getHostAddress();
@@ -30,7 +41,44 @@ public class LocalhostInfo {
 			return "UnknownHost";
 		}
 	}
+
+	public static String printNetworkInterfaces() {
+		StringBuffer sb = new StringBuffer();
+		try {
+			Enumeration<NetworkInterface> ni = NetworkInterface.getNetworkInterfaces();
+			while (ni.hasMoreElements()) {
+				sb.append("NetworkInterface\n");
+				NetworkInterface i = (NetworkInterface) ni.nextElement();
+				sb.append("\tDisplayName: " + i.getDisplayName() + "\n");
+				sb.append("\tName: " + i.getName() + "\n");
+				sb.append("\tHW address: " + convertToHex(i.getHardwareAddress()) + "\n");
+				Enumeration<InetAddress> ia = i.getInetAddresses();
+				sb.append("\tInetAddresses: " + "\n");
+				while (ia.hasMoreElements()) {
+					InetAddress a = (InetAddress) ia.nextElement();
+					sb.append("\t\tCanonicalHostName: " + a.getCanonicalHostName() + "\n");
+					sb.append("\t\tHostAddress: " + a.getHostAddress() + "\n");
+					sb.append("\t\tHostName: " + a.getHostName() + "\n");
+				}
+			}
+		} catch (SocketException e1) {
+			e1.printStackTrace();
+		}
+		return sb.toString();
+	}
 	
+	private static String convertToHex(byte[] mac) {
+	    if(mac != null) {
+	    	StringBuilder sb = new StringBuilder();
+	    	for (int i = 0; i < mac.length; i++) {
+	    		sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
+	    	}
+	    	return sb.toString();
+	    }
+	    return "n/a";
+	}
+	
+
 	public static String getSystemUser() {
 		String u = System.getProperty("user.name");
 		if (u == null) {
@@ -38,5 +86,5 @@ public class LocalhostInfo {
 		}
 		return u;
 	}
-	
+
 }

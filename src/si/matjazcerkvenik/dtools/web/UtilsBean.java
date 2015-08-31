@@ -40,6 +40,10 @@ public class UtilsBean {
 		return LocalhostInfo.getLocalIpAddress();
 	}
 	
+	public String getNetworkInterfaces() {
+		return LocalhostInfo.printNetworkInterfaces();
+	}
+	
 	public String getSystemUser() {
 		return LocalhostInfo.getSystemUser();
 	}
@@ -58,11 +62,16 @@ public class UtilsBean {
 			NetworkInterface network = NetworkInterface.getByInetAddress(ip);
 			byte[] mac = network.getHardwareAddress();
 			
-			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < mac.length; i++) {
-				sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));		
+			if (mac != null) {
+				StringBuilder sb = new StringBuilder();
+				for (int i = 0; i < mac.length; i++) {
+					sb.append(String.format("%02X%s", mac[i],
+							(i < mac.length - 1) ? "-" : ""));
+				}
+				list.add("MAC address: " + sb.toString());
+			} else {
+				list.add("MAC address: n/a");
 			}
-			list.add("MAC address: " + sb.toString());
 	 
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
