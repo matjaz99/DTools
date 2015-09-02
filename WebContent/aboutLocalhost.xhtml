@@ -24,7 +24,10 @@
 			
 			<h:panelGrid columns="1" cellpadding="1" cellspacing="1" width="100%">
 				
-				<pre>#{utilsBean.getNetworkInterfaces()}</pre>
+				<p:outputPanel deferred="true">
+					<pre>#{utilsBean.getNetworkInterfaces()}</pre>
+				</p:outputPanel>
+				
 				
 				
 				<hr/>

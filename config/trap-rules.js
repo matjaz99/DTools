@@ -3,25 +3,35 @@ function sestej(x) {
 }
 
 function processTrap(trap) {
-    var t = "ok " + trap.getCustomText();
-    if (trap.getPeerIp() == "192.168.1.110") {
-    	trap.setNodeName("CentOS 6");
-    	trap.setLocation("Private network");
+    
+    if (trap.peerIp == "192.168.1.110") {
+    	trap.nodeName = "CentOS 6";
+    	trap.location = "Private network";
     } else {
-    	trap.setNodeName("TestNode 1");
-    	trap.setLocation("Testbed 1");
+    	trap.nodeName = "TestNode 1";
+    	trap.location = "Testbed 1";
     }
-    trap.setCustomText(t);
-    trap.setSeverity(4);
-    trap.setGroup("Alarm");
+    
+    var t = trap.community + " ";
+    var varbinds = trap.varbinds;
+    for (var i = 0; i < varbinds.length; i++) {
+    	var oid = varbinds[i].oid;
+    	var value = varbinds[i].value;
+    	t += oid + ":" + value + ", ";
+	}
+    
+    trap.customText = t;
+    trap.severity = 2;
+    trap.group = "Alarm";
     
     if (trap.isV1) {
     	
     } else if (trap.isV2C) {
+    	
     }
     var response = new Object();
     var u = ctx.getSomeCtx();
     u = sestej(u);
-    trap.setTimestamp(u);
+    // trap.setTimestamp(u);
     return trap;
 }

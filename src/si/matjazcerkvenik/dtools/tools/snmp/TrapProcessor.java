@@ -78,7 +78,6 @@ public class TrapProcessor {
     		logger.warn("TrapProcessor.process(): engine not initialized");
 			return alarm;
 		}
-        alarm.setCustomText("to je tekst");
         Invocable inv = (Invocable) engine;
         Object result = null;
 		try {

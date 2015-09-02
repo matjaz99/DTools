@@ -138,8 +138,7 @@ public class SnmpTrapReceiver implements CommandResponder {
 		PDU pdu = cmdRespEvent.getPDU();
 		
 		// create TrapNotification
-		TrapNotification tn = new TrapNotification(counterOfReceivedTraps++, trapReceiverName, pdu);
-		tn.setPeerAddress(cmdRespEvent.getPeerAddress().toString());		
+		TrapNotification tn = new TrapNotification(counterOfReceivedTraps++, trapReceiverName, cmdRespEvent);
 		
 		TrapProcessor tProc = new TrapProcessor();
 		tProc.init();

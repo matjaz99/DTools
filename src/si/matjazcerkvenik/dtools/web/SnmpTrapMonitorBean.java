@@ -63,7 +63,7 @@ public class SnmpTrapMonitorBean {
 
 	    for (int i = 0; i < array.length; i++) {
 	    	TrapNotification tn = (TrapNotification) array[i];
-	    	switch (tn.getSeverity()) {
+	    	switch (tn.severity) {
 			case 1:
 				rowClasses.append("bgTrapColor-Critical");
 				break;
