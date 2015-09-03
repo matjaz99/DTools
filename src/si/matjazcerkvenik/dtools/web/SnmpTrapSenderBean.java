@@ -28,6 +28,7 @@ import javax.faces.bean.ManagedBean;
 
 import org.primefaces.context.RequestContext;
 
+import si.matjazcerkvenik.dtools.tools.snmp.SenderThread;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrapSender;
 import si.matjazcerkvenik.dtools.xml.DAO;
 import si.matjazcerkvenik.dtools.xml.SnmpTrap;
@@ -43,6 +44,9 @@ public class SnmpTrapSenderBean {
 	private int destinationPort = 6162;
 	
 	private SnmpTrapSender trapSender;
+	
+	private SenderThread senderThread;
+	private int sendInterval = 2000;
 	
 
 	public String getLocalIp() {
@@ -76,36 +80,20 @@ public class SnmpTrapSenderBean {
 	public void setDestinationPort(int port) {
 		this.destinationPort = port;
 	}
+	
+	
+	public SnmpTrapSender getTrapSender() {
+		return trapSender;
+	}
 
-	
-	
-	
-	
-	
+	public int getSendInterval() {
+		return sendInterval;
+	}
 
+	public void setSendInterval(int sendInterval) {
+		this.sendInterval = sendInterval;
+	}
 
-
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
-	
-	
 	public List<SnmpTrap> getSnmpTrapsList() {
 		return DAO.getInstance().loadSnmpTraps().getTraps();
 	}
@@ -134,6 +122,11 @@ public class SnmpTrapSenderBean {
 			trapSender.start(localIp, localPort);
 			Growl.addGrowlMessage("Agent running", FacesMessage.SEVERITY_INFO);
 		} else {
+			
+			if (senderThread != null) {
+				toggleSendingAll(); // stop thread before stopping agent
+			}
+			
 			// already listening
 			trapSender.stop();
 			trapSender = null;
@@ -161,6 +154,34 @@ public class SnmpTrapSenderBean {
          
         RequestContext.getCurrentInstance().openDialog("snmpTrapV1Composer", options, null);
     }
+	
+	
+	public void toggleSendingAll() {
+		
+		if (senderThread == null) {
+			senderThread = new SenderThread(this);
+			senderThread.startThread();
+		} else {
+			// already running
+			senderThread.stopThread();
+			try {
+				senderThread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			senderThread = null;
+		}
+		
+	}
+	
+	public String getSenderThreadStatus() {
+		if (senderThread == null) {
+			return "Start";
+		} else {
+			return "Stop";
+		}
+	}
+	
 	
 	
 }

@@ -95,6 +95,14 @@
 						
 					</p:dataTable>
 				</h:panelGrid>
+				
+				<hr/>
+				
+				<h:outputLabel value="Send interval (ms): " />
+				<p:inputText value="#{snmpTrapSenderBean.sendInterval}" />
+				<p:commandButton id="stButton" value="#{snmpTrapSenderBean.getSenderThreadStatus()}" 
+					action="#{snmpTrapSenderBean.toggleSendingAll()}"
+					update="growl stButton" ajax="true" />
 			</h:form>
         
         </h:panelGrid>

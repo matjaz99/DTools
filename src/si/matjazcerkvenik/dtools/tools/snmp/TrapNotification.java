@@ -25,6 +25,7 @@ import java.util.Calendar;
 
 import org.snmp4j.CommandResponderEvent;
 import org.snmp4j.PDU;
+import org.snmp4j.PDUv1;
 import org.snmp4j.smi.VariableBinding;
 
 public class TrapNotification {
@@ -58,6 +59,21 @@ public class TrapNotification {
 	
 	/** Community */
 	public String community;
+	
+	/** V1 generic trap */
+	public String genericTrap;
+	
+	/** V1 specific trap */
+	public String specificTrap;
+	
+	/** V1 enterprise oid */
+	public String enterpriseOid;
+	
+	/** V2C snmpTrapOid */
+	public String snmpTrapOid;
+	
+	/** V2C sysUpTime */
+	public String sysUpTime;
 	
 	/** Node name */
 	public String nodeName;
@@ -135,20 +151,6 @@ public class TrapNotification {
 			peerHostname = peerIp;
 		}
 		
-		switch (pdu.getType()) {
-		case PDU.V1TRAP:
-			isV1 = true;
-			snmpVersion = "v1";
-			break;
-		case PDU.TRAP:
-			isV2C = true;
-			snmpVersion = "v2c";
-			break;
-		default:
-			snmpVersion = "unkn";
-			break;
-		}
-		
 		Object[] array = pdu.getVariableBindings().toArray();
 		for (int i = 0; i < array.length; i++) {
 			VariableBinding vb = (VariableBinding) array[i];
@@ -156,6 +158,35 @@ public class TrapNotification {
 			String val = vb.toValueString();
 			addVB(oid, val);
 		}
+		
+		switch (pdu.getType()) {
+		case PDU.V1TRAP:
+			isV1 = true;
+			snmpVersion = "v1";
+			PDUv1 pduv1 = (PDUv1) pdu;
+			genericTrap = "" + pduv1.getGenericTrap();
+			specificTrap = "" + pduv1.getSpecificTrap();
+			enterpriseOid = pduv1.getEnterprise().toDottedString();
+			timestamp = pduv1.getTimestamp();
+			break;
+		case PDU.TRAP:
+			isV2C = true;
+			snmpVersion = "v2c";
+			for (int i = 0; i < varbinds.length; i++) {
+				if (varbinds[i].oid.startsWith("1.3.6.1.6.3.1.1.4.1")) {
+					snmpTrapOid = varbinds[i].value;
+				}
+				if (varbinds[i].oid.startsWith("1.3.6.1.2.1.1.3")) {
+					sysUpTime = varbinds[i].value;
+				}
+			}
+			break;
+		default:
+			snmpVersion = "unkn";
+			break;
+		}
+		
+		
 		
 	}
 	
@@ -407,6 +438,46 @@ public class TrapNotification {
 
 	public void setCustomText(String customText) {
 		this.customText = customText;
+	}
+
+	public String getGenericTrap() {
+		return genericTrap;
+	}
+
+	public void setGenericTrap(String genericTrap) {
+		this.genericTrap = genericTrap;
+	}
+
+	public String getSpecificTrap() {
+		return specificTrap;
+	}
+
+	public void setSpecificTrap(String specificTrap) {
+		this.specificTrap = specificTrap;
+	}
+
+	public String getEnterpriseOid() {
+		return enterpriseOid;
+	}
+
+	public void setEnterpriseOid(String enterpriseOid) {
+		this.enterpriseOid = enterpriseOid;
+	}
+
+	public String getSnmpTrapOid() {
+		return snmpTrapOid;
+	}
+
+	public void setSnmpTrapOid(String snmpTrapOid) {
+		this.snmpTrapOid = snmpTrapOid;
+	}
+
+	public String getSysUpTime() {
+		return sysUpTime;
+	}
+
+	public void setSysUpTime(String sysUpTime) {
+		this.sysUpTime = sysUpTime;
 	}
 	
 }

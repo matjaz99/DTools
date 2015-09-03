@@ -1,5 +1,5 @@
 # DTools
-Developer tools (SSH, FTP clients, automatization of common tasks, network status...)
+Developer tools (SSH, FTP, SNMP simulator, automatization of common tasks, network status...)
 
 This application is still in development phase.
 
@@ -16,7 +16,17 @@ For a developer it should help to simplify common tasks
 
 Commons-logging is required by commons-vfs
 
-0.2.0
+-----------------------------------------------------------
+
+0.2.1 (md5=001dfa4bc0cb3c8c0925409e90e27b53)
+
+dd. mm 2015
+
+- send traps in specified interval
+
+-----------------------------------------------------------
+
+0.2.0 (md5=d567b788d4057230f8298143a51c9c32)
 
 03. september 2015
 
@@ -29,7 +39,7 @@ Commons-logging is required by commons-vfs
 
 -----------------------------------------------------------
 
-0.1.0
+0.1.0 (md5=e3a86f2b8226bb0951f88f3fd2bf607a)
 
 31. july 2015
 
