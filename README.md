@@ -16,16 +16,9 @@ For a developer it should help to simplify common tasks
 
 Commons-logging is required by commons-vfs
 
-0.2.1
-
-XX. august 2015
-
-
------------------------------------------------------------
-
 0.2.0
 
-XX. august 2015
+03. september 2015
 
 - added GNU GPL license
 - javascript rules for traps
