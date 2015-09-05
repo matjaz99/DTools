@@ -126,6 +126,9 @@ public class TrapNotification {
 	/** Extended data 9 */
 	public String extDat9;
 	
+	/** Ignore this trap */
+	public boolean ignore = false;
+	
 	private PDU pdu;
 	
 	public VB[] varbinds = new VB[0];
@@ -220,6 +223,14 @@ public class TrapNotification {
 		sb.append(peerIp + " ");
 		sb.append(community + " ");
 		sb.append(pdu.getVariableBindings());
+		return sb.toString();
+	}
+	
+	public String toStringVbs() {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < varbinds.length; i++) {
+			sb.append(varbinds[i].toString() + "\n");
+		}
 		return sb.toString();
 	}
 	
@@ -478,6 +489,26 @@ public class TrapNotification {
 
 	public void setSysUpTime(String sysUpTime) {
 		this.sysUpTime = sysUpTime;
+	}
+
+	public boolean isIgnore() {
+		return ignore;
+	}
+
+	public void setIgnore(boolean ignore) {
+		this.ignore = ignore;
+	}
+
+	public String getCommunity() {
+		return community;
+	}
+
+	public boolean isV1() {
+		return isV1;
+	}
+
+	public boolean isV2C() {
+		return isV2C;
 	}
 	
 }

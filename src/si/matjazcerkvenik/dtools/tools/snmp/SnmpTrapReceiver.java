@@ -144,12 +144,13 @@ public class SnmpTrapReceiver implements CommandResponder {
 		tProc.init();
 		tn = (TrapNotification) tProc.process(tn);
 		
-		if (receivedTrapNotifications.size() > queueSize) {
-			receivedTrapNotifications.poll();
+		if (!tn.isIgnore()) {
+			if (receivedTrapNotifications.size() > queueSize) {
+				receivedTrapNotifications.poll();
+			}
+			receivedTrapNotifications.add(tn);
+			trapsLogger.info("SnmpTrapReceiver.processPdu(): " + tn.toStringRaw());
 		}
-		receivedTrapNotifications.add(tn);
-		
-		trapsLogger.info("SnmpTrapReceiver.processPdu(): " + tn.toStringRaw());
 		
 		if (pdu != null) {
 

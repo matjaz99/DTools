@@ -18,15 +18,16 @@ Commons-logging is required by commons-vfs
 
 -----------------------------------------------------------
 
-0.2.1 (md5=001dfa4bc0cb3c8c0925409e90e27b53)
+0.2.1
 
 dd. mm 2015
 
-- send traps in specified interval
+- sender thread - send traps in specified interval
+- trap info (trap monitor)
 
 -----------------------------------------------------------
 
-0.2.0 (md5=d567b788d4057230f8298143a51c9c32)
+0.2.0
 
 03. september 2015
 
@@ -39,7 +40,7 @@ dd. mm 2015
 
 -----------------------------------------------------------
 
-0.1.0 (md5=e3a86f2b8226bb0951f88f3fd2bf607a)
+0.1.0
 
 31. july 2015
 

@@ -23,17 +23,19 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 import si.matjazcerkvenik.dtools.tools.snmp.TrapNotification;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class SnmpTrapMonitorBean {
 	
 	@ManagedProperty(value="#{snmpTrapReceiverBean}")
 	private SnmpTrapReceiverBean snmpTrapReceiverBean;
 	
+	private List<TrapNotification> list;
+	private TrapNotification activeTrap;
 	
 	// only setter is needed to inject
 	public void setSnmpTrapReceiverBean(SnmpTrapReceiverBean snmpTrapReceiverBean) {
@@ -42,14 +44,35 @@ public class SnmpTrapMonitorBean {
 
 
 
-	public List<TrapNotification> getTrapNotifications() {
+	public TrapNotification getActiveTrap() {
+		return activeTrap;
+	}
+
+
+
+	public void setActiveTrap(TrapNotification activeTrap) {
+		this.activeTrap = activeTrap;
+	}
+	
+	public void nullActiveTrap() {
+		this.activeTrap = null;
+	}
+	
+	public void updateTrapNotifications() {
 		Object[] array = snmpTrapReceiverBean.getTrapReceiver().getReceivedTrapNotifications().toArray();
-		List<TrapNotification> list = new ArrayList<TrapNotification>();
-		for (int i = 0; i < array.length; i++) {
+		list = new ArrayList<TrapNotification>();
+		for (int i = array.length - 1; i >= 0; i--) {
 			list.add((TrapNotification) array[i]);
 		}
+	}
+
+
+
+	public List<TrapNotification> getTrapNotifications() {
+		if (list == null) {
+			updateTrapNotifications();
+		}
 		return list;
-		
 	}
 	
 	/**
@@ -61,40 +84,60 @@ public class SnmpTrapMonitorBean {
 		StringBuilder rowClasses = new StringBuilder();
 		Object[] array = snmpTrapReceiverBean.getTrapReceiver().getReceivedTrapNotifications().toArray();
 
-	    for (int i = 0; i < array.length; i++) {
+		// sort ascending
+//	    for (int i = 0; i < array.length; i++) {
+//	    	TrapNotification tn = (TrapNotification) array[i];
+//	    	String s = getStyleClass(tn.severity);
+//	    	if (s == null) {
+//	    		if (i % 2 == 0) {
+//					rowClasses.append("tableEvenRow");
+//				} else {
+//					rowClasses.append("tableOddRow");
+//				}
+//			} else {
+//				rowClasses.append(s);
+//			}
+//	        if (i < array.length - 1) rowClasses.append(",");
+//	    }
+		
+		// sort descending
+		for (int i = array.length - 1; i >= 0; i--) {
 	    	TrapNotification tn = (TrapNotification) array[i];
-	    	switch (tn.severity) {
-			case 1:
-				rowClasses.append("bgTrapColor-Critical");
-				break;
-			case 2:
-				rowClasses.append("bgTrapColor-Major");
-				break;
-			case 3:
-				rowClasses.append("bgTrapColor-Minor");
-				break;
-			case 4:
-				rowClasses.append("bgTrapColor-Warning");
-				break;
-			case 5:
-				rowClasses.append("bgTrapColor-Clear");
-				break;
-			case 6:
-				rowClasses.append("bgTrapColor-Info");
-				break;
-			default:
-				if (i % 2 == 0) {
+	    	String s = getStyleClass(tn.severity);
+	    	if (s == null) {
+	    		if (i % 2 == 0) {
 					rowClasses.append("tableEvenRow");
 				} else {
 					rowClasses.append("tableOddRow");
 				}
-				break;
+			} else {
+				rowClasses.append(s);
 			}
-	        if (i < array.length - 1) rowClasses.append(",");
+	        if (i > 0) rowClasses.append(",");
 	    }
 
 	    return rowClasses.toString();
 		
+	}
+	
+	private String getStyleClass(int severity) {
+		switch (severity) {
+		case 1:
+			return "bgTrapColor-Critical";
+		case 2:
+			return "bgTrapColor-Major";
+		case 3:
+			return "bgTrapColor-Minor";
+		case 4:
+			return "bgTrapColor-Warning";
+		case 5:
+			return "bgTrapColor-Clear";
+		case 6:
+			return "bgTrapColor-Info";
+		default:
+			break;
+		}
+		return null;
 	}
 	
 }

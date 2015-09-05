@@ -73,12 +73,78 @@
 							<h:outputText value="#{trap.getDate()}" />
 						</h:column>
 						
+						<h:column headerClass="col0 col3">
+							<f:facet name="header">Info</f:facet>
+							<p:commandLink action="#{snmpTrapMonitorBean.setActiveTrap(trap)}" ajax="true"
+								oncomplete="PF('trapInfoDlg').show();return false;">
+								<dt:icon img="info16"/>
+							</p:commandLink>
+						</h:column>
+						
+						
+						
 					</h:dataTable>
-					<p:poll interval="10" update="trapsTable" />
+					<p:poll interval="10" listener="#{snmpTrapMonitorBean.updateTrapNotifications()}" update="trapsTable" />
 				</h:panelGrid>
+				
+				
+				
+				
 			</h:form>
         
         </h:panelGrid>
+        
+        <h:form id="trapInfoForm">
+        	<p:dialog header="Trap info" widgetVar="trapInfoDlg" resizable="false" dynamic="true" closable="false">
+        		<h:panelGrid columns="1" width="100%">
+        			<h:panelGrid columns="2">
+        				<h:panelGrid columns="2" cellspacing="2">
+        					<h:outputText value="No:" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.no}" />
+        					<h:outputText value="UID:" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.uid}" />
+        					<h:outputText value="Version:" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.snmpVersion}" />
+        					<h:outputText value="Hostname:" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.peerHostname}" />
+        					<h:outputText value="Date:" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.date}" />
+        					<h:outputText value="Community:" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.community}" />
+        					<h:outputText value="Enterprise OID:" rendered="#{snmpTrapMonitorBean.activeTrap.v1}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.enterpriseOid}" rendered="#{snmpTrapMonitorBean.activeTrap.v1}" />
+        					<h:outputText value="Generic trap:" rendered="#{snmpTrapMonitorBean.activeTrap.v1}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.genericTrap}" rendered="#{snmpTrapMonitorBean.activeTrap.v1}" />
+        					<h:outputText value="Specific trap:" rendered="#{snmpTrapMonitorBean.activeTrap.v1}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.specificTrap}" rendered="#{snmpTrapMonitorBean.activeTrap.v1}" />
+        					<h:outputText value="SNMP Trap OID:" rendered="#{snmpTrapMonitorBean.activeTrap.v2C}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.snmpTrapOid}" rendered="#{snmpTrapMonitorBean.activeTrap.v2C}" />
+        					<h:outputText value="sysUpTime:" rendered="#{snmpTrapMonitorBean.activeTrap.v2C}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.sysUpTime}" rendered="#{snmpTrapMonitorBean.activeTrap.v2C}" />
+        				</h:panelGrid>
+        				<h:panelGrid columns="2" cellspacing="5">
+        					<h:outputText value="Node name:" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.nodeName}" />
+        					<h:outputText value="Peer:" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.peerAddress}" />
+        					<h:outputText value="Location:" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.location}" />
+        					<h:outputText value="Group:" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.group}" />
+        					<h:outputText value="Trap receiver:" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.trapReceiverName}" />
+        				</h:panelGrid>
+        			</h:panelGrid>
+        			<hr/>
+        			<h:outputText value="Variable bindings:" />
+        			<pre>#{snmpTrapMonitorBean.activeTrap.toStringVbs()}</pre>
+        		</h:panelGrid>
+				<f:facet name="footer">
+			    	<p:commandButton value="Cancel" action="#{snmpTrapMonitorBean.nullActiveTrap()}" 
+			        	onclick="PF('trapInfoDlg').hide();" update="trapInfoForm" />
+			    </f:facet>
+			</p:dialog>
+        </h:form>
         
     </h:body>
 </html>
