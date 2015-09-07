@@ -18,6 +18,7 @@
 
 package si.matjazcerkvenik.dtools.xml;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 import org.snmp4j.smi.Counter32;
@@ -62,7 +63,7 @@ public class VarBind implements Cloneable {
 		return oid;
 	}
 
-	@XmlElement
+	@XmlAttribute
 	public void setOid(String oid) {
 		this.oid = oid;
 	}
@@ -71,7 +72,7 @@ public class VarBind implements Cloneable {
 		return oidName;
 	}
 
-	@XmlElement
+	@XmlAttribute
 	public void setOidName(String oidName) {
 		this.oidName = oidName;
 	}
@@ -80,7 +81,7 @@ public class VarBind implements Cloneable {
 		return type;
 	}
 
-	@XmlElement
+	@XmlAttribute
 	public void setType(String type) {
 		this.type = type;
 	}
@@ -89,7 +90,7 @@ public class VarBind implements Cloneable {
 		return value;
 	}
 
-	@XmlElement
+	@XmlAttribute
 	public void setValue(String value) {
 		this.value = value;
 	}

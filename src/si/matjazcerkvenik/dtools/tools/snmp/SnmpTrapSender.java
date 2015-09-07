@@ -105,8 +105,9 @@ public class SnmpTrapSender {
 			PDUv1 pdu = new PDUv1();
 			pdu.setType(PDU.V1TRAP);
 			pdu.setEnterprise(new OID(trap.getEnterpriseOid()));
-			pdu.setGenericTrap(PDUv1.ENTERPRISE_SPECIFIC);
-			pdu.setSpecificTrap(1);
+//			pdu.setGenericTrap(PDUv1.ENTERPRISE_SPECIFIC);
+			pdu.setGenericTrap(trap.getGenericTrap());
+			pdu.setSpecificTrap(trap.getSpecificTrap());
 			pdu.setAgentAddress(new IpAddress(trap.getSourceIp()));
 			
 			for (int i = 0; i < trap.getVarbind().size(); i++) {

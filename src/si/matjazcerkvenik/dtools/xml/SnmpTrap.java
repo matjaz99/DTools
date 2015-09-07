@@ -34,8 +34,8 @@ public class SnmpTrap implements Cloneable {
 	private List<VarBind> varbind;
 	
 	// v1 parameters
-	private String genericTrap;
-	private String specificTrap;
+	private int genericTrap;
+	private int specificTrap;
 	private String enterpriseOid;
 	private String timestamp;
 	// coldStart trap (0), warmStart trap (1), linkDown trap(2)
@@ -74,21 +74,21 @@ public class SnmpTrap implements Cloneable {
 		this.community = community;
 	}
 
-	public String getGenericTrap() {
+	public int getGenericTrap() {
 		return genericTrap;
 	}
 
 	@XmlElement
-	public void setGenericTrap(String genericTrap) {
+	public void setGenericTrap(int genericTrap) {
 		this.genericTrap = genericTrap;
 	}
 
-	public String getSpecificTrap() {
+	public int getSpecificTrap() {
 		return specificTrap;
 	}
 
 	@XmlElement
-	public void setSpecificTrap(String specificTrap) {
+	public void setSpecificTrap(int specificTrap) {
 		this.specificTrap = specificTrap;
 	}
 

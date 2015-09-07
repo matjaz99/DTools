@@ -44,8 +44,8 @@ public class SnmpTrapV1Composer {
 	// Generic trap types: coldStart trap (0), warmStart trap (1),
 	// linkDown trap(2), linkUp trap (3), authenticationFailure trap (4),
 	// egpNeighborLoss trap (5), enterpriseSpecific trap (6)
-	private String genericTrap = "6";
-	private String specificTrap = "0";
+	private int genericTrap = 6;
+	private int specificTrap = 0;
 	private String enterpriseOid = "1.";
 	private String timestamp = "0";
 	private List<VarBind> varbinds;
@@ -95,19 +95,19 @@ public class SnmpTrapV1Composer {
 		this.sourceIp = sourceIp;
 	}
 
-	public String getGenericTrap() {
+	public int getGenericTrap() {
 		return genericTrap;
 	}
 
-	public void setGenericTrap(String genericTrap) {
+	public void setGenericTrap(int genericTrap) {
 		this.genericTrap = genericTrap;
 	}
 
-	public String getSpecificTrap() {
+	public int getSpecificTrap() {
 		return specificTrap;
 	}
 
-	public void setSpecificTrap(String specificTrap) {
+	public void setSpecificTrap(int specificTrap) {
 		this.specificTrap = specificTrap;
 	}
 
@@ -220,8 +220,8 @@ public class SnmpTrapV1Composer {
 		trapName = null;
 		community = "public";
 		sourceIp = LocalhostInfo.getLocalIpAddress();
-		genericTrap = "6";
-		specificTrap = "0";
+		genericTrap = 6;
+		specificTrap = 0;
 		enterpriseOid = "1.";
 		timestamp = "" + DToolsContext.getSysUpTime()/1000;
 		varbinds = null;

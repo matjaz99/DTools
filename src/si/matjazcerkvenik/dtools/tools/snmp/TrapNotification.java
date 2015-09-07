@@ -61,10 +61,10 @@ public class TrapNotification {
 	public String community;
 	
 	/** V1 generic trap */
-	public String genericTrap;
+	public int genericTrap;
 	
 	/** V1 specific trap */
-	public String specificTrap;
+	public int specificTrap;
 	
 	/** V1 enterprise oid */
 	public String enterpriseOid;
@@ -167,8 +167,8 @@ public class TrapNotification {
 			isV1 = true;
 			snmpVersion = "v1";
 			PDUv1 pduv1 = (PDUv1) pdu;
-			genericTrap = "" + pduv1.getGenericTrap();
-			specificTrap = "" + pduv1.getSpecificTrap();
+			genericTrap = pduv1.getGenericTrap();
+			specificTrap = pduv1.getSpecificTrap();
 			enterpriseOid = pduv1.getEnterprise().toDottedString();
 			timestamp = pduv1.getTimestamp();
 			break;
@@ -451,19 +451,19 @@ public class TrapNotification {
 		this.customText = customText;
 	}
 
-	public String getGenericTrap() {
+	public int getGenericTrap() {
 		return genericTrap;
 	}
 
-	public void setGenericTrap(String genericTrap) {
+	public void setGenericTrap(int genericTrap) {
 		this.genericTrap = genericTrap;
 	}
 
-	public String getSpecificTrap() {
+	public int getSpecificTrap() {
 		return specificTrap;
 	}
 
-	public void setSpecificTrap(String specificTrap) {
+	public void setSpecificTrap(int specificTrap) {
 		this.specificTrap = specificTrap;
 	}
 

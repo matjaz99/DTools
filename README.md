@@ -24,6 +24,7 @@ dd. mm 2015
 
 - sender thread - send traps in specified interval
 - trap info (trap monitor)
+- changed format of snmpTraps.xml (varbinds contain attributes rather than elements) - to convert use xmlConverter.jar
 
 -----------------------------------------------------------
 
