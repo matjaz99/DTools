@@ -18,9 +18,17 @@ Commons-logging is required by commons-vfs
 
 -----------------------------------------------------------
 
+0.2.2
+
+xx. september 2015
+
+- snmp monitor: select rows to show
+
+-----------------------------------------------------------
+
 0.2.1
 
-dd. mm 2015
+07. september 2015
 
 - sender thread - send traps in specified interval
 - trap info (trap monitor)

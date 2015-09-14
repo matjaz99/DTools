@@ -18,6 +18,7 @@
 
 package si.matjazcerkvenik.dtools.web;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,13 +30,19 @@ import si.matjazcerkvenik.dtools.tools.snmp.TrapNotification;
 
 @ManagedBean
 @ViewScoped
-public class SnmpTrapMonitorBean {
+public class SnmpTrapMonitorBean implements Serializable {
 	
+	private static final long serialVersionUID = -3589597671351602203L;
+
 	@ManagedProperty(value="#{snmpTrapReceiverBean}")
 	private SnmpTrapReceiverBean snmpTrapReceiverBean;
 	
 	private List<TrapNotification> list;
 	private TrapNotification activeTrap;
+	
+	
+	
+
 	
 	// only setter is needed to inject
 	public void setSnmpTrapReceiverBean(SnmpTrapReceiverBean snmpTrapReceiverBean) {
@@ -139,5 +146,14 @@ public class SnmpTrapMonitorBean {
 		}
 		return null;
 	}
+	
+	
+	
+
+
+
+	
+
+	
 	
 }

@@ -28,6 +28,8 @@ import org.snmp4j.PDU;
 import org.snmp4j.PDUv1;
 import org.snmp4j.smi.VariableBinding;
 
+import si.matjazcerkvenik.dtools.tools.md5.MD5Checksum;
+
 public class TrapNotification {
 	
 	/** Sequence number of trap */
@@ -260,6 +262,10 @@ public class TrapNotification {
 //	}
 
 	public String getUid() {
+		if (uid == null) {
+			// TODO calculate md5 of all data
+			uid = MD5Checksum.getMd5Checksum(toStringRaw());
+		}
 		return uid;
 	}
 
