@@ -18,6 +18,7 @@
 
 package si.matjazcerkvenik.dtools.tools.snmp;
 
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
@@ -30,8 +31,10 @@ import org.snmp4j.smi.VariableBinding;
 
 import si.matjazcerkvenik.dtools.tools.md5.MD5Checksum;
 
-public class TrapNotification {
+public class TrapNotification implements Serializable {
 	
+	private static final long serialVersionUID = 396526466193707880L;
+
 	/** Sequence number of trap */
 	public int no;
 	
@@ -76,6 +79,11 @@ public class TrapNotification {
 	
 	/** V2C sysUpTime */
 	public String sysUpTime;
+	
+	public int errorIndex;
+	public int errorStatus;
+	public String errorStatusText;
+	public int requestId;
 	
 	/** Node name */
 	public String nodeName;
@@ -149,6 +157,11 @@ public class TrapNotification {
 		community = new String(cmdRespEvent.getSecurityName());
 		timestamp = System.currentTimeMillis();
 		
+		errorIndex = pdu.getErrorIndex();
+		errorStatus = pdu.getErrorStatus();
+		errorStatusText = pdu.getErrorStatusText();
+		requestId = pdu.getRequestID().toInt();
+		
 		try {
 			InetAddress addr = InetAddress.getByName(peerIp);
 			peerHostname = addr.getHostName();
@@ -169,6 +182,7 @@ public class TrapNotification {
 			isV1 = true;
 			snmpVersion = "v1";
 			PDUv1 pduv1 = (PDUv1) pdu;
+			requestId = pdu.getRequestID().toInt();
 			genericTrap = pduv1.getGenericTrap();
 			specificTrap = pduv1.getSpecificTrap();
 			enterpriseOid = pduv1.getEnterprise().toDottedString();
@@ -515,6 +529,10 @@ public class TrapNotification {
 
 	public boolean isV2C() {
 		return isV2C;
+	}
+
+	public long getRequestId() {
+		return requestId;
 	}
 	
 }

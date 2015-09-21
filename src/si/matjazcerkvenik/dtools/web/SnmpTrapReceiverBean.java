@@ -18,6 +18,8 @@
 
 package si.matjazcerkvenik.dtools.web;
 
+import java.io.Serializable;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
@@ -29,7 +31,9 @@ import si.matjazcerkvenik.dtools.xml.DAO;
 
 @ManagedBean
 @ApplicationScoped
-public class SnmpTrapReceiverBean {
+public class SnmpTrapReceiverBean implements Serializable {
+	
+	private static final long serialVersionUID = 1750695129629929329L;
 	
 	private SnmpTrapReceiver trapReceiver = null;
 	private String ip = LocalhostInfo.getLocalIpAddress();

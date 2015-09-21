@@ -18,6 +18,7 @@
 
 package si.matjazcerkvenik.dtools.web;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +36,9 @@ import si.matjazcerkvenik.dtools.xml.SnmpTrap;
 
 @ManagedBean
 @ApplicationScoped
-public class SnmpTrapSenderBean {
+public class SnmpTrapSenderBean implements Serializable {
+	
+	private static final long serialVersionUID = 5575867152989970316L;
 	
 	private String localIp = "localhost";
 	private int localPort = 6161;
@@ -46,7 +49,7 @@ public class SnmpTrapSenderBean {
 	private SnmpTrapSender trapSender;
 	
 	private SenderThread senderThread;
-	private int sendInterval = 2000;
+	private int sendInterval = 13000;
 	
 
 	public String getLocalIp() {

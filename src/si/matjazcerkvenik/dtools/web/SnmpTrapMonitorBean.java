@@ -39,11 +39,9 @@ public class SnmpTrapMonitorBean implements Serializable {
 	
 	private List<TrapNotification> list;
 	private TrapNotification activeTrap;
-	
-	
-	
 
-	
+
+
 	// only setter is needed to inject
 	public void setSnmpTrapReceiverBean(SnmpTrapReceiverBean snmpTrapReceiverBean) {
 		this.snmpTrapReceiverBean = snmpTrapReceiverBean;

@@ -23,17 +23,22 @@
 			<h:form>
 				<h:panelGrid columns="1" cellspacing="5" width="100%">
 					<h:panelGrid columns="2" cellspacing="5">
-						<p:commandButton value="Refresh" update="trapsTable selectColumnsTable" ajax="true" />
-						<p:commandButton value="Columns" onclick="PF('selectColumnsDlg').show();" />
+						<p:commandButton value="Refresh" update="trapsTable" ajax="true" />
+						<p:commandButton value="Columns" oncomplete="PF('selectColumnsDlg').show();" />
 					</h:panelGrid>
 					<h:dataTable id="trapsTable" value="#{snmpTrapMonitorBean.getTrapNotifications()}" var="trap" 
 						styleClass="table"
 						rowClasses="#{snmpTrapMonitorBean.backgroundColors}"
 						cellpadding="0" cellspacing="0" width="100%">
 						
-						<h:column id="noCol" headerClass="col0 col1" rendered="#{snmpSessionBean.showNumber}">
+						<h:column headerClass="col0 col1" rendered="#{snmpSessionBean.showNumber}">
 							<f:facet name="header">No</f:facet>
 							<h:outputText value="#{trap.no}" />
+						</h:column>
+						
+						<h:column headerClass="col0 col1" rendered="#{snmpSessionBean.showRequestId}">
+							<f:facet name="header">Req ID</f:facet>
+							<h:outputText value="#{trap.requestId}" />
 						</h:column>
 						
 						<h:column headerClass="col0" rendered="#{snmpSessionBean.showUid}">
@@ -46,7 +51,12 @@
 							<h:outputText value="#{trap.peerIp}" />
 						</h:column>
 						
-						<h:column headerClass="col0 col2" rendered="#{snmpSessionBean.showNodeName}">
+						<h:column headerClass="col0" rendered="#{snmpSessionBean.showPeerHostname}">
+							<f:facet name="header">Host</f:facet>
+							<h:outputText value="#{trap.peerHostname}" />
+						</h:column>
+						
+						<h:column headerClass="col0" rendered="#{snmpSessionBean.showNodeName}">
 							<f:facet name="header">Node name</f:facet>
 							<h:outputText value="#{trap.nodeName}" />
 						</h:column>
@@ -54,6 +64,41 @@
 						<h:column headerClass="col0" rendered="#{snmpSessionBean.showSnmpVersion}">
 							<f:facet name="header">Version</f:facet>
 							<h:outputText value="#{trap.snmpVersion}" />
+						</h:column>
+						
+						<h:column headerClass="col0" rendered="#{snmpSessionBean.showTrapName}">
+							<f:facet name="header">Trap name</f:facet>
+							<h:outputText value="#{trap.trapName}" />
+						</h:column>
+						
+						<h:column headerClass="col0" rendered="#{snmpSessionBean.showName}">
+							<f:facet name="header">Name</f:facet>
+							<h:outputText value="#{trap.name}" />
+						</h:column>
+						
+						<h:column headerClass="col0" rendered="#{snmpSessionBean.showEnterpriseOid}">
+							<f:facet name="header">Enterprise OID</f:facet>
+							<h:outputText value="#{trap.enterpriseOid}" />
+						</h:column>
+						
+						<h:column headerClass="col0" rendered="#{snmpSessionBean.showGenericTrap}">
+							<f:facet name="header">Generic Trap</f:facet>
+							<h:outputText value="#{trap.genericTrap}" />
+						</h:column>
+						
+						<h:column headerClass="col0" rendered="#{snmpSessionBean.showSpecificTrap}">
+							<f:facet name="header">SpecificTrap</f:facet>
+							<h:outputText value="#{trap.specificTrap}" />
+						</h:column>
+						
+						<h:column headerClass="col0" rendered="#{snmpSessionBean.showSnmpTrapOid}">
+							<f:facet name="header">SNMP Trap Oid</f:facet>
+							<h:outputText value="#{trap.snmpTrapOid}" />
+						</h:column>
+						
+						<h:column headerClass="col0" rendered="#{snmpSessionBean.showCommunity}">
+							<f:facet name="header">Community</f:facet>
+							<h:outputText value="#{trap.community}" />
 						</h:column>
 						
 						<h:column headerClass="col0" rendered="#{snmpSessionBean.showSeverity}">
@@ -66,17 +111,72 @@
 							<h:outputText value="#{trap.customText}" />
 						</h:column>
 						
-						<h:column headerClass="col0 col2">
+						<h:column headerClass="col0 col2" rendered="#{snmpSessionBean.showSourceInfo}">
+							<f:facet name="header">Source info</f:facet>
+							<h:outputText value="#{trap.sourceInfo}" />
+						</h:column>
+						
+						<h:column headerClass="col0 col2" rendered="#{snmpSessionBean.showGroup}">
 							<f:facet name="header">Group</f:facet>
 							<h:outputText value="#{trap.group}" />
 						</h:column>
 						
-						<h:column headerClass="col0 col2">
+						<h:column headerClass="col0 col2" rendered="#{snmpSessionBean.showLocation}">
 							<f:facet name="header">Location</f:facet>
 							<h:outputText value="#{trap.location}" />
 						</h:column>
 						
-						<h:column headerClass="col0 col3">
+						<h:column headerClass="col0" rendered="#{snmpSessionBean.showExtDat1}">
+							<f:facet name="header">ExtDat1</f:facet>
+							<h:outputText value="#{trap.extDat1}" />
+						</h:column>
+						
+						<h:column headerClass="col0" rendered="#{snmpSessionBean.showExtDat2}">
+							<f:facet name="header">ExtDat2</f:facet>
+							<h:outputText value="#{trap.extDat2}" />
+						</h:column>
+						
+						<h:column headerClass="col0" rendered="#{snmpSessionBean.showExtDat3}">
+							<f:facet name="header">ExtDat3</f:facet>
+							<h:outputText value="#{trap.extDat3}" />
+						</h:column>
+						
+						<h:column headerClass="col0" rendered="#{snmpSessionBean.showExtDat4}">
+							<f:facet name="header">ExtDat4</f:facet>
+							<h:outputText value="#{trap.extDat4}" />
+						</h:column>
+						
+						<h:column headerClass="col0" rendered="#{snmpSessionBean.showExtDat5}">
+							<f:facet name="header">ExtDat5</f:facet>
+							<h:outputText value="#{trap.extDat5}" />
+						</h:column>
+						
+						<h:column headerClass="col0" rendered="#{snmpSessionBean.showExtDat6}">
+							<f:facet name="header">ExtDat6</f:facet>
+							<h:outputText value="#{trap.extDat6}" />
+						</h:column>
+						
+						<h:column headerClass="col0" rendered="#{snmpSessionBean.showExtDat7}">
+							<f:facet name="header">ExtDat7</f:facet>
+							<h:outputText value="#{trap.extDat7}" />
+						</h:column>
+						
+						<h:column headerClass="col0" rendered="#{snmpSessionBean.showExtDat8}">
+							<f:facet name="header">ExtDat8</f:facet>
+							<h:outputText value="#{trap.extDat8}" />
+						</h:column>
+						
+						<h:column headerClass="col0" rendered="#{snmpSessionBean.showExtDat9}">
+							<f:facet name="header">ExtDat9</f:facet>
+							<h:outputText value="#{trap.extDat9}" />
+						</h:column>
+						
+						<h:column headerClass="col0" rendered="#{snmpSessionBean.showTrapReceiverName}">
+							<f:facet name="header">Receiver</f:facet>
+							<h:outputText value="#{trap.trapReceiverName}" />
+						</h:column>
+						
+						<h:column headerClass="col0 col3" rendered="#{snmpSessionBean.showTimestamp}">
 							<f:facet name="header">Time</f:facet>
 							<h:outputText value="#{trap.getDate()}" />
 						</h:column>
@@ -89,62 +189,69 @@
 							</p:commandLink>
 						</h:column>
 						
-						
-						
 					</h:dataTable>
 					<p:poll interval="10" listener="#{snmpTrapMonitorBean.updateTrapNotifications()}" update="trapsTable" />
 				</h:panelGrid>
 				
-				<p:dialog header="Select columns" widgetVar="selectColumnsDlg" resizable="false" dynamic="true" closable="false">
-        		<h:panelGrid id="selectColumnsTable" columns="1" width="100%">
+			</h:form>
+        
+        </h:panelGrid>
+        
+        
+        
+        <h:form>
+        	<p:dialog header="Select columns" widgetVar="selectColumnsDlg" resizable="false" dynamic="true" closable="false">
+        		<h:panelGrid columns="1" width="100%">
         			<h:panelGrid columns="3">
-        				<h:panelGrid id="pg1" columns="2" cellspacing="5">
+        				<h:panelGrid columns="2" cellspacing="5">
         					<h:outputText value="Number" />
-        					<p:selectBooleanCheckbox id="num" value="#{snmpSessionBean.showNumber}" />
-        					<h:outputText value="UID" />
-        					<p:selectBooleanCheckbox id="uid" value="#{snmpSessionBean.showUid}" />
-        					<h:outputText value="SNMP Version" />
-        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showSnmpVersion}" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showNumber}" />
+        					<h:outputText value="Request ID" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showRequestId}" />
+        					<h:outputText value="Node Name" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showNodeName}" />
+        					<h:outputText value="Location" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showLocation}" />
         					<h:outputText value="Peer Address" />
         					<p:selectBooleanCheckbox value="#{snmpSessionBean.showPeerAddress}" />
         					<h:outputText value="Peer IP" />
         					<p:selectBooleanCheckbox value="#{snmpSessionBean.showPeerIp}" />
         					<h:outputText value="Hostname" />
         					<p:selectBooleanCheckbox value="#{snmpSessionBean.showPeerHostname}" />
+        					<h:outputText value="Group" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showGroup}" />
+        					
+        				</h:panelGrid>
+        				<h:panelGrid columns="2" cellspacing="5">
+        					<h:outputText value="SNMP Version" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showSnmpVersion}" />
+        					<h:outputText value="Community" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showCommunity}" />
         					<h:outputText value="Enterprise OID" />
         					<p:selectBooleanCheckbox value="#{snmpSessionBean.showEnterpriseOid}" />
-        				</h:panelGrid>
-        				<h:panelGrid id="pg2" columns="2" cellspacing="5">
         					<h:outputText value="Generic trap" />
         					<p:selectBooleanCheckbox value="#{snmpSessionBean.showGenericTrap}" />
         					<h:outputText value="Specific trap" />
         					<p:selectBooleanCheckbox value="#{snmpSessionBean.showSpecificTrap}" />
         					<h:outputText value="SNMP Trap OID" />
         					<p:selectBooleanCheckbox value="#{snmpSessionBean.showSnmpTrapOid}" />
-        					<h:outputText value="sysUpTime" />
-        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showSysUpTime}" />
-        					<h:outputText value="Community" />
-        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showCommunity}" />
-        					<h:outputText value="Group" />
-        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showGroup}" />
-        					<h:outputText value="Location" />
-        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showLocation}" />
-        					<h:outputText value="Custom text" />
-        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showCustomText}" />
-        				</h:panelGrid>
-        				<h:panelGrid columns="2" cellspacing="5">
-        					<h:outputText value="Name" />
-        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showName}" />
-        					<h:outputText value="Node Name" />
-        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showNodeName}" />
-        					<h:outputText value="Severity" />
-        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showSeverity}" />
-        					<h:outputText value="Source Info" />
-        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showSourceInfo}" />
         					<h:outputText value="Timestamp" />
         					<p:selectBooleanCheckbox value="#{snmpSessionBean.showTimestamp}" />
         					<h:outputText value="Trap Name" />
         					<p:selectBooleanCheckbox value="#{snmpSessionBean.showTrapName}" />
+        				</h:panelGrid>
+        				<h:panelGrid columns="2" cellspacing="5">
+        					<h:outputText value="Name" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showName}" />
+        					<h:outputText value="UID" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showUid}" />
+        					<h:outputText value="Severity" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showSeverity}" />
+        					<h:outputText value="Custom text" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showCustomText}" />
+        					<h:outputText value="Source Info" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showSourceInfo}" />
+        					
         					<h:outputText value="Trap Receiver Name" />
         					<p:selectBooleanCheckbox value="#{snmpSessionBean.showTrapReceiverName}" />
         				</h:panelGrid>
@@ -179,20 +286,10 @@
         		</h:panelGrid>
 				<f:facet name="footer">
 			    	<p:commandButton value="Ok" actionListener="#{snmpSessionBean.configureColumns}" 
-			    		update="trapsTable num" 
-			    		oncomplete="PF('selectColumnsDlg').hide();"
-			        	 />
+			    		oncomplete="PF('selectColumnsDlg').hide();" />
 			        <p:commandButton value="Cancel" onclick="PF('selectColumnsDlg').hide();" />
 			    </f:facet>
 			</p:dialog>
-				
-				
-			</h:form>
-        
-        </h:panelGrid>
-        
-        <h:form>
-        	
         </h:form>
         
         <h:form id="trapInfoForm">
@@ -236,6 +333,33 @@
         					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.trapReceiverName}" />
         					<h:outputText value="" />
         					<h:outputText value="" />
+        					<h:outputText value="" />
+        					<h:outputText value="" />
+        				</h:panelGrid>
+        			</h:panelGrid>
+        			<hr/>
+        			<h:panelGrid columns="2">
+        				<h:panelGrid columns="2" cellspacing="5">
+        					<h:outputText value="ExtDat 1:" rendered="#{snmpTrapMonitorBean.activeTrap.extDat1 != null}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.extDat1}" rendered="#{snmpTrapMonitorBean.activeTrap.extDat1 != null}" />
+        					<h:outputText value="ExtDat 2:" rendered="#{snmpTrapMonitorBean.activeTrap.extDat2 != null}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.extDat2}" rendered="#{snmpTrapMonitorBean.activeTrap.extDat2 != null}" />
+        					<h:outputText value="ExtDat 3:" rendered="#{snmpTrapMonitorBean.activeTrap.extDat3 != null}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.extDat3}" rendered="#{snmpTrapMonitorBean.activeTrap.extDat3 != null}" />
+        					<h:outputText value="ExtDat 4:" rendered="#{snmpTrapMonitorBean.activeTrap.extDat4 != null}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.extDat4}" rendered="#{snmpTrapMonitorBean.activeTrap.extDat4 != null}" />
+        				</h:panelGrid>
+        				<h:panelGrid columns="2" cellspacing="5">
+        					<h:outputText value="ExtDat 5:" rendered="#{snmpTrapMonitorBean.activeTrap.extDat5 != null}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.extDat5}" rendered="#{snmpTrapMonitorBean.activeTrap.extDat5 != null}" />
+        					<h:outputText value="ExtDat 6:" rendered="#{snmpTrapMonitorBean.activeTrap.extDat6 != null}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.extDat6}" rendered="#{snmpTrapMonitorBean.activeTrap.extDat6 != null}" />
+        					<h:outputText value="ExtDat 7:" rendered="#{snmpTrapMonitorBean.activeTrap.extDat7 != null}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.extDat7}" rendered="#{snmpTrapMonitorBean.activeTrap.extDat7 != null}" />
+        					<h:outputText value="ExtDat 8:" rendered="#{snmpTrapMonitorBean.activeTrap.extDat8 != null}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.extDat8}" rendered="#{snmpTrapMonitorBean.activeTrap.extDat8 != null}" />
+        					<h:outputText value="ExtDat 9:" rendered="#{snmpTrapMonitorBean.activeTrap.extDat9 != null}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.extDat9}" rendered="#{snmpTrapMonitorBean.activeTrap.extDat9 != null}" />
         					<h:outputText value="" />
         					<h:outputText value="" />
         				</h:panelGrid>

@@ -26,6 +26,7 @@ import org.snmp4j.PDUv1;
 import org.snmp4j.Snmp;
 import org.snmp4j.TransportMapping;
 import org.snmp4j.mp.SnmpConstants;
+import org.snmp4j.smi.Integer32;
 import org.snmp4j.smi.IpAddress;
 import org.snmp4j.smi.OID;
 import org.snmp4j.smi.OctetString;
@@ -41,6 +42,8 @@ public class SnmpTrapSender {
 	private SimpleLogger logger;
 	
 	private Snmp snmp;
+	
+	private int counter = 0;
 	
 	public SnmpTrapSender() {
 		logger = DToolsContext.getInstance().getLogger();
@@ -83,7 +86,7 @@ public class SnmpTrapSender {
 	}
 	
 	/**
-	 * Send the SNMP trap to manager at selected ip (hostname) and port.
+	 * Create PDU and send the SNMP trap to manager at selected ip (hostname) and port.
 	 * @param ip
 	 * @param port
 	 * @param trap
@@ -104,6 +107,7 @@ public class SnmpTrapSender {
 			// Create PDU for V1
 			PDUv1 pdu = new PDUv1();
 			pdu.setType(PDU.V1TRAP);
+			pdu.setRequestID(new Integer32(counter++));
 			pdu.setEnterprise(new OID(trap.getEnterpriseOid()));
 //			pdu.setGenericTrap(PDUv1.ENTERPRISE_SPECIFIC);
 			pdu.setGenericTrap(trap.getGenericTrap());
@@ -115,9 +119,7 @@ public class SnmpTrapSender {
 			}
 			
 			sendTrapV1(pdu, target);
-			
-			logger.info("SnmpTrapSender.sendTrap(): PDU = " + pdu.toString());
-			
+						
 		}
 		
 		if (trap.getVersion().equals("v2c")) {
@@ -127,6 +129,7 @@ public class SnmpTrapSender {
 			// Create PDU for V2
 			PDU pdu = new PDU();
 			pdu.setType(PDU.NOTIFICATION);
+			pdu.setRequestID(new Integer32(counter++));
 			
 			// variable binding for Enterprise Specific objects
 			for (int i = 0; i < trap.getVarbind().size(); i++) {
@@ -134,8 +137,6 @@ public class SnmpTrapSender {
 			}
 			
 			sendTrapV2C(pdu, target);
-			
-			logger.info("SnmpTrapSender.sendTrap(): PDU = " + pdu.toString());
 			
 		}
 		
@@ -148,11 +149,10 @@ public class SnmpTrapSender {
 	 */
 	private void sendTrapV1(PDUv1 pdu, CommunityTarget target) {
 		try {
-			System.out.println("Sending V1 Trap to " + target.getAddress());
 			snmp.send(pdu, target);
+			logger.info("SnmpTrapSender.sendTrapV1(): PDU = " + pdu.toString());
 		} catch (Exception e) {
-			System.err.println("Error in Sending V1 Trap to " + target.getAddress());
-			System.err.println("Exception Message = " + e.getMessage());
+			logger.error("SnmpTrapSender.sendTrapV1(): Error sending V1 trap to " + target.getAddress(), e);
 		}
 	}
 	
@@ -163,9 +163,9 @@ public class SnmpTrapSender {
 		try {
 			System.out.println("Sending V2C Trap to " + target.getAddress());
 			snmp.send(pdu, target);
+			logger.info("SnmpTrapSender.sendTrapV2C(): PDU = " + pdu.toString());
 		} catch (Exception e) {
-			System.err.println("Error in Sending V2C Trap to " + target.getAddress());
-			System.err.println("Exception Message = " + e.getMessage());
+			logger.error("SnmpTrapSender.sendTrapV2C(): Error sending V2C trap to " + target.getAddress(), e);
 		}
 	}
 

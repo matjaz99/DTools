@@ -34,13 +34,13 @@ public class SnmpSessionBean {
 	private boolean showPeerIp = true;
 	private boolean showPeerHostname = false;
 	private boolean showSnmpVersion = true;
-	private boolean showCommunity = true;
+	private boolean showCommunity = false;
 	private boolean showGenericTrap = false;
 	private boolean showSpecificTrap = false;
-	private boolean showEnterpriseOid = false;
-	private boolean showSnmpTrapOid = false;
-	private boolean showSysUpTime = false;
-	private boolean showNodeName = true;
+	private boolean showEnterpriseOid = true;
+	private boolean showSnmpTrapOid = true;
+	private boolean showRequestId = true;
+	private boolean showNodeName = false;
 	private boolean showTrapName = true;
 	private boolean showName = false;
 	private boolean showSeverity = false;
@@ -61,7 +61,7 @@ public class SnmpSessionBean {
 	
 	
 	public void configureColumns() {
-//		System.out.println("no=" + showNumber);
+		System.out.println("configureColumns no=" + showNumber);
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.addCallbackParam("success", true);
 	}
@@ -140,12 +140,16 @@ public class SnmpSessionBean {
 	public void setShowSnmpTrapOid(boolean showSnmpTrapOid) {
 		this.showSnmpTrapOid = showSnmpTrapOid;
 	}
-	public boolean isShowSysUpTime() {
-		return showSysUpTime;
+	public boolean isShowRequestId() {
+		return showRequestId;
 	}
-	public void setShowSysUpTime(boolean showSysUpTime) {
-		this.showSysUpTime = showSysUpTime;
+
+
+	public void setShowRequestId(boolean showRequestId) {
+		this.showRequestId = showRequestId;
 	}
+
+
 	public boolean isShowNodeName() {
 		return showNodeName;
 	}

@@ -18,6 +18,7 @@
 
 package si.matjazcerkvenik.dtools.web;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,8 +37,10 @@ import si.matjazcerkvenik.dtools.xml.VarBind;
 
 @ManagedBean
 @ViewScoped
-public class SnmpTrapV2CComposer {
-
+public class SnmpTrapV2CComposer implements Serializable {
+	
+	private static final long serialVersionUID = 533428296431557631L;
+	
 	private String trapName;
 	private String community = "public";
 	private String sourceIp = LocalhostInfo.getLocalIpAddress();

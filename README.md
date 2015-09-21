@@ -20,7 +20,7 @@ Commons-logging is required by commons-vfs
 
 0.2.2
 
-xx. september 2015
+21. september 2015
 
 - snmp monitor: select rows to show
 

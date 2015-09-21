@@ -1,6 +1,10 @@
 package si.matjazcerkvenik.dtools.tools.snmp;
 
-public class VB {
+import java.io.Serializable;
+
+public class VB implements Serializable {
+	
+	private static final long serialVersionUID = 2766510812643098966L;
 	
 	public String oid;
 	public String value;

@@ -43,8 +43,6 @@ public class SenderThread extends Thread {
 	@Override
 	public void run() {
 		
-		System.out.println("=== start");
-		
 		List<SnmpTrap> traps = DAO.getInstance().loadSnmpTraps().getTraps();
 		int index = 0;
 		
@@ -66,8 +64,6 @@ public class SenderThread extends Thread {
 			}
 			
 		}
-		
-		System.out.println("=== stop");
 		
 	}
 	

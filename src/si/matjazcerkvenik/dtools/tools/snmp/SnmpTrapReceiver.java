@@ -19,6 +19,7 @@
 package si.matjazcerkvenik.dtools.tools.snmp;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.snmp4j.CommandResponder;
@@ -50,8 +51,9 @@ import si.matjazcerkvenik.dtools.context.DProps;
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
-public class SnmpTrapReceiver implements CommandResponder {
+public class SnmpTrapReceiver implements Serializable, CommandResponder {
 	
+	private static final long serialVersionUID = 8047737749908071L;
 	private SimpleLogger logger;
 	private SimpleLogger trapsLogger;
 	
