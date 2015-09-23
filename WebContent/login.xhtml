@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:dt="http://dtools.com/ui">
+    <h:head>
+        <title>DTools</title>
+    </h:head>
+    <h:body>
+    
+    	<h:outputStylesheet library="default" name="css/dstyles.css"/>
+    	<p:growl id="growl" life="2000"/>
+    	
+    	<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">	
+			
+			<h:panelGrid columns="2" cellpadding="15" cellspacing="5" styleClass="border" >
+				
+				<dt:icon img="tool-box" />
+				
+				<h:form id="loginForm">
+				<h:panelGrid columns="1">
+					
+					<h:outputText value="DTools" styleClass="titleLarge" />
+					<p:separator />
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputLabel value="Username:" />
+						<p:inputText id="user" value="#{userBean.username}" />
+						<h:outputLabel value="Password:" />
+						<p:password id="pass" value="#{userBean.password}" />
+						<p:commandButton id="loginBtn" value="Login" action="#{userBean.authenticate}" update="loginForm" ajax="true" />
+					</h:panelGrid>
+					<h:panelGrid columns="1" cellpadding="5" width="100%">
+						<p:messages for="loginBtn" display="text" showDetail="true" showSummary="false" showIcon="false" />
+					</h:panelGrid>
+					
+				</h:panelGrid>
+				</h:form>
+				
+			</h:panelGrid>
+			
+        
+        </h:panelGrid>
+        
+    </h:body>
+</html>
+
+

@@ -6,3 +6,11 @@ http://docwiki.cisco.com/wiki/Simple_Network_Management_Protocol
 
 
 
+snmp4j how to:
+
+http://www.jitendrazaa.com/blog/java/snmp/creating-snmp-agent-server-in-java-using-snmp4j/
+
+http://www.jayway.com/2010/05/21/introduction-to-snmp4j/
+
+
+
