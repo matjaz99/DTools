@@ -3,7 +3,8 @@
 	
 	<description>Ant buildfile</description>
 
-	<property name="project.version" value="0.2.3-alpha.01" />
+	<property name="project.version" value="0.2.3" />
+	<property name="bin.dir" value="bin" />
 	<property name="src.dir" value="src" />
 	<property name="web.dir" value="WebContent" />
 	<property name="classes.dir" value="build/classes" />
@@ -28,6 +29,13 @@
 		<mkdir dir="${classes.dir}"/>
 		<mkdir dir="${dist.dir}" />
 		<mkdir dir="${dist.dir}/${ant.project.name}-${project.version}" />
+		
+		<mkdir dir="${dist.dir}/${ant.project.name}-${project.version}/bin" />
+		<copy todir="${dist.dir}/${ant.project.name}-${project.version}/bin">
+			<fileset dir="${bin.dir}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
 		
 		<mkdir dir="${dist.dir}/${ant.project.name}-${project.version}/src" />
 		<copy todir="${dist.dir}/${ant.project.name}-${project.version}/src">

@@ -3,7 +3,7 @@
 
 	<property name="updSrc.dir" value="src-update" />
 	<property name="updBuild.dir" value="build-update" />
-	<property name="updDist.dir" value="config" />
+	<property name="updDist.dir" value="bin" />
 	<property name="updVersion" value="1.0" />
 
 
