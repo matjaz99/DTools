@@ -61,7 +61,6 @@ public class SnmpSessionBean {
 	
 	
 	public void configureColumns() {
-		System.out.println("configureColumns no=" + showNumber);
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.addCallbackParam("success", true);
 	}
@@ -72,7 +71,6 @@ public class SnmpSessionBean {
 	}
 	public void setShowNumber(boolean showNumber) {
 		this.showNumber = showNumber;
-		System.out.println("setShowNumber: " + showNumber);
 	}
 	public boolean isShowUid() {
 		return showUid;

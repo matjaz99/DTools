@@ -29,6 +29,7 @@ import javax.faces.bean.ManagedBean;
 
 import org.primefaces.context.RequestContext;
 
+import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 import si.matjazcerkvenik.dtools.tools.snmp.SenderThread;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrapSender;
 import si.matjazcerkvenik.dtools.xml.DAO;
@@ -40,10 +41,10 @@ public class SnmpTrapSenderBean implements Serializable {
 	
 	private static final long serialVersionUID = 5575867152989970316L;
 	
-	private String localIp = "localhost";
+	private String localIp = LocalhostInfo.getLocalIpAddress();
 	private int localPort = 6161;
 	
-	private String destinationIp = "localhost";
+	private String destinationIp = LocalhostInfo.getLocalIpAddress();
 	private int destinationPort = 6162;
 	
 	private SnmpTrapSender trapSender;

@@ -64,8 +64,10 @@ public class SnmpTrapMonitorBean implements Serializable {
 	}
 	
 	public void updateTrapNotifications() {
+		if (snmpTrapReceiverBean.getTrapReceiver() == null) {
+			return;
+		}
 		Object[] array = snmpTrapReceiverBean.getTrapReceiver().getReceivedTrapNotifications().toArray();
-		list = new ArrayList<TrapNotification>();
 		for (int i = array.length - 1; i >= 0; i--) {
 			list.add((TrapNotification) array[i]);
 		}
@@ -75,6 +77,7 @@ public class SnmpTrapMonitorBean implements Serializable {
 
 	public List<TrapNotification> getTrapNotifications() {
 		if (list == null) {
+			list = new ArrayList<TrapNotification>();
 			updateTrapNotifications();
 		}
 		return list;
@@ -87,6 +90,9 @@ public class SnmpTrapMonitorBean implements Serializable {
 	public String getBackgroundColors() {
 		// FIXME this should be done differently in JSF 2 - style for each row
 		StringBuilder rowClasses = new StringBuilder();
+		if (snmpTrapReceiverBean.getTrapReceiver() == null) {
+			return rowClasses.toString();
+		}
 		Object[] array = snmpTrapReceiverBean.getTrapReceiver().getReceivedTrapNotifications().toArray();
 
 		// sort ascending

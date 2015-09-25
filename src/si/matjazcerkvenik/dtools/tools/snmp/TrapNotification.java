@@ -531,7 +531,7 @@ public class TrapNotification implements Serializable {
 		return isV2C;
 	}
 
-	public long getRequestId() {
+	public int getRequestId() {
 		return requestId;
 	}
 	

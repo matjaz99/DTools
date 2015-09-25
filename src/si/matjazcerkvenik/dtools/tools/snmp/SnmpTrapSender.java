@@ -107,7 +107,6 @@ public class SnmpTrapSender {
 			// Create PDU for V1
 			PDUv1 pdu = new PDUv1();
 			pdu.setType(PDU.V1TRAP);
-			pdu.setRequestID(new Integer32(counter++));
 			pdu.setEnterprise(new OID(trap.getEnterpriseOid()));
 //			pdu.setGenericTrap(PDUv1.ENTERPRISE_SPECIFIC);
 			pdu.setGenericTrap(trap.getGenericTrap());
@@ -161,7 +160,6 @@ public class SnmpTrapSender {
 	 */
 	private void sendTrapV2C(PDU pdu, CommunityTarget target) {
 		try {
-			System.out.println("Sending V2C Trap to " + target.getAddress());
 			snmp.send(pdu, target);
 			logger.info("SnmpTrapSender.sendTrapV2C(): PDU = " + pdu.toString());
 		} catch (Exception e) {
