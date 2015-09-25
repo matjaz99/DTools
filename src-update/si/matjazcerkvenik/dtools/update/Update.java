@@ -44,53 +44,59 @@ import java.nio.channels.ReadableByteChannel;
  */
 public class Update {
 	
-	private static String lastVersionUrl = "http://www.matjazcerkvenik.si/projects/dtools/getLastVersion.php";
-	private static String lastWarUrl = "http://www.matjazcerkvenik.si/projects/download/DTools/@version/DTools.war";
+	public static String lastVersionUrl = "http://www.matjazcerkvenik.si/projects/dtools/getLastVersion.php";
+//	public static String lastWarUrl = "http://www.matjazcerkvenik.si/projects/download/DTools/@version/DTools.war";
+	public static String installScriptUrl = "http://www.matjazcerkvenik.si/projects/download/DTools/@version/install-script.xml";
 //	private static String webappsDir = "/Users/matjaz/Desktop/DTools-1.0.0/server/apache-tomcat-7.0.57/webapps";
 //	private static String warFile = "/Users/matjaz/Desktop/DTools-1.0.0/server/apache-tomcat-7.0.57/webapps/DTools.war";
 //	private static String repositoryDir = "/Users/matjaz/Desktop/DTools-1.0.0/repository";
 //	private static String versionTxt = "/Users/matjaz/Desktop/DTools-1.0.0/config/version.txt";
-	private static String webappsDir = "server/apache-tomcat-7.0.57/webapps";
-	private static String warFile = "server/apache-tomcat-7.0.57/webapps/DTools.war";
-	private static String repositoryDir = "repository";
-	private static String versionTxt = "config/version.txt";
+	public static String DTOOLS_HOME;
+	public static String webappsDir = "/server/apache-tomcat-7.0.57/webapps";
+	public static String warFile = "/server/apache-tomcat-7.0.57/webapps/DTools.war";
+	public static String repositoryDir = "/repository";
+	public static String versionTxt = "/config/version.txt";
+	public static String currentVersion;
+	public static String lastVersion;
 	
-	private String md5Checksum = "0";
+//	private String md5Checksum = "0";
 	
-	private boolean debugMode = false;
+	private static boolean debugMode = false;
 	
 	public static void main(String[] args) {
 		
 		Update u = new Update();
 		
+		
+		
 		// check input arguments if any
-		if (args.length > 0) {
+		if (args.length > 1) {
 			
-			if (args[0].equalsIgnoreCase("-h") 
+			if (args[1].equalsIgnoreCase("-h") 
 					|| args[0].equalsIgnoreCase("--help") 
 					|| args[0].equalsIgnoreCase("help")
 					|| args[0].equalsIgnoreCase("?")) {
 				u.printHelp();
 				System.exit(0);
-			} else if (args[0].equalsIgnoreCase("-d")) {
-				u.debugMode = true;
+			} else if (args[1].equalsIgnoreCase("-d")) {
+				debugMode = true;
 				System.out.println("Debug mode: ON");
-			} else if (args[0].equalsIgnoreCase("-c")) {
+			} else if (args[1].equalsIgnoreCase("-c")) {
 				u.getCurrentVersionFromTxt();
 				u.getLastVersionFromTheServer();
 				System.exit(0);
-			} else if (args[0].equalsIgnoreCase("-m")) {
-				System.out.println("MD5[DTools.war]=" + MD5.getMd5(warFile));
+			} else if (args[1].equalsIgnoreCase("-m")) {
+				System.out.println("MD5[DTools.war]=" + MD5.getMd5("../server/apache-tomcat-7.0.57/webapps/DTools.war"));
 				System.exit(0);
-			} else if (args[0].equalsIgnoreCase("-s")) {
+			} else if (args[1].equalsIgnoreCase("-s")) {
 				u.showRepository();
 				System.exit(0);
-			} else if (args[0].equalsIgnoreCase("-v")) {
+			} else if (args[1].equalsIgnoreCase("-v")) {
 				u.getCurrentVersionFromTxt();
 				System.exit(0);
-			} else if (args[0].equalsIgnoreCase("-r")) {
-				if (args.length > 1) {
-					u.restore(args[1]);
+			} else if (args[1].equalsIgnoreCase("-r")) {
+				if (args.length > 2) {
+					u.restore(args[2]);
 				} else {
 					System.out.println("WARN: Missing version argument");
 				}
@@ -102,11 +108,22 @@ public class Update {
 			
 		}
 		
-		// get versions
+		
 		u.isTomcatRunning();
-		String currentVersion = u.getCurrentVersionFromTxt();
-		String lastVersion = u.getLastVersionFromTheServer();
-		lastWarUrl = lastWarUrl.replace("@version", lastVersion);
+		
+		// set DTOOLS_HOME
+		DTOOLS_HOME = args[0].substring(0, args[0].length() - 4);
+		System.out.println("DTOOLS_HOME=" + DTOOLS_HOME);
+		versionTxt = DTOOLS_HOME + versionTxt;
+		webappsDir = DTOOLS_HOME + webappsDir;
+		warFile = DTOOLS_HOME + warFile;
+		repositoryDir = DTOOLS_HOME + repositoryDir;
+		
+		// get versions
+		currentVersion = u.getCurrentVersionFromTxt();
+		lastVersion = u.getLastVersionFromTheServer();
+//		lastWarUrl = lastWarUrl.replace("@version", lastVersion);
+		installScriptUrl = installScriptUrl.replace("@version", lastVersion);
 		
 		// check versions
 		boolean proceed = u.isUpdateRequired(currentVersion, lastVersion);
@@ -135,33 +152,38 @@ public class Update {
 			}
 		}
 		
+		// process script
+		ScriptProcessor sProc = new ScriptProcessor();
+		sProc.loadScript();
+		sProc.processScript();
+		
 		// delete work directories
-		u.deleteDirectory(new File("server/apache-tomcat-7.0.57/work/Catalina/localhost/DTools"));
-		u.deleteDirectory(new File("server/apache-tomcat-7.0.57/webapps/DTools"));
+//		u.deleteDirectory(new File("server/apache-tomcat-7.0.57/work/Catalina/localhost/DTools"));
+//		u.deleteDirectory(new File("server/apache-tomcat-7.0.57/webapps/DTools"));
 		
 		// download war to home.dir
-		try {
-			u.download(lastWarUrl);
-		} catch (IOException e) {
-			System.out.println("ERROR: Failed to download new version, please try again later");
-			System.exit(0);
-		}
+//		try {
+//			u.download(lastWarUrl);
+//		} catch (IOException e) {
+//			System.out.println("ERROR: Failed to download new version, please try again later");
+//			System.exit(0);
+//		}
 		
 		// check MD5 checksum
-		if (MD5.getMd5("DTools.war").equals(u.md5Checksum)) {
-			System.out.println("MD5 checksum: OK");
-		} else {
-			System.out.println("ERROR: Downloaded file is corrupted, please run update again");
-			System.exit(0);
-		}
+//		if (MD5.getMd5("DTools.war").equals(u.md5Checksum)) {
+//			System.out.println("MD5 checksum: OK");
+//		} else {
+//			System.out.println("ERROR: Downloaded file is corrupted, please run update again");
+//			System.exit(0);
+//		}
 		
 		// move old war to repository
-		proceed = u.moveFile(warFile, repositoryDir + "/" + currentVersion);
+//		proceed = u.moveFile(warFile, repositoryDir + "/" + currentVersion);
 		
 		// move new war to webapps
-		proceed = u.moveFile("DTools.war", webappsDir);
+//		proceed = u.moveFile("DTools.war", webappsDir);
 		
-		u.updateVersion(lastVersion);
+//		u.updateVersion(lastVersion);
 		System.out.println("Successfully updated to " + lastVersion);
 		
 	}
@@ -247,7 +269,7 @@ public class Update {
 			
 			String[] array = response.toString().split("#");
 			lastVersion = array[0];
-			md5Checksum = array[1];
+//			md5Checksum = array[1];
 
 			// print result
 			println("Last version: " + lastVersion);
@@ -331,124 +353,17 @@ public class Update {
 		
 	}
 	
-	/**
-	 * Move a source file to chosen destination directory.
-	 * @param sourceFile
-	 * @param destDir
-	 * @return true if successfully moved
-	 */
-	private boolean moveFile(String sourceFile, String destDir) {
-		File srcFile = new File(sourceFile);
-		File destFile = new File(destDir + File.separator + srcFile.getName());
-		destFile.getParentFile().mkdirs();
-		return srcFile.renameTo(destFile);
-	}
+	
 
 	
-	/**
-	 * Delete given directory and all its contents
-	 * 
-	 * @param directory
-	 * @return true on success
-	 */
-	private boolean deleteDirectory(File directory) {
-		if (directory.exists()) {
-			File[] files = directory.listFiles();
-			if (null != files) {
-				for (int i = 0; i < files.length; i++) {
-					if (files[i].isDirectory()) {
-						deleteDirectory(files[i]);
-					} else {
-						files[i].delete();
-					}
-				}
-			}
-		}
-		return directory.delete();
-	}
 	
 	
-	/**
-	 * Download latest war from the matjazcerkvenik.si server into /server/apache-tomcat-7.0.57/webapps directory.
-	 * War will be automatically deployed when server starts.
-	 * @throws IOException 
-	 */
-	public void download(String url) throws IOException {
+	
+	
 
-		String[] temp = url.split("/");
-		String filename = temp[temp.length - 1];
-		
-		System.out.print("Downloading " + filename + " ");
+	
 
-		boolean downloadComplete = false;
-		
-		while (!downloadComplete) {
-			downloadComplete = transferData(url, filename);
-		}
-
-	}
-
-	/**
-	 * This method does actual reading of data from the file channel
-	 * @param url
-	 * @param filename
-	 * @return true if download completed
-	 * @throws IOException
-	 */
-	private boolean transferData(String url, String filename) throws IOException {
-		
-		long transferedSize = getFileSize(filename);
-		
-		try {
-
-			URL website = new URL(url);
-			URLConnection connection = website.openConnection();
-			connection.setRequestProperty("Range", "bytes="+transferedSize+"-");
-			ReadableByteChannel rbc = Channels.newChannel(connection.getInputStream());
-			long remainingSize = connection.getContentLength();
-			long buffer = remainingSize;
-			if (remainingSize > 65536) {
-				buffer = 1 << 16;
-			}
-//			System.out.println("Remaining size: " + remainingSize);
-//			System.out.println("Size: " + (remainingSize + transferedSize)/1000/1000 + " MB");
-
-			if (transferedSize == remainingSize) {
-				println(" 100%");
-				rbc.close();
-				return true;
-			}
-
-			FileOutputStream fos = new FileOutputStream(filename, true);
-			
-			debug("Downloading at " + transferedSize);
-			while (remainingSize > 0) {
-				long delta = fos.getChannel().transferFrom(rbc, transferedSize, buffer);
-				transferedSize += delta;
-				debug(transferedSize + " bytes received");
-				print(".");
-				if (delta == 0) {
-					break;
-				}
-			}
-			fos.close();
-			debug("Download incomplete, retrying");
-			
-		} catch (MalformedURLException e) {
-			println("ERROR: MalformedURLException: cannot download " + url);
-		} catch (IOException e) {
-			println("ERROR: IOException: cannot download " + url);
-			throw new IOException();
-		}
-		
-		return false;
-		
-	}
-
-	public long getFileSize(String file) {
-		File f = new File(file);
-		return f.length();
-	}
+	
 	
 	
 	
@@ -463,7 +378,7 @@ public class Update {
 			bw.write(version);
 			bw.close();
 		} catch (IOException e) {
-			println("ERROR: IOException: cannot update config/version.txt");
+			println("ERROR: IOException: cannot update version.txt");
 		}
 	}
 	
@@ -480,15 +395,17 @@ public class Update {
 			return;
 		}
 		
+		ScriptProcessor sp = new ScriptProcessor();
+		
 		// delete work directories
-		deleteDirectory(new File("server/apache-tomcat-7.0.57/work/Catalina/localhost/DTools"));
-		deleteDirectory(new File("server/apache-tomcat-7.0.57/webapps/DTools"));
+		sp.deleteDirectory(new File("server/apache-tomcat-7.0.57/work/Catalina/localhost/DTools"));
+		sp.deleteDirectory(new File("server/apache-tomcat-7.0.57/webapps/DTools"));
 		
 		// move old war to repository
-		moveFile(warFile, repositoryDir + "/" + getCurrentVersionFromTxt());
+		sp.moveFile(warFile, repositoryDir + "/" + getCurrentVersionFromTxt());
 		
 		// move selected war to webapps
-		moveFile(repositoryDir + "/" + version + "/DTools.war", webappsDir);
+		sp.moveFile(repositoryDir + "/" + version + "/DTools.war", webappsDir);
 		
 		updateVersion(version);
 		System.out.println("Successfully restored version " + version);
@@ -518,17 +435,17 @@ public class Update {
 	}
 	
 	
-	private void print(String s) {
+	public static void print(String s) {
 		if (!debugMode) {
 			System.out.print(s);
 		}
 	}
 	
-	private void println(String s) {
+	public static void println(String s) {
 		System.out.println(s);
 	}
 	
-	private void debug(String s) {
+	public static void debug(String s) {
 		if (debugMode) {
 			System.out.println(s);
 		}

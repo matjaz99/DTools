@@ -5,16 +5,28 @@ This application is still in development phase.
 
 For a developer it should help to simplify common tasks
 - create a network of servers
+- monitor network
 - execute ssh commands
 - upload/download files using ftp/sftp
 - snmp manager
-- snmp agent (aka. snmp simulator)
+- snmp agent
+- snmp simulator
 - quick notes
+- todo list
 - external links, favorites
 
 
 
 Commons-logging is required by commons-vfs
+
+-----------------------------------------------------------
+
+0.2.3-alpha.01
+
+xx. zzz 2015
+
+- added login page, but it is not implemented
+- updater - install-script
 
 -----------------------------------------------------------
 
