@@ -37,7 +37,7 @@ import si.matjazcerkvenik.simplelogger.SimpleLogger;
  * @author matjaz
  *
  */
-public class TrapProcessor {
+public class JsTrapProcessor {
 	
 	private SimpleLogger logger;
 	private boolean isInitialized = false;
@@ -46,7 +46,7 @@ public class TrapProcessor {
     private ScriptEngine engine;
     private SnmpContext ctx;
     
-    public TrapProcessor() {
+    public JsTrapProcessor() {
     	logger = DToolsContext.getInstance().getLogger();
 	}
     

@@ -142,7 +142,7 @@ public class SnmpTrapReceiver implements Serializable, CommandResponder {
 		// create TrapNotification
 		TrapNotification tn = new TrapNotification(counterOfReceivedTraps++, trapReceiverName, cmdRespEvent);
 		
-		TrapProcessor tProc = new TrapProcessor();
+		JsTrapProcessor tProc = new JsTrapProcessor();
 		tProc.init();
 		tn = (TrapNotification) tProc.process(tn);
 		
