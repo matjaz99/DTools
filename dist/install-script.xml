@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script>
+	<action type="delete">
+		<source>$DTOOLS_HOME$/server/apache-tomcat-7.0.57/work/Catalina/localhost/DTools</source>
+	</action>
+	<action type="delete">
+		<source>$DTOOLS_HOME$/server/apache-tomcat-7.0.57/webapps/DTools</source>
+	</action>
+	<action type="download">
+		<source>http://www.matjazcerkvenik.si/projects/download/DTools/$VERSION$/DTools.war</source>
+		<dest>$DTOOLS_HOME$/DTools.war</dest>
+		<md5>60e68a02ac33e9d36f73ad5d012c9c5f</md5>
+	</action>
+	<action type="move">
+		<source>$DTOOLS_HOME$/server/apache-tomcat-7.0.57/webapps/DTools.war</source>
+		<dest>$DTOOLS_HOME$/repository/$CURR_VER$</dest>
+	</action>
+	<action type="move">
+		<source>$DTOOLS_HOME$/DTools.war</source>
+		<dest>$DTOOLS_HOME$/server/apache-tomcat-7.0.57/webapps</dest>
+	</action>
+</script>
