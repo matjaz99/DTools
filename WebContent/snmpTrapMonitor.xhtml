@@ -293,7 +293,8 @@
         </h:form>
         
         <h:form id="trapInfoForm">
-        	<p:dialog header="Trap info" widgetVar="trapInfoDlg" resizable="false" dynamic="true" closable="false">
+        	<p:dialog header="Trap info" widgetVar="trapInfoDlg" resizable="false" dynamic="true" 
+        		closable="false">
         		<h:panelGrid columns="1" width="100%">
         			<h:panelGrid columns="2">
         				<h:panelGrid columns="2" cellspacing="5">
@@ -366,7 +367,8 @@
         			</h:panelGrid>
         			<hr/>
         			<h:outputText value="Variable bindings:" />
-        			<pre>#{snmpTrapMonitorBean.activeTrap.toStringVbs()}</pre>
+        			<h:inputTextarea value="#{snmpTrapMonitorBean.activeTrap.toStringVbs()}" 
+						cols="100" rows="10" styleClass="codeStyle" readonly="true" />
         		</h:panelGrid>
 				<f:facet name="footer">
 			    	<p:commandButton value="Cancel" action="#{snmpTrapMonitorBean.nullActiveTrap()}" 

@@ -151,6 +151,10 @@ a:hover {
    border: 1px solid #AAAAAA;
 }
 
+.table tr td {
+	padding: 0px 3px;
+}
+
 /* .tableHeader { */
 /* 	text-align: left; */
 /* 	font-weight: bold; */
