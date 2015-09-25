@@ -24,16 +24,12 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
 
 /**
  * This class is used to compare versions of local .war file and the one on 
@@ -67,7 +63,13 @@ public class Update {
 		
 		Update u = new Update();
 		
-		
+		// set DTOOLS_HOME
+		DTOOLS_HOME = args[0].substring(0, args[0].length() - 4);
+		System.out.println("DTOOLS_HOME=" + DTOOLS_HOME);
+		versionTxt = DTOOLS_HOME + versionTxt;
+		webappsDir = DTOOLS_HOME + webappsDir;
+		warFile = DTOOLS_HOME + warFile;
+		repositoryDir = DTOOLS_HOME + repositoryDir;
 		
 		// check input arguments if any
 		if (args.length > 1) {
@@ -81,18 +83,15 @@ public class Update {
 			} else if (args[1].equalsIgnoreCase("-d")) {
 				debugMode = true;
 				System.out.println("Debug mode: ON");
-			} else if (args[1].equalsIgnoreCase("-c")) {
-				u.getCurrentVersionFromTxt();
-				u.getLastVersionFromTheServer();
-				System.exit(0);
 			} else if (args[1].equalsIgnoreCase("-m")) {
-				System.out.println("MD5[DTools.war]=" + MD5.getMd5("../server/apache-tomcat-7.0.57/webapps/DTools.war"));
+				System.out.println("MD5[DTools.war]=" + MD5.getMd5(warFile));
 				System.exit(0);
 			} else if (args[1].equalsIgnoreCase("-s")) {
 				u.showRepository();
 				System.exit(0);
 			} else if (args[1].equalsIgnoreCase("-v")) {
 				u.getCurrentVersionFromTxt();
+				u.getLastVersionFromTheServer();
 				System.exit(0);
 			} else if (args[1].equalsIgnoreCase("-r")) {
 				if (args.length > 2) {
@@ -110,14 +109,6 @@ public class Update {
 		
 		
 		u.isTomcatRunning();
-		
-		// set DTOOLS_HOME
-		DTOOLS_HOME = args[0].substring(0, args[0].length() - 4);
-		System.out.println("DTOOLS_HOME=" + DTOOLS_HOME);
-		versionTxt = DTOOLS_HOME + versionTxt;
-		webappsDir = DTOOLS_HOME + webappsDir;
-		warFile = DTOOLS_HOME + warFile;
-		repositoryDir = DTOOLS_HOME + repositoryDir;
 		
 		// get versions
 		currentVersion = u.getCurrentVersionFromTxt();
@@ -183,7 +174,7 @@ public class Update {
 		// move new war to webapps
 //		proceed = u.moveFile("DTools.war", webappsDir);
 		
-//		u.updateVersion(lastVersion);
+		u.updateVersion(lastVersion);
 		System.out.println("Successfully updated to " + lastVersion);
 		
 	}
@@ -192,12 +183,11 @@ public class Update {
 		
 		println("DTools update help");
 		println("-h\tprint help");
-		println("-c\tcheck last version");
 		println("-m\tmd5 checksum");
 		println("-d\tdebugger output");
 		println("-r x.y.z\trestore version");
 		println("-s\tshow respository");
-		println("-v\tshow current version");
+		println("-v\tshow version");
 		
 	}
 	
@@ -413,6 +403,8 @@ public class Update {
 	}
 	
 	public void showRepository() {
+		
+		println("Repository=" + repositoryDir);
 		
 		File dir = new File(repositoryDir);
 		File[] files = dir.listFiles(new FileFilter() {

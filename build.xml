@@ -3,7 +3,7 @@
 	
 	<description>Ant buildfile</description>
 
-	<property name="project.version" value="0.2.3" />
+	<property name="project.version" value="0.2.3-alpha.01" />
 	<property name="bin.dir" value="bin" />
 	<property name="src.dir" value="src" />
 	<property name="web.dir" value="WebContent" />
@@ -89,12 +89,8 @@
 			<fileset dir=".">
 				<include name="build.xml" />
 				<include name="build-update.xml" />
-				<include name="start.sh" />
-				<include name="stop.sh" />
-				<include name="update.sh" />
-				<include name="start.bat" />
-				<include name="stop.bat" />
-				<include name="update.bat" />
+				<include name="COPYING" />
+				<include name="README.md" />
 			</fileset>
 		</copy>
 	</target>

@@ -26,7 +26,8 @@ Commons-logging is required by commons-vfs
 xx. zzz 2015
 
 - added login page, but it is not implemented
-- updater - install-script
+- updater - update based on install-script.xml
+- bug fixes in snmp
 
 -----------------------------------------------------------
 
