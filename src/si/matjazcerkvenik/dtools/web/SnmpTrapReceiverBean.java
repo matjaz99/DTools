@@ -25,8 +25,8 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
-import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrapReceiver;
-import si.matjazcerkvenik.dtools.tools.snmp.TrapNotification;
+import si.matjazcerkvenik.dtools.tools.snmp.impl.SnmpTrapReceiver;
+import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapNotification;
 import si.matjazcerkvenik.dtools.xml.DAO;
 
 @ManagedBean

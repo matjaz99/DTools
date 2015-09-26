@@ -1,4 +1,4 @@
-package si.matjazcerkvenik.dtools.tools.snmp;
+package si.matjazcerkvenik.dtools.tools.snmp.impl;
 
 import java.io.Serializable;
 

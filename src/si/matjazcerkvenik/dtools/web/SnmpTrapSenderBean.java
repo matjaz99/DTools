@@ -30,8 +30,8 @@ import javax.faces.bean.ManagedBean;
 import org.primefaces.context.RequestContext;
 
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
-import si.matjazcerkvenik.dtools.tools.snmp.SenderThread;
-import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrapSender;
+import si.matjazcerkvenik.dtools.tools.snmp.impl.SenderThread;
+import si.matjazcerkvenik.dtools.tools.snmp.impl.SnmpTrapSender;
 import si.matjazcerkvenik.dtools.xml.DAO;
 import si.matjazcerkvenik.dtools.xml.SnmpTrap;
 

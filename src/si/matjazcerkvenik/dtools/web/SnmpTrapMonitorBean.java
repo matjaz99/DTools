@@ -26,7 +26,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
-import si.matjazcerkvenik.dtools.tools.snmp.TrapNotification;
+import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapNotification;
 
 @ManagedBean
 @ViewScoped
