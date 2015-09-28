@@ -7,56 +7,8 @@
         <name>CentOS 6</name>
     </server>
     <server>
-        <description>VirtualBox</description>
-        <favorite>true</favorite>
-        <hostname>192.168.1.106</hostname>
-        <name>Fedora 17</name>
-    </server>
-    <server>
         <description></description>
         <favorite>false</favorite>
-        <hostname>192.168.1.200</hostname>
-        <name>192.168.1.200</name>
-    </server>
-    <server>
-        <description></description>
-        <favorite>false</favorite>
-        <hostname>192.168.1.201</hostname>
-        <name>192.168.1.201</name>
-    </server>
-    <server>
-        <description></description>
-        <favorite>true</favorite>
-        <hostname>192.168.1.202</hostname>
-        <name>192.168.1.202</name>
-    </server>
-    <server>
-        <description></description>
-        <favorite>false</favorite>
-        <hostname>192.168.1.203</hostname>
-        <name>192.168.1.203</name>
-    </server>
-    <server>
-        <description></description>
-        <favorite>false</favorite>
-        <hostname>192.168.1.204</hostname>
-        <name>192.168.1.204</name>
-    </server>
-    <server>
-        <description></description>
-        <favorite>false</favorite>
-        <hostname>8.8.8.8</hostname>
-        <name>Google DNS</name>
-    </server>
-    <server>
-        <description></description>
-        <favorite>true</favorite>
-        <hostname>centos6</hostname>
-        <name>centos6</name>
-    </server>
-    <server>
-        <description></description>
-        <favorite>true</favorite>
         <hostname>localhost</hostname>
         <name>iMac</name>
     </server>

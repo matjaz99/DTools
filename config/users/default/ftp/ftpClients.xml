@@ -1,35 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ftpClients>
     <ftpClient>
-        <favorite>false</favorite>
-        <hostname>hostname</hostname>
-        <password>pass</password>
-        <port>21</port>
-        <protocol>FTP</protocol>
-        <username>user</username>
-    </ftpClient>
-    <ftpClient>
         <favorite>true</favorite>
         <hostname>centos6</hostname>
-        <password>object00</password>
+        <password>ftpuser</password>
         <port>21</port>
         <protocol>FTP</protocol>
-        <username>matjaz</username>
+        <username>ftpuser</username>
     </ftpClient>
     <ftpClient>
-        <favorite>true</favorite>
+        <favorite>false</favorite>
         <hostname>centos6</hostname>
         <password>ftpuser</password>
         <port>22</port>
         <protocol>SFTP</protocol>
-        <username>ftpuser</username>
-    </ftpClient>
-    <ftpClient>
-        <favorite>true</favorite>
-        <hostname>centos6</hostname>
-        <password>ftpuser</password>
-        <port>21</port>
-        <protocol>FTP</protocol>
         <username>ftpuser</username>
     </ftpClient>
 </ftpClients>

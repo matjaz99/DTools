@@ -2,27 +2,12 @@
 <ftpTransfers>
     <transfer>
         <direction>Upload</direction>
-        <from>/Users/matjaz/OpenMp3Player/log/openmp3player.log</from>
-        <to>/home/matjaz</to>
+        <from>/home/user/data/AAA.txt</from>
+        <to>/ftpuser/AAA.txt</to>
     </transfer>
     <transfer>
         <direction>Download</direction>
-        <from>sdfg</from>
-        <to>sdfg</to>
-    </transfer>
-    <transfer>
-        <direction>Upload</direction>
-        <from>/Users/matjaz/DTools/data/AAA.txt</from>
-        <to>/ftptestdir/AAA.txt</to>
-    </transfer>
-    <transfer>
-        <direction>Download</direction>
-        <from>/ftptestdir/AAA.txt</from>
-        <to>/Users/matjaz/DTools/data/BBB.txt</to>
-    </transfer>
-    <transfer>
-        <direction>Download</direction>
-        <from>/ftptestdir/AAA.txt</from>
-        <to>/Users/matjaz/Developer/Projekti/DTools/data/BBB.txt</to>
+        <from>/ftpuser/AAA.txt</from>
+        <to>/home/user/data/BBB.txt</to>
     </transfer>
 </ftpTransfers>
