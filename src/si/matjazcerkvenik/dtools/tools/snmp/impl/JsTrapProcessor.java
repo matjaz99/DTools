@@ -58,7 +58,7 @@ public class JsTrapProcessor {
         
         Reader reader;
 		try {
-			reader = new FileReader(DToolsContext.HOME_DIR + "/" + DProps.getProperty(DProps.SNMP_RECEIVER_RULES_FILE));
+			reader = new FileReader(DToolsContext.HOME_DIR + DProps.getProperty(DProps.SNMP_RECEIVER_RULES_FILE));
 			engine.eval(reader);
 	        reader.close();
 	        engine.put("ctx", ctx);

@@ -76,7 +76,7 @@ public class SnmpTrapReceiver implements Serializable, CommandResponder {
 		} catch (NumberFormatException e) {
 			queueSize = 100;
 		}
-		trapsLogger = new SimpleLogger(DToolsContext.HOME_DIR+ "/log/snmp-traps.log");
+		trapsLogger = new SimpleLogger(DToolsContext.HOME_DIR+ "/log/snmp-traps-" + trapReceiverName + ".log");
 		trapsLogger.setVerbose(logger.isVerbose());
 	}
 	

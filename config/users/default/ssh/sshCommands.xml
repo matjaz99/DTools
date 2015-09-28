@@ -5,7 +5,6 @@
     <command>tail -n 100 /private/var/log/system.log</command>
     <command>who</command>
     <command>more /etc/hosts</command>
-    <command>asasasasas</command>
     <command>hostname</command>
     <command>pwd</command>
     <command>ping -c 1 192.168.1.110</command>
@@ -13,4 +12,12 @@
     <command>reboot</command>
     <command>more /private/var/log/system.log</command>
     <command>nslookup google.com</command>
+    <command>ifup eth0</command>
+    <command>service vsftpd start</command>
+    <command>service vsftpd stop</command>
+    <command>service vsftpd status</command>
+    <command>service snmpd start</command>
+    <command>snmpget -v 2c -c public localhost 1.3.6.1.4.1.1.2</command>
+    <command>echo $PATH</command>
+    <command>Pwd</command>
 </commands>

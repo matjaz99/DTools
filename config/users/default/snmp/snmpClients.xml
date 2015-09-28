@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snmpClients>
+    <client>
+        <community>public</community>
+        <favorite>true</favorite>
+        <hostname>centos6</hostname>
+        <name>Net-SNMP on CentOS 6</name>
+        <port>161</port>
+        <snmpVersion>v2c</snmpVersion>
+    </client>
+    <client>
+        <community>private</community>
+        <favorite>true</favorite>
+        <hostname>192.168.1.100</hostname>
+        <name>test</name>
+        <port>161</port>
+        <snmpVersion>v2c</snmpVersion>
+    </client>
+    <client>
+        <community>public</community>
+        <favorite>false</favorite>
+        <hostname>oo</hostname>
+        <name>lkjl</name>
+        <port>161</port>
+        <snmpVersion>v2c</snmpVersion>
+    </client>
+    <client>
+        <community>public</community>
+        <favorite>false</favorite>
+        <hostname>vv</hostname>
+        <name>vv</name>
+        <port>161</port>
+        <snmpVersion>v1</snmpVersion>
+    </client>
+    <client>
+        <community>private</community>
+        <favorite>false</favorite>
+        <hostname>fgfgh</hostname>
+        <name>fghfg</name>
+        <port>6161</port>
+        <snmpVersion>v2c</snmpVersion>
+    </client>
+</snmpClients>
