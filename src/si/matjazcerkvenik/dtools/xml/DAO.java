@@ -34,6 +34,8 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpManager;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpManagers;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 public class DAO {
@@ -46,24 +48,55 @@ public class DAO {
 	private FtpClients ftpClients;
 	private FtpTransfers ftpTransfers;
 	private Commands commands;
+	private SnmpManagers snmpManagers;
 	private SnmpClients snmpClients;
 	private SnmpTraps snmpTraps;
 	private Notes notes;
 	private Todos todos;
 	
-	private final String XML_SERVERS = "/config/servers.xml";
-	private final String XML_SSH_CLIENTS = "/config/sshClients.xml";
-	private final String XML_SSH_COMMANDS = "/config/sshCommands.xml";
-	private final String XML_FTP_CLIENTS = "/config/ftpClients.xml";
-	private final String XML_FTP_TRANSFERS = "/config/ftpTransfers.xml";
-	private final String XML_SNMP_CLIENTS = "/config/snmpClients.xml";
-	private final String XML_SNMP_TRAPS = "/config/snmpTraps.xml";
-	private final String XML_NOTES = "/config/notes.xml";
-	private final String XML_TODOS = "/config/todos.xml";
+	private String XML_SERVERS = "/config/users/$DTOOLS_USER$/network/servers.xml";
+	
+	private String XML_SSH_CLIENTS = "/config/users/$DTOOLS_USER$/ssh/sshClients.xml";
+	private String XML_SSH_COMMANDS = "/config/users/$DTOOLS_USER$/ssh/sshCommands.xml";
+	private String DIR_SAVE_SSH_RESPONSE = "/config/users/$DTOOLS_USER$/ssh/saved";
+	private String XML_SAVE_SSH_RESPONSE = "/config/users/$DTOOLS_USER$/ssh/saved/$FILENAME$.xml";
+	private String TXT_SAVE_SSH_RESPONSE = "/config/users/$DTOOLS_USER$/ssh/saved/$FILENAME$.txt";
+	
+	private String XML_FTP_CLIENTS = "/config/users/$DTOOLS_USER$/ftp/ftpClients.xml";
+	private String XML_FTP_TRANSFERS = "/config/users/$DTOOLS_USER$/ftp/ftpTransfers.xml";
+	
+	private String XML_SNMP_MANAGERS = "/config/users/$DTOOLS_USER$/snmp/snmpManagers.xml";
+	private String XML_SNMP_CLIENTS = "/config/users/$DTOOLS_USER$/snmp/snmpClients.xml";
+	private String XML_SNMP_TRAPS = "/config/users/$DTOOLS_USER$/snmp/snmpTraps.xml";
+	private String TXT_SAVE_RECEIVED_TRAPS = "/config/users/$DTOOLS_USER$/temp/$FILENAME$.txt";
+	
+	private String XML_NOTES = "/config/users/$DTOOLS_USER$/misc/notes.xml";
+	private String XML_TODOS = "/config/users/$DTOOLS_USER$/misc/todos.xml";
+	
 
 	private DAO() {
 		// singleton
 		logger = DToolsContext.getInstance().getLogger();
+		
+		XML_SERVERS = XML_SERVERS.replace("$DTOOLS_USER$", "default");
+		
+		XML_SSH_CLIENTS = XML_SSH_CLIENTS.replace("$DTOOLS_USER$", "default");
+		XML_SSH_COMMANDS = XML_SSH_COMMANDS.replace("$DTOOLS_USER$", "default");
+		DIR_SAVE_SSH_RESPONSE = DIR_SAVE_SSH_RESPONSE.replace("$DTOOLS_USER$", "default");
+		XML_SAVE_SSH_RESPONSE = XML_SAVE_SSH_RESPONSE.replace("$DTOOLS_USER$", "default");
+		TXT_SAVE_SSH_RESPONSE = TXT_SAVE_SSH_RESPONSE.replace("$DTOOLS_USER$", "default");
+		
+		XML_FTP_CLIENTS = XML_FTP_CLIENTS.replace("$DTOOLS_USER$", "default");
+		XML_FTP_TRANSFERS = XML_FTP_TRANSFERS.replace("$DTOOLS_USER$", "default");
+		
+		XML_SNMP_MANAGERS = XML_SNMP_MANAGERS.replace("$DTOOLS_USER$", "default");
+		XML_SNMP_CLIENTS = XML_SNMP_CLIENTS.replace("$DTOOLS_USER$", "default");
+		XML_SNMP_TRAPS = XML_SNMP_TRAPS.replace("$DTOOLS_USER$", "default");
+		TXT_SAVE_RECEIVED_TRAPS = TXT_SAVE_RECEIVED_TRAPS.replace("$DTOOLS_USER$", "default");
+		
+		XML_NOTES = XML_NOTES.replace("$DTOOLS_USER$", "default");
+		XML_TODOS = XML_TODOS.replace("$DTOOLS_USER$", "default");
+		
 	}
 
 	public static DAO getInstance() {
@@ -568,6 +601,80 @@ public class DAO {
 	
 	
 	
+	/* SNMP MANAGERS */
+	
+	
+	
+	public SnmpManagers loadSnmpManagers() {
+
+		if (snmpManagers != null) {
+			return snmpManagers;
+		}
+
+		try {
+
+			File file = new File(DToolsContext.HOME_DIR + XML_SNMP_MANAGERS);
+			if (!file.exists()) {
+				snmpManagers = new SnmpManagers();
+				JAXBContext jaxbContext = JAXBContext.newInstance(SnmpManagers.class);
+				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+				jaxbMarshaller.marshal(snmpManagers, file);
+			}
+			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpManagers.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			snmpManagers = (SnmpManagers) jaxbUnmarshaller.unmarshal(file);
+			if (snmpManagers.getManagersList() == null) {
+				snmpManagers.setManagersList(new ArrayList<SnmpManager>());
+			}
+			
+			logger.info("DAO:loadSnmpManagers(): " + file.getAbsolutePath());
+
+		} catch (JAXBException e) {
+			logger.error("DAO:loadSnmpManagers(): JAXBException: ", e);
+		}
+
+		return snmpManagers;
+
+	}
+
+	public void saveSnmpManagers() {
+
+		try {
+
+			File file = new File(DToolsContext.HOME_DIR + XML_SNMP_TRAPS);
+			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpManagers.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.marshal(snmpManagers, file);
+			
+			logger.info("DAO:saveSnmpManagers(): " + file.getAbsolutePath());
+
+		} catch (JAXBException e) {
+			logger.error("DAO:saveSnmpManagers(): JAXBException: ", e);
+		}
+
+	}
+
+	public void addSnmpManagers(SnmpManager m) {
+
+		snmpManagers.addManager(m);
+		saveSnmpManagers();
+
+	}
+
+	public void deleteSnmpTrap(SnmpManager m) {
+
+		snmpManagers.removeManager(m);
+		saveSnmpManagers();
+
+	}
+	
+	
+	
+	
+	
+	
 	/* SNMP CLIENTS */
 
 	public SnmpClients loadSnmpClients() {
@@ -646,8 +753,9 @@ public class DAO {
 	 */
 	public String saveReceivedTrapsAsTxt(String filename, String trapsString) {
 		
-		String file = "/temp/" + filename + "-" + System.currentTimeMillis() + ".txt";
-		writePlainTextFile(DToolsContext.HOME_DIR + file, trapsString);
+		String file = filename + "-" + System.currentTimeMillis();
+		file = DToolsContext.HOME_DIR + TXT_SAVE_RECEIVED_TRAPS.replaceFirst("$FILENAME$", file);
+		writePlainTextFile(file, trapsString);
 		return file;
 		
 	}
@@ -732,22 +840,22 @@ public class DAO {
 	public void saveSshResponse(String filename, SshResponse sshResponse) {
 
 		try {
-
-			File file = new File(DToolsContext.HOME_DIR + "/temp/" + filename
-					+ ".xml");
+			String fn = DToolsContext.HOME_DIR + XML_SAVE_SSH_RESPONSE.replace("$FILENAME$", filename);
+			File file = new File(fn);
 			JAXBContext jaxbContext = JAXBContext
 					.newInstance(SshResponse.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(sshResponse, file);
 			
+			String fn2 = DToolsContext.HOME_DIR + TXT_SAVE_SSH_RESPONSE.replace("$FILENAME$", filename);
+			writePlainTextFile(fn2, sshResponse.getResponse());
+			
 			logger.info("DAO:saveSshResponse(): " + file.getAbsolutePath());
 
 		} catch (JAXBException e) {
 			logger.error("DAO:saveSshResponse(): JAXBException: ", e);
 		}
-
-		writePlainTextFile(DToolsContext.HOME_DIR + "/temp/" + filename + ".txt", sshResponse.getResponse());
 
 	}
 
@@ -756,8 +864,8 @@ public class DAO {
 		String resp = "";
 
 		try {
-			File txtFile = new File(DToolsContext.HOME_DIR
-					+ "/temp/" + filename + ".txt");
+			String fn = DToolsContext.HOME_DIR + TXT_SAVE_SSH_RESPONSE.replace("$FILENAME$", filename);
+			File txtFile = new File(fn);
 			FileReader fr = new FileReader(txtFile);
 			BufferedReader br = new BufferedReader(fr);
 			String line;
@@ -773,8 +881,8 @@ public class DAO {
 		SshResponse sshResponse = new SshResponse();
 		
 		try {
-
-			File file = new File(DToolsContext.HOME_DIR + "/temp/" + filename + ".xml");
+			String fn = DToolsContext.HOME_DIR + XML_SAVE_SSH_RESPONSE.replace("$FILENAME$", filename);
+			File file = new File(fn);
 			JAXBContext jaxbContext = JAXBContext.newInstance(SshResponse.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			sshResponse = (SshResponse) jaxbUnmarshaller.unmarshal(file);
@@ -807,7 +915,8 @@ public class DAO {
 	
 	private List<String> loadHistoryFilenames() {
 		
-		File dir = new File(DToolsContext.HOME_DIR + "/temp");
+		String fn = DToolsContext.HOME_DIR + DIR_SAVE_SSH_RESPONSE;
+		File dir = new File(fn);
 		File[] files = dir.listFiles(new FileFilter() {
 			
 			@Override

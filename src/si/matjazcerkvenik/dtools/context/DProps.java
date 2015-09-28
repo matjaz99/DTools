@@ -50,7 +50,7 @@ public class DProps {
 		defaultValues.put(SIMPLELOGGER_MAXBACKUPFILES, "2");
 		defaultValues.put(SIMPLELOGGER_DATEFORMAT, "yyyy.MM.dd hh:mm:ss:SSS");
 		defaultValues.put(SNMP_RECEIVER_QUEUE_SIZE, "100");
-		defaultValues.put(SNMP_RECEIVER_RULES_FILE, "config/trap-rules.js");
+		defaultValues.put(SNMP_RECEIVER_RULES_FILE, "/config/users/default/snmp/trap-rules-default.js");
 	}
 	
 	/**
