@@ -22,6 +22,10 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import javax.faces.event.ValueChangeEvent;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 import org.snmp4j.CommandResponder;
 import org.snmp4j.CommandResponderEvent;
 import org.snmp4j.MessageDispatcher;
@@ -49,38 +53,55 @@ import org.snmp4j.util.ThreadPool;
 
 import si.matjazcerkvenik.dtools.context.DProps;
 import si.matjazcerkvenik.dtools.context.DToolsContext;
+import si.matjazcerkvenik.dtools.xml.DAO;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
-public class SnmpTrapReceiver implements Serializable, CommandResponder {
+public class TrapReceiver implements Serializable, CommandResponder {
 	
 	private static final long serialVersionUID = 8047737749908071L;
 	private SimpleLogger logger;
 	private SimpleLogger trapsLogger;
 	
+	private String name;
+	private String ip;
+	private int port;
+	
 	private ThreadPool threadPool;
 	private MessageDispatcher dispatcher;
 	private Address listenAddress;
 	private Snmp snmp;
+	private boolean active = false;
 	
-	private String trapReceiverName = "default";
 	private int counterOfReceivedTraps = 0;
 	private int queueSize = 100;
 	private ConcurrentLinkedQueue<TrapNotification> receivedTrapNotifications = new ConcurrentLinkedQueue<TrapNotification>();
 	
-	public SnmpTrapReceiver(String name) {
+	public TrapReceiver() {
+		init();
+	}
+	
+	public TrapReceiver(String name, String ip, int port) {
+		
+		init();
+		this.name = name;
+		this.ip = ip;
+		this.port = port;
+		
+	}
+	
+	public void init() {
 		logger = DToolsContext.getInstance().getLogger();
-		trapReceiverName = name;
 		String size = DProps.getProperty(DProps.SNMP_RECEIVER_QUEUE_SIZE);
 		try {
 			queueSize = Integer.parseInt(size);
 		} catch (NumberFormatException e) {
 			queueSize = 100;
 		}
-		trapsLogger = new SimpleLogger(DToolsContext.HOME_DIR+ "/log/snmp-traps-" + trapReceiverName + ".log");
+		trapsLogger = new SimpleLogger(DToolsContext.HOME_DIR+ "/log/snmp-traps-" + name + ".log");
 		trapsLogger.setVerbose(logger.isVerbose());
 	}
 	
-	public void start(String ip, int port) {
+	public void start() {
 
 		try {
 			threadPool = ThreadPool.create("Trap", 2);
@@ -116,9 +137,14 @@ public class SnmpTrapReceiver implements Serializable, CommandResponder {
 			
 			logger.info("SnmpTrapReceiver.start(): listening on port " + port);
 			
+			active = true;
+			
 		} catch (IOException e) {
 			logger.error("SnmpTrapReceiver.start(): IOException", e);
+			active = false;
 		}
+		
+		
 		
 	}
 	
@@ -126,12 +152,33 @@ public class SnmpTrapReceiver implements Serializable, CommandResponder {
 		try {
 			snmp.close();
 			threadPool.interrupt();
+			snmp = null;
+			active = false;
 		} catch (IOException e) {
 			logger.error("SnmpTrapReceiver.stop(): IOException", e);
 		}
 		logger.info("SnmpTrapReceiver.stop(): stop listening");
 	}
 	
+	
+	public void toggle() {
+		if (snmp == null) {
+			start();
+		} else {
+			stop();
+		}
+	}
+
+	
+	public boolean isActive() {
+		return active;
+	}
+
+	@XmlTransient
+	public void setActive(boolean active) {
+		toggle();
+	}
+
 	/**
 	 * This method will be called whenever a pdu is received on the given port
 	 * specified in the listen() method
@@ -140,7 +187,7 @@ public class SnmpTrapReceiver implements Serializable, CommandResponder {
 		PDU pdu = cmdRespEvent.getPDU();
 		
 		// create TrapNotification
-		TrapNotification tn = new TrapNotification(counterOfReceivedTraps++, trapReceiverName, cmdRespEvent);
+		TrapNotification tn = new TrapNotification(counterOfReceivedTraps++, name, cmdRespEvent);
 		
 		JsTrapProcessor tProc = new JsTrapProcessor();
 		tProc.init();
@@ -190,5 +237,60 @@ public class SnmpTrapReceiver implements Serializable, CommandResponder {
 		receivedTrapNotifications.clear();
 	}
 	
+	
+	
+	
+
+	public String getName() {
+		return name;
+	}
+
+	@XmlElement
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	@XmlElement
+	public void setIp(String ip) {
+		System.out.println("setIP=" + ip);
+		this.ip = ip;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	@XmlElement
+	public void setPort(int port) {
+		this.port = port;
+	}
+	
+	public void changedName(ValueChangeEvent e) {
+		if (e.getOldValue().toString().equalsIgnoreCase(e.getNewValue().toString())) {
+			return;
+		}
+		name = e.getNewValue().toString();
+		DAO.getInstance().saveSnmpManager();
+	}
+	
+	public void changedIp(ValueChangeEvent e) {
+		if (e.getOldValue().toString().equalsIgnoreCase(e.getNewValue().toString())) {
+			return;
+		}
+		ip = e.getNewValue().toString();
+		DAO.getInstance().saveSnmpManager();
+	}
+	
+	public void changedPort(ValueChangeEvent e) {
+		if (e.getOldValue().toString().equalsIgnoreCase(e.getNewValue().toString())) {
+			return;
+		}
+		port = Integer.parseInt(e.getNewValue().toString().trim());
+		DAO.getInstance().saveSnmpManager();
+	}
 	
 }

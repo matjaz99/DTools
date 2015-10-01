@@ -25,7 +25,7 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
-import si.matjazcerkvenik.dtools.tools.snmp.impl.SnmpTrapReceiver;
+import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapReceiver;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapNotification;
 import si.matjazcerkvenik.dtools.xml.DAO;
 
@@ -35,7 +35,7 @@ public class SnmpTrapReceiverBean implements Serializable {
 	
 	private static final long serialVersionUID = 1750695129629929329L;
 	
-	private SnmpTrapReceiver trapReceiver = null;
+	private TrapReceiver trapReceiver = null;
 	private String ip = LocalhostInfo.getLocalIpAddress();
 	private int port = 6162;
 	
@@ -61,8 +61,8 @@ public class SnmpTrapReceiverBean implements Serializable {
 	public void toggleListening() {
 		
 		if (trapReceiver == null) {
-			trapReceiver = new SnmpTrapReceiver("default");
-			trapReceiver.start(ip, port);
+			trapReceiver = new TrapReceiver("default", ip, port);
+			trapReceiver.start();
 			Growl.addGrowlMessage("Start listening for traps", FacesMessage.SEVERITY_INFO);
 		} else {
 			// already listening
@@ -83,7 +83,7 @@ public class SnmpTrapReceiverBean implements Serializable {
 	
 	
 	
-	public SnmpTrapReceiver getTrapReceiver() {
+	public TrapReceiver getTrapReceiver() {
 		return trapReceiver;
 	}
 

@@ -35,7 +35,7 @@ import javax.xml.bind.Unmarshaller;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpManager;
-import si.matjazcerkvenik.dtools.tools.snmp.SnmpManagers;
+import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapReceiver;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 public class DAO {
@@ -48,7 +48,7 @@ public class DAO {
 	private FtpClients ftpClients;
 	private FtpTransfers ftpTransfers;
 	private Commands commands;
-	private SnmpManagers snmpManagers;
+	private SnmpManager snmpManager;
 	private SnmpClients snmpClients;
 	private SnmpTraps snmpTraps;
 	private Notes notes;
@@ -65,7 +65,7 @@ public class DAO {
 	private String XML_FTP_CLIENTS = "/config/users/$DTOOLS_USER$/ftp/ftpClients.xml";
 	private String XML_FTP_TRANSFERS = "/config/users/$DTOOLS_USER$/ftp/ftpTransfers.xml";
 	
-	private String XML_SNMP_MANAGERS = "/config/users/$DTOOLS_USER$/snmp/snmpManagers.xml";
+	private String XML_SNMP_MANAGER = "/config/users/$DTOOLS_USER$/snmp/snmpManager.xml";
 	private String XML_SNMP_CLIENTS = "/config/users/$DTOOLS_USER$/snmp/snmpClients.xml";
 	private String XML_SNMP_TRAPS = "/config/users/$DTOOLS_USER$/snmp/snmpTraps.xml";
 	private String TXT_SAVE_RECEIVED_TRAPS = "/config/users/$DTOOLS_USER$/temp/$FILENAME$.txt";
@@ -89,7 +89,7 @@ public class DAO {
 		XML_FTP_CLIENTS = XML_FTP_CLIENTS.replace("$DTOOLS_USER$", "default");
 		XML_FTP_TRANSFERS = XML_FTP_TRANSFERS.replace("$DTOOLS_USER$", "default");
 		
-		XML_SNMP_MANAGERS = XML_SNMP_MANAGERS.replace("$DTOOLS_USER$", "default");
+		XML_SNMP_MANAGER = XML_SNMP_MANAGER.replace("$DTOOLS_USER$", "default");
 		XML_SNMP_CLIENTS = XML_SNMP_CLIENTS.replace("$DTOOLS_USER$", "default");
 		XML_SNMP_TRAPS = XML_SNMP_TRAPS.replace("$DTOOLS_USER$", "default");
 		TXT_SAVE_RECEIVED_TRAPS = TXT_SAVE_RECEIVED_TRAPS.replace("$DTOOLS_USER$", "default");
@@ -601,72 +601,73 @@ public class DAO {
 	
 	
 	
-	/* SNMP MANAGERS */
+	/* SNMP MANAGER */
 	
 	
 	
-	public SnmpManagers loadSnmpManagers() {
+	public SnmpManager loadSnmpManager() {
 
-		if (snmpManagers != null) {
-			return snmpManagers;
+		if (snmpManager != null) {
+			return snmpManager;
 		}
 
 		try {
 
-			File file = new File(DToolsContext.HOME_DIR + XML_SNMP_MANAGERS);
+			File file = new File(DToolsContext.HOME_DIR + XML_SNMP_MANAGER);
 			if (!file.exists()) {
-				snmpManagers = new SnmpManagers();
-				JAXBContext jaxbContext = JAXBContext.newInstance(SnmpManagers.class);
+				snmpManager = new SnmpManager();
+				snmpManager.createDefaultTrapReceiver();
+				JAXBContext jaxbContext = JAXBContext.newInstance(SnmpManager.class);
 				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-				jaxbMarshaller.marshal(snmpManagers, file);
+				jaxbMarshaller.marshal(snmpManager, file);
 			}
-			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpManagers.class);
+			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpManager.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			snmpManagers = (SnmpManagers) jaxbUnmarshaller.unmarshal(file);
-			if (snmpManagers.getManagersList() == null) {
-				snmpManagers.setManagersList(new ArrayList<SnmpManager>());
+			snmpManager = (SnmpManager) jaxbUnmarshaller.unmarshal(file);
+			if (snmpManager.getTrapReceiversList() == null) {
+				snmpManager.setTrapReceiversList(new ArrayList<TrapReceiver>());
 			}
 			
-			logger.info("DAO:loadSnmpManagers(): " + file.getAbsolutePath());
+			logger.info("DAO:loadSnmpManager(): " + file.getAbsolutePath());
 
 		} catch (JAXBException e) {
-			logger.error("DAO:loadSnmpManagers(): JAXBException: ", e);
+			logger.error("DAO:loadSnmpManager(): JAXBException: ", e);
 		}
 
-		return snmpManagers;
+		return snmpManager;
 
 	}
 
-	public void saveSnmpManagers() {
+	public void saveSnmpManager() {
 
 		try {
 
-			File file = new File(DToolsContext.HOME_DIR + XML_SNMP_TRAPS);
-			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpManagers.class);
+			File file = new File(DToolsContext.HOME_DIR + XML_SNMP_MANAGER);
+			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpManager.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			jaxbMarshaller.marshal(snmpManagers, file);
+			jaxbMarshaller.marshal(snmpManager, file);
 			
-			logger.info("DAO:saveSnmpManagers(): " + file.getAbsolutePath());
+			logger.info("DAO:saveSnmpManager(): " + file.getAbsolutePath());
 
 		} catch (JAXBException e) {
-			logger.error("DAO:saveSnmpManagers(): JAXBException: ", e);
+			logger.error("DAO:saveSnmpManager(): JAXBException: ", e);
 		}
 
 	}
 
-	public void addSnmpManagers(SnmpManager m) {
+	public void addTrapReceiver(TrapReceiver r) {
 
-		snmpManagers.addManager(m);
-		saveSnmpManagers();
+		snmpManager.addTrapReceiver(r);
+		saveSnmpManager();
 
 	}
 
-	public void deleteSnmpTrap(SnmpManager m) {
+	public void deleteTrapReceiver(TrapReceiver r) {
 
-		snmpManagers.removeManager(m);
-		saveSnmpManagers();
+		snmpManager.removeTrapReceiver(r);
+		saveSnmpManager();
 
 	}
 	
