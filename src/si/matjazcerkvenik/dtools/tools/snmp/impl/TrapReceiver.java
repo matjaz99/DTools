@@ -76,9 +76,11 @@ public class TrapReceiver implements Serializable, CommandResponder {
 	private int queueSize = 100;
 	private ConcurrentLinkedQueue<TrapNotification> receivedTrapNotifications = new ConcurrentLinkedQueue<TrapNotification>();
 	
+	
 	public TrapReceiver() {
 		init();
 	}
+	
 	
 	public TrapReceiver(String name, String ip, int port) {
 		
@@ -89,6 +91,10 @@ public class TrapReceiver implements Serializable, CommandResponder {
 		
 	}
 	
+	
+	/**
+	 * Initialize receiver parameters (traps log file, queue size)
+	 */
 	public void init() {
 		logger = DToolsContext.getInstance().getLogger();
 		String size = DProps.getProperty(DProps.SNMP_RECEIVER_QUEUE_SIZE);
@@ -101,10 +107,14 @@ public class TrapReceiver implements Serializable, CommandResponder {
 		trapsLogger.setVerbose(logger.isVerbose());
 	}
 	
+	
+	/**
+	 * Start trap receiver
+	 */
 	public void start() {
 
 		try {
-			threadPool = ThreadPool.create("Trap", 2);
+			threadPool = ThreadPool.create("TrapRec[" + name + "]", 2);
 
 			dispatcher = new MultiThreadedMessageDispatcher(threadPool,
 					new MessageDispatcherImpl());
@@ -144,11 +154,16 @@ public class TrapReceiver implements Serializable, CommandResponder {
 			active = false;
 		}
 		
-		
-		
 	}
 	
+	
+	/**
+	 * Stop trap receiver
+	 */
 	public void stop() {
+		if (snmp == null) {
+			return;
+		}
 		try {
 			snmp.close();
 			threadPool.interrupt();
@@ -159,26 +174,22 @@ public class TrapReceiver implements Serializable, CommandResponder {
 		}
 		logger.info("SnmpTrapReceiver.stop(): stop listening");
 	}
-	
-	
-	public void toggle() {
-		if (snmp == null) {
-			start();
-		} else {
-			stop();
-		}
-	}
 
 	
+	/**
+	 * Return true if receiver is listening
+	 * @return active
+	 */
 	public boolean isActive() {
 		return active;
 	}
 
 	@XmlTransient
 	public void setActive(boolean active) {
-		toggle();
+		this.active = active;
 	}
 
+	
 	/**
 	 * This method will be called whenever a pdu is received on the given port
 	 * specified in the listen() method
@@ -228,6 +239,7 @@ public class TrapReceiver implements Serializable, CommandResponder {
 			}
 		}
 	}
+	
 
 	public ConcurrentLinkedQueue<TrapNotification> getReceivedTrapNotifications() {
 		return receivedTrapNotifications;
@@ -236,8 +248,6 @@ public class TrapReceiver implements Serializable, CommandResponder {
 	public void clearReceivedTraps() {
 		receivedTrapNotifications.clear();
 	}
-	
-	
 	
 	
 
@@ -256,7 +266,6 @@ public class TrapReceiver implements Serializable, CommandResponder {
 
 	@XmlElement
 	public void setIp(String ip) {
-		System.out.println("setIP=" + ip);
 		this.ip = ip;
 	}
 

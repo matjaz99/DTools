@@ -18,6 +18,7 @@
 
 package si.matjazcerkvenik.dtools.web;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -25,43 +26,15 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpManager;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapReceiver;
 import si.matjazcerkvenik.dtools.xml.DAO;
 
 @ManagedBean
 @ApplicationScoped
-public class SnmpManagerBean {
-
-//	private String name;
-//
-//	private String ip;
-//
-//	private int port = 6162;
-//		
-//	public String getName() {
-//		return name;
-//	}
-//
-//	public void setName(String name) {
-//		this.name = name;
-//	}
-//
-//	public String getIp() {
-//		return ip;
-//	}
-//
-//	public void setIp(String ip) {
-//		this.ip = ip;
-//	}
-//
-//	public int getPort() {
-//		return port;
-//	}
-//
-//	public void setPort(int port) {
-//		this.port = port;
-//	}
+public class SnmpManagerBean implements Serializable {
 	
+	private static final long serialVersionUID = -8242154775224005611L;
 
 	public void addNewTrapReceiver() {
 		
@@ -76,6 +49,7 @@ public class SnmpManagerBean {
 	public void deleteTrapReceiver(TrapReceiver r) {
 		r.stop();
 		DAO.getInstance().deleteTrapReceiver(r);
+		Growl.addGrowlMessage(r.getName() + " deleted", FacesMessage.SEVERITY_INFO);
 	}
 	
 	public List<TrapReceiver> getTrapReceivers() {
@@ -93,5 +67,13 @@ public class SnmpManagerBean {
 			Growl.addGrowlMessage("Stop listening", FacesMessage.SEVERITY_INFO);
 		}
 	}
+	
+	public void stopAllReceivers() {
+		SnmpManager m = DAO.getInstance().loadSnmpManager();
+		for (int i = 0; i < m.getTrapReceiversList().size(); i++) {
+			m.getTrapReceiversList().get(i).stop();
+		}
+	}
+	
 
 }

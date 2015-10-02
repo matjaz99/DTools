@@ -21,60 +21,85 @@ package si.matjazcerkvenik.dtools.web;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapNotification;
+import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapReceiver;
+import si.matjazcerkvenik.dtools.xml.DAO;
 
 @ManagedBean
 @ViewScoped
 public class SnmpTrapMonitorBean implements Serializable {
 	
 	private static final long serialVersionUID = -3589597671351602203L;
-
-	@ManagedProperty(value="#{snmpTrapReceiverBean}")
-	private SnmpTrapReceiverBean snmpTrapReceiverBean;
 	
 	private List<TrapNotification> list;
 	private TrapNotification activeTrap;
+	private String receivedTrapsAsString;
 
-
-
-	// only setter is needed to inject
-	public void setSnmpTrapReceiverBean(SnmpTrapReceiverBean snmpTrapReceiverBean) {
-		this.snmpTrapReceiverBean = snmpTrapReceiverBean;
+	
+	private TrapReceiver trapReceiver;
+		
+	
+	@PostConstruct
+	public void init() {
+		Map<String, Object> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+		trapReceiver = (TrapReceiver) requestParameterMap.get("trapRecv");
+		
+		Map<String, String> requestParameterMap2 = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		if (requestParameterMap2.containsKey("name")) {
+			System.out.println("found " + requestParameterMap2.get("name"));
+		}
 	}
-
-
-
+	
+	
+	/**
+	 * Get trap to show info
+	 * @return
+	 */
 	public TrapNotification getActiveTrap() {
 		return activeTrap;
 	}
 
-
-
+	/**
+	 * Set trap to show info
+	 * @param activeTrap
+	 */
 	public void setActiveTrap(TrapNotification activeTrap) {
 		this.activeTrap = activeTrap;
 	}
 	
+	/**
+	 * Make active trap null
+	 */
 	public void nullActiveTrap() {
 		this.activeTrap = null;
 	}
 	
+	/**
+	 * Update list of traps (inside bean) in descending order
+	 */
 	public void updateTrapNotifications() {
-		if (snmpTrapReceiverBean.getTrapReceiver() == null) {
+		if (trapReceiver == null) {
 			return;
 		}
-		Object[] array = snmpTrapReceiverBean.getTrapReceiver().getReceivedTrapNotifications().toArray();
+		list.clear();
+		Object[] array = trapReceiver.getReceivedTrapNotifications().toArray();
 		for (int i = array.length - 1; i >= 0; i--) {
 			list.add((TrapNotification) array[i]);
 		}
 	}
-
-
-
+	
+	/**
+	 * Get list of traps
+	 * @return
+	 */
 	public List<TrapNotification> getTrapNotifications() {
 		if (list == null) {
 			list = new ArrayList<TrapNotification>();
@@ -90,10 +115,10 @@ public class SnmpTrapMonitorBean implements Serializable {
 	public String getBackgroundColors() {
 		// FIXME this should be done differently in JSF 2 - style for each row
 		StringBuilder rowClasses = new StringBuilder();
-		if (snmpTrapReceiverBean.getTrapReceiver() == null) {
+		if (trapReceiver == null) {
 			return rowClasses.toString();
 		}
-		Object[] array = snmpTrapReceiverBean.getTrapReceiver().getReceivedTrapNotifications().toArray();
+		Object[] array = trapReceiver.getReceivedTrapNotifications().toArray();
 
 		// sort ascending
 //	    for (int i = 0; i < array.length; i++) {
@@ -131,6 +156,11 @@ public class SnmpTrapMonitorBean implements Serializable {
 		
 	}
 	
+	/**
+	 * Convert severity to style class
+	 * @param severity
+	 * @return styleClass
+	 */
 	private String getStyleClass(int severity) {
 		switch (severity) {
 		case 1:
@@ -153,11 +183,35 @@ public class SnmpTrapMonitorBean implements Serializable {
 	
 	
 	
+	public String getReceivedTrapsAsString() {
+		
+		if (trapReceiver == null) {
+			return receivedTrapsAsString;
+		}
+		receivedTrapsAsString = "";
+		Object[] array = trapReceiver.getReceivedTrapNotifications().toArray();
+		for (int i = 0; i < array.length; i++) {
+			TrapNotification tn = (TrapNotification) array[i];
+			receivedTrapsAsString += tn.toStringRaw() + "\n";
+		}
+//		receivedTrapsAsString = receivedTrapsAsString.replaceAll(", ", "\n");
+		return receivedTrapsAsString;
+	}
 
-
-
+	public void setReceivedTrapsAsString(String receivedTrapsAsString) {
+		this.receivedTrapsAsString = receivedTrapsAsString;
+	}
 	
-
+	public void clearData() {
+		if (trapReceiver != null) {
+			trapReceiver.clearReceivedTraps();
+		}
+		receivedTrapsAsString = null;
+	}
 	
+	public void saveData() {
+		String file = DAO.getInstance().saveReceivedTrapsAsTxt("snmp-traps", getReceivedTrapsAsString());
+		Growl.addGrowlMessage("Saved as " + file, FacesMessage.SEVERITY_INFO);
+	}
 	
 }

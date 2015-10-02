@@ -24,12 +24,12 @@
 			<h:form id="trForm">
 			<h:panelGrid columns="1" cellspacing="5" width="100%">
 				<h:dataTable id="smTable" value="#{snmpManagerBean.trapReceivers}" var="recv" 
-					styleClass="table"
+					
 					
 					cellpadding="0" cellspacing="0" width="100%">
 				
 					<h:column>
-						<h:panelGrid columns="1">
+						<h:panelGrid columns="1" styleClass="border" width="100%">
 							<h:panelGrid columns="2">
 								<dt:icon img="rocket" />
 								<p:inplace editor="true" styleClass="title" >
@@ -48,17 +48,18 @@
 						        </p:inplace>
 						        <h:outputText value="Active: " />
 						        <p:inputSwitch id="actBtn" value="#{recv.active}">
-						            <p:ajax update="growl actBtn" />
+						            <p:ajax update="growl actBtn" listener="#{snmpManagerBean.toggleTrapReceiver(recv)}" />
 						        </p:inputSwitch>
 							</h:panelGrid>
 							<h:panelGrid columns="3">
 								
-						        <p:commandButton id="viewBtn" value="View received traps" 
-									action="#{snmpManagerBean.deleteTrapReceiver(recv)}" 
-									update="growl trForm" ajax="true" />
+						        <p:commandButton id="viewBtn" value="View raw traps" 
+									action="#{navigationBean.openSnmpTrapReceiver(recv)}" />
+								<p:commandButton id="monitorBtn" value="Trap Monitor" 
+									action="#{navigationBean.openTrapMonitor(recv)}" />
 						        <p:commandButton id="delBtn" value="Delete" 
 									action="#{snmpManagerBean.deleteTrapReceiver(recv)}" 
-									update="growl smTable" ajax="true" />
+									update="growl trForm" ajax="true" />
 							</h:panelGrid>
 						</h:panelGrid>
 					</h:column>
@@ -71,27 +72,6 @@
 			</h:form>
 			
 			
-
-			
-			<hr/>
-			
-			<h:form>
-				<h:panelGrid columns="1" cellpadding="2" cellspacing="0">
-					<h:panelGrid columns="3" cellpadding="2" cellspacing="0">
-						<p:commandButton value="Refresh" action="#" 
-							update="receivedTraps" ajax="true" />
-						<p:commandButton value="Clear" action="#{snmpTrapReceiverBean.clearData()}" 
-							update="receivedTraps" ajax="true" />
-						<p:commandButton value="Save as .txt" action="#{snmpTrapReceiverBean.saveData()}" 
-							update="growl" ajax="true" />
-					</h:panelGrid>
-					
-					<h:inputTextarea id="receivedTraps" value="#{snmpTrapReceiverBean.receivedTrapsAsString}" 
-						cols="100" rows="30" styleClass="codeStyle" />
-					<p:poll interval="10" update="receivedTraps" />
-					
-				</h:panelGrid>
-			</h:form>
 			
         
         </h:panelGrid>
