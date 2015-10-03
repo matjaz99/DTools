@@ -182,7 +182,10 @@ public class SnmpTrapMonitorBean implements Serializable {
 	}
 	
 	
-	
+	/**
+	 * Return traps in raw format
+	 * @return traps
+	 */
 	public String getReceivedTrapsAsString() {
 		
 		if (trapReceiver == null) {

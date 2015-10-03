@@ -122,8 +122,8 @@ public class SnmpTrapSenderBean implements Serializable {
 	public void toggleRunning() {
 		
 		if (trapSender == null) {
-			trapSender = new SnmpTrapSender();
-			trapSender.start(localIp, localPort);
+			trapSender = new SnmpTrapSender(localIp, localPort);
+			trapSender.start();
 			Growl.addGrowlMessage("Agent running", FacesMessage.SEVERITY_INFO);
 		} else {
 			

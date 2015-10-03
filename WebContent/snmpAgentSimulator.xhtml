@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:dt="http://dtools.com/ui">
+    <h:head>
+        <title>DTools</title>
+    </h:head>
+    <h:body>
+    	
+    	<h:outputStylesheet library="default" name="css/dstyles.css"/>
+    	<p:growl id="growl" life="2000"/>
+    	
+    	<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
+    		
+    		<ui:include src="/include/ptoolbar.xhtml"/>
+			
+			<h:outputText value="SNMP Agent Simulator" styleClass="title" />
+			
+			<h:form id="simForm">
+				<h:panelGrid columns="1" cellspacing="5" width="100%">
+					<h:dataTable id="smTable" value="#{snmpSimulatorBean.snmpAgents}" var="agent" 
+						cellpadding="0" cellspacing="0" width="100%">
+						
+						<h:column>
+							<h:panelGrid columns="1" styleClass="border" width="100%">
+								<h:panelGrid columns="2">
+									<dt:icon img="rocket" />
+									<p:inplace editor="true" styleClass="title" >
+								        <p:inputText value="#{agent.name}" required="true" label="name" 
+								        	valueChangeListener="#{agent.changedName}" />
+								    </p:inplace>
+							    </h:panelGrid>
+								<h:panelGrid columns="1">
+							        <p:commandButton id="delBtn" value="Delete" 
+										action="#{snmpSimulatorBean.deleteSnmpAgent(agent)}" 
+										update="growl simForm" ajax="true" />
+								</h:panelGrid>
+							</h:panelGrid>
+						</h:column>
+						
+					</h:dataTable>
+					<p:commandButton value="Add new agent" 
+						action="#{snmpSimulatorBean.addNewSnmpAgent()}" 
+						update="simForm" ajax="true" />
+				</h:panelGrid>
+			</h:form>
+        
+        </h:panelGrid>
+        
+    </h:body>
+</html>
+
+

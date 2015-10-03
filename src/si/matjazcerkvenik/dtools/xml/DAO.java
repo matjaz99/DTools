@@ -34,6 +34,8 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpSimulator;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpManager;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapReceiver;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
@@ -50,6 +52,7 @@ public class DAO {
 	private Commands commands;
 	private SnmpManager snmpManager;
 	private SnmpClients snmpClients;
+	private SnmpSimulator snmpSimulator;
 	private SnmpTraps snmpTraps;
 	private Notes notes;
 	private Todos todos;
@@ -67,6 +70,7 @@ public class DAO {
 	
 	private String XML_SNMP_MANAGER = "/config/users/$DTOOLS_USER$/snmp/snmpManager.xml";
 	private String XML_SNMP_CLIENTS = "/config/users/$DTOOLS_USER$/snmp/snmpClients.xml";
+	private String XML_SNMP_SIMULATOR = "/config/users/$DTOOLS_USER$/snmp/snmpSimulator.xml";
 	private String XML_SNMP_TRAPS = "/config/users/$DTOOLS_USER$/snmp/snmpTraps.xml";
 	private String TXT_SAVE_RECEIVED_TRAPS = "/config/users/$DTOOLS_USER$/temp/$FILENAME$.txt";
 	
@@ -91,6 +95,7 @@ public class DAO {
 		
 		XML_SNMP_MANAGER = XML_SNMP_MANAGER.replace("$DTOOLS_USER$", "default");
 		XML_SNMP_CLIENTS = XML_SNMP_CLIENTS.replace("$DTOOLS_USER$", "default");
+		XML_SNMP_SIMULATOR = XML_SNMP_SIMULATOR.replace("$DTOOLS_USER$", "default");
 		XML_SNMP_TRAPS = XML_SNMP_TRAPS.replace("$DTOOLS_USER$", "default");
 		TXT_SAVE_RECEIVED_TRAPS = TXT_SAVE_RECEIVED_TRAPS.replace("$DTOOLS_USER$", "default");
 		
@@ -742,6 +747,81 @@ public class DAO {
 		saveSnmpClients();
 
 	}
+	
+	
+	
+	
+	
+	/* SNMP AGENT SIMULATOR */
+	
+	
+	
+	public SnmpSimulator loadSnmpSimulator() {
+
+		if (snmpSimulator != null) {
+			return snmpSimulator;
+		}
+
+		try {
+
+			File file = new File(DToolsContext.HOME_DIR + XML_SNMP_SIMULATOR);
+			if (!file.exists()) {
+				snmpSimulator = new SnmpSimulator();
+				snmpSimulator.createDefaultAgent();
+				JAXBContext jaxbContext = JAXBContext.newInstance(SnmpSimulator.class);
+				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+				jaxbMarshaller.marshal(snmpSimulator, file);
+			}
+			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpSimulator.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			snmpSimulator = (SnmpSimulator) jaxbUnmarshaller.unmarshal(file);
+			
+			logger.info("DAO:loadSnmpSimulator(): " + file.getAbsolutePath());
+
+		} catch (JAXBException e) {
+			logger.error("DAO:loadSnmpSimulator(): JAXBException: ", e);
+		}
+
+		return snmpSimulator;
+
+	}
+
+	public void saveSnmpSimulator() {
+
+		try {
+
+			File file = new File(DToolsContext.HOME_DIR + XML_SNMP_SIMULATOR);
+			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpSimulator.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.marshal(snmpSimulator, file);
+			
+			logger.info("DAO:saveSnmpSimulator(): " + file.getAbsolutePath());
+
+		} catch (JAXBException e) {
+			logger.error("DAO:saveSnmpSimulator(): JAXBException: ", e);
+		}
+
+	}
+
+	public void addSnmpAgent(SnmpAgent a) {
+
+		snmpSimulator.addSnmpAgent(a);
+		saveSnmpSimulator();
+
+	}
+
+	public void deleteSnmpAgent(SnmpAgent a) {
+
+		snmpSimulator.removeSnmpAgent(a);
+		saveSnmpSimulator();
+
+	}
+	
+	
+	
+	
 	
 	
 	

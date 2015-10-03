@@ -20,15 +20,23 @@ For a developer it should help to simplify common tasks
 Commons-logging is required by commons-vfs
 
 -----------------------------------------------------------
+0.3.0-alpha.02
+
+. october 2015
+
+- agent simulator
+
+-----------------------------------------------------------
 
 0.3.0-alpha.01
 
-xx. zzz 2015
+02. october 2015
 
 - snmp manager with many trap receivers
-- added login page, but it is not implemented
-- updater - update based on install-script.xml
+- trap monitor and trap viewer (in raw format)
+- added login xhtml page, but it is not implemented
 - introduction of users (currently only default user)
+- updater - update based on install-script.xml
 - moved configuration files to users directory
 - scripts moved to bin
 - bug fixes in snmp

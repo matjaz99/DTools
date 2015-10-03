@@ -18,21 +18,37 @@
 
 package si.matjazcerkvenik.dtools.tools.snmp;
 
+import javax.xml.bind.annotation.XmlAttribute;
 
-public class SnmpMasterAgent implements ISnmpAgent {
+public class TrapDestination {
+
+	private String destinationIp;
+	private int port;
 	
-	// Currently there is no need for master agent
-	// Master agent behaves as a proxy
-	// Maybe it could implement some adapters for various SBI protocols
-
-	@Override
-	public void sendTrap() {
-		// no implementation
+	public TrapDestination() {
 	}
 
-	@Override
-	public void sendResponse() {
-		// no implementation
+	public TrapDestination(String destinationIp, int port) {
+		this.destinationIp = destinationIp;
+		this.port = port;
+	}
+
+	public String getDestinationIp() {
+		return destinationIp;
+	}
+
+	@XmlAttribute
+	public void setDestinationIp(String destinationIp) {
+		this.destinationIp = destinationIp;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	@XmlAttribute
+	public void setPort(int port) {
+		this.port = port;
 	}
 
 }

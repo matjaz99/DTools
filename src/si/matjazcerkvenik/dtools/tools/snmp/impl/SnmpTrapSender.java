@@ -41,6 +41,8 @@ public class SnmpTrapSender {
 	
 	private SimpleLogger logger;
 	
+	private String localIp;
+	private int localPort;
 	private Snmp snmp;
 	
 	private int counter = 0;
@@ -49,12 +51,34 @@ public class SnmpTrapSender {
 		logger = DToolsContext.getInstance().getLogger();
 	}
 	
+	public SnmpTrapSender(String localIp, int localPort) {
+		this.localIp = localIp;
+		this.localPort  = localPort;
+		logger = DToolsContext.getInstance().getLogger();
+	}
+	
+	public String getLocalIp() {
+		return localIp;
+	}
+
+	public void setLocalIp(String localIp) {
+		this.localIp = localIp;
+	}
+
+	public int getLocalPort() {
+		return localPort;
+	}
+
+	public void setLocalPort(int localPort) {
+		this.localPort = localPort;
+	}
+
 	/**
 	 * Start SNMP agent
 	 * @param localIp
 	 * @param localPort
 	 */
-	public void start(String localIp, int localPort) {
+	public void start() {
 		
 		try {
 			// Create Transport Mapping
