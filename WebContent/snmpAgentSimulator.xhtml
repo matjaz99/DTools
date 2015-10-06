@@ -27,14 +27,30 @@
 						
 						<h:column>
 							<h:panelGrid columns="1" styleClass="border" width="100%">
-								<h:panelGrid columns="2">
+								<h:panelGrid columns="2" cellpadding="2">
 									<dt:icon img="rocket" />
 									<p:inplace editor="true" styleClass="title" >
 								        <p:inputText value="#{agent.name}" required="true" label="name" 
 								        	valueChangeListener="#{agent.changedName}" />
 								    </p:inplace>
 							    </h:panelGrid>
-								<h:panelGrid columns="1">
+							    <h:panelGrid columns="2" cellpadding="2" cellspacing="5" >
+									<h:outputText value="Local IP: " />
+									<p:inplace editor="true" >
+							            <p:inputText value="#{agent.localIp}" required="true" label="ip" valueChangeListener="#{agent.changedIp}" />
+							        </p:inplace>
+									<h:outputText value="Local port: " />
+									<p:inplace editor="true" >
+							            <p:inputText value="#{agent.localPort}" required="true" label="port" valueChangeListener="#{agent.changedPort}" />
+							        </p:inplace>
+							        <h:outputText value="Active: " />
+							        <p:inputSwitch id="actBtn" value="#{agent.active}">
+							            <p:ajax update="growl actBtn" listener="#{snmpSimulatorBean.toggleSnmpAgent(agent)}" />
+							        </p:inputSwitch>
+								</h:panelGrid>
+								<h:panelGrid columns="2" cellpadding="2">
+									<p:commandButton id="viewBtn" value="Open" 
+										action="#{navigationBean.openSnmpAgent(agent)}" />
 							        <p:commandButton id="delBtn" value="Delete" 
 										action="#{snmpSimulatorBean.deleteSnmpAgent(agent)}" 
 										update="growl simForm" ajax="true" />

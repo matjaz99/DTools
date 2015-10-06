@@ -30,8 +30,8 @@
 				
 					<h:column>
 						<h:panelGrid columns="1" styleClass="border" width="100%">
-							<h:panelGrid columns="2">
-								<dt:icon img="rocket" />
+							<h:panelGrid columns="2" cellpadding="2">
+								<dt:icon img="boat" />
 								<p:inplace editor="true" styleClass="title" >
 							        <p:inputText value="#{recv.name}" required="true" label="name" 
 							        	valueChangeListener="#{recv.changedName}" />
@@ -51,7 +51,7 @@
 						            <p:ajax update="growl actBtn" listener="#{snmpManagerBean.toggleTrapReceiver(recv)}" />
 						        </p:inputSwitch>
 							</h:panelGrid>
-							<h:panelGrid columns="3">
+							<h:panelGrid columns="3" cellpadding="2">
 						        <p:commandButton id="viewBtn" value="View raw traps" 
 									action="#{navigationBean.openSnmpTrapReceiver(recv)}" />
 								<p:commandButton id="monitorBtn" value="Trap Monitor" 

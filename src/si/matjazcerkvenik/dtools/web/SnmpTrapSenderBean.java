@@ -162,19 +162,19 @@ public class SnmpTrapSenderBean implements Serializable {
 	
 	public void toggleSendingAll() {
 		
-		if (senderThread == null) {
-			senderThread = new SenderThread(this);
-			senderThread.startThread();
-		} else {
-			// already running
-			senderThread.stopThread();
-			try {
-				senderThread.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			senderThread = null;
-		}
+//		if (senderThread == null) {
+//			senderThread = new SenderThread(this);
+//			senderThread.startThread();
+//		} else {
+//			// already running
+//			senderThread.stopThread();
+//			try {
+//				senderThread.join();
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//			senderThread = null;
+//		}
 		
 	}
 	

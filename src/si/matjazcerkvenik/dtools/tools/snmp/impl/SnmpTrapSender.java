@@ -57,28 +57,16 @@ public class SnmpTrapSender {
 		logger = DToolsContext.getInstance().getLogger();
 	}
 	
-	public String getLocalIp() {
-		return localIp;
-	}
-
-	public void setLocalIp(String localIp) {
-		this.localIp = localIp;
-	}
-
-	public int getLocalPort() {
-		return localPort;
-	}
-
-	public void setLocalPort(int localPort) {
-		this.localPort = localPort;
-	}
+	
 
 	/**
 	 * Start SNMP agent
 	 * @param localIp
 	 * @param localPort
 	 */
-	public void start() {
+	public boolean start() {
+		
+		boolean result = false;
 		
 		try {
 			// Create Transport Mapping
@@ -91,9 +79,13 @@ public class SnmpTrapSender {
 			
 			logger.info("SnmpTrapSender.start(): agent started on port " + localPort);
 			
+			result = true;
+			
 		} catch (IOException e) {
 			logger.error("SnmpTrapSender.start(): IOException", e);
 		}
+		
+		return result;
 		
 	}
 	

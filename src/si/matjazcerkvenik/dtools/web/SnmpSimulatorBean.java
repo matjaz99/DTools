@@ -25,13 +25,30 @@ public class SnmpSimulatorBean {
 	}
 	
 	public void deleteSnmpAgent(SnmpAgent a) {
-//		a.stop();
+		a.stop();
 		DAO.getInstance().deleteSnmpAgent(a);
 		Growl.addGrowlMessage(a.getName() + " deleted", FacesMessage.SEVERITY_INFO);
 	}
 	
 	public List<SnmpAgent> getSnmpAgents() {
 		return DAO.getInstance().loadSnmpSimulator().getSnmpAgentsList();
+	}
+	
+	
+	public void toggleSnmpAgent(SnmpAgent a) {
+		
+		if (a.isActive()) {
+			boolean b = a.start();
+			if (b) {
+				Growl.addGrowlMessage("Start agent on port " + a.getLocalPort(), FacesMessage.SEVERITY_INFO);
+			} else {
+				Growl.addGrowlMessage("Error starting agent", FacesMessage.SEVERITY_WARN);
+			}
+		} else {
+			// already listening
+			a.stop();
+			Growl.addGrowlMessage("Stop agent", FacesMessage.SEVERITY_INFO);
+		}
 	}
 	
 }

@@ -59,8 +59,12 @@ public class SnmpManagerBean implements Serializable {
 	public void toggleTrapReceiver(TrapReceiver r) {
 		
 		if (r.isActive()) {
-			r.start();
-			Growl.addGrowlMessage("Start listening for traps", FacesMessage.SEVERITY_INFO);
+			boolean b = r.start();
+			if (b) {
+				Growl.addGrowlMessage("Start listening for traps", FacesMessage.SEVERITY_INFO);
+			} else {
+				Growl.addGrowlMessage("Error starting trap receiver", FacesMessage.SEVERITY_WARN);
+			}
 		} else {
 			// already listening
 			r.stop();

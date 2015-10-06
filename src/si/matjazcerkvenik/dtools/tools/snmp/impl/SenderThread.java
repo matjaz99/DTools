@@ -20,23 +20,24 @@ package si.matjazcerkvenik.dtools.tools.snmp.impl;
 
 import java.util.List;
 
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
 import si.matjazcerkvenik.dtools.web.SnmpTrapSenderBean;
 import si.matjazcerkvenik.dtools.xml.DAO;
 import si.matjazcerkvenik.dtools.xml.SnmpTrap;
 
 public class SenderThread extends Thread {
 	
-	private SnmpTrapSenderBean senderBean;
+	private SnmpAgent senderBean;
 	
 	private boolean isRunning = true;
 	
 	
 	
-	public SenderThread(SnmpTrapSenderBean senderBean) {
+	public SenderThread(SnmpAgent senderBean) {
 		this.senderBean = senderBean;
 	}
 
-	public void setSenderBean(SnmpTrapSenderBean senderBean) {
+	public void setSenderBean(SnmpAgent senderBean) {
 		this.senderBean = senderBean;
 	}
 

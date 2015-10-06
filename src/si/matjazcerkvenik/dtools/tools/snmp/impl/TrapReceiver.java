@@ -110,8 +110,9 @@ public class TrapReceiver implements Serializable, CommandResponder {
 	
 	/**
 	 * Start trap receiver
+	 * @return true if successfully started
 	 */
-	public void start() {
+	public boolean start() {
 
 		try {
 			threadPool = ThreadPool.create("TrapRec[" + name + "]", 2);
@@ -153,6 +154,8 @@ public class TrapReceiver implements Serializable, CommandResponder {
 			logger.error("SnmpTrapReceiver.start(): IOException", e);
 			active = false;
 		}
+		
+		return active;
 		
 	}
 	

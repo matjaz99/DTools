@@ -22,6 +22,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapReceiver;
 import si.matjazcerkvenik.dtools.xml.FtpClient;
 import si.matjazcerkvenik.dtools.xml.Server;
@@ -61,6 +62,11 @@ public class NavigationBean {
 	public String openTrapMonitor(TrapReceiver trap) {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("trapRecv", trap);
 		return "snmpTrapMonitor";
+	}
+	
+	public String openSnmpAgent(SnmpAgent agent) {
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("agent", agent);
+		return "snmpAgent";
 	}
 	
 	public String openSnmpTrap(SnmpTrap trap) {

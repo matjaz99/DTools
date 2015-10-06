@@ -18,41 +18,24 @@
     		
     		<ui:include src="/include/ptoolbar.xhtml"/>
 			
-			<h:outputText value="SNMP Agent Simulator" styleClass="title" />
+			<h:outputText value="SNMP Agent Simulator #{snmpAgentBean.name}" styleClass="title" />
 			
 			<h:form id="agentForm">
-				<h:panelGrid columns="3" cellpadding="2" cellspacing="0">
-					
-					<h:outputLabel value="Start agent on IP: " />
-					<p:inputText id="localIp" value="#{snmpTrapSenderBean.localIp}" required="true"
-						requiredMessage="Missing local IP address" />
-					<h:message for="localIp" style="color: red;" />
-					
-					<h:outputLabel value="Port: " />
-					<p:inputText id="localPort" value="#{snmpTrapSenderBean.localPort}" required="true"
-						requiredMessage="Missing local port" />
-					<h:message for="localPort" style="color: red;" />
-					
-					<p:commandButton value="#{snmpTrapSenderBean.listening == true ? 'Stop' : 'Start'} agent" 
-						action="#{snmpTrapSenderBean.toggleRunning()}" 
-						update="growl agentForm" ajax="true" />
-					
-				</h:panelGrid>
+				<p:commandButton value="Back" action="snmpAgentSimulator" />
 			</h:form>
 			
 			<hr/>
 			
 			<h:form id="mainForm">
 			
-			
 			<h:outputText value="Trap sender" styleClass="title" />
 				<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
 					
 					<h:outputLabel value="Destination IP: " />
-					<p:inputText value="#{snmpTrapSenderBean.destinationIp}" />
+					<p:inputText value="#{snmpAgentBean.destinationIp}" />
 					
 					<h:outputLabel value="Port: " />
-					<p:inputText value="#{snmpTrapSenderBean.destinationPort}" />
+					<p:inputText value="#{snmpAgentBean.destinationPort}" />
 					
 					<p:button value="New trap V1" outcome="snmpTrapV1Composer" />
 					<p:button value="New trap V2C" outcome="snmpTrapV2CComposer" />
@@ -60,7 +43,7 @@
 				</h:panelGrid>
 			
 				<h:panelGrid columns="1" cellspacing="5" width="100%">
-					<p:dataTable id="trapsTable" value="#{snmpTrapSenderBean.snmpTrapsList}" var="trap" 
+					<p:dataTable id="trapsTable" value="#{snmpAgentBean.snmpTrapsList}" var="trap" 
 						styleClass="table"
 						rowClasses="tableOddRow,tableEvenRow"
 						cellpadding="0" cellspacing="0" width="100%">
@@ -83,26 +66,29 @@
 						<p:column>
 							<f:facet name="header">Actions</f:facet>
 								<p:commandButton value="Send" 
-									action="#{snmpTrapSenderBean.sendTrap(trap)}"
+									action="#{snmpAgentBean.sendTrap(trap)}"
 									update="growl" ajax="true" />
 								<p:commandButton value="Modify" 
 									action="#{navigationBean.openSnmpTrap(trap)}" 
 									update="growl" ajax="true" />
 								<p:commandButton value="Delete" 
-									action="#{snmpTrapSenderBean.deleteTrap(trap)}" 
+									action="#{snmpAgentBean.deleteTrap(trap)}" 
 									update="growl trapsTable" ajax="true" />
 						</p:column>
 						
 					</p:dataTable>
 				</h:panelGrid>
 				
+				
+				
 				<hr/>
 				
 				<h:outputLabel value="Send interval (ms): " />
-				<p:inputText value="#{snmpTrapSenderBean.sendInterval}" />
-				<p:commandButton id="stButton" value="#{snmpTrapSenderBean.getSenderThreadStatus()}" 
-					action="#{snmpTrapSenderBean.toggleSendingAll()}"
+				<p:inputText value="#{snmpAgentBean.sendInterval}" />
+				<p:commandButton id="stButton" value="#{snmpAgentBean.getSenderThreadStatus()}" 
+					action="#{snmpAgentBean.toggleSendingAll()}"
 					update="growl stButton" ajax="true" />
+				
 			</h:form>
         
         </h:panelGrid>
