@@ -37,131 +37,132 @@ import si.matjazcerkvenik.dtools.xml.SnmpTrap;
 
 @ManagedBean
 @ApplicationScoped
+@Deprecated
 public class SnmpTrapSenderBean implements Serializable {
 	
 	private static final long serialVersionUID = 5575867152989970316L;
 	
-	private String localIp = LocalhostInfo.getLocalIpAddress();
-	private int localPort = 6161;
-	
-	private String destinationIp = LocalhostInfo.getLocalIpAddress();
-	private int destinationPort = 6162;
-	
-	private SnmpTrapSender trapSender;
-	
-	private SenderThread senderThread;
-	private int sendInterval = 13000;
+//	private String localIp = LocalhostInfo.getLocalIpAddress();
+//	private int localPort = 6161;
+//	
+//	private String destinationIp = LocalhostInfo.getLocalIpAddress();
+//	private int destinationPort = 6162;
+//	
+//	private SnmpTrapSender trapSender;
+//	
+//	private SenderThread senderThread;
+//	private int sendInterval = 13000;
 	
 
-	public String getLocalIp() {
-		return localIp;
-	}
+//	public String getLocalIp() {
+//		return localIp;
+//	}
+//
+//	public void setLocalIp(String localIp) {
+//		this.localIp = localIp;
+//	}
+//
+//	public int getLocalPort() {
+//		return localPort;
+//	}
+//
+//	public void setLocalPort(int localPort) {
+//		this.localPort = localPort;
+//	}
+//
+//	public String getDestinationIp() {
+//		return destinationIp;
+//	}
+//
+//	public void setDestinationIp(String destinationIp) {
+//		this.destinationIp = destinationIp;
+//	}
+//
+//	public int getDestinationPort() {
+//		return destinationPort;
+//	}
+//
+//	public void setDestinationPort(int port) {
+//		this.destinationPort = port;
+//	}
+//	
+//	
+//	public SnmpTrapSender getTrapSender() {
+//		return trapSender;
+//	}
+//
+//	public int getSendInterval() {
+//		return sendInterval;
+//	}
+//
+//	public void setSendInterval(int sendInterval) {
+//		this.sendInterval = sendInterval;
+//	}
 
-	public void setLocalIp(String localIp) {
-		this.localIp = localIp;
-	}
-
-	public int getLocalPort() {
-		return localPort;
-	}
-
-	public void setLocalPort(int localPort) {
-		this.localPort = localPort;
-	}
-
-	public String getDestinationIp() {
-		return destinationIp;
-	}
-
-	public void setDestinationIp(String destinationIp) {
-		this.destinationIp = destinationIp;
-	}
-
-	public int getDestinationPort() {
-		return destinationPort;
-	}
-
-	public void setDestinationPort(int port) {
-		this.destinationPort = port;
-	}
+//	public List<SnmpTrap> getSnmpTrapsList() {
+//		return DAO.getInstance().loadSnmpTraps().getTraps();
+//	}
+//	
+//	
+//	public void sendTrap(SnmpTrap trap) {
+//		if (trapSender == null) {
+//			Growl.addGrowlMessage("Agent is not running", FacesMessage.SEVERITY_WARN);
+//			return;
+//		}
+//		trapSender.sendTrap(destinationIp, destinationPort, trap);
+//		Growl.addGrowlMessage("Trap sent to " + destinationIp + ":" + destinationPort, FacesMessage.SEVERITY_INFO);
+//	}
+//	
+//	public void deleteTrap(SnmpTrap trap) {
+//		DAO.getInstance().deleteSnmpTrap(trap);
+//		Growl.addGrowlMessage("Trap deleted", FacesMessage.SEVERITY_INFO);
+//	}
 	
 	
-	public SnmpTrapSender getTrapSender() {
-		return trapSender;
-	}
-
-	public int getSendInterval() {
-		return sendInterval;
-	}
-
-	public void setSendInterval(int sendInterval) {
-		this.sendInterval = sendInterval;
-	}
-
-	public List<SnmpTrap> getSnmpTrapsList() {
-		return DAO.getInstance().loadSnmpTraps().getTraps();
-	}
 	
-	
-	public void sendTrap(SnmpTrap trap) {
-		if (trapSender == null) {
-			Growl.addGrowlMessage("Agent is not running", FacesMessage.SEVERITY_WARN);
-			return;
-		}
-		trapSender.sendTrap(destinationIp, destinationPort, trap);
-		Growl.addGrowlMessage("Trap sent to " + destinationIp + ":" + destinationPort, FacesMessage.SEVERITY_INFO);
-	}
-	
-	public void deleteTrap(SnmpTrap trap) {
-		DAO.getInstance().deleteSnmpTrap(trap);
-		Growl.addGrowlMessage("Trap deleted", FacesMessage.SEVERITY_INFO);
-	}
-	
-	
-	
-	public void toggleRunning() {
-		
-		if (trapSender == null) {
-			trapSender = new SnmpTrapSender(localIp, localPort);
-			trapSender.start();
-			Growl.addGrowlMessage("Agent running", FacesMessage.SEVERITY_INFO);
-		} else {
-			
-			if (senderThread != null) {
-				toggleSendingAll(); // stop thread before stopping agent
-			}
-			
-			// already listening
-			trapSender.stop();
-			trapSender = null;
-			Growl.addGrowlMessage("Agent stopped", FacesMessage.SEVERITY_INFO);
-		}
-		
-	}
-	
-	public boolean isListening() {
-		if (trapSender != null) {
-			return true;
-		}
-		return false;
-	}
+//	public void toggleRunning() {
+//		
+//		if (trapSender == null) {
+//			trapSender = new SnmpTrapSender(localIp, localPort);
+//			trapSender.start();
+//			Growl.addGrowlMessage("Agent running", FacesMessage.SEVERITY_INFO);
+//		} else {
+//			
+//			if (senderThread != null) {
+//				toggleSendingAll(); // stop thread before stopping agent
+//			}
+//			
+//			// already listening
+//			trapSender.stop();
+//			trapSender = null;
+//			Growl.addGrowlMessage("Agent stopped", FacesMessage.SEVERITY_INFO);
+//		}
+//		
+//	}
+//	
+//	public boolean isListening() {
+//		if (trapSender != null) {
+//			return true;
+//		}
+//		return false;
+//	}
 	
 	
 	
 	// TODO use dialog to create new server of client...
-	public void newTrapV1() {
-        Map<String,Object> options = new HashMap<String, Object>();
-        options.put("modal", true);
-        options.put("draggable", true);
-        options.put("resizable", true);
-        options.put("contentWidth", 1024);
-         
-        RequestContext.getCurrentInstance().openDialog("snmpTrapV1Composer", options, null);
-    }
+//	public void newTrapV1() {
+//        Map<String,Object> options = new HashMap<String, Object>();
+//        options.put("modal", true);
+//        options.put("draggable", true);
+//        options.put("resizable", true);
+//        options.put("contentWidth", 1024);
+//         
+//        RequestContext.getCurrentInstance().openDialog("snmpTrapV1Composer", options, null);
+//    }
 	
 	
-	public void toggleSendingAll() {
-		
+//	public void toggleSendingAll() {
+//		
 //		if (senderThread == null) {
 //			senderThread = new SenderThread(this);
 //			senderThread.startThread();
@@ -175,16 +176,16 @@ public class SnmpTrapSenderBean implements Serializable {
 //			}
 //			senderThread = null;
 //		}
-		
-	}
+//		
+//	}
 	
-	public String getSenderThreadStatus() {
-		if (senderThread == null) {
-			return "Start";
-		} else {
-			return "Stop";
-		}
-	}
+//	public String getSenderThreadStatus() {
+//		if (senderThread == null) {
+//			return "Start";
+//		} else {
+//			return "Stop";
+//		}
+//	}
 	
 	
 	

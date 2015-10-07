@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
@@ -54,19 +55,23 @@ public class SnmpAgentBean implements Serializable {
 	}
 	
 	public String getDestinationIp() {
-		return destinationIp;
+//		return destinationIp;
+		return agent.getDestinationIp();
 	}
 
 	public void setDestinationIp(String destinationIp) {
 		this.destinationIp = destinationIp;
+		agent.setDestinationIp(destinationIp);
 	}
 
 	public int getDestinationPort() {
-		return destinationPort;
+//		return destinationPort;
+		return agent.getDestinationPort();
 	}
 
 	public void setDestinationPort(int port) {
 		this.destinationPort = port;
+		agent.setDestinationPort(port);
 	}
 	
 	public int getSendInterval() {
@@ -75,6 +80,29 @@ public class SnmpAgentBean implements Serializable {
 
 	public void setSendInterval(int sendInterval) {
 		this.sendInterval = sendInterval;
+		agent.setSendInterval(sendInterval);
+	}
+	
+	public void changedDestIp(ValueChangeEvent e) {
+		if (e.getOldValue().toString().equalsIgnoreCase(e.getNewValue().toString())) {
+			return;
+		}
+		destinationIp = e.getNewValue().toString();
+		agent.setDestinationIp(destinationIp);
+		DAO.getInstance().saveSnmpSimulator();
+	}
+	
+	public void changedDestPort(ValueChangeEvent e) {
+		if (e.getOldValue().toString().equalsIgnoreCase(e.getNewValue().toString())) {
+			return;
+		}
+		try {
+			destinationPort = Integer.parseInt(e.getNewValue().toString());
+			agent.setDestinationPort(destinationPort);
+		} catch (NumberFormatException ex) {
+			ex.printStackTrace();
+		}
+		DAO.getInstance().saveSnmpSimulator();
 	}
 
 	public List<SnmpTrap> getSnmpTrapsList() {

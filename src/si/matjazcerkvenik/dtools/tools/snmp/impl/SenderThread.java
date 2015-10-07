@@ -21,24 +21,23 @@ package si.matjazcerkvenik.dtools.tools.snmp.impl;
 import java.util.List;
 
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
-import si.matjazcerkvenik.dtools.web.SnmpTrapSenderBean;
 import si.matjazcerkvenik.dtools.xml.DAO;
 import si.matjazcerkvenik.dtools.xml.SnmpTrap;
 
 public class SenderThread extends Thread {
 	
-	private SnmpAgent senderBean;
+	private SnmpAgent agent;
 	
 	private boolean isRunning = true;
 	
 	
 	
 	public SenderThread(SnmpAgent senderBean) {
-		this.senderBean = senderBean;
+		this.agent = senderBean;
 	}
 
 	public void setSenderBean(SnmpAgent senderBean) {
-		this.senderBean = senderBean;
+		this.agent = senderBean;
 	}
 
 	@Override
@@ -49,9 +48,9 @@ public class SenderThread extends Thread {
 		
 		while (isRunning) {
 			
-			String ip = senderBean.getDestinationIp();
-			int port = senderBean.getDestinationPort();
-			senderBean.getTrapSender().sendTrap(ip, port, traps.get(index));
+			String ip = agent.getDestinationIp();
+			int port = agent.getDestinationPort();
+			agent.getTrapSender().sendTrap(ip, port, traps.get(index));
 			
 			if (index == traps.size() - 1) {
 				index = 0;
@@ -60,7 +59,7 @@ public class SenderThread extends Thread {
 			}
 			
 			try {
-				sleep((int) senderBean.getSendInterval());
+				sleep((int) agent.getSendInterval());
 			} catch (InterruptedException e) {
 			}
 			

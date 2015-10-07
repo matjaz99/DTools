@@ -31,11 +31,15 @@
 			<h:outputText value="Trap sender" styleClass="title" />
 				<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
 					
-					<h:outputLabel value="Destination IP: " />
-					<p:inputText value="#{snmpAgentBean.destinationIp}" />
+					<h:outputText value="Destination IP: " />
+					<p:inplace editor="true" >
+					    <p:inputText value="#{snmpAgentBean.destinationIp}" required="true" label="ip" valueChangeListener="#{snmpAgentBean.changedDestIp}" />
+					</p:inplace>
 					
-					<h:outputLabel value="Port: " />
-					<p:inputText value="#{snmpAgentBean.destinationPort}" />
+					<h:outputText value="Port: " />
+					<p:inplace editor="true" >
+					    <p:inputText value="#{snmpAgentBean.destinationPort}" required="true" label="port" valueChangeListener="#{snmpAgentBean.changedDestPort}" />
+					</p:inplace>
 					
 					<p:button value="New trap V1" outcome="snmpTrapV1Composer" />
 					<p:button value="New trap V2C" outcome="snmpTrapV2CComposer" />
