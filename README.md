@@ -20,11 +20,19 @@ For a developer it should help to simplify common tasks
 Commons-logging is required by commons-vfs
 
 -----------------------------------------------------------
+0.3.0-alpha.03
+
+xx. october 2015
+
+- 
+
+-----------------------------------------------------------
 0.3.0-alpha.02
 
-. october 2015
+8. october 2015
 
 - agent simulator
+- multiple agents (still with the same trap list)
 
 -----------------------------------------------------------
 

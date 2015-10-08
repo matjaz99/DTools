@@ -36,6 +36,10 @@ public class SnmpAgentBean implements Serializable {
 		Map<String, Object> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 		agent = (SnmpAgent) requestParameterMap.get("agent");
 		
+		destinationIp = agent.getDestinationIp();
+		destinationPort = agent.getDestinationPort();
+		sendInterval = agent.getSendInterval();
+		
 //		Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 //		if (requestParameterMap.containsKey("name")) {
 //			String name = requestParameterMap.get("name");
@@ -104,6 +108,19 @@ public class SnmpAgentBean implements Serializable {
 		}
 		DAO.getInstance().saveSnmpSimulator();
 	}
+	
+	public void changedSendInterval(ValueChangeEvent e) {
+		if (e.getOldValue().toString().equalsIgnoreCase(e.getNewValue().toString())) {
+			return;
+		}
+		try {
+			sendInterval = Integer.parseInt(e.getNewValue().toString());
+			agent.setSendInterval(sendInterval);
+		} catch (NumberFormatException ex) {
+			ex.printStackTrace();
+		}
+		DAO.getInstance().saveSnmpSimulator();
+	}
 
 	public List<SnmpTrap> getSnmpTrapsList() {
 		return DAO.getInstance().loadSnmpTraps().getTraps();
@@ -126,11 +143,18 @@ public class SnmpAgentBean implements Serializable {
 	
 	public void toggleSendingAll() {
 		
+		if (agent.getTrapSender() == null) {
+			Growl.addGrowlMessage("Agent is not running", FacesMessage.SEVERITY_WARN);
+			return;
+		}
+		
 		if (agent.getSenderThread() == null) {
 			agent.startSenderThread();
+			Growl.addGrowlMessage("Send all traps to " + destinationIp + ":" + destinationPort, FacesMessage.SEVERITY_INFO);
 		} else {
 			// already running
 			agent.stopSenderThread();
+			Growl.addGrowlMessage("Stopped sending", FacesMessage.SEVERITY_INFO);
 		}
 		
 	}

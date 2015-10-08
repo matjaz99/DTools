@@ -36,8 +36,8 @@ public class SenderThread extends Thread {
 		this.agent = senderBean;
 	}
 
-	public void setSenderBean(SnmpAgent senderBean) {
-		this.agent = senderBean;
+	public void setSenderBean(SnmpAgent agent) {
+		this.agent = agent;
 	}
 
 	@Override
@@ -58,10 +58,12 @@ public class SenderThread extends Thread {
 				index++;
 			}
 			
+			int i = (int) agent.getSendInterval();
 			try {
-				sleep((int) agent.getSendInterval());
+				sleep(i);
 			} catch (InterruptedException e) {
 			}
+			
 			
 		}
 		

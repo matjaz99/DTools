@@ -18,6 +18,7 @@
 
 package si.matjazcerkvenik.dtools.tools.snmp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,9 @@ import si.matjazcerkvenik.dtools.web.Growl;
 import si.matjazcerkvenik.dtools.xml.DAO;
 
 
-public class SnmpAgent implements ISnmpAgent {
+public class SnmpAgent implements Serializable, ISnmpAgent {
+	
+	private static final long serialVersionUID = -2488608414261579629L;
 	
 	private String name;
 	private String localIp;
@@ -49,7 +52,7 @@ public class SnmpAgent implements ISnmpAgent {
 	
 	private boolean active = false;
 	
-	private List<TrapDestination> trapDestinationsList;
+//	private List<TrapDestination> trapDestinationsList;
 	
 	public SnmpAgent() {
 	}
@@ -57,10 +60,11 @@ public class SnmpAgent implements ISnmpAgent {
 	public SnmpAgent(String name, String ip, int port) {
 		this.name = name;
 		this.localIp = ip;
-		if (trapDestinationsList == null) {
-			trapDestinationsList = new ArrayList<TrapDestination>();
-		}
-		trapDestinationsList.add(new TrapDestination(ip, port));
+		this.localPort = port;
+//		if (trapDestinationsList == null) {
+//			trapDestinationsList = new ArrayList<TrapDestination>();
+//		}
+//		trapDestinationsList.add(new TrapDestination(ip, port));
 	}
 	
 	public String getName() {
@@ -76,7 +80,7 @@ public class SnmpAgent implements ISnmpAgent {
 		return trapSender;
 	}
 
-	@XmlElement
+	@XmlTransient
 	public void setTrapSender(SnmpTrapSender trapSender) {
 		this.trapSender = trapSender;
 	}
@@ -185,7 +189,7 @@ public class SnmpAgent implements ISnmpAgent {
 	}
 	
 	public void stopSenderThread() {
-		if (senderThread == null) {
+		if (senderThread != null) {
 			senderThread.stopThread();
 			try {
 				senderThread.join();
