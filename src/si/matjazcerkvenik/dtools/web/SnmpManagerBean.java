@@ -36,6 +36,9 @@ public class SnmpManagerBean implements Serializable {
 	
 	private static final long serialVersionUID = -8242154775224005611L;
 
+	/**
+	 * Create new trap receiver with default settings
+	 */
 	public void addNewTrapReceiver() {
 		
 		TrapReceiver r = new TrapReceiver("TrapReceiver" + DAO.getInstance().loadSnmpManager().getTrapReceiversList().size(), 
@@ -46,16 +49,28 @@ public class SnmpManagerBean implements Serializable {
 		
 	}
 	
+	/**
+	 * Delete selected trap receiver
+	 * @param r
+	 */
 	public void deleteTrapReceiver(TrapReceiver r) {
 		r.stop();
 		DAO.getInstance().deleteTrapReceiver(r);
 		Growl.addGrowlMessage(r.getName() + " deleted", FacesMessage.SEVERITY_INFO);
 	}
 	
+	/**
+	 * Return list of trap receivers
+	 * @return list
+	 */
 	public List<TrapReceiver> getTrapReceivers() {
 		return DAO.getInstance().loadSnmpManager().getTrapReceiversList();
 	}
 	
+	/**
+	 * Toggle listening for traps
+	 * @param r
+	 */
 	public void toggleTrapReceiver(TrapReceiver r) {
 		
 		if (r.isActive()) {
@@ -72,6 +87,9 @@ public class SnmpManagerBean implements Serializable {
 		}
 	}
 	
+	/**
+	 * Stop all trap receivers (on shutdown)
+	 */
 	public void stopAllReceivers() {
 		SnmpManager m = DAO.getInstance().loadSnmpManager();
 		for (int i = 0; i < m.getTrapReceiversList().size(); i++) {

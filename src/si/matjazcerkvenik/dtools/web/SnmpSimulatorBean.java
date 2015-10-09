@@ -14,6 +14,9 @@ import si.matjazcerkvenik.dtools.xml.DAO;
 @ApplicationScoped
 public class SnmpSimulatorBean {
 	
+	/**
+	 * Add new SNMP agent with default settings
+	 */
 	public void addNewSnmpAgent() {
 		
 		SnmpAgent a = new SnmpAgent("SnmpAgent" + DAO.getInstance().loadSnmpSimulator().getSnmpAgentsList().size(), 

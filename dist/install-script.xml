@@ -19,4 +19,5 @@
 		<source>$DTOOLS_HOME$/DTools.war</source>
 		<dest>$DTOOLS_HOME$/server/apache-tomcat-7.0.57/webapps</dest>
 	</action>
+	<!-- add download user manual -->
 </script>

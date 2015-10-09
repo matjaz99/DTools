@@ -7,14 +7,12 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
-import si.matjazcerkvenik.dtools.tools.snmp.impl.SenderThread;
 import si.matjazcerkvenik.dtools.xml.DAO;
 import si.matjazcerkvenik.dtools.xml.SnmpTrap;
 
@@ -127,6 +125,10 @@ public class SnmpAgentBean implements Serializable {
 	}
 	
 	
+	/**
+	 * Send selected trap to configured destination IP and port.
+	 * @param trap
+	 */
 	public void sendTrap(SnmpTrap trap) {
 		if (agent.getTrapSender() == null) {
 			Growl.addGrowlMessage("Agent is not running", FacesMessage.SEVERITY_WARN);

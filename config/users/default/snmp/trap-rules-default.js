@@ -88,7 +88,7 @@ function processTrap(trap) {
     return trap;
 }
 
-
+// search varbinds for oid and return value
 function getValue(varbinds, oid) {
     for (var i = 0; i < varbinds.length; i++) {
     	if (varbinds[i].oid == oid) {
