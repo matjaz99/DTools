@@ -22,9 +22,10 @@ Commons-logging is required by commons-vfs
 -----------------------------------------------------------
 0.3.0-beta.01
 
-xx. october 2015
+14. october 2015
 
-- updater - fixed moving files and directories
+- updater: fixed moving files and directories
+- updater: added copy functionality for files and directories
 
 -----------------------------------------------------------
 0.3.0-alpha.02

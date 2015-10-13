@@ -1,6 +1,26 @@
+/* 
+ * Copyright (C) 2015 Matjaz Cerkvenik
+ * 
+ * DTools is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * DTools is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with DTools. If not, see <http://www.gnu.org/licenses/>.
+ * 
+ */
+
 package si.matjazcerkvenik.dtools.update;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,6 +28,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 
 import javax.xml.bind.JAXBContext;
@@ -21,6 +42,9 @@ public class ScriptProcessor {
 	
 	private Script script;
 	
+	/**
+	 * Load xml script from the server
+	 */
 	public void loadScript() {
 		
 		Update.println("URL: " + Update.installScriptUrl);
@@ -54,6 +78,9 @@ public class ScriptProcessor {
 	}
 	
 	
+	/**
+	 * Start executing xml script, all actions
+	 */
 	public void processScript() {
 		
 		boolean proceed = true;
@@ -64,12 +91,17 @@ public class ScriptProcessor {
 			
 			if (a.getType().equalsIgnoreCase("delete")) {
 				
-				deleteDirectory(new File(a.getSource()));
+				delete(new File(a.getSource()));
 				Update.debug(a.toString() + " - OK");
 				
 			} else if (a.getType().equalsIgnoreCase("move")) {
 				
-				proceed = moveFile(a.getSource(), a.getDest());
+				proceed = move(a.getSource(), a.getDest());
+				Update.debug(a.toString() + " - OK");
+				
+			} else if (a.getType().equalsIgnoreCase("copy")) {
+				
+				proceed = copy(a.getSource(), a.getDest());
 				Update.debug(a.toString() + " - OK");
 				
 			} else if (a.getType().equalsIgnoreCase("download")) {
@@ -77,9 +109,11 @@ public class ScriptProcessor {
 				download(a.getSource(), a.getDest());
 				Update.debug(a.toString() + " - OK");
 				if (!MD5.getMd5(a.getDest()).equals(a.getMd5())) {
-					System.out.println("ERROR: Downloaded file is corrupted, please run update again");
+					Update.println("ERROR: Downloaded file is corrupted, please run update again");
 					Update.errorOccured = true;
 				}
+			} else {
+				Update.println("WARN: unknown action: " + a.toString());
 			}
 			
 			if (!proceed) {
@@ -92,43 +126,114 @@ public class ScriptProcessor {
 	
 	
 	/**
-	 * Move a source file to chosen destination directory.
+	 * Move a source file or directory to new destination. If moving file, the dest must 
+	 * contain filename of moving file. To rename the moved file, just use different dest
+	 * filename.
 	 * @param source
 	 * @param dest
 	 * @return true if successfully moved
 	 */
-	public boolean moveFile(String source, String dest) {
+	public boolean move(String source, String dest) {
 		Update.println("Move: " + source + " to: " + dest);
 		boolean result = false;
 		File srcFile = new File(source);
 		File destFile = new File(dest);
 		destFile.getParentFile().mkdirs();
 		result = srcFile.renameTo(destFile);
-		System.out.println("== result " + result);
 		return result;
 	}
 	
+	
 	/**
-	 * Delete given directory and all its contents
-	 * 
-	 * @param directory
-	 * @return true on success
+	 * Copy file or directory (recursively). If source is file, the dest file must 
+	 * contain filename of copied file; could be different as original (renaming).
+	 * If source is directory then all subdirectories and files will be copied.
+	 * Dest filename could be different as original (renaming).
+	 * @param source
+	 * @param dest
+	 * @return true if successfully copied
 	 */
-	public boolean deleteDirectory(File directory) {
-		Update.println("Delete: " + directory.getAbsolutePath());
-		if (directory.exists()) {
-			File[] files = directory.listFiles();
+	public boolean copy(String source, String dest) {
+		Update.println("Copy: " + source + " to: " + dest);
+		boolean result = false;
+		File srcFile = new File(source);
+		File destFile = new File(dest);
+		if (srcFile.isFile()) {
+			result = copyFile(srcFile, destFile);
+		} else if (srcFile.isDirectory()) {
+			result = copyDir(srcFile, destFile);
+		}
+		return result;
+	}
+	
+	
+	/**
+	 * Copy single file.
+	 * @param source
+	 * @param dest
+	 * @return true if successfully copied
+	 */
+	public boolean copyFile(File source, File dest) {
+		boolean result = false;
+		dest.getParentFile().mkdirs();
+		FileChannel inChanel;
+		FileChannel outChanel;
+		try {
+			inChanel = new FileInputStream(source).getChannel();
+			outChanel = new FileOutputStream(dest).getChannel();
+			outChanel.transferFrom(inChanel, 0, inChanel.size());
+			inChanel.close();
+			outChanel.close();
+			result = true;
+		} catch (FileNotFoundException e) {
+			Update.println("WARN: file not found: " + source);
+		} catch (IOException e) {
+			Update.println("ERROR: cannot copy: " + source);
+		}
+		return result;
+	}
+	
+	
+	/**
+	 * Copy directory (including subdirectories and all files).
+	 * @param source
+	 * @param dest
+	 * @return true if successfully copied
+	 */
+	public boolean copyDir(File source, File dest) {
+		boolean result = false;
+		dest.mkdir();
+		String files[] = source.list();
+		for (String file : files) {
+ 		   File srcFile = new File(source, file);
+ 		   File destFile = new File(dest, file);
+ 		   result = copy(srcFile.getAbsolutePath(), destFile.getAbsolutePath());
+ 		}
+		return result;
+	}
+	
+	
+	/**
+	 * Delete file or directory and all its contents
+	 * 
+	 * @param srcFile
+	 * @return true if successfully deleted
+	 */
+	public boolean delete(File srcFile) {
+		Update.println("Delete: " + srcFile.getAbsolutePath());
+		if (srcFile.exists()) {
+			File[] files = srcFile.listFiles();
 			if (files != null) {
 				for (int i = 0; i < files.length; i++) {
 					if (files[i].isDirectory()) {
-						deleteDirectory(files[i]);
+						delete(files[i]);
 					} else {
 						files[i].delete();
 					}
 				}
 			}
 		}
-		return directory.delete();
+		return srcFile.delete();
 	}
 	
 	
@@ -157,6 +262,7 @@ public class ScriptProcessor {
 		}
 
 	}
+	
 	
 	/**
 	 * This method does actual reading of data from the file channel
@@ -227,6 +333,11 @@ public class ScriptProcessor {
 		
 	}
 	
+	/**
+	 * Get length of bytes in file.
+	 * @param file
+	 * @return length
+	 */
 	public long getFileSize(String file) {
 		File f = new File(file);
 		return f.length();

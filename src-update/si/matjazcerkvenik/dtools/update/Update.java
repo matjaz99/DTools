@@ -60,10 +60,10 @@ public class Update {
 		Update u = new Update();
 		
 		// set DTOOLS_HOME
-		if (args.length > 1) {
+		if (args.length > 0) {
 			DTOOLS_HOME = args[0].substring(0, args[0].length() - 4);
 		} else {
-			DTOOLS_HOME = "/Users/matjaz/Developer/git-workspace/DTools"; // set project dir as home dir
+			DTOOLS_HOME = "/Users/matjaz/Desktop"; // set project dir as home dir
 			installScriptUrl = installScriptUrl.replaceAll("install-script.xml", "install-script-test.xml"); // use test script
 		}
 		println("DTOOLS_HOME=" + DTOOLS_HOME);
@@ -151,7 +151,7 @@ public class Update {
 		if (errorOccured) {
 			println("Update completed with errors. Please run again.");
 		} else {
-//			u.updateVersion(lastVersion);
+			u.updateVersion(lastVersion);
 			println("Update complete: " + lastVersion);
 		}
 		
@@ -358,14 +358,14 @@ public class Update {
 		ScriptProcessor sp = new ScriptProcessor();
 		
 		// delete work directories
-		sp.deleteDirectory(new File("server/apache-tomcat-7.0.57/work/Catalina/localhost/DTools"));
-		sp.deleteDirectory(new File("server/apache-tomcat-7.0.57/webapps/DTools"));
+		sp.delete(new File("server/apache-tomcat-7.0.57/work/Catalina/localhost/DTools"));
+		sp.delete(new File("server/apache-tomcat-7.0.57/webapps/DTools"));
 		
 		// move old war to repository
-		sp.moveFile(warFile, repositoryDir + "/" + getCurrentVersionFromTxt());
+		sp.move(warFile, repositoryDir + "/" + getCurrentVersionFromTxt());
 		
 		// move selected war to webapps
-		sp.moveFile(repositoryDir + "/" + version + "/DTools.war", webappsDir);
+		sp.move(repositoryDir + "/" + version + "/DTools.war", webappsDir);
 		
 		updateVersion(version);
 		System.out.println("Successfully restored version " + version);
