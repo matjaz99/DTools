@@ -3,39 +3,49 @@
 	<!-- test download -->
 	<action type="download">
 		<source>http://www.matjazcerkvenik.si/projects/download/DTools/$VERSION$/dtools.log.1</source>
-		<dest>$DTOOLS_HOME$/zzzzzz/dtools.log.1</dest>
+		<dest>$DTOOLS_HOME$/test/dtools.log.1</dest>
 		<md5>e9b62e3d37e38eb9057b5c240bae5eb0</md5>
 	</action>
 	<!-- test download file with whitespaces -->
 	<action type="download">
 		<source>http://www.matjazcerkvenik.si/projects/download/DTools/$VERSION$/DTools%20User%20Manual.odt</source>
-		<dest>$DTOOLS_HOME$/zzzzzz/DTools User Manual.odt</dest>
+		<dest>$DTOOLS_HOME$/test/DTools User Manual.odt</dest>
 		<md5>cdcd783cb557a46ed3d8f74cb31f2fa7</md5>
 	</action>
-	<!-- test move file -->
-	<action type="move">
-		<source>$DTOOLS_HOME$/zzzzzz/DTools User Manual.odt</source>
-		<dest>$DTOOLS_HOME$/zzzzzz/doc/DTools User Manual.odt</dest>
+	<!-- test copy file -->
+	<action type="copy">
+		<source>$DTOOLS_HOME$/test/dtools.log.1</source>
+		<dest>$DTOOLS_HOME$/test/backup/log/dtools.log.1.copy</dest>
 	</action>
 	<!-- test rename file -->
 	<action type="move">
-		<source>$DTOOLS_HOME$/zzzzzz/dtools.log.1</source>
-		<dest>$DTOOLS_HOME$/zzzzzz/doc/logs/krneki.txt</dest>
+		<source>$DTOOLS_HOME$/test/dtools.log.1</source>
+		<dest>$DTOOLS_HOME$/test/backup/log/dtools-log.txt</dest>
+	</action>
+	<!-- test move file -->
+	<action type="move">
+		<source>$DTOOLS_HOME$/test/DTools User Manual.odt</source>
+		<dest>$DTOOLS_HOME$/test/backup/doc/DTools User Manual.odt</dest>
+	</action>
+	<!-- test copy directory -->
+	<action type="copy">
+		<source>$DTOOLS_HOME$/test</source>
+		<dest>$DTOOLS_HOME$/test2/test-copy</dest>
 	</action>
 	<!-- test move directory (first delete destination dir, then move) -->
 	<action type="delete">
-		<source>$DTOOLS_HOME$/yyyyyy</source>
+		<source>$DTOOLS_HOME$/test2/test</source>
 	</action>
 	<action type="move">
-		<source>$DTOOLS_HOME$/zzzzzz</source>
-		<dest>$DTOOLS_HOME$/yyyyyy/aaa</dest>
+		<source>$DTOOLS_HOME$/test</source>
+		<dest>$DTOOLS_HOME$/test2/test</dest>
 	</action>
-	<action type="move">
-		<source>$DTOOLS_HOME$/yyyyyy/aaa/doc/logs/krneki.txt</source>
-		<dest>$DTOOLS_HOME$/yyyyyy/logs/krneki.txt</dest>
-	</action>
-	<!-- delete file -->
+	<!-- test delete file -->
 	<action type="delete">
-		<source>$DTOOLS_HOME$/yyyyyy/logs/krneki.txt</source>
+		<source>$DTOOLS_HOME$/test2/test/backup/doc/DTools User Manual.odt</source>
+	</action>
+	<!-- test delete directory -->
+	<action type="delete">
+		<source>$DTOOLS_HOME$/test2/test</source>
 	</action>
 </script>
