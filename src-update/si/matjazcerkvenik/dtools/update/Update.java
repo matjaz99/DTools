@@ -41,12 +41,7 @@ import java.net.URL;
 public class Update {
 	
 	public static String lastVersionUrl = "http://www.matjazcerkvenik.si/projects/dtools/getLastVersion.php";
-//	public static String lastWarUrl = "http://www.matjazcerkvenik.si/projects/download/DTools/@version/DTools.war";
 	public static String installScriptUrl = "http://www.matjazcerkvenik.si/projects/download/DTools/@version/install-script.xml";
-//	private static String webappsDir = "/Users/matjaz/Desktop/DTools-1.0.0/server/apache-tomcat-7.0.57/webapps";
-//	private static String warFile = "/Users/matjaz/Desktop/DTools-1.0.0/server/apache-tomcat-7.0.57/webapps/DTools.war";
-//	private static String repositoryDir = "/Users/matjaz/Desktop/DTools-1.0.0/repository";
-//	private static String versionTxt = "/Users/matjaz/Desktop/DTools-1.0.0/config/version.txt";
 	public static String DTOOLS_HOME;
 	public static String webappsDir = "/server/apache-tomcat-7.0.57/webapps";
 	public static String warFile = "/server/apache-tomcat-7.0.57/webapps/DTools.war";
@@ -55,24 +50,30 @@ public class Update {
 	public static String currentVersion;
 	public static String lastVersion;
 	
-//	private String md5Checksum = "0";
 	
 	private static boolean debugMode = false;
+	
+	public static boolean errorOccured = false;
 	
 	public static void main(String[] args) {
 		
 		Update u = new Update();
 		
 		// set DTOOLS_HOME
-		DTOOLS_HOME = args[0].substring(0, args[0].length() - 4);
-		System.out.println("DTOOLS_HOME=" + DTOOLS_HOME);
+		if (args.length > 1) {
+			DTOOLS_HOME = args[0].substring(0, args[0].length() - 4);
+		} else {
+			DTOOLS_HOME = "/Users/matjaz/Developer/git-workspace/DTools"; // set project dir as home dir
+			installScriptUrl = installScriptUrl.replaceAll("install-script.xml", "install-script-test.xml"); // use test script
+		}
+		println("DTOOLS_HOME=" + DTOOLS_HOME);
 		versionTxt = DTOOLS_HOME + versionTxt;
-		webappsDir = DTOOLS_HOME + webappsDir;
-		warFile = DTOOLS_HOME + warFile;
-		repositoryDir = DTOOLS_HOME + repositoryDir;
+		webappsDir = DTOOLS_HOME + webappsDir; // used only for restore
+		warFile = DTOOLS_HOME + warFile; // used only for restore
+		repositoryDir = DTOOLS_HOME + repositoryDir; // used only for restore and show repo
 		
 		// check input arguments if any
-		if (args.length > 1) {
+		if (args.length > 2) {
 			
 			if (args[1].equalsIgnoreCase("-h") 
 					|| args[0].equalsIgnoreCase("--help") 
@@ -82,9 +83,9 @@ public class Update {
 				System.exit(0);
 			} else if (args[1].equalsIgnoreCase("-d")) {
 				debugMode = true;
-				System.out.println("Debug mode: ON");
+				println("Debug mode: ON");
 			} else if (args[1].equalsIgnoreCase("-m")) {
-				System.out.println("MD5[DTools.war]=" + MD5.getMd5(warFile));
+				println("MD5[DTools.war]=" + MD5.getMd5(warFile));
 				System.exit(0);
 			} else if (args[1].equalsIgnoreCase("-s")) {
 				u.showRepository();
@@ -97,7 +98,7 @@ public class Update {
 				if (args.length > 2) {
 					u.restore(args[2]);
 				} else {
-					System.out.println("WARN: Missing version argument");
+					println("WARN: Missing version argument");
 				}
 				System.exit(0);
 			} else {
@@ -113,13 +114,12 @@ public class Update {
 		// get versions
 		currentVersion = u.getCurrentVersionFromTxt();
 		lastVersion = u.getLastVersionFromTheServer();
-//		lastWarUrl = lastWarUrl.replace("@version", lastVersion);
 		installScriptUrl = installScriptUrl.replace("@version", lastVersion);
 		
 		// check versions
 		boolean proceed = u.isUpdateRequired(currentVersion, lastVersion);
 		if (!proceed) {
-			System.out.println("DTools is up to date");
+			println("DTools is up to date");
 			System.exit(0);
 		}
 		
@@ -127,16 +127,16 @@ public class Update {
 		while (proceed) {
 			
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	        System.out.print("Do you want to upgrade now? [y/n]: ");
+	        print("Do you want to upgrade now? [y/n]: ");
 	        try {
 				String s = br.readLine();
 				if (s.equalsIgnoreCase("n") || s.equalsIgnoreCase("no")) {
-					System.out.println("Exit");
+					println("Exit");
 					System.exit(0);
 				} else if (s.equalsIgnoreCase("y") || s.equalsIgnoreCase("yes")) {
 					proceed = false;
 				} else {
-					System.out.println("Choose yes or no!");
+					println("Choose yes or no!");
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -148,37 +148,20 @@ public class Update {
 		sProc.loadScript();
 		sProc.processScript();
 		
-		// delete work directories
-//		u.deleteDirectory(new File("server/apache-tomcat-7.0.57/work/Catalina/localhost/DTools"));
-//		u.deleteDirectory(new File("server/apache-tomcat-7.0.57/webapps/DTools"));
+		if (errorOccured) {
+			println("Update completed with errors. Please run again.");
+		} else {
+//			u.updateVersion(lastVersion);
+			println("Update complete: " + lastVersion);
+		}
 		
-		// download war to home.dir
-//		try {
-//			u.download(lastWarUrl);
-//		} catch (IOException e) {
-//			System.out.println("ERROR: Failed to download new version, please try again later");
-//			System.exit(0);
-//		}
-		
-		// check MD5 checksum
-//		if (MD5.getMd5("DTools.war").equals(u.md5Checksum)) {
-//			System.out.println("MD5 checksum: OK");
-//		} else {
-//			System.out.println("ERROR: Downloaded file is corrupted, please run update again");
-//			System.exit(0);
-//		}
-		
-		// move old war to repository
-//		proceed = u.moveFile(warFile, repositoryDir + "/" + currentVersion);
-		
-		// move new war to webapps
-//		proceed = u.moveFile("DTools.war", webappsDir);
-		
-		u.updateVersion(lastVersion);
-		System.out.println("Successfully updated to " + lastVersion);
 		
 	}
 	
+	
+	/**
+	 * Show CLI help
+	 */
 	public void printHelp() {
 		
 		println("DTools update help");
@@ -206,7 +189,6 @@ public class Update {
 		}
 		return false;
 	}
-	
 	
 	
 	/**
@@ -237,6 +219,7 @@ public class Update {
 
 	}
 	
+	
 	/**
 	 * Send request to the mc.si server and read last version. Return 
 	 * version in x.y.z format.
@@ -257,9 +240,7 @@ public class Update {
 			}
 			in.close();
 			
-			String[] array = response.toString().split("#");
-			lastVersion = array[0];
-//			md5Checksum = array[1];
+			lastVersion = response.toString().toString();
 
 			// print result
 			println("Last version: " + lastVersion);
@@ -275,6 +256,7 @@ public class Update {
 		return lastVersion;
 
 	}
+	
 	
 	/**
 	 * Convert version to integer:<br>
@@ -311,6 +293,7 @@ public class Update {
 		return v;
 	}
 	
+	
 	/**
 	 * Parse the last version and compare it to installed version. Return true if 
 	 * last version is higher than current version.
@@ -342,19 +325,6 @@ public class Update {
 		return false;
 		
 	}
-	
-	
-
-	
-	
-	
-	
-	
-
-	
-
-	
-	
 	
 	
 	

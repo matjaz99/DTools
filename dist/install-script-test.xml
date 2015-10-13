@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script>
+	<!-- test download -->
+	<action type="download">
+		<source>http://www.matjazcerkvenik.si/projects/download/DTools/$VERSION$/dtools.log.1</source>
+		<dest>$DTOOLS_HOME$/zzzzzz/dtools.log.1</dest>
+		<md5>e9b62e3d37e38eb9057b5c240bae5eb0</md5>
+	</action>
+	<!-- test download file with whitespaces -->
+	<action type="download">
+		<source>http://www.matjazcerkvenik.si/projects/download/DTools/$VERSION$/DTools%20User%20Manual.odt</source>
+		<dest>$DTOOLS_HOME$/zzzzzz/DTools User Manual.odt</dest>
+		<md5>cdcd783cb557a46ed3d8f74cb31f2fa7</md5>
+	</action>
+	<!-- test move file -->
+	<action type="move">
+		<source>$DTOOLS_HOME$/zzzzzz/DTools User Manual.odt</source>
+		<dest>$DTOOLS_HOME$/zzzzzz/doc/DTools User Manual.odt</dest>
+	</action>
+	<!-- test rename file -->
+	<action type="move">
+		<source>$DTOOLS_HOME$/zzzzzz/dtools.log.1</source>
+		<dest>$DTOOLS_HOME$/zzzzzz/doc/logs/krneki.txt</dest>
+	</action>
+	<!-- test move directory (first delete destination dir, then move) -->
+	<action type="delete">
+		<source>$DTOOLS_HOME$/yyyyyy</source>
+	</action>
+	<action type="move">
+		<source>$DTOOLS_HOME$/zzzzzz</source>
+		<dest>$DTOOLS_HOME$/yyyyyy/aaa</dest>
+	</action>
+	<action type="move">
+		<source>$DTOOLS_HOME$/yyyyyy/aaa/doc/logs/krneki.txt</source>
+		<dest>$DTOOLS_HOME$/yyyyyy/logs/krneki.txt</dest>
+	</action>
+	<!-- delete file -->
+	<action type="delete">
+		<source>$DTOOLS_HOME$/yyyyyy/logs/krneki.txt</source>
+	</action>
+</script>

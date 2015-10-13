@@ -23,7 +23,7 @@ public class ScriptProcessor {
 	
 	public void loadScript() {
 		
-		System.out.println("URL: " + Update.installScriptUrl);
+		Update.println("URL: " + Update.installScriptUrl);
 		
 		try {
 			InputStream iStream = new URL(Update.installScriptUrl).openStream();
@@ -34,8 +34,8 @@ public class ScriptProcessor {
 				Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 				script = (Script) jaxbUnmarshaller.unmarshal(iStream);
 				
-//				System.out.println("loadScript(): " + Update.installScriptUrl);
-				System.out.println(script.toString());
+				Update.debug("loadScript(): " + Update.installScriptUrl);
+				Update.debug(script.toString());
 
 			} catch (JAXBException e) {
 				System.out.println("ERROR: JAXBException: cannot read file from server: " + Update.installScriptUrl);
@@ -65,22 +65,20 @@ public class ScriptProcessor {
 			if (a.getType().equalsIgnoreCase("delete")) {
 				
 				deleteDirectory(new File(a.getSource()));
-				Update.println(a.toString() + " - OK");
+				Update.debug(a.toString() + " - OK");
 				
 			} else if (a.getType().equalsIgnoreCase("move")) {
 				
 				proceed = moveFile(a.getSource(), a.getDest());
-				Update.println(a.toString() + " - OK");
+				Update.debug(a.toString() + " - OK");
 				
 			} else if (a.getType().equalsIgnoreCase("download")) {
 				
 				download(a.getSource(), a.getDest());
-				Update.println(a.toString() + " - OK");
-				if (MD5.getMd5(a.getDest()).equals(a.getMd5())) {
-					System.out.println("MD5 checksum: OK");
-				} else {
+				Update.debug(a.toString() + " - OK");
+				if (!MD5.getMd5(a.getDest()).equals(a.getMd5())) {
 					System.out.println("ERROR: Downloaded file is corrupted, please run update again");
-					System.exit(0);
+					Update.errorOccured = true;
 				}
 			}
 			
@@ -92,17 +90,22 @@ public class ScriptProcessor {
 		
 	}
 	
+	
 	/**
 	 * Move a source file to chosen destination directory.
-	 * @param sourceFile
-	 * @param destDir
+	 * @param source
+	 * @param dest
 	 * @return true if successfully moved
 	 */
-	public boolean moveFile(String sourceFile, String destDir) {
-		File srcFile = new File(sourceFile);
-		File destFile = new File(destDir + File.separator + srcFile.getName());
+	public boolean moveFile(String source, String dest) {
+		Update.println("Move: " + source + " to: " + dest);
+		boolean result = false;
+		File srcFile = new File(source);
+		File destFile = new File(dest);
 		destFile.getParentFile().mkdirs();
-		return srcFile.renameTo(destFile);
+		result = srcFile.renameTo(destFile);
+		System.out.println("== result " + result);
+		return result;
 	}
 	
 	/**
@@ -112,9 +115,10 @@ public class ScriptProcessor {
 	 * @return true on success
 	 */
 	public boolean deleteDirectory(File directory) {
+		Update.println("Delete: " + directory.getAbsolutePath());
 		if (directory.exists()) {
 			File[] files = directory.listFiles();
-			if (null != files) {
+			if (files != null) {
 				for (int i = 0; i < files.length; i++) {
 					if (files[i].isDirectory()) {
 						deleteDirectory(files[i]);
@@ -127,17 +131,19 @@ public class ScriptProcessor {
 		return directory.delete();
 	}
 	
+	
 	/**
 	 * Download latest war from the matjazcerkvenik.si server into /server/apache-tomcat-7.0.57/webapps directory.
 	 * War will be automatically deployed when server starts.
 	 * @throws IOException 
 	 */
 	public void download(String url, String localFile) {
-
-//		String[] temp = url.split("/");
-//		String filename = temp[temp.length - 1];
 		
-		System.out.print("Downloading " + localFile);
+		System.out.print("Download: " + localFile);
+		
+		// create all directories on path
+		File file = new File(localFile);
+		file.getParentFile().mkdirs();
 
 		boolean downloadComplete = false;
 		
