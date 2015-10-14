@@ -16,7 +16,7 @@
 	<action type="download">
 		<source>http://www.matjazcerkvenik.si/projects/download/DTools/$VERSION$/DTools.war</source>
 		<dest>$DTOOLS_HOME$/server/apache-tomcat-7.0.57/webapps/DTools.war</dest>
-		<md5>60e68a02ac33e9d36f73ad5d012c9c5f</md5>
+		<md5>2761e0a1f6d3691bcea85e2b0219bee3</md5>
 	</action>
 	<!-- delete doc directory in repository before moving -->
 	<action type="delete">
