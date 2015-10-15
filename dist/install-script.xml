@@ -32,4 +32,12 @@
 		<dest>$DTOOLS_HOME$/doc/DTools User Manual.odt</dest>
 		<md5>cdcd783cb557a46ed3d8f74cb31f2fa7</md5>
 	</action>
+	<!-- backup config directory to repository -->
+	<action type="delete">
+		<source>$DTOOLS_HOME$/repository/$CURR_VER$/config</source>
+	</action>
+	<action type="copy">
+		<source>$DTOOLS_HOME$/config</source>
+		<dest>$DTOOLS_HOME$/repository/$CURR_VER$/config</dest>
+	</action>
 </script>
