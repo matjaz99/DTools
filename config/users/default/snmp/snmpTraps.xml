@@ -2,69 +2,24 @@
 <snmpTraps>
     <trap>
         <community>public</community>
-        <enterpriseOid>1.</enterpriseOid>
-        <genericTrap>6</genericTrap>
-        <sourceIp>192.168.1.100</sourceIp>
-        <specificTrap>0</specificTrap>
-        <timestamp>0</timestamp>
-        <trapName>ddddddd</trapName>
-        <varbind oid="1.2.3.4" oidName="customVarBind" type="OCTET_STRING" value="qqq"/>
-        <version>v1</version>
-    </trap>
-    <trap>
-        <community>public</community>
-        <enterpriseOid>1.2.1.9.990</enterpriseOid>
-        <genericTrap>4</genericTrap>
-        <sourceIp>192.168.1.100</sourceIp>
-        <specificTrap>4</specificTrap>
-        <timestamp>0</timestamp>
-        <trapName>jgfhj</trapName>
-        <varbind oid="1.2.3.4" oidName="customVarBind" type="OCTET_STRING" value="dddd"/>
-        <varbind oid="1.1.1.1.1" oidName="oidName" type="OCTET_STRING" value="value"/>
-        <version>v1</version>
-    </trap>
-    <trap>
-        <community>public</community>
-        <enterpriseOid>1.</enterpriseOid>
-        <genericTrap>6</genericTrap>
-        <sourceIp>192.168.1.100</sourceIp>
-        <specificTrap>0</specificTrap>
-        <timestamp>0</timestamp>
-        <trapName>ddddddd222</trapName>
-        <varbind oid="1.2.3.4" oidName="customVarBind" type="OCTET_STRING" value="www"/>
-        <varbind oid="1.1.2.2.3.3" oidName="oidName" type="INTEGER" value="123"/>
-        <version>v1</version>
-    </trap>
-    <trap>
-        <community>public</community>
-        <sourceIp>192.168.1.100</sourceIp>
-        <trapName>cms 1</trapName>
-        <varbind oid="1.3.6.1.2.1.1.3.0" oidName="sysUpTime" type="TIMETICKS" value="300000"/>
-        <varbind oid="1.3.6.1.6.3.1.1.4.1.0" oidName="snmpTrapOid" type="OCTET_STRING" value="9.1.9.1.9"/>
-        <varbind oid="1.2.4.7.8.45454.2" oidName="oidName" type="OCTET_STRING" value="lkhjlkjh"/>
+        <sourceIp>127.0.0.1</sourceIp>
+        <trapName>LinkDown</trapName>
+        <varbind value="3938057900" type="TIMETICKS" oidName="sysUpTime" oid="1.3.6.1.2.1.1.3.0"/>
+        <varbind value="1.3.6.1.6.3.1.1.5.3" type="OCTET_STRING" oidName="snmpTrapOid" oid="1.3.6.1.6.3.1.1.4.1.0"/>
+        <varbind value="17" type="INTEGER" oidName="ifIndex" oid="1.3.6.1.2.1.2.2.1.1.17"/>
+        <varbind value="1" type="INTEGER" oidName="ifAdminStatus" oid="1.3.6.1.2.1.2.2.1.7.17"/>
+        <varbind value="2" type="INTEGER" oidName="ifOperStatus" oid="1.3.6.1.2.1.2.2.1.8.17"/>
         <version>v2c</version>
     </trap>
     <trap>
         <community>public</community>
-        <sourceIp>192.168.1.100</sourceIp>
-        <trapName>cms 2</trapName>
-        <varbind oid="1.3.6.1.2.1.1.3.0" oidName="sysUpTime" type="TIMETICKS" value="163268807"/>
-        <varbind oid="1.3.6.1.6.3.1.1.4.1.0" oidName="snmpTrapOid" type="OCTET_STRING" value="9.9.9"/>
-        <varbind oid="1.2.4.7.8.45454.2" oidName="oidName" type="OCTET_STRING" value="lkhjlkjh"/>
-        <varbind oid="1.2.1.3.6.1.1" oidName="oidName" type="IP_ADDRESS" value="10.0.0.10"/>
-        <version>v2c</version>
-    </trap>
-    <trap>
-        <community>public</community>
-        <sourceIp>192.168.1.100</sourceIp>
-        <trapName>x1</trapName>
-        <varbind oid="1.3.6.1.2.1.1.3.0" oidName="sysUpTime" type="TIMETICKS" value="3934"/>
-        <varbind oid="1.3.6.1.6.3.1.1.4.1.0" oidName="snmpTrapOid" type="OCTET_STRING" value="9.9.9"/>
-        <varbind oid="1.3.6.1.6.3.18.1.3.0" oidName="sourceIp" type="IP_ADDRESS" value="192.168.1.100"/>
-        <varbind oid="1." oidName="oidName" type="OCTET_STRING" value="&quot;asdfads&quot;"/>
-        <varbind oid="1." oidName="oidName" type="OCTET_STRING" value="&lt;b&gt;aaa&lt;/b&gt;"/>
-        <varbind oid="1." oidName="oidName" type="OCTET_STRING" value="value"/>
-        <varbind oid="1." oidName="oidName" type="OCTET_STRING" value="value"/>
+        <sourceIp>127.0.0.1</sourceIp>
+        <trapName>LinkUp</trapName>
+        <varbind value="3938087500" type="TIMETICKS" oidName="sysUpTime" oid="1.3.6.1.2.1.1.3.0"/>
+        <varbind value="1.3.6.1.6.3.1.1.5.4" type="OCTET_STRING" oidName="snmpTrapOid" oid="1.3.6.1.6.3.1.1.4.1.0"/>
+        <varbind value="17" type="INTEGER" oidName="ifIndex" oid="1.3.6.1.2.1.2.2.1.1.17"/>
+        <varbind value="1" type="INTEGER" oidName="ifAdminStatus" oid="1.3.6.1.2.1.2.2.1.7.17"/>
+        <varbind value="1" type="INTEGER" oidName="ifOperStatus" oid="1.3.6.1.2.1.2.2.1.8.17"/>
         <version>v2c</version>
     </trap>
 </snmpTraps>
