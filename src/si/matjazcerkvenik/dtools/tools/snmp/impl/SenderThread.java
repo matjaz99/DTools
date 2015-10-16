@@ -63,12 +63,42 @@ public class SenderThread extends Thread {
 				sleep(i);
 			} catch (InterruptedException e) {
 			}
+//			if (i < 1000) {
+//				try {
+//					sleep(i);
+//				} catch (InterruptedException e) {
+//				}
+//			} else {
+//				
+//			}
 			
+//			int remaining = i;
+//			while (isRunning) {
+//				if (i == 0 || remaining < 0) {
+//					break;
+//				} else if (remaining < 1000) {
+//					try {
+//						sleep(remaining);
+//					} catch (InterruptedException e) {
+//					}
+//					remaining = remaining - 1000;
+//				} else {
+//					try {
+//						sleep(1000);
+//					} catch (InterruptedException e) {
+//					}
+//					remaining = remaining - 1000;
+//				}
+//			}
 			
 		}
 		
 	}
 	
+	
+	/**
+	 * Start sender thread
+	 */
 	public void startThread() {
 		
 		isRunning = true;
@@ -76,6 +106,10 @@ public class SenderThread extends Thread {
 		
 	}
 	
+	
+	/**
+	 * Stop sender thread
+	 */
 	public void stopThread() {
 		
 		isRunning = false;

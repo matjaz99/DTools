@@ -37,7 +37,7 @@ import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.xml.SnmpTrap;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
-public class SnmpTrapSender {
+public class TrapSender {
 	
 	private SimpleLogger logger;
 	
@@ -47,11 +47,11 @@ public class SnmpTrapSender {
 	
 	private int counter = 0;
 	
-	public SnmpTrapSender() {
+	public TrapSender() {
 		logger = DToolsContext.getInstance().getLogger();
 	}
 	
-	public SnmpTrapSender(String localIp, int localPort) {
+	public TrapSender(String localIp, int localPort) {
 		this.localIp = localIp;
 		this.localPort  = localPort;
 		logger = DToolsContext.getInstance().getLogger();

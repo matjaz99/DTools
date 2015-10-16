@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.SenderThread;
-import si.matjazcerkvenik.dtools.tools.snmp.impl.SnmpTrapSender;
+import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapSender;
 import si.matjazcerkvenik.dtools.web.Growl;
 import si.matjazcerkvenik.dtools.xml.DAO;
 
@@ -45,7 +45,7 @@ public class SnmpAgent implements Serializable, ISnmpAgent {
 	private String destinationIp = LocalhostInfo.getLocalIpAddress();
 	private int destinationPort = 6162;
 	
-	private SnmpTrapSender trapSender;
+	private TrapSender trapSender;
 	
 	private SenderThread senderThread;
 	private int sendInterval = 13000;
@@ -76,12 +76,12 @@ public class SnmpAgent implements Serializable, ISnmpAgent {
 		this.name = name;
 	}
 
-	public SnmpTrapSender getTrapSender() {
+	public TrapSender getTrapSender() {
 		return trapSender;
 	}
 
 	@XmlTransient
-	public void setTrapSender(SnmpTrapSender trapSender) {
+	public void setTrapSender(TrapSender trapSender) {
 		this.trapSender = trapSender;
 	}
 	
@@ -167,7 +167,7 @@ public class SnmpAgent implements Serializable, ISnmpAgent {
 	
 	public boolean start() {
 		if (trapSender == null) {
-			trapSender = new SnmpTrapSender(localIp, localPort);
+			trapSender = new TrapSender(localIp, localPort);
 			active = trapSender.start();
 		}
 		return active;
@@ -192,6 +192,7 @@ public class SnmpAgent implements Serializable, ISnmpAgent {
 		if (senderThread != null) {
 			senderThread.stopThread();
 			try {
+				senderThread.interrupt();
 				senderThread.join();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
