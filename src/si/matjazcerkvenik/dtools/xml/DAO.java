@@ -35,11 +35,10 @@ import javax.xml.bind.Unmarshaller;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
-import si.matjazcerkvenik.dtools.tools.snmp.SnmpSimulator;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpManager;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpSimulator;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTable;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapReceiver;
-import si.matjazcerkvenik.dtools.update.Update;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 public class DAO {
@@ -791,7 +790,7 @@ public class DAO {
 			SnmpAgent agent = loadAgentMetadata(agentXmlFile);
 			
 			File trapsDir = new File(simFiles[i].getAbsolutePath() + "/traps");
-			SnmpTraps snmpTraps = loadSnmpTrapsFromDir(trapsDir);
+			List<SnmpTraps> snmpTraps = loadSnmpTrapsFromDir(trapsDir);
 			
 			File tablesDir = new File(simFiles[i].getAbsolutePath() + "/tables");
 			List<SnmpTable> snmpTablesList = loadSnmpTablesFromDir(tablesDir);
@@ -853,9 +852,9 @@ public class DAO {
 	
 	
 	
-	public SnmpTraps loadSnmpTrapsFromDir(File trapsDir) {
+	public List<SnmpTraps> loadSnmpTrapsFromDir(File trapsDir) {
 
-//		List<SnmpTrap> snmpTrapsList = new ArrayList<SnmpTrap>();
+		List<SnmpTraps> snmpTrapsList = new ArrayList<SnmpTraps>();
 		
 		File[] trapsXml = trapsDir.listFiles(new FileFilter() {
 			
@@ -880,9 +879,9 @@ public class DAO {
 					snmpTraps.setTraps(new ArrayList<SnmpTrap>());
 				}
 				
-				logger.info("DAO:loadSnmpTraps(): " + trapsXml[i].getAbsolutePath());
+				snmpTrapsList.add(snmpTraps);
 				
-				return snmpTraps;
+				logger.info("DAO:loadSnmpTraps(): " + trapsXml[i].getAbsolutePath());
 
 			} catch (JAXBException e) {
 				logger.error("DAO:loadSnmpTraps(): JAXBException: ", e);
@@ -890,7 +889,7 @@ public class DAO {
 			
 		}
 		
-		return null;
+		return snmpTrapsList;
 
 	}
 	
@@ -953,9 +952,6 @@ public class DAO {
 //
 //	}
 	
-	public void saveAgent(SnmpAgent a) {
-		
-	}
 
 	public void addSnmpAgent(SnmpAgent a) {
 		

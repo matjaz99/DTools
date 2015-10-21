@@ -26,7 +26,8 @@
 						cellpadding="0" cellspacing="0" width="100%">
 						
 						<h:column>
-							<h:panelGrid columns="1" styleClass="border" width="100%">
+							<h:panelGrid columns="3" styleClass="border" width="100%">
+							<h:panelGrid columns="1">
 								<h:panelGrid columns="2" cellpadding="2">
 									<dt:icon img="rocket" />
 									<p:inplace editor="true" styleClass="title" >
@@ -55,6 +56,25 @@
 										action="#{snmpSimulatorBean.deleteSnmpAgent(agent)}" 
 										update="growl simForm" ajax="true" />
 								</h:panelGrid>
+							</h:panelGrid>
+							<h:panelGrid columns="1">
+								<h:outputText value="Trap lists:" />
+								<h:dataTable id="trapsTable" value="#{agent.snmpTraps}" var="scenario" 
+									cellpadding="0" cellspacing="0" width="100%">
+									<h:column>
+										<h:outputText value="#{scenario.name}" />
+									</h:column>
+								</h:dataTable>
+							</h:panelGrid>
+							<h:panelGrid columns="1">
+								<h:outputText value="Tables:" />
+								<h:dataTable id="tablesTable" value="#{agent.snmpTablesList}" var="table" 
+									cellpadding="0" cellspacing="0" width="100%">
+									<h:column>
+										<h:outputText value="#{table.name}" />
+									</h:column>
+								</h:dataTable>
+							</h:panelGrid>
 							</h:panelGrid>
 						</h:column>
 						

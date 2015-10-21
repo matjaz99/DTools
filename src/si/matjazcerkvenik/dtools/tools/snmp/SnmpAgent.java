@@ -49,7 +49,7 @@ public class SnmpAgent implements Serializable, ISnmpAgent {
 	private boolean active = false;
 	
 	private List<TrapDestination> trapDestinationsList;
-	private SnmpTraps snmpTraps;
+	private List<SnmpTraps> snmpTrapsList;
 	private List<SnmpTable> snmpTablesList;
 	
 	public SnmpAgent() {
@@ -116,13 +116,13 @@ public class SnmpAgent implements Serializable, ISnmpAgent {
 		this.trapDestinationsList = trapDestinationsList;
 	}
 
-	public SnmpTraps getSnmpTraps() {
-		return snmpTraps;
+	public List<SnmpTraps> getSnmpTraps() {
+		return snmpTrapsList;
 	}
 
 	@XmlTransient
-	public void setSnmpTraps(SnmpTraps snmpTraps) {
-		this.snmpTraps = snmpTraps;
+	public void setSnmpTraps(List<SnmpTraps> snmpTraps) {
+		this.snmpTrapsList = snmpTraps;
 	}
 
 	public List<SnmpTable> getSnmpTablesList() {
