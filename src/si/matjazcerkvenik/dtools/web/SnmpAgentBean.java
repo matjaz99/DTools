@@ -90,8 +90,8 @@ public class SnmpAgentBean implements Serializable {
 			return;
 		}
 		destinationIp = e.getNewValue().toString();
-		agent.setDestinationIp(destinationIp);
-		DAO.getInstance().saveSnmpSimulator();
+		agent.getTrapDestinationsList().get(0).setDestinationIp(destinationIp);
+		DAO.getInstance().saveAgentMetadata(agent);
 	}
 	
 	public void changedDestPort(ValueChangeEvent e) {
@@ -100,11 +100,11 @@ public class SnmpAgentBean implements Serializable {
 		}
 		try {
 			destinationPort = Integer.parseInt(e.getNewValue().toString());
-			agent.setDestinationPort(destinationPort);
+			agent.getTrapDestinationsList().get(0).setDestinationPort(destinationPort);
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
 		}
-		DAO.getInstance().saveSnmpSimulator();
+		DAO.getInstance().saveAgentMetadata(agent);
 	}
 	
 	public void changedSendInterval(ValueChangeEvent e) {
@@ -113,11 +113,11 @@ public class SnmpAgentBean implements Serializable {
 		}
 		try {
 			sendInterval = Integer.parseInt(e.getNewValue().toString());
-			agent.setSendInterval(sendInterval);
+			agent.getTrapDestinationsList().get(0).setSendInterval(sendInterval);
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
 		}
-		DAO.getInstance().saveSnmpSimulator();
+		DAO.getInstance().saveAgentMetadata(agent);
 	}
 
 	public List<SnmpTrap> getSnmpTrapsList() {

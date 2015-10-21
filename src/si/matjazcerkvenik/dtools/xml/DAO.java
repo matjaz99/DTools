@@ -39,6 +39,7 @@ import si.matjazcerkvenik.dtools.tools.snmp.SnmpSimulator;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpManager;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTable;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapReceiver;
+import si.matjazcerkvenik.dtools.update.Update;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 public class DAO {
@@ -787,7 +788,7 @@ public class DAO {
 		for (int i = 0; i < simFiles.length; i++) {
 			
 			File agentXmlFile = new File(simFiles[i].getAbsolutePath() + "/agent.xml");
-			SnmpAgent agent = loadAgentMetaFile(agentXmlFile);
+			SnmpAgent agent = loadAgentMetadata(agentXmlFile);
 			
 			File trapsDir = new File(simFiles[i].getAbsolutePath() + "/traps");
 			SnmpTraps snmpTraps = loadSnmpTrapsFromDir(trapsDir);
@@ -811,7 +812,7 @@ public class DAO {
 	 * @param file
 	 * @return snmpAgent
 	 */
-	public SnmpAgent loadAgentMetaFile(File file) {
+	public SnmpAgent loadAgentMetadata(File file) {
 		
 		SnmpAgent snmpAgent = null;
 		
@@ -820,6 +821,7 @@ public class DAO {
 			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpAgent.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			snmpAgent = (SnmpAgent) jaxbUnmarshaller.unmarshal(file);
+			snmpAgent.setDirectoryName(file.getParentFile().getAbsolutePath());
 
 			logger.info("DAO:loadAgentMetaFile(): " + file.getAbsolutePath());
 
@@ -828,6 +830,25 @@ public class DAO {
 		}
 		
 		return snmpAgent;
+	}
+	
+	public void saveAgentMetadata(SnmpAgent agent) {
+		
+		// TODO change also directory name
+		
+		try {
+			
+			File file = new File(agent.getDirectoryName() + "/agent.xml");
+			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpAgent.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.marshal(agent, file);
+			
+			logger.info("DAO:saveAgentMetadata(): " + file.getAbsolutePath());
+		} catch (JAXBException e) {
+			logger.error("DAO:saveAgentMetadata(): JAXBException: ", e);
+		}
+		
 	}
 	
 	
@@ -937,17 +958,51 @@ public class DAO {
 	}
 
 	public void addSnmpAgent(SnmpAgent a) {
-
+		
+		a.setDirectoryName(DToolsContext.HOME_DIR + DIR_SNMP_SIMULATOR + "/" + a.getName() + "-" + System.currentTimeMillis());
+		
+		File agentDir = new File(a.getDirectoryName());
+		agentDir.mkdirs();
+		saveAgentMetadata(a);
+		
+		File trapsDir = new File(a.getDirectoryName() + "/traps");
+		trapsDir.mkdirs();
+		
+		File tablesDir = new File(a.getDirectoryName() + "/tables");
+		tablesDir.mkdirs();
+		
 		snmpSimulator.addSnmpAgent(a);
-		saveSnmpSimulator();
 
 	}
 
 	public void deleteSnmpAgent(SnmpAgent a) {
-
+		
+		File dir = new File(a.getDirectoryName());
+		delete(dir);
+		
 		snmpSimulator.removeSnmpAgent(a);
-		saveSnmpSimulator();
 
+	}
+	
+	/**
+	 * Delete directory including all files
+	 * @param dir
+	 * @return
+	 */
+	private boolean delete(File dir) {
+		if (dir.exists()) {
+			File[] files = dir.listFiles();
+			if (files != null) {
+				for (int i = 0; i < files.length; i++) {
+					if (files[i].isDirectory()) {
+						delete(files[i]);
+					} else {
+						files[i].delete();
+					}
+				}
+			}
+		}
+		return dir.delete();
 	}
 	
 	

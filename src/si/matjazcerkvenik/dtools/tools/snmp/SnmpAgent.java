@@ -27,17 +27,17 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.SenderThread;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapSender;
 import si.matjazcerkvenik.dtools.xml.DAO;
-import si.matjazcerkvenik.dtools.xml.SnmpTrap;
 import si.matjazcerkvenik.dtools.xml.SnmpTraps;
 
 @XmlRootElement
 public class SnmpAgent implements Serializable, ISnmpAgent {
 	
 	private static final long serialVersionUID = -2488608414261579629L;
+	
+	private String directoryName;
 	
 	private String name;
 	private String localIp;
@@ -61,6 +61,15 @@ public class SnmpAgent implements Serializable, ISnmpAgent {
 		this.localPort = port;
 	}
 	
+	public String getDirectoryName() {
+		return directoryName;
+	}
+
+	@XmlTransient
+	public void setDirectoryName(String directoryName) {
+		this.directoryName = directoryName;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -202,7 +211,8 @@ public class SnmpAgent implements Serializable, ISnmpAgent {
 			return;
 		}
 		name = e.getNewValue().toString();
-		DAO.getInstance().saveSnmpSimulator();
+		DAO.getInstance().saveAgentMetadata(this);
+		
 	}
 	
 	public void changedIp(ValueChangeEvent e) {
@@ -210,7 +220,7 @@ public class SnmpAgent implements Serializable, ISnmpAgent {
 			return;
 		}
 		localIp = e.getNewValue().toString();
-		DAO.getInstance().saveSnmpSimulator();
+		DAO.getInstance().saveAgentMetadata(this);
 	}
 	
 	public void changedPort(ValueChangeEvent e) {
@@ -222,7 +232,7 @@ public class SnmpAgent implements Serializable, ISnmpAgent {
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
 		}
-		DAO.getInstance().saveSnmpSimulator();
+		DAO.getInstance().saveAgentMetadata(this);
 	}
 	
 	
