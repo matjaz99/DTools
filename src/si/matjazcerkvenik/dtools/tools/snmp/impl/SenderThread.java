@@ -21,7 +21,6 @@ package si.matjazcerkvenik.dtools.tools.snmp.impl;
 import java.util.List;
 
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
-import si.matjazcerkvenik.dtools.xml.DAO;
 import si.matjazcerkvenik.dtools.xml.SnmpTrap;
 
 public class SenderThread extends Thread {
@@ -43,13 +42,14 @@ public class SenderThread extends Thread {
 	@Override
 	public void run() {
 		
-		List<SnmpTrap> traps = DAO.getInstance().loadSnmpTraps().getTraps();
+//		List<SnmpTrap> traps = DAO.getInstance().loadSnmpTraps().getTraps();
+		List<SnmpTrap> traps = agent.getSnmpTraps().getTraps();
 		int index = 0;
 		
 		while (isRunning) {
 			
-			String ip = agent.getDestinationIp();
-			int port = agent.getDestinationPort();
+			String ip = agent.getTrapDestinationsList().get(0).getDestinationIp();
+			int port = agent.getTrapDestinationsList().get(0).getDestinationPort();
 			agent.getTrapSender().sendTrap(ip, port, traps.get(index));
 			
 			if (index == traps.size() - 1) {
@@ -58,7 +58,7 @@ public class SenderThread extends Thread {
 				index++;
 			}
 			
-			int i = (int) agent.getSendInterval();
+			int i = (int) agent.getTrapDestinationsList().get(0).getSendInterval();
 			try {
 				sleep(i);
 			} catch (InterruptedException e) {

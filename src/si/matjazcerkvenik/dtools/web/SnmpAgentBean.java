@@ -34,9 +34,9 @@ public class SnmpAgentBean implements Serializable {
 		Map<String, Object> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 		agent = (SnmpAgent) requestParameterMap.get("agent");
 		
-		destinationIp = agent.getDestinationIp();
-		destinationPort = agent.getDestinationPort();
-		sendInterval = agent.getSendInterval();
+		destinationIp = agent.getTrapDestinationsList().get(0).getDestinationIp();
+		destinationPort = agent.getTrapDestinationsList().get(0).getDestinationPort();
+		sendInterval = agent.getTrapDestinationsList().get(0).getSendInterval();
 		
 //		Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 //		if (requestParameterMap.containsKey("name")) {
@@ -58,22 +58,22 @@ public class SnmpAgentBean implements Serializable {
 	
 	public String getDestinationIp() {
 //		return destinationIp;
-		return agent.getDestinationIp();
+		return agent.getTrapDestinationsList().get(0).getDestinationIp();
 	}
 
 	public void setDestinationIp(String destinationIp) {
 		this.destinationIp = destinationIp;
-		agent.setDestinationIp(destinationIp);
+		agent.getTrapDestinationsList().get(0).setDestinationIp(destinationIp);
 	}
 
 	public int getDestinationPort() {
 //		return destinationPort;
-		return agent.getDestinationPort();
+		return agent.getTrapDestinationsList().get(0).getDestinationPort();
 	}
 
 	public void setDestinationPort(int port) {
 		this.destinationPort = port;
-		agent.setDestinationPort(port);
+		agent.getTrapDestinationsList().get(0).setDestinationPort(port);
 	}
 	
 	public int getSendInterval() {
@@ -82,7 +82,7 @@ public class SnmpAgentBean implements Serializable {
 
 	public void setSendInterval(int sendInterval) {
 		this.sendInterval = sendInterval;
-		agent.setSendInterval(sendInterval);
+		agent.getTrapDestinationsList().get(0).setSendInterval(sendInterval);
 	}
 	
 	public void changedDestIp(ValueChangeEvent e) {
@@ -121,7 +121,8 @@ public class SnmpAgentBean implements Serializable {
 	}
 
 	public List<SnmpTrap> getSnmpTrapsList() {
-		return DAO.getInstance().loadSnmpTraps().getTraps();
+//		return DAO.getInstance().loadSnmpTraps().getTraps();
+		return agent.getSnmpTraps().getTraps();
 	}
 	
 	

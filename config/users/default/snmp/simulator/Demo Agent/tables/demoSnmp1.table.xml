@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<snmpTable name="table01">
+	<metadata oid="1.2.3.4">
+		<column name="ifIndex" type="INTEGER" oid="1.2.3.4.1" access="ro" />
+		<column name="ifAdminStatus" type="INTEGER" oid="1.2.3.4.2" access="rw" />
+		<column name="ifOperStatus" type="INTEGER" oid="1.2.3.4.3" access="rw" />
+	</metadata>
+	<row index="1">
+		<value>1</value>
+		<value>1</value>
+		<value>1</value>
+	</row>
+	<row index="2">
+		<value>4</value>
+		<value>4</value>
+		<value>4</value>
+	</row>
+</snmpTable>

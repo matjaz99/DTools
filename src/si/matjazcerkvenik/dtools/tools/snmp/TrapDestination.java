@@ -23,32 +23,42 @@ import javax.xml.bind.annotation.XmlAttribute;
 public class TrapDestination {
 
 	private String destinationIp;
-	private int port;
+	private int destinationPort;
+	private int sendInterval = 13000;
 	
 	public TrapDestination() {
 	}
 
 	public TrapDestination(String destinationIp, int port) {
 		this.destinationIp = destinationIp;
-		this.port = port;
+		this.destinationPort = port;
 	}
 
 	public String getDestinationIp() {
 		return destinationIp;
 	}
 
-	@XmlAttribute
+	@XmlAttribute(name="ip")
 	public void setDestinationIp(String destinationIp) {
 		this.destinationIp = destinationIp;
 	}
 
-	public int getPort() {
-		return port;
+	public int getDestinationPort() {
+		return destinationPort;
+	}
+
+	@XmlAttribute(name="port")
+	public void setDestinationPort(int port) {
+		this.destinationPort = port;
+	}
+	
+	public int getSendInterval() {
+		return sendInterval;
 	}
 
 	@XmlAttribute
-	public void setPort(int port) {
-		this.port = port;
+	public void setSendInterval(int sendInterval) {
+		this.sendInterval = sendInterval;
 	}
 
 }

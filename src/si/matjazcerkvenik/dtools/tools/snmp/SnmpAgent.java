@@ -19,21 +19,22 @@
 package si.matjazcerkvenik.dtools.tools.snmp;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.event.ValueChangeEvent;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.SenderThread;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapSender;
-import si.matjazcerkvenik.dtools.web.Growl;
 import si.matjazcerkvenik.dtools.xml.DAO;
+import si.matjazcerkvenik.dtools.xml.SnmpTrap;
+import si.matjazcerkvenik.dtools.xml.SnmpTraps;
 
-
+@XmlRootElement
 public class SnmpAgent implements Serializable, ISnmpAgent {
 	
 	private static final long serialVersionUID = -2488608414261579629L;
@@ -42,17 +43,14 @@ public class SnmpAgent implements Serializable, ISnmpAgent {
 	private String localIp;
 	private int localPort = 6161;
 	
-	private String destinationIp = LocalhostInfo.getLocalIpAddress();
-	private int destinationPort = 6162;
-	
 	private TrapSender trapSender;
 	
-	private SenderThread senderThread;
-	private int sendInterval = 13000;
-	
+	private SenderThread senderThread;	
 	private boolean active = false;
 	
-//	private List<TrapDestination> trapDestinationsList;
+	private List<TrapDestination> trapDestinationsList;
+	private SnmpTraps snmpTraps;
+	private List<SnmpTable> snmpTablesList;
 	
 	public SnmpAgent() {
 	}
@@ -61,17 +59,13 @@ public class SnmpAgent implements Serializable, ISnmpAgent {
 		this.name = name;
 		this.localIp = ip;
 		this.localPort = port;
-//		if (trapDestinationsList == null) {
-//			trapDestinationsList = new ArrayList<TrapDestination>();
-//		}
-//		trapDestinationsList.add(new TrapDestination(ip, port));
 	}
 	
 	public String getName() {
 		return name;
 	}
 
-	@XmlElement
+	@XmlAttribute
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -89,7 +83,7 @@ public class SnmpAgent implements Serializable, ISnmpAgent {
 		return localIp;
 	}
 
-	@XmlElement
+	@XmlAttribute
 	public void setLocalIp(String localIp) {
 		this.localIp = localIp;
 	}
@@ -98,38 +92,39 @@ public class SnmpAgent implements Serializable, ISnmpAgent {
 		return localPort;
 	}
 
-	@XmlElement
+	@XmlAttribute
 	public void setLocalPort(int localPort) {
 		this.localPort = localPort;
 	}
 	
-	public String getDestinationIp() {
-		return destinationIp;
+	
+	public List<TrapDestination> getTrapDestinationsList() {
+		return trapDestinationsList;
 	}
 
-	@XmlElement
-	public void setDestinationIp(String destinationIp) {
-		this.destinationIp = destinationIp;
+	@XmlElement(name="trapDestination")
+	public void setTrapDestinationsList(List<TrapDestination> trapDestinationsList) {
+		this.trapDestinationsList = trapDestinationsList;
 	}
 
-	public int getDestinationPort() {
-		return destinationPort;
+	public SnmpTraps getSnmpTraps() {
+		return snmpTraps;
 	}
 
-	@XmlElement
-	public void setDestinationPort(int port) {
-		this.destinationPort = port;
+	@XmlTransient
+	public void setSnmpTraps(SnmpTraps snmpTraps) {
+		this.snmpTraps = snmpTraps;
 	}
-	
-	public int getSendInterval() {
-		return sendInterval;
+
+	public List<SnmpTable> getSnmpTablesList() {
+		return snmpTablesList;
 	}
-	
-	@XmlElement
-	public void setSendInterval(int sendInterval) {
-		this.sendInterval = sendInterval;
+
+	@XmlTransient
+	public void setSnmpTablesList(List<SnmpTable> snmpTablesList) {
+		this.snmpTablesList = snmpTablesList;
 	}
-	
+
 	/**
 	 * Return true if receiver is listening
 	 * @return active
@@ -201,54 +196,6 @@ public class SnmpAgent implements Serializable, ISnmpAgent {
 		}
 	}
 	
-//	public void toggleRunning() {
-//		
-//		if (trapSender == null) {
-//			trapSender = new SnmpTrapSender(localIp, localPort);
-//			trapSender.start();
-//			Growl.addGrowlMessage("Agent running on port " + localPort, FacesMessage.SEVERITY_INFO);
-//		} else {
-//			
-//			if (senderThread != null) {
-//				toggleSendingAll(); // stop thread before stopping agent
-//			}
-//			
-//			// already listening
-//			trapSender.stop();
-//			trapSender = null;
-//			Growl.addGrowlMessage("Agent stopped", FacesMessage.SEVERITY_INFO);
-//		}
-//		
-//	}
-	
-//	public boolean isListening() {
-//		if (trapSender != null) {
-//			return true;
-//		}
-//		return false;
-//	}
-	
-	
-	/**
-	 * Start sender thread
-	 */
-//	public void toggleSendingAll() {
-//		// TODO
-//		if (senderThread == null) {
-//			senderThread = new SenderThread(this);
-//			senderThread.startThread();
-//		} else {
-//			// already running
-//			senderThread.stopThread();
-//			try {
-//				senderThread.join();
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//			senderThread = null;
-//		}
-//		
-//	}
 	
 	public void changedName(ValueChangeEvent e) {
 		if (e.getOldValue().toString().equalsIgnoreCase(e.getNewValue().toString())) {

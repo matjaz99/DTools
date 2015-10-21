@@ -21,12 +21,8 @@ package si.matjazcerkvenik.dtools.tools.snmp;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 
-@XmlRootElement
 public class SnmpSimulator {
 	
 	private List<SnmpAgent> snmpAgentsList;
@@ -34,13 +30,15 @@ public class SnmpSimulator {
 	public List<SnmpAgent> getSnmpAgentsList() {
 		return snmpAgentsList;
 	}
-
-	@XmlElement(name="snmpAgent")
+	
 	public void setSnmpAgentsList(List<SnmpAgent> snmpAgentsList) {
 		this.snmpAgentsList = snmpAgentsList;
 	}
 	
 	public void addSnmpAgent(SnmpAgent a) {
+		if (snmpAgentsList == null) {
+			snmpAgentsList = new ArrayList<SnmpAgent>();
+		}
 		snmpAgentsList.add(a);
 	}
 	

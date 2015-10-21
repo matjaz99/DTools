@@ -20,7 +20,7 @@ public class SnmpSimulatorBean {
 	public void addNewSnmpAgent() {
 		
 		SnmpAgent a = new SnmpAgent("SnmpAgent" + DAO.getInstance().loadSnmpSimulator().getSnmpAgentsList().size(), 
-				LocalhostInfo.getLocalIpAddress(), 6161);
+				LocalhostInfo.getLocalIpAddress(), 161);
 		
 		DAO.getInstance().addSnmpAgent(a);
 		Growl.addGrowlMessage("Created SNMP agent: " + a.toString(), FacesMessage.SEVERITY_INFO);
