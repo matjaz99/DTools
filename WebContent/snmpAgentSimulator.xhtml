@@ -57,13 +57,13 @@
 							</h:panelGrid>
 							<h:panelGrid columns="1">
 								<h:outputText value="Trap lists:" />
-								<h:dataTable id="trapsTable" value="#{agent.snmpTraps}" var="scenario" 
+								<h:dataTable id="trapsTable" value="#{agent.trapsTableList}" var="trapsTable" 
 									cellpadding="0" cellspacing="0" width="100%">
 									<h:column>
-										<h:outputLink value="#{scenario.name}" />
-										<p:link outcome="snmpAgentTrapsList" value="#{scenario.name}">
+										<h:outputLink value="#{trapsTable.name}" />
+										<p:link outcome="snmpTrapsTable" value="#{trapsTable.name}">
 										    <f:param name="agent" value="#{agent.name}" />
-										    <f:param name="name" value="#{scenario.name}" />
+										    <f:param name="name" value="#{trapsTable.name}" />
 										</p:link>
 									</h:column>
 								</h:dataTable>

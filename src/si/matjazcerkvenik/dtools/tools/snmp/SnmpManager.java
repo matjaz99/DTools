@@ -28,7 +28,7 @@ import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapReceiver;
 
 @XmlRootElement
-public class SnmpManager implements ISnmpManager {
+public class SnmpManager {
 	
 	private List<TrapReceiver> trapReceiversList;
 	
@@ -49,24 +49,6 @@ public class SnmpManager implements ISnmpManager {
 		trapReceiversList.remove(receiver);
 	}
 	
-
-	@Override
-	public void processTrap() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void sendGet() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void sendSet() {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	
 	public void createDefaultTrapReceiver() {

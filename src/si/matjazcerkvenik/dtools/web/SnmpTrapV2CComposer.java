@@ -34,7 +34,7 @@ import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpSimulator;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrap;
-import si.matjazcerkvenik.dtools.tools.snmp.SnmpTraps;
+import si.matjazcerkvenik.dtools.tools.snmp.TrapsTable;
 import si.matjazcerkvenik.dtools.xml.DAO;
 import si.matjazcerkvenik.dtools.xml.VarBind;
 
@@ -51,7 +51,7 @@ public class SnmpTrapV2CComposer implements Serializable {
 	private boolean modifyMode = false;
 	
 	private SnmpAgent agent;
-	private SnmpTraps trapsList;
+	private TrapsTable trapsList;
 	private SnmpTrap originalTrap;
 	
 	@PostConstruct
@@ -76,7 +76,7 @@ public class SnmpTrapV2CComposer implements Serializable {
 		// find trapList
 		if (requestParameterMap.containsKey("trapList")) {
 			String name = requestParameterMap.get("trapList");
-			for (SnmpTraps a : agent.getSnmpTraps()) {
+			for (TrapsTable a : agent.getTrapsTableList()) {
 				if (a.getName().equals(name)) {
 					trapsList = a;
 					break;
@@ -88,7 +88,7 @@ public class SnmpTrapV2CComposer implements Serializable {
 		SnmpTrap trap = null;
 		if (requestParameterMap.containsKey("trapName")) {
 			String name = requestParameterMap.get("trapName");
-			for (SnmpTrap a : trapsList.getTraps()) {
+			for (SnmpTrap a : trapsList.getTrapsList()) {
 				if (a.getTrapName().equals(name)) {
 					trap = a;
 					break;
@@ -179,7 +179,7 @@ public class SnmpTrapV2CComposer implements Serializable {
 		resetTrap();
 		modifyMode = false;
 		
-		return "snmpAgentTrapsList";
+		return "snmpTrapsTable";
 	}
 	
 	/**
@@ -188,7 +188,7 @@ public class SnmpTrapV2CComposer implements Serializable {
 	 * @return trap
 	 */
 	private SnmpTrap findTrap(String trapName) {
-		List<SnmpTrap> list = DAO.getInstance().loadSnmpTraps().getTraps();
+		List<SnmpTrap> list = DAO.getInstance().loadSnmpTraps().getTrapsList();
 		for (SnmpTrap trap : list) {
 			if (trap.getTrapName().equals(trapName)) {
 				return trap;

@@ -23,6 +23,12 @@ import java.util.List;
 
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 
+/**
+ * This class contains a list of all agents.
+ * 
+ * @author matjaz
+ *
+ */
 public class SnmpSimulator {
 	
 	private List<SnmpAgent> snmpAgentsList;

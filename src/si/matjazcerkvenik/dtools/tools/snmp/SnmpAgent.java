@@ -32,15 +32,16 @@ import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapSender;
 import si.matjazcerkvenik.dtools.xml.DAO;
 
 @XmlRootElement
-public class SnmpAgent implements Serializable, ISnmpAgent {
+public class SnmpAgent implements Serializable {
 	
 	private static final long serialVersionUID = -2488608414261579629L;
 	
-	private String directoryName;
+	private String directoryPath;
 	
 	private String name;
 	private String localIp;
 	private int localPort = 6161;
+	private String description;
 	
 	private TrapSender trapSender;
 	
@@ -48,7 +49,7 @@ public class SnmpAgent implements Serializable, ISnmpAgent {
 	private boolean active = false;
 	
 	private List<TrapDestination> trapDestinationsList;
-	private List<SnmpTraps> snmpTrapsList;
+	private List<TrapsTable> trapsTableList;
 	private List<SnmpTable> snmpTablesList;
 	
 	public SnmpAgent() {
@@ -60,13 +61,13 @@ public class SnmpAgent implements Serializable, ISnmpAgent {
 		this.localPort = port;
 	}
 	
-	public String getDirectoryName() {
-		return directoryName;
+	public String getDirectoryPath() {
+		return directoryPath;
 	}
 
 	@XmlTransient
-	public void setDirectoryName(String directoryName) {
-		this.directoryName = directoryName;
+	public void setDirectoryPath(String directoryPath) {
+		this.directoryPath = directoryPath;
 	}
 
 	public String getName() {
@@ -76,6 +77,33 @@ public class SnmpAgent implements Serializable, ISnmpAgent {
 	@XmlAttribute
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getLocalIp() {
+		return localIp;
+	}
+
+	@XmlElement
+	public void setLocalIp(String localIp) {
+		this.localIp = localIp;
+	}
+
+	public int getLocalPort() {
+		return localPort;
+	}
+
+	@XmlElement
+	public void setLocalPort(int localPort) {
+		this.localPort = localPort;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+
+	@XmlElement
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public TrapSender getTrapSender() {
@@ -87,25 +115,6 @@ public class SnmpAgent implements Serializable, ISnmpAgent {
 		this.trapSender = trapSender;
 	}
 	
-	public String getLocalIp() {
-		return localIp;
-	}
-
-	@XmlAttribute
-	public void setLocalIp(String localIp) {
-		this.localIp = localIp;
-	}
-
-	public int getLocalPort() {
-		return localPort;
-	}
-
-	@XmlAttribute
-	public void setLocalPort(int localPort) {
-		this.localPort = localPort;
-	}
-	
-	
 	public List<TrapDestination> getTrapDestinationsList() {
 		return trapDestinationsList;
 	}
@@ -115,14 +124,15 @@ public class SnmpAgent implements Serializable, ISnmpAgent {
 		this.trapDestinationsList = trapDestinationsList;
 	}
 
-	public List<SnmpTraps> getSnmpTraps() {
-		return snmpTrapsList;
+	public List<TrapsTable> getTrapsTableList() {
+		return trapsTableList;
 	}
 
 	@XmlTransient
-	public void setSnmpTraps(List<SnmpTraps> snmpTraps) {
-		this.snmpTrapsList = snmpTraps;
+	public void setTrapsTableList(List<TrapsTable> list) {
+		this.trapsTableList = list;
 	}
+	
 
 	public List<SnmpTable> getSnmpTablesList() {
 		return snmpTablesList;
@@ -155,19 +165,12 @@ public class SnmpAgent implements Serializable, ISnmpAgent {
 	public void setSenderThread(SenderThread senderThread) {
 		this.senderThread = senderThread;
 	}
-
-	@Override
-	public void sendTrap() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void sendResponse() {
-		// TODO Auto-generated method stub
-		
-	}
 	
+	
+	/**
+	 * Start agent on localIp and local Port.
+	 * @return true if successfully started
+	 */
 	public boolean start() {
 		if (trapSender == null) {
 			trapSender = new TrapSender(localIp, localPort);
@@ -176,6 +179,10 @@ public class SnmpAgent implements Serializable, ISnmpAgent {
 		return active;
 	}
 	
+	
+	/**
+	 * Stop agent
+	 */
 	public void stop() {
 		if (trapSender != null) {
 			trapSender.stop();

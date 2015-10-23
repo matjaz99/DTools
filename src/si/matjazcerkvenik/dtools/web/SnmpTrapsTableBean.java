@@ -13,17 +13,17 @@ import javax.faces.event.ValueChangeEvent;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpSimulator;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrap;
-import si.matjazcerkvenik.dtools.tools.snmp.SnmpTraps;
+import si.matjazcerkvenik.dtools.tools.snmp.TrapsTable;
 import si.matjazcerkvenik.dtools.xml.DAO;
 
 @ManagedBean
 @ViewScoped
-public class SnmpAgentTrapListBean implements Serializable {
+public class SnmpTrapsTableBean implements Serializable {
 	
 	private static final long serialVersionUID = 1643857542322934484L;
 	
 	private SnmpAgent agent;
-	private SnmpTraps traps;
+	private TrapsTable trapsTable;
 	
 	private String destinationIp;
 	private int destinationPort;
@@ -45,9 +45,9 @@ public class SnmpAgentTrapListBean implements Serializable {
 		}
 		if (requestParameterMap.containsKey("name")) {
 			String name = requestParameterMap.get("name");
-			for (SnmpTraps a : agent.getSnmpTraps()) {
-				if (a.getName().equals(name)) {
-					traps = a;
+			for (TrapsTable t : agent.getTrapsTableList()) {
+				if (t.getName().equals(name)) {
+					trapsTable = t;
 					break;
 				}
 			}
@@ -63,12 +63,12 @@ public class SnmpAgentTrapListBean implements Serializable {
 		this.agent = agent;
 	}
 
-	public SnmpTraps getTraps() {
-		return traps;
+	public TrapsTable getTrapsTable() {
+		return trapsTable;
 	}
 
-	public void setTraps(SnmpTraps traps) {
-		this.traps = traps;
+	public void setTrapsTable(TrapsTable table) {
+		this.trapsTable = table;
 	}
 
 	public String getDestinationIp() {

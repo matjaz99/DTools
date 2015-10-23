@@ -41,7 +41,7 @@ import si.matjazcerkvenik.dtools.tools.snmp.SnmpManager;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpSimulator;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTable;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrap;
-import si.matjazcerkvenik.dtools.tools.snmp.SnmpTraps;
+import si.matjazcerkvenik.dtools.tools.snmp.TrapsTable;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapReceiver;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
@@ -58,7 +58,7 @@ public class DAO {
 	private SnmpManager snmpManager;
 	private SnmpClients snmpClients;
 	private SnmpSimulator snmpSimulator;
-	private SnmpTraps snmpTraps;
+	private TrapsTable snmpTraps;
 	private Notes notes;
 	private Todos todos;
 	
@@ -794,12 +794,12 @@ public class DAO {
 			SnmpAgent agent = loadAgentMetadata(agentXmlFile);
 			
 			File trapsDir = new File(simFiles[i].getAbsolutePath() + "/traps");
-			List<SnmpTraps> snmpTraps = loadSnmpTrapsFromDir(trapsDir);
+			List<TrapsTable> snmpTraps = loadSnmpTrapsFromDir(trapsDir);
 			
 			File tablesDir = new File(simFiles[i].getAbsolutePath() + "/tables");
 			List<SnmpTable> snmpTablesList = loadSnmpTablesFromDir(tablesDir);
 			
-			agent.setSnmpTraps(snmpTraps);
+			agent.setTrapsTableList(snmpTraps);
 			agent.setSnmpTablesList(snmpTablesList);
 			
 			snmpSimulator.addSnmpAgent(agent);
@@ -824,7 +824,7 @@ public class DAO {
 			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpAgent.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			snmpAgent = (SnmpAgent) jaxbUnmarshaller.unmarshal(file);
-			snmpAgent.setDirectoryName(file.getParentFile().getAbsolutePath());
+			snmpAgent.setDirectoryPath(file.getParentFile().getAbsolutePath());
 
 			logger.info("DAO:loadAgentMetaFile(): " + file.getAbsolutePath());
 
@@ -845,7 +845,7 @@ public class DAO {
 		
 		try {
 			
-			File file = new File(agent.getDirectoryName() + "/agent.xml");
+			File file = new File(agent.getDirectoryPath() + "/agent.xml");
 			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpAgent.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -860,9 +860,9 @@ public class DAO {
 	
 	
 	
-	public List<SnmpTraps> loadSnmpTrapsFromDir(File trapsDir) {
+	public List<TrapsTable> loadSnmpTrapsFromDir(File trapsDir) {
 
-		List<SnmpTraps> snmpTrapsList = new ArrayList<SnmpTraps>();
+		List<TrapsTable> snmpTrapsList = new ArrayList<TrapsTable>();
 		
 		File[] trapsXml = trapsDir.listFiles(new FileFilter() {
 			
@@ -880,11 +880,11 @@ public class DAO {
 			
 			try {
 				
-				JAXBContext jaxbContext = JAXBContext.newInstance(SnmpTraps.class);
+				JAXBContext jaxbContext = JAXBContext.newInstance(TrapsTable.class);
 				Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-				SnmpTraps snmpTraps = (SnmpTraps) jaxbUnmarshaller.unmarshal(trapsXml[i]);
-				if (snmpTraps.getTraps() == null) {
-					snmpTraps.setTraps(new ArrayList<SnmpTrap>());
+				TrapsTable snmpTraps = (TrapsTable) jaxbUnmarshaller.unmarshal(trapsXml[i]);
+				if (snmpTraps.getTrapsList() == null) {
+					snmpTraps.setTrapsList(new ArrayList<SnmpTrap>());
 				}
 				snmpTraps.setFilePath(trapsXml[i].getAbsolutePath());
 				
@@ -902,12 +902,12 @@ public class DAO {
 
 	}
 	
-	public void saveSnmpTraps(SnmpTraps snmpTraps) {
+	public void saveSnmpTraps(TrapsTable snmpTraps) {
 		
 		try {
 			
 			File file = new File(snmpTraps.getFilePath());
-			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpTraps.class);
+			JAXBContext jaxbContext = JAXBContext.newInstance(TrapsTable.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(snmpTraps, file);
@@ -983,16 +983,16 @@ public class DAO {
 
 	public void addSnmpAgent(SnmpAgent a) {
 		
-		a.setDirectoryName(DToolsContext.HOME_DIR + DIR_SNMP_SIMULATOR + "/" + a.getName() + "-" + System.currentTimeMillis());
+		a.setDirectoryPath(DToolsContext.HOME_DIR + DIR_SNMP_SIMULATOR + "/" + a.getName() + "-" + System.currentTimeMillis());
 		
-		File agentDir = new File(a.getDirectoryName());
+		File agentDir = new File(a.getDirectoryPath());
 		agentDir.mkdirs();
 		saveAgentMetadata(a);
 		
-		File trapsDir = new File(a.getDirectoryName() + "/traps");
+		File trapsDir = new File(a.getDirectoryPath() + "/traps");
 		trapsDir.mkdirs();
 		
-		File tablesDir = new File(a.getDirectoryName() + "/tables");
+		File tablesDir = new File(a.getDirectoryPath() + "/tables");
 		tablesDir.mkdirs();
 		
 		snmpSimulator.addSnmpAgent(a);
@@ -1005,7 +1005,7 @@ public class DAO {
 	 */
 	public void deleteSnmpAgent(SnmpAgent a) {
 		
-		File dir = new File(a.getDirectoryName());
+		File dir = new File(a.getDirectoryPath());
 		delete(dir);
 		
 		snmpSimulator.removeSnmpAgent(a);
@@ -1061,7 +1061,7 @@ public class DAO {
 	/* SNMP TRAPS */
 	
 	@Deprecated
-	public SnmpTraps loadSnmpTraps() {
+	public TrapsTable loadSnmpTraps() {
 		
 		if (snmpTraps != null) {
 			return snmpTraps;
@@ -1071,17 +1071,17 @@ public class DAO {
 
 			File file = new File(DToolsContext.HOME_DIR + XML_SNMP_TRAPS);
 			if (!file.exists()) {
-				snmpTraps = new SnmpTraps();
-				JAXBContext jaxbContext = JAXBContext.newInstance(SnmpTraps.class);
+				snmpTraps = new TrapsTable();
+				JAXBContext jaxbContext = JAXBContext.newInstance(TrapsTable.class);
 				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 				jaxbMarshaller.marshal(snmpTraps, file);
 			}
-			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpTraps.class);
+			JAXBContext jaxbContext = JAXBContext.newInstance(TrapsTable.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			snmpTraps = (SnmpTraps) jaxbUnmarshaller.unmarshal(file);
-			if (snmpTraps.getTraps() == null) {
-				snmpTraps.setTraps(new ArrayList<SnmpTrap>());
+			snmpTraps = (TrapsTable) jaxbUnmarshaller.unmarshal(file);
+			if (snmpTraps.getTrapsList() == null) {
+				snmpTraps.setTrapsList(new ArrayList<SnmpTrap>());
 			}
 			
 			logger.info("DAO:loadSnmpTraps(): " + file.getAbsolutePath());
@@ -1100,7 +1100,7 @@ public class DAO {
 		try {
 
 			File file = new File(DToolsContext.HOME_DIR + XML_SNMP_TRAPS);
-			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpTraps.class);
+			JAXBContext jaxbContext = JAXBContext.newInstance(TrapsTable.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(snmpTraps, file);

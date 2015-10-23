@@ -26,12 +26,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement
-public class SnmpTraps {
+public class TrapsTable {
 	
 	private String name;
-	private List<SnmpTrap> traps;
+	private List<SnmpTrap> trapsList;
 	
 	private String filePath;
+	
 
 	public String getName() {
 		return name;
@@ -42,21 +43,21 @@ public class SnmpTraps {
 		this.name = name;
 	}
 
-	public List<SnmpTrap> getTraps() {
-		return traps;
+	public List<SnmpTrap> getTrapsList() {
+		return trapsList;
 	}
 
 	@XmlElement(name = "trap")
-	public void setTraps(List<SnmpTrap> traps) {
-		this.traps = traps;
+	public void setTrapsList(List<SnmpTrap> list) {
+		this.trapsList = list;
 	}
 	
 	public void addTrap(SnmpTrap t) {
-		traps.add(t);
+		trapsList.add(t);
 	}
 	
 	public void deleteTrap(SnmpTrap t) {
-		traps.remove(t);
+		trapsList.remove(t);
 	}
 
 	public String getFilePath() {

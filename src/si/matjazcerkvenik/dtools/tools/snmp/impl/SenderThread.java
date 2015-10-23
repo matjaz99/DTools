@@ -43,7 +43,7 @@ public class SenderThread extends Thread {
 	public void run() {
 		
 //		List<SnmpTrap> traps = DAO.getInstance().loadSnmpTraps().getTraps();
-		List<SnmpTrap> traps = agent.getSnmpTraps().get(0).getTraps(); // FIXME
+		List<SnmpTrap> traps = agent.getTrapsTableList().get(0).getTrapsList(); // FIXME
 		int index = 0;
 		
 		while (isRunning) {
