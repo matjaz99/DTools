@@ -31,8 +31,11 @@ import javax.faces.context.FacesContext;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpSimulator;
 import si.matjazcerkvenik.dtools.xml.DAO;
 import si.matjazcerkvenik.dtools.xml.SnmpTrap;
+import si.matjazcerkvenik.dtools.xml.SnmpTraps;
 import si.matjazcerkvenik.dtools.xml.VarBind;
 
 @ManagedBean
@@ -47,12 +50,52 @@ public class SnmpTrapV2CComposer implements Serializable {
 	private List<VarBind> varbinds;
 	private boolean modifyMode = false;
 	
+	private SnmpAgent agent;
+	private SnmpTraps trapsList;
 	private SnmpTrap originalTrap;
 	
 	@PostConstruct
 	public void init() {
-		Map<String, Object> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-		SnmpTrap trap = (SnmpTrap) requestParameterMap.get("trap");
+//		Map<String, Object> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+//		SnmpTrap trap = (SnmpTrap) requestParameterMap.get("trap");
+		
+		Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		
+		// find agent
+		if (requestParameterMap.containsKey("agent")) {
+			String name = requestParameterMap.get("agent");
+			SnmpSimulator sim = DAO.getInstance().loadSnmpSimulator();
+			for (SnmpAgent a : sim.getSnmpAgentsList()) {
+				if (a.getName().equals(name)) {
+					agent = a;
+					break;
+				}
+			}
+		}
+		
+		// find trapList
+		if (requestParameterMap.containsKey("trapList")) {
+			String name = requestParameterMap.get("trapList");
+			for (SnmpTraps a : agent.getSnmpTraps()) {
+				if (a.getName().equals(name)) {
+					trapsList = a;
+					break;
+				}
+			}
+		}
+		
+		// find trap
+		SnmpTrap trap = null;
+		if (requestParameterMap.containsKey("trapName")) {
+			String name = requestParameterMap.get("trapName");
+			for (SnmpTrap a : trapsList.getTraps()) {
+				if (a.getTrapName().equals(name)) {
+					trap = a;
+					break;
+				}
+			}
+		}
+		
 		if (trap != null) {
 			modifyMode = true;
 			originalTrap = trap;

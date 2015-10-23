@@ -64,10 +64,10 @@ public class NavigationBean {
 		return "snmpTrapMonitor";
 	}
 	
-	public String openSnmpAgent(SnmpAgent agent) {
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("agent", agent);
-		return "snmpAgent";
-	}
+//	public String openSnmpAgent(SnmpAgent agent) {
+//		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("agent", agent);
+//		return "snmpAgent";
+//	}
 	
 	public String openSnmpTrap(SnmpTrap trap) {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("trap", trap);

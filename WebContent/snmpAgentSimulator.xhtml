@@ -49,9 +49,7 @@
 							            <p:ajax update="growl actBtn" listener="#{snmpSimulatorBean.toggleSnmpAgent(agent)}" />
 							        </p:inputSwitch>
 								</h:panelGrid>
-								<h:panelGrid columns="2" cellpadding="2">
-									<p:commandButton id="viewBtn" value="Open" 
-										action="#{navigationBean.openSnmpAgent(agent)}" />
+								<h:panelGrid columns="1" cellpadding="2">
 							        <p:commandButton id="delBtn" value="Delete" 
 										action="#{snmpSimulatorBean.deleteSnmpAgent(agent)}" 
 										update="growl simForm" ajax="true" />
@@ -62,7 +60,11 @@
 								<h:dataTable id="trapsTable" value="#{agent.snmpTraps}" var="scenario" 
 									cellpadding="0" cellspacing="0" width="100%">
 									<h:column>
-										<h:outputText value="#{scenario.name}" />
+										<h:outputLink value="#{scenario.name}" />
+										<p:link outcome="snmpAgentTrapsList" value="#{scenario.name}">
+										    <f:param name="agent" value="#{agent.name}" />
+										    <f:param name="name" value="#{scenario.name}" />
+										</p:link>
 									</h:column>
 								</h:dataTable>
 							</h:panelGrid>

@@ -22,9 +22,9 @@ Commons-logging is required by commons-vfs
 -----------------------------------------------------------
 0.4.0-alpha.02
 
-xx. october 2015
+23. october 2015
 
-- 
+- show trap lists per agent
 
 -----------------------------------------------------------
 
