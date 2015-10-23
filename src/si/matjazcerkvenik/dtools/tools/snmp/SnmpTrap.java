@@ -16,12 +16,14 @@
  * 
  */
 
-package si.matjazcerkvenik.dtools.xml;
+package si.matjazcerkvenik.dtools.tools.snmp;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
+
+import si.matjazcerkvenik.dtools.xml.VarBind;
 
 public class SnmpTrap implements Cloneable {
 	
@@ -47,7 +49,7 @@ public class SnmpTrap implements Cloneable {
 	private String sysUpTime;
 	
 
-	public String getTrapName() {
+	public String getTrapName() { // TODO rename to 'name'
 		return trapName;
 	}
 

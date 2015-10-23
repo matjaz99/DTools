@@ -34,7 +34,7 @@ import org.snmp4j.smi.UdpAddress;
 import org.snmp4j.transport.DefaultUdpTransportMapping;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
-import si.matjazcerkvenik.dtools.xml.SnmpTrap;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrap;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 public class TrapSender {
@@ -103,16 +103,16 @@ public class TrapSender {
 	
 	/**
 	 * Create PDU and send the SNMP trap to manager at selected ip (hostname) and port.
-	 * @param ip
-	 * @param port
+	 * @param destIp
+	 * @param destPort
 	 * @param trap
 	 */
-	public void sendTrap(String ip, int port, SnmpTrap trap) {
+	public void sendTrap(String destIp, int destPort, SnmpTrap trap) {
 		
 		// Create Target
 		CommunityTarget target = new CommunityTarget();
 		target.setCommunity(new OctetString(trap.getCommunity()));
-		target.setAddress(new UdpAddress(ip + "/" + port));
+		target.setAddress(new UdpAddress(destIp + "/" + destPort));
 		target.setRetries(2);
 		target.setTimeout(5000);
 		

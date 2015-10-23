@@ -30,7 +30,6 @@ import javax.xml.bind.annotation.XmlTransient;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.SenderThread;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapSender;
 import si.matjazcerkvenik.dtools.xml.DAO;
-import si.matjazcerkvenik.dtools.xml.SnmpTraps;
 
 @XmlRootElement
 public class SnmpAgent implements Serializable, ISnmpAgent {

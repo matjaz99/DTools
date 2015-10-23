@@ -25,8 +25,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpClient;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.SimpleSnmpClient;
-import si.matjazcerkvenik.dtools.xml.SnmpClient;
 
 @ManagedBean
 @ViewScoped

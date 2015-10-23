@@ -33,9 +33,9 @@ import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpSimulator;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrap;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpTraps;
 import si.matjazcerkvenik.dtools.xml.DAO;
-import si.matjazcerkvenik.dtools.xml.SnmpTrap;
-import si.matjazcerkvenik.dtools.xml.SnmpTraps;
 import si.matjazcerkvenik.dtools.xml.VarBind;
 
 @ManagedBean
@@ -165,7 +165,7 @@ public class SnmpTrapV2CComposer implements Serializable {
 				Growl.addGrowlMessage("Trap " + trapName + " saved", FacesMessage.SEVERITY_INFO);
 			} else {
 				trap = populateTrap(trap);
-				DAO.getInstance().saveSnmpTraps();
+				DAO.getInstance().saveSnmpTraps(trapsList);
 				Growl.addGrowlMessage("Trap " + trapName + " modified", FacesMessage.SEVERITY_INFO);
 			}
 		} else {
@@ -179,7 +179,7 @@ public class SnmpTrapV2CComposer implements Serializable {
 		resetTrap();
 		modifyMode = false;
 		
-		return "snmpAgent";
+		return "snmpAgentTrapsList";
 	}
 	
 	/**

@@ -91,16 +91,22 @@
 									update="oidsTable" ajax="true" />
 						</p:column>
 		            </p:dataTable>
-		            <p:commandButton value="Add OID" 
-						action="#{snmpTrapV1Composer.addNewOid()}" 
-						update="oidsTable" ajax="true" />
-					<p:commandButton value="Save trap" 
-						action="#{snmpTrapV1Composer.saveTrap()}"
-						update="growl mainForm" ajax="true" />
-					<p:commandButton value="Reset trap" 
-						action="#{snmpTrapV1Composer.resetTrap()}" 
-						update="mainForm" ajax="true" />
-					<p:button value="Cancel" outcome="snmpAgent" />
+		            <h:panelGrid columns="4" cellpadding="3" cellspacing="3">
+		            	<p:commandButton value="Add OID" 
+							action="#{snmpTrapV1Composer.addNewOid()}" 
+							update="oidsTable" ajax="true" />
+						<p:commandButton value="Save trap" 
+							action="#{snmpTrapV1Composer.saveTrap()}"
+							update="growl mainForm" ajax="true" >
+							<f:param name="agent" value="#{snmpAgentTrapListBean.agent.name}" />
+							<f:param name="trapList" value="#{snmpAgentTrapListBean.traps.name}" />
+							<f:param name="trapName" value="#{trap.trapName}" />
+						</p:commandButton>
+						<p:commandButton value="Reset trap" 
+							action="#{snmpTrapV1Composer.resetTrap()}" 
+							update="mainForm" ajax="true" />
+						<p:button value="Cancel" outcome="snmpAgentTrapsList" />
+		            </h:panelGrid>
 
         	</h:form>
         

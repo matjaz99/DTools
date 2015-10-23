@@ -28,12 +28,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpClient;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpClients;
 import si.matjazcerkvenik.dtools.xml.DAO;
 import si.matjazcerkvenik.dtools.xml.FtpClient;
 import si.matjazcerkvenik.dtools.xml.FtpClients;
 import si.matjazcerkvenik.dtools.xml.Server;
-import si.matjazcerkvenik.dtools.xml.SnmpClient;
-import si.matjazcerkvenik.dtools.xml.SnmpClients;
 import si.matjazcerkvenik.dtools.xml.SshClient;
 import si.matjazcerkvenik.dtools.xml.SshClients;
 

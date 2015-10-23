@@ -31,11 +31,11 @@ import javax.faces.event.ValueChangeEvent;
 
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrap;
 import si.matjazcerkvenik.dtools.xml.DAO;
-import si.matjazcerkvenik.dtools.xml.SnmpTrap;
 
-@ManagedBean
-@ViewScoped
+//@ManagedBean
+//@ViewScoped
 public class SnmpAgentBean implements Serializable {
 	
 	private static final long serialVersionUID = -4256173518035867174L;
@@ -141,10 +141,10 @@ public class SnmpAgentBean implements Serializable {
 		DAO.getInstance().saveAgentMetadata(agent);
 	}
 
-	public List<SnmpTrap> getSnmpTrapsList() {
+//	public List<SnmpTrap> getSnmpTrapsList() {
 //		return DAO.getInstance().loadSnmpTraps().getTraps();
-		return agent.getSnmpTraps().getTraps();
-	}
+//		return agent.getSnmpTraps().getTraps();
+//	}
 	
 	
 	/**

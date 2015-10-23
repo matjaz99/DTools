@@ -35,9 +35,13 @@ import javax.xml.bind.Unmarshaller;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpClient;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpClients;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpManager;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpSimulator;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTable;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrap;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpTraps;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapReceiver;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
@@ -831,6 +835,10 @@ public class DAO {
 		return snmpAgent;
 	}
 	
+	/**
+	 * Save agent.xml file.
+	 * @param agent
+	 */
 	public void saveAgentMetadata(SnmpAgent agent) {
 		
 		// TODO change also directory name
@@ -878,6 +886,7 @@ public class DAO {
 				if (snmpTraps.getTraps() == null) {
 					snmpTraps.setTraps(new ArrayList<SnmpTrap>());
 				}
+				snmpTraps.setFilePath(trapsXml[i].getAbsolutePath());
 				
 				snmpTrapsList.add(snmpTraps);
 				
@@ -892,6 +901,25 @@ public class DAO {
 		return snmpTrapsList;
 
 	}
+	
+	public void saveSnmpTraps(SnmpTraps snmpTraps) {
+		
+		try {
+			
+			File file = new File(snmpTraps.getFilePath());
+			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpTraps.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.marshal(snmpTraps, file);
+			
+			logger.info("DAO:saveSnmpTraps(): " + file.getAbsolutePath());
+
+		} catch (JAXBException e) {
+			logger.error("DAO:saveSnmpTraps(): JAXBException: ", e);
+		}
+		
+	}
+	
 	
 	public List<SnmpTable> loadSnmpTablesFromDir(File trapsDir) {
 
@@ -971,6 +999,10 @@ public class DAO {
 
 	}
 
+	/**
+	 * Delete agent and remove directory
+	 * @param a
+	 */
 	public void deleteSnmpAgent(SnmpAgent a) {
 		
 		File dir = new File(a.getDirectoryName());
@@ -1062,7 +1094,8 @@ public class DAO {
 
 	}
 
-	public void saveSnmpTraps() {
+	@Deprecated
+	public void saveSnmpTraps2() {
 
 		try {
 
@@ -1083,14 +1116,14 @@ public class DAO {
 	public void addSnmpTrap(SnmpTrap t) {
 
 		snmpTraps.addTrap(t);
-		saveSnmpTraps();
+//		saveSnmpTraps();
 
 	}
 
 	public void deleteSnmpTrap(SnmpTrap t) {
 
 		snmpTraps.deleteTrap(t);
-		saveSnmpTraps();
+//		saveSnmpTraps();
 
 	}
 	

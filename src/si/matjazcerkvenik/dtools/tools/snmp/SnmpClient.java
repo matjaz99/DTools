@@ -16,7 +16,7 @@
  * 
  */
 
-package si.matjazcerkvenik.dtools.xml;
+package si.matjazcerkvenik.dtools.tools.snmp;
 
 import javax.xml.bind.annotation.XmlElement;
 

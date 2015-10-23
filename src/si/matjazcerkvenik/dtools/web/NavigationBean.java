@@ -23,11 +23,11 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpClient;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrap;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapReceiver;
 import si.matjazcerkvenik.dtools.xml.FtpClient;
 import si.matjazcerkvenik.dtools.xml.Server;
-import si.matjazcerkvenik.dtools.xml.SnmpClient;
-import si.matjazcerkvenik.dtools.xml.SnmpTrap;
 import si.matjazcerkvenik.dtools.xml.SshClient;
 
 @ManagedBean

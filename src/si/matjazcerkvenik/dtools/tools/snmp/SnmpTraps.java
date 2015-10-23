@@ -16,48 +16,56 @@
  * 
  */
 
-package si.matjazcerkvenik.dtools.xml;
+package si.matjazcerkvenik.dtools.tools.snmp;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement
-public class SnmpClients {
+public class SnmpTraps {
 	
-	private List<SnmpClient> snmpClientsList;
+	private String name;
+	private List<SnmpTrap> traps;
+	
+	private String filePath;
 
-	public List<SnmpClient> getSnmpClientsList() {
-		return snmpClientsList;
+	public String getName() {
+		return name;
 	}
 
-	@XmlElement(name="client")
-	public void setSnmpClientsList(List<SnmpClient> clientsList) {
-		this.snmpClientsList = clientsList;
+	@XmlAttribute(name = "name")
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public List<SnmpTrap> getTraps() {
+		return traps;
+	}
+
+	@XmlElement(name = "trap")
+	public void setTraps(List<SnmpTrap> traps) {
+		this.traps = traps;
 	}
 	
-	public void addSnmpClient(SnmpClient c) {
-		snmpClientsList.add(c);
+	public void addTrap(SnmpTrap t) {
+		traps.add(t);
 	}
 	
-	public void deleteSnmpClient(SnmpClient c) {
-		snmpClientsList.remove(c);
+	public void deleteTrap(SnmpTrap t) {
+		traps.remove(t);
 	}
-	
-	public List<SnmpClient> getCustomSnmpClientsList(String hostname) {
-		
-		List<SnmpClient> list = new ArrayList<SnmpClient>();
-		
-		for (int i = 0; i < getSnmpClientsList().size(); i++) {
-			if (getSnmpClientsList().get(i).getHostname().equals(hostname)) {
-				list.add(getSnmpClientsList().get(i));
-			}
-		}
-		
-		return list;
-		
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	@XmlTransient
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 	
 }

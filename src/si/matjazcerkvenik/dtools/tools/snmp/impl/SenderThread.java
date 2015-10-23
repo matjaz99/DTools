@@ -21,7 +21,7 @@ package si.matjazcerkvenik.dtools.tools.snmp.impl;
 import java.util.List;
 
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
-import si.matjazcerkvenik.dtools.xml.SnmpTrap;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrap;
 
 public class SenderThread extends Thread {
 	
@@ -43,7 +43,7 @@ public class SenderThread extends Thread {
 	public void run() {
 		
 //		List<SnmpTrap> traps = DAO.getInstance().loadSnmpTraps().getTraps();
-		List<SnmpTrap> traps = agent.getSnmpTraps().getTraps();
+		List<SnmpTrap> traps = agent.getSnmpTraps().get(0).getTraps(); // FIXME
 		int index = 0;
 		
 		while (isRunning) {

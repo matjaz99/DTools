@@ -12,9 +12,9 @@ import javax.faces.event.ValueChangeEvent;
 
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpSimulator;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrap;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpTraps;
 import si.matjazcerkvenik.dtools.xml.DAO;
-import si.matjazcerkvenik.dtools.xml.SnmpTrap;
-import si.matjazcerkvenik.dtools.xml.SnmpTraps;
 
 @ManagedBean
 @ViewScoped
@@ -146,8 +146,8 @@ public class SnmpAgentTrapListBean implements Serializable {
 			Growl.addGrowlMessage("Agent is not running", FacesMessage.SEVERITY_WARN);
 			return;
 		}
-		agent.getTrapSender().sendTrap(destinationIp, destinationPort, trap);
-		Growl.addGrowlMessage("Trap sent to " + destinationIp + ":" + destinationPort, FacesMessage.SEVERITY_INFO);
+		agent.getTrapSender().sendTrap(getDestinationIp(), getDestinationPort(), trap);
+		Growl.addGrowlMessage("Trap sent to " + getDestinationIp() + ":" + getDestinationPort(), FacesMessage.SEVERITY_INFO);
 	}
 	
 	public String openTrap(SnmpTrap trap) {
@@ -158,7 +158,7 @@ public class SnmpAgentTrapListBean implements Serializable {
 	}
 	
 	public void deleteTrap(SnmpTrap trap) {
-		DAO.getInstance().deleteSnmpTrap(trap);
+//		DAO.getInstance().deleteSnmpTrap(agent, trap); TODO
 		Growl.addGrowlMessage("Trap deleted", FacesMessage.SEVERITY_INFO);
 	}
 	
