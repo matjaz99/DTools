@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<snmpTraps>
+<trapsTable name="Demo Table 1">
+    <trapDestination ip="192.168.1.101" port="162" sendInterval="5000"/>
+    <trapDestination ip="192.168.1.110" port="6172" sendInterval="5000"/>
     <trap>
         <community>public</community>
+        <genericTrap>0</genericTrap>
         <sourceIp>127.0.0.1</sourceIp>
+        <specificTrap>0</specificTrap>
         <trapName>LinkDown</trapName>
-        <varbind value="3938057900" type="TIMETICKS" oidName="sysUpTime" oid="1.3.6.1.2.1.1.3.0"/>
-        <varbind value="1.3.6.1.6.3.1.1.5.3" type="OCTET_STRING" oidName="snmpTrapOid" oid="1.3.6.1.6.3.1.1.4.1.0"/>
-        <varbind value="17" type="INTEGER" oidName="ifIndex" oid="1.3.6.1.2.1.2.2.1.1.17"/>
-        <varbind value="1" type="INTEGER" oidName="ifAdminStatus" oid="1.3.6.1.2.1.2.2.1.7.17"/>
-        <varbind value="2" type="INTEGER" oidName="ifOperStatus" oid="1.3.6.1.2.1.2.2.1.8.17"/>
+        <varbind oid="1.3.6.1.2.1.1.3.0" oidName="sysUpTime" type="TIMETICKS" value="3938057900"/>
+        <varbind oid="1.3.6.1.6.3.1.1.4.1.0" oidName="snmpTrapOid" type="OCTET_STRING" value="1.3.6.1.6.3.1.1.5.3"/>
+        <varbind oid="1.3.6.1.2.1.2.2.1.1.17" oidName="ifIndex" type="INTEGER" value="17"/>
+        <varbind oid="1.3.6.1.2.1.2.2.1.7.17" oidName="ifAdminStatus" type="INTEGER" value="1"/>
+        <varbind oid="1.3.6.1.2.1.2.2.1.8.17" oidName="ifOperStatus" type="INTEGER" value="2"/>
         <version>v2c</version>
     </trap>
     <trap>
         <community>public</community>
+        <genericTrap>0</genericTrap>
         <sourceIp>127.0.0.1</sourceIp>
+        <specificTrap>0</specificTrap>
         <trapName>LinkUp</trapName>
-        <varbind value="3938087500" type="TIMETICKS" oidName="sysUpTime" oid="1.3.6.1.2.1.1.3.0"/>
-        <varbind value="1.3.6.1.6.3.1.1.5.4" type="OCTET_STRING" oidName="snmpTrapOid" oid="1.3.6.1.6.3.1.1.4.1.0"/>
-        <varbind value="17" type="INTEGER" oidName="ifIndex" oid="1.3.6.1.2.1.2.2.1.1.17"/>
-        <varbind value="1" type="INTEGER" oidName="ifAdminStatus" oid="1.3.6.1.2.1.2.2.1.7.17"/>
-        <varbind value="1" type="INTEGER" oidName="ifOperStatus" oid="1.3.6.1.2.1.2.2.1.8.17"/>
+        <varbind oid="1.3.6.1.2.1.1.3.0" oidName="sysUpTime" type="TIMETICKS" value="3938087500"/>
+        <varbind oid="1.3.6.1.6.3.1.1.4.1.0" oidName="snmpTrapOid" type="OCTET_STRING" value="1.3.6.1.6.3.1.1.5.4"/>
+        <varbind oid="1.3.6.1.2.1.2.2.1.1.17" oidName="ifIndex" type="INTEGER" value="17"/>
+        <varbind oid="1.3.6.1.2.1.2.2.1.7.17" oidName="ifAdminStatus" type="INTEGER" value="1"/>
+        <varbind oid="1.3.6.1.2.1.2.2.1.8.17" oidName="ifOperStatus" type="INTEGER" value="1"/>
         <version>v2c</version>
     </trap>
-</snmpTraps>
+</trapsTable>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<snmpTable name="table01">
+<snmpTable name="Table01">
 	<metadata oid="1.2.3.4">
 		<column name="ifIndex" type="INTEGER" oid="1.2.3.4.1" access="ro" />
 		<column name="ifAdminStatus" type="INTEGER" oid="1.2.3.4.2" access="rw" />

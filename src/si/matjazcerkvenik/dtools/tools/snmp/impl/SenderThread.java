@@ -36,11 +36,12 @@ public class SenderThread extends Thread {
 	public SenderThread(SnmpAgent agent, TrapsTable table) {
 		this.agent = agent;
 		this.table = table;
+		this.setName("SenderThread_" + table.getName());
 	}
 
-	public void setSenderBean(TrapsTable agent) {
-		this.table = agent;
-	}
+//	public void setSenderBean(TrapsTable agent) {
+//		this.table = agent;
+//	}
 
 	@Override
 	public void run() {

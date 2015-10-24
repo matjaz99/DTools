@@ -51,7 +51,7 @@ public class SnmpTrapV2CComposer implements Serializable {
 	private boolean modifyMode = false;
 	
 	private SnmpAgent agent;
-	private TrapsTable trapsList;
+	private TrapsTable trapsTable;
 	private SnmpTrap originalTrap;
 	
 	@PostConstruct
@@ -78,7 +78,7 @@ public class SnmpTrapV2CComposer implements Serializable {
 			String name = requestParameterMap.get("trapsTableName");
 			for (TrapsTable a : agent.getTrapsTableList()) {
 				if (a.getName().equals(name)) {
-					trapsList = a;
+					trapsTable = a;
 					break;
 				}
 			}
@@ -88,7 +88,7 @@ public class SnmpTrapV2CComposer implements Serializable {
 		SnmpTrap trap = null;
 		if (requestParameterMap.containsKey("trapName")) {
 			String name = requestParameterMap.get("trapName");
-			for (SnmpTrap a : trapsList.getTrapsList()) {
+			for (SnmpTrap a : trapsTable.getTrapsList()) {
 				if (a.getTrapName().equals(name)) {
 					trap = a;
 					break;
@@ -129,6 +129,27 @@ public class SnmpTrapV2CComposer implements Serializable {
 	public void setSourceIp(String sourceIp) {
 		this.sourceIp = sourceIp;
 	}
+	
+	
+
+	public SnmpAgent getAgent() {
+		return agent;
+	}
+
+	public void setAgent(SnmpAgent agent) {
+		this.agent = agent;
+	}
+	
+	public TrapsTable getTrapsTable() {
+		return trapsTable;
+	}
+
+	public void setTrapsTable(TrapsTable trapsTable) {
+		this.trapsTable = trapsTable;
+	}
+	
+	
+	
 
 	public List<VarBind> getVarbinds() {
 		if (varbinds == null) {
@@ -161,18 +182,20 @@ public class SnmpTrapV2CComposer implements Serializable {
 				trap = originalTrap.makeClone(); // clone original trap with deep copy of varbinds
 				trap.setTrapName(trapName);
 				trap = populateTrap(trap);
-				DAO.getInstance().addSnmpTrap(trap);
+				trapsTable.addTrap(trap);
+				DAO.getInstance().saveSnmpTraps(trapsTable);
 				Growl.addGrowlMessage("Trap " + trapName + " saved", FacesMessage.SEVERITY_INFO);
 			} else {
 				trap = populateTrap(trap);
-				DAO.getInstance().saveSnmpTraps(trapsList);
+				DAO.getInstance().saveSnmpTraps(trapsTable);
 				Growl.addGrowlMessage("Trap " + trapName + " modified", FacesMessage.SEVERITY_INFO);
 			}
 		} else {
 			SnmpTrap trap = new SnmpTrap();
 			trap.setTrapName(trapName);
 			trap = populateTrap(trap);
-			DAO.getInstance().addSnmpTrap(trap);
+			trapsTable.addTrap(trap);
+			DAO.getInstance().saveSnmpTraps(trapsTable);
 			Growl.addGrowlMessage("Trap saved", FacesMessage.SEVERITY_INFO);
 		}
 		
@@ -188,7 +211,8 @@ public class SnmpTrapV2CComposer implements Serializable {
 	 * @return trap
 	 */
 	private SnmpTrap findTrap(String trapName) {
-		List<SnmpTrap> list = DAO.getInstance().loadSnmpTraps().getTrapsList();
+//		List<SnmpTrap> list = DAO.getInstance().loadSnmpTraps().getTrapsList();
+		List<SnmpTrap> list = trapsTable.getTrapsList();
 		for (SnmpTrap trap : list) {
 			if (trap.getTrapName().equals(trapName)) {
 				return trap;

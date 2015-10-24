@@ -48,6 +48,7 @@ public class SnmpTrapsTableBean implements Serializable {
 			for (TrapsTable t : agent.getTrapsTableList()) {
 				if (t.getName().equals(name)) {
 					trapsTable = t;
+					trapsTable.setAgent(agent);
 					break;
 				}
 			}
@@ -158,7 +159,9 @@ public class SnmpTrapsTableBean implements Serializable {
 	}
 	
 	public void deleteTrap(SnmpTrap trap) {
-//		DAO.getInstance().deleteSnmpTrap(agent, trap); TODO
+//		DAO.getInstance().deleteSnmpTrap(agent, trap);
+		trapsTable.deleteTrap(trap);
+		DAO.getInstance().saveSnmpTraps(trapsTable);
 		Growl.addGrowlMessage("Trap deleted", FacesMessage.SEVERITY_INFO);
 	}
 	

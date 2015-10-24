@@ -91,6 +91,14 @@ public class TrapsTable {
 		this.filePath = filePath;
 	}
 	
+	public SnmpAgent getAgent() {
+		return agent;
+	}
+
+	public void setAgent(SnmpAgent agent) {
+		this.agent = agent;
+	}
+
 	public SenderThread getSenderThread() {
 		return senderThread;
 	}

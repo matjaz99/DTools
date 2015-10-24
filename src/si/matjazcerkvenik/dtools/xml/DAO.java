@@ -1113,19 +1113,19 @@ public class DAO {
 
 	}
 
-	public void addSnmpTrap(SnmpTrap t) {
-
-		snmpTraps.addTrap(t);
+//	public void addSnmpTrap(SnmpTrap t) {
+//
+//		snmpTraps.addTrap(t);
 //		saveSnmpTraps();
+//
+//	}
 
-	}
-
-	public void deleteSnmpTrap(SnmpTrap t) {
-
-		snmpTraps.deleteTrap(t);
-//		saveSnmpTraps();
-
-	}
+//	public void deleteSnmpTrap(SnmpTrap t) {
+//
+//		snmpTraps.deleteTrap(t);
+////		saveSnmpTraps();
+//
+//	}
 	
 	
 	

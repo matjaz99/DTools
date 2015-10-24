@@ -27,7 +27,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import si.matjazcerkvenik.dtools.tools.snmp.impl.SenderThread;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapSender;
 import si.matjazcerkvenik.dtools.xml.DAO;
 
@@ -44,13 +43,11 @@ public class SnmpAgent implements Serializable {
 	private String description;
 	
 	private TrapSender trapSender;
-	
-	
 	private boolean active = false;
-	
 	
 	private List<TrapsTable> trapsTableList;
 	private List<SnmpTable> snmpTablesList;
+	
 	
 	public SnmpAgent() {
 	}
@@ -105,7 +102,12 @@ public class SnmpAgent implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
 
+	/**
+	 * Get sender of traps; only one sender per agent exists.
+	 * @return trapSender
+	 */
 	public TrapSender getTrapSender() {
 		return trapSender;
 	}

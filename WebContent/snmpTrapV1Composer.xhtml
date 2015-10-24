@@ -98,14 +98,16 @@
 						<p:commandButton value="Save trap" 
 							action="#{snmpTrapV1Composer.saveTrap()}"
 							update="growl mainForm" ajax="true" >
-							<f:param name="agent" value="#{snmpAgentTrapListBean.agent.name}" />
-							<f:param name="trapList" value="#{snmpAgentTrapListBean.traps.name}" />
-							<f:param name="trapName" value="#{trap.trapName}" />
+							<f:param name="agent" value="#{snmpTrapV1Composer.agent.name}" />
+							<f:param name="trapsTableName" value="#{snmpTrapV1Composer.trapsTable.name}" />
 						</p:commandButton>
 						<p:commandButton value="Reset trap" 
 							action="#{snmpTrapV1Composer.resetTrap()}" 
 							update="mainForm" ajax="true" />
-						<p:button value="Cancel" outcome="snmpAgentTrapsList" />
+						<p:button value="Cancel" outcome="snmpTrapsTable" >
+							<f:param name="agent" value="#{snmpTrapV1Composer.agent.name}" />
+							<f:param name="trapsTableName" value="#{snmpTrapV1Composer.trapsTable.name}" />
+						</p:button>
 		            </h:panelGrid>
 
         	</h:form>

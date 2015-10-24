@@ -20,11 +20,13 @@ For a developer it should help to simplify common tasks
 Commons-logging is required by commons-vfs
 
 -----------------------------------------------------------
-0.4.0-alpha.03
+0.4.0-beta.01
 
-xx. october 2015
+24. october 2015
 
-- 
+- fixed saving traps
+- fixed senderThread
+- the same functionality as in 0.3.0 should work (except that files are no more compatible)
 
 -----------------------------------------------------------
 

@@ -58,7 +58,7 @@ public class SnmpTrapV1Composer implements Serializable {
 	private boolean modifyMode = false;
 	
 	private SnmpAgent agent;
-	private TrapsTable trapsList;
+	private TrapsTable trapsTable;
 	private SnmpTrap originalTrap;
 	
 	@PostConstruct
@@ -85,7 +85,7 @@ public class SnmpTrapV1Composer implements Serializable {
 			String name = requestParameterMap.get("trapsTableName");
 			for (TrapsTable a : agent.getTrapsTableList()) {
 				if (a.getName().equals(name)) {
-					trapsList = a;
+					trapsTable = a;
 					break;
 				}
 			}
@@ -95,7 +95,7 @@ public class SnmpTrapV1Composer implements Serializable {
 		SnmpTrap trap = null;
 		if (requestParameterMap.containsKey("trapName")) {
 			String name = requestParameterMap.get("trapName");
-			for (SnmpTrap a : trapsList.getTrapsList()) {
+			for (SnmpTrap a : trapsTable.getTrapsList()) {
 				if (a.getTrapName().equals(name)) {
 					trap = a;
 					break;
@@ -192,6 +192,22 @@ public class SnmpTrapV1Composer implements Serializable {
 		varbinds.remove(vb);
 	}
 	
+	public SnmpAgent getAgent() {
+		return agent;
+	}
+
+	public void setAgent(SnmpAgent agent) {
+		this.agent = agent;
+	}
+
+	public TrapsTable getTrapsTable() {
+		return trapsTable;
+	}
+
+	public void setTrapsTable(TrapsTable trapsTable) {
+		this.trapsTable = trapsTable;
+	}
+
 	/**
 	 * Save trap data.
 	 * @return url to snmpAgent.xhtml
@@ -205,25 +221,27 @@ public class SnmpTrapV1Composer implements Serializable {
 				trap = originalTrap.makeClone(); // clone original trap with deep copy of varbinds
 				trap.setTrapName(trapName);
 				trap = populateTrap(trap);
-				DAO.getInstance().addSnmpTrap(trap);
+				trapsTable.addTrap(trap);
+				DAO.getInstance().saveSnmpTraps(trapsTable);
 				Growl.addGrowlMessage("Trap " + trapName + " saved", FacesMessage.SEVERITY_INFO);
 			} else {
 				trap = populateTrap(trap);
-				DAO.getInstance().saveSnmpTraps(trapsList);
+				DAO.getInstance().saveSnmpTraps(trapsTable);
 				Growl.addGrowlMessage("Trap " + trapName + " modified", FacesMessage.SEVERITY_INFO);
 			}
 		} else {
 			SnmpTrap trap = new SnmpTrap();
 			trap.setTrapName(trapName);
 			trap = populateTrap(trap);
-			DAO.getInstance().addSnmpTrap(trap);
+			trapsTable.addTrap(trap);
+			DAO.getInstance().saveSnmpTraps(trapsTable);
 			Growl.addGrowlMessage("Trap " + trapName + " saved", FacesMessage.SEVERITY_INFO);
 		}
 		
 		resetTrap();
 		modifyMode = false;
 		
-		return "snmpAgent";
+		return "snmpTrapsTable";
 	}
 	
 	/**
@@ -232,7 +250,7 @@ public class SnmpTrapV1Composer implements Serializable {
 	 * @return trap
 	 */
 	private SnmpTrap findTrap(String trapName) {
-		List<SnmpTrap> list = DAO.getInstance().loadSnmpTraps().getTrapsList();
+		List<SnmpTrap> list = trapsTable.getTrapsList(); //DAO.getInstance().loadSnmpTraps().getTrapsList();
 		for (SnmpTrap trap : list) {
 			if (trap.getTrapName().equals(trapName)) {
 				return trap;

@@ -1,9 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<snmpAgent name="hgfhgf" localIp="1.2.3.4" localPort="161">
-	<trapDestination ip="1.1.1.1" port ="1" />
-	<trapDestination ip="2.2.2.2" port ="2" />
-	<trapDef name="These are traps" file="myTraps1.xml" sendInterval="15000" />
-	<trapDef file="myTraps2.xml" />
-	<tableDef name="My first table" file="myTable1.xml" />
-	<tableDef file="myTable2.xml" />
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snmpAgent name="Demo Agent">
+    <description>To je test</description>
+    <localIp>192.168.1.100</localIp>
+    <localPort>161</localPort>
 </snmpAgent>

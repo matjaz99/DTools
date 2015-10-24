@@ -17,8 +17,14 @@
     	<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
     		
     		<ui:include src="/include/ptoolbar.xhtml"/>
+    		
+    		<p:breadCrumb>
+			    <p:menuitem value="Home" url="home.xhtml" />
+			    <p:menuitem value="SNMP Simulator" url="snmpAgentSimulator.xhtml" />
+			    <p:menuitem value="SNMP Agent #{snmpTrapsTableBean.agent.name}" url="#" />
+			</p:breadCrumb>
+    		
 			
-			<h:outputText value="SNMP Agent Name: #{snmpTrapsTableBean.agent.name}" styleClass="title" />
 			<h:outputText value="SNMP Agent Trap Table: #{snmpTrapsTableBean.trapsTable.name}" styleClass="title" />
 			
 			
@@ -48,7 +54,9 @@
 						</p:inplace>
 						<p:commandButton id="stButton" value="#{snmpTrapsTableBean.getSenderThreadStatus()}" 
 							action="#{snmpTrapsTableBean.toggleSendingAll()}"
-							update="growl stButton" ajax="true" />
+							update="growl stButton" ajax="true" >
+							<f:param name="agent" value="#{snmpTrapsTableBean.agent.name}" />
+						</p:commandButton>
 						
 					</h:panelGrid>
 				</h:panelGrid>
@@ -60,8 +68,14 @@
 			
 			<h:form id="mainForm">
 			
-				<p:button value="New trap V1" outcome="snmpTrapV1Composer" />
-				<p:button value="New trap V2C" outcome="snmpTrapV2CComposer" />
+				<p:button value="New trap V1" outcome="snmpTrapV1Composer" >
+					<f:param name="agent" value="#{snmpTrapsTableBean.agent.name}" />
+					<f:param name="trapsTableName" value="#{snmpTrapsTableBean.trapsTable.name}" />
+				</p:button>
+				<p:button value="New trap V2C" outcome="snmpTrapV2CComposer" >
+					<f:param name="agent" value="#{snmpTrapsTableBean.agent.name}" />
+					<f:param name="trapsTableName" value="#{snmpTrapsTableBean.trapsTable.name}" />
+				</p:button>
 			
 				<h:panelGrid columns="1" cellspacing="5" width="100%">
 					<p:dataTable id="trapsTable" value="#{snmpTrapsTableBean.trapsTable.trapsList}" var="trap" 
@@ -93,7 +107,7 @@
 									action="#{snmpTrapsTableBean.openTrap(trap)}" 
 									update="growl" ajax="true">
 									<f:param name="agent" value="#{snmpTrapsTableBean.agent.name}" />
-									<f:param name="trapList" value="#{snmpTrapsTableBean.trapsTable.name}" />
+									<f:param name="trapsTableName" value="#{snmpTrapsTableBean.trapsTable.name}" />
 									<f:param name="trapName" value="#{trap.trapName}" />
 								</p:commandButton>
 								<p:commandButton value="Delete" 
