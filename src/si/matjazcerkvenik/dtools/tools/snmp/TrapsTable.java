@@ -25,14 +25,27 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import si.matjazcerkvenik.dtools.tools.snmp.impl.SenderThread;
+
 @XmlRootElement
 public class TrapsTable {
 	
-	private String name;
-	private List<SnmpTrap> trapsList;
-	
 	private String filePath;
 	
+	private String name;
+	private List<SnmpTrap> trapsList;
+	private List<TrapDestination> trapDestinationsList;
+	
+	private SnmpAgent agent; // just a reference to agent
+	private SenderThread senderThread;
+	
+	
+	public TrapsTable() {
+	}
+	
+	public TrapsTable(SnmpAgent a) {
+		this.agent = a;
+	}
 
 	public String getName() {
 		return name;
@@ -52,6 +65,15 @@ public class TrapsTable {
 		this.trapsList = list;
 	}
 	
+	public List<TrapDestination> getTrapDestinationsList() {
+		return trapDestinationsList;
+	}
+
+	@XmlElement(name="trapDestination")
+	public void setTrapDestinationsList(List<TrapDestination> trapDestinationsList) {
+		this.trapDestinationsList = trapDestinationsList;
+	}
+	
 	public void addTrap(SnmpTrap t) {
 		trapsList.add(t);
 	}
@@ -67,6 +89,35 @@ public class TrapsTable {
 	@XmlTransient
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
+	}
+	
+	public SenderThread getSenderThread() {
+		return senderThread;
+	}
+
+	@XmlTransient
+	public void setSenderThread(SenderThread senderThread) {
+		this.senderThread = senderThread;
+	}
+	
+	public void startSenderThread() {
+		if (senderThread == null) {
+			senderThread = new SenderThread(agent, this);
+			senderThread.startThread();
+		}
+	}
+	
+	public void stopSenderThread() {
+		if (senderThread != null) {
+			senderThread.stopThread();
+			try {
+				senderThread.interrupt();
+				senderThread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			senderThread = null;
+		}
 	}
 	
 }

@@ -45,10 +45,10 @@ public class SnmpAgent implements Serializable {
 	
 	private TrapSender trapSender;
 	
-	private SenderThread senderThread;	
+	
 	private boolean active = false;
 	
-	private List<TrapDestination> trapDestinationsList;
+	
 	private List<TrapsTable> trapsTableList;
 	private List<SnmpTable> snmpTablesList;
 	
@@ -115,14 +115,7 @@ public class SnmpAgent implements Serializable {
 		this.trapSender = trapSender;
 	}
 	
-	public List<TrapDestination> getTrapDestinationsList() {
-		return trapDestinationsList;
-	}
-
-	@XmlElement(name="trapDestination")
-	public void setTrapDestinationsList(List<TrapDestination> trapDestinationsList) {
-		this.trapDestinationsList = trapDestinationsList;
-	}
+	
 
 	public List<TrapsTable> getTrapsTableList() {
 		return trapsTableList;
@@ -144,7 +137,7 @@ public class SnmpAgent implements Serializable {
 	}
 
 	/**
-	 * Return true if receiver is listening
+	 * Return true if trapSender is running
 	 * @return active
 	 */
 	public boolean isActive() {
@@ -157,14 +150,7 @@ public class SnmpAgent implements Serializable {
 	}
 	
 
-	public SenderThread getSenderThread() {
-		return senderThread;
-	}
-
-	@XmlTransient
-	public void setSenderThread(SenderThread senderThread) {
-		this.senderThread = senderThread;
-	}
+	
 	
 	
 	/**
@@ -187,29 +173,11 @@ public class SnmpAgent implements Serializable {
 		if (trapSender != null) {
 			trapSender.stop();
 			trapSender = null;
-			stopSenderThread();
+//			stopSenderThread(); TODO stop all sender threads
 		}
 	}
 	
-	public void startSenderThread() {
-		if (senderThread == null) {
-			senderThread = new SenderThread(this);
-			senderThread.startThread();
-		}
-	}
 	
-	public void stopSenderThread() {
-		if (senderThread != null) {
-			senderThread.stopThread();
-			try {
-				senderThread.interrupt();
-				senderThread.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			senderThread = null;
-		}
-	}
 	
 	
 	public void changedName(ValueChangeEvent e) {

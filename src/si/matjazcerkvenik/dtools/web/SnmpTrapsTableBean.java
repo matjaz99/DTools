@@ -43,8 +43,8 @@ public class SnmpTrapsTableBean implements Serializable {
 				}
 			}
 		}
-		if (requestParameterMap.containsKey("name")) {
-			String name = requestParameterMap.get("name");
+		if (requestParameterMap.containsKey("trapsTableName")) {
+			String name = requestParameterMap.get("trapsTableName");
 			for (TrapsTable t : agent.getTrapsTableList()) {
 				if (t.getName().equals(name)) {
 					trapsTable = t;
@@ -73,33 +73,33 @@ public class SnmpTrapsTableBean implements Serializable {
 
 	public String getDestinationIp() {
 //		return destinationIp;
-		return agent.getTrapDestinationsList().get(0).getDestinationIp();
+		return trapsTable.getTrapDestinationsList().get(0).getDestinationIp();
 	}
 
 	public void setDestinationIp(String destinationIp) {
 		this.destinationIp = destinationIp;
-		agent.getTrapDestinationsList().get(0).setDestinationIp(destinationIp);
+		trapsTable.getTrapDestinationsList().get(0).setDestinationIp(destinationIp);
 		// TODO save to file
 	}
 
 	public int getDestinationPort() {
 //		return destinationPort;
-		return agent.getTrapDestinationsList().get(0).getDestinationPort();
+		return trapsTable.getTrapDestinationsList().get(0).getDestinationPort();
 	}
 
 	public void setDestinationPort(int destinationPort) {
 		this.destinationPort = destinationPort;
-		agent.getTrapDestinationsList().get(0).setDestinationPort(destinationPort);
+		trapsTable.getTrapDestinationsList().get(0).setDestinationPort(destinationPort);
 	}
 
 	public int getSendInterval() {
 //		return sendInterval;
-		return agent.getTrapDestinationsList().get(0).getSendInterval();
+		return trapsTable.getTrapDestinationsList().get(0).getSendInterval();
 	}
 
 	public void setSendInterval(int sendInterval) {
 		this.sendInterval = sendInterval;
-		agent.getTrapDestinationsList().get(0).setSendInterval(sendInterval);
+		trapsTable.getTrapDestinationsList().get(0).setSendInterval(sendInterval);
 	}
 	
 	public void changedDestIp(ValueChangeEvent e) {
@@ -107,8 +107,8 @@ public class SnmpTrapsTableBean implements Serializable {
 			return;
 		}
 		destinationIp = e.getNewValue().toString();
-		agent.getTrapDestinationsList().get(0).setDestinationIp(destinationIp);
-		DAO.getInstance().saveAgentMetadata(agent);
+		trapsTable.getTrapDestinationsList().get(0).setDestinationIp(destinationIp);
+		DAO.getInstance().saveSnmpTraps(trapsTable);
 	}
 	
 	public void changedDestPort(ValueChangeEvent e) {
@@ -117,11 +117,11 @@ public class SnmpTrapsTableBean implements Serializable {
 		}
 		try {
 			destinationPort = Integer.parseInt(e.getNewValue().toString());
-			agent.getTrapDestinationsList().get(0).setDestinationPort(destinationPort);
+			trapsTable.getTrapDestinationsList().get(0).setDestinationPort(destinationPort);
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
 		}
-		DAO.getInstance().saveAgentMetadata(agent);
+		DAO.getInstance().saveSnmpTraps(trapsTable);
 	}
 	
 	public void changedSendInterval(ValueChangeEvent e) {
@@ -130,11 +130,11 @@ public class SnmpTrapsTableBean implements Serializable {
 		}
 		try {
 			sendInterval = Integer.parseInt(e.getNewValue().toString());
-			agent.getTrapDestinationsList().get(0).setSendInterval(sendInterval);
+			trapsTable.getTrapDestinationsList().get(0).setSendInterval(sendInterval);
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
 		}
-		DAO.getInstance().saveAgentMetadata(agent);
+		DAO.getInstance().saveSnmpTraps(trapsTable);
 	}
 	
 	/**
@@ -169,19 +169,19 @@ public class SnmpTrapsTableBean implements Serializable {
 			return;
 		}
 		
-		if (agent.getSenderThread() == null) {
-			agent.startSenderThread();
+		if (trapsTable.getSenderThread() == null) {
+			trapsTable.startSenderThread();
 			Growl.addGrowlMessage("Send all traps to " + destinationIp + ":" + destinationPort, FacesMessage.SEVERITY_INFO);
 		} else {
 			// already running
-			agent.stopSenderThread();
+			trapsTable.stopSenderThread();
 			Growl.addGrowlMessage("Stopped sending", FacesMessage.SEVERITY_INFO);
 		}
 		
 	}
 	
 	public String getSenderThreadStatus() {
-		if (agent.getSenderThread() == null) {
+		if (trapsTable.getSenderThread() == null) {
 			return "Start";
 		} else {
 			return "Stop";

@@ -81,8 +81,8 @@ public class SnmpTrapV1Composer implements Serializable {
 		}
 		
 		// find trapList
-		if (requestParameterMap.containsKey("trapList")) {
-			String name = requestParameterMap.get("trapList");
+		if (requestParameterMap.containsKey("trapsTableName")) {
+			String name = requestParameterMap.get("trapsTableName");
 			for (TrapsTable a : agent.getTrapsTableList()) {
 				if (a.getName().equals(name)) {
 					trapsList = a;
