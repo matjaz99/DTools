@@ -32,7 +32,9 @@
 									<dt:icon img="rocket" />
 									<p:inplace editor="true" styleClass="title" >
 								        <p:inputText value="#{agent.name}" required="true" label="name" 
-								        	valueChangeListener="#{agent.changedName}" />
+								        	valueChangeListener="#{agent.changedName}">
+								        	<p:ajax update="trapsTable tablesTable" />
+								        </p:inputText>
 								    </p:inplace>
 							    </h:panelGrid>
 							    <h:panelGrid columns="2" cellpadding="2" cellspacing="5" >

@@ -58,7 +58,6 @@ public class DAO {
 	private SnmpManager snmpManager;
 	private SnmpClients snmpClients;
 	private SnmpSimulator snmpSimulator;
-	private TrapsTable snmpTraps;
 	private Notes notes;
 	private Todos todos;
 	
@@ -75,10 +74,8 @@ public class DAO {
 	
 	private String XML_SNMP_MANAGER = "/config/users/$DTOOLS_USER$/snmp/manager/snmpManager.xml";
 	private String XML_SNMP_CLIENTS = "/config/users/$DTOOLS_USER$/snmp/client/snmpClients.xml";
-//	private String XML_SNMP_SIMULATOR = "/config/users/$DTOOLS_USER$/snmp/snmpSimulator.xml";
 	private String DIR_SNMP_SIMULATOR = "/config/users/$DTOOLS_USER$/snmp/simulator";
-	private String XML_SNMP_TRAPS = "/config/users/$DTOOLS_USER$/snmp/snmpTraps.xml";
-	private String TXT_SAVE_RECEIVED_TRAPS = "/config/users/$DTOOLS_USER$/temp/$FILENAME$.txt";
+	private String TXT_SAVE_RECEIVED_TRAPS = "/config/users/$DTOOLS_USER$/snmp/manager/temp/$FILENAME$.txt";
 	
 	private String XML_NOTES = "/config/users/$DTOOLS_USER$/misc/notes.xml";
 	private String XML_TODOS = "/config/users/$DTOOLS_USER$/misc/todos.xml";
@@ -101,9 +98,7 @@ public class DAO {
 		
 		XML_SNMP_MANAGER = XML_SNMP_MANAGER.replace("$DTOOLS_USER$", "default");
 		XML_SNMP_CLIENTS = XML_SNMP_CLIENTS.replace("$DTOOLS_USER$", "default");
-//		XML_SNMP_SIMULATOR = XML_SNMP_SIMULATOR.replace("$DTOOLS_USER$", "default");
 		DIR_SNMP_SIMULATOR = DIR_SNMP_SIMULATOR.replace("$DTOOLS_USER$", "default");
-		XML_SNMP_TRAPS = XML_SNMP_TRAPS.replace("$DTOOLS_USER$", "default");
 		TXT_SAVE_RECEIVED_TRAPS = TXT_SAVE_RECEIVED_TRAPS.replace("$DTOOLS_USER$", "default");
 		
 		XML_NOTES = XML_NOTES.replace("$DTOOLS_USER$", "default");
@@ -191,6 +186,9 @@ public class DAO {
 		saveServers();
 
 	}
+	
+	
+	
 
 	/* SSH CLIENTS */
 
@@ -260,6 +258,8 @@ public class DAO {
 		saveSshClients();
 
 	}
+	
+	
 	
 	
 	
@@ -334,8 +334,10 @@ public class DAO {
 	}
 	
 	
+	
 
 	/* SSH COMMANDS */
+	
 
 	public Commands loadCommands() {
 
@@ -405,7 +407,10 @@ public class DAO {
 	}
 	
 	
+	
+	
 	/* FTP TRANSFERS */
+	
 
 	public FtpTransfers loadTransfers() {
 
@@ -478,6 +483,7 @@ public class DAO {
 	
 
 	/* NOTES */
+	
 
 	public Notes loadNotes() {
 
@@ -547,7 +553,9 @@ public class DAO {
 	
 	
 	
+	
 	/* TODOS */
+	
 	
 	public Todos loadTodos() {
 
@@ -621,7 +629,6 @@ public class DAO {
 	/* SNMP MANAGER */
 	
 	
-	
 	public SnmpManager loadSnmpManager() {
 
 		if (snmpManager != null) {
@@ -692,8 +699,8 @@ public class DAO {
 	
 	
 	
-	
 	/* SNMP CLIENTS */
+	
 
 	public SnmpClients loadSnmpClients() {
 
@@ -767,7 +774,11 @@ public class DAO {
 	/* SNMP AGENT SIMULATOR */
 	
 	
-	
+	/**
+	 * Load SNMP agents. <code>SnmpSimulator</code> class holds all agents 
+	 * and handles all the operations on agents (adding, removing...)
+	 * @return snmpSimulator
+	 */
 	public SnmpSimulator loadSnmpSimulator() {
 
 		if (snmpSimulator != null) {
@@ -961,26 +972,11 @@ public class DAO {
 
 	}
 	
-
-//	public void saveSnmpSimulator() {
-//
-//		try {
-//
-//			File file = new File(DToolsContext.HOME_DIR + XML_SNMP_SIMULATOR);
-//			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpSimulator.class);
-//			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-//			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-//			jaxbMarshaller.marshal(snmpSimulator, file);
-//			
-//			logger.info("DAO:saveSnmpSimulator(): " + file.getAbsolutePath());
-//
-//		} catch (JAXBException e) {
-//			logger.error("DAO:saveSnmpSimulator(): JAXBException: ", e);
-//		}
-//
-//	}
 	
-
+	/**
+	 * Add new agent, create directories and write agent.xml metadata
+	 * @param a
+	 */
 	public void addSnmpAgent(SnmpAgent a) {
 		
 		a.setDirectoryPath(DToolsContext.HOME_DIR + DIR_SNMP_SIMULATOR + "/" + a.getName() + "-" + System.currentTimeMillis());
@@ -998,6 +994,7 @@ public class DAO {
 		snmpSimulator.addSnmpAgent(a);
 
 	}
+	
 
 	/**
 	 * Delete agent and remove directory
@@ -1060,58 +1057,58 @@ public class DAO {
 	
 	/* SNMP TRAPS */
 	
-	@Deprecated
-	public TrapsTable loadSnmpTraps() {
-		
-		if (snmpTraps != null) {
-			return snmpTraps;
-		}
+//	@Deprecated
+//	public TrapsTable loadSnmpTraps() {
+//		
+//		if (snmpTraps != null) {
+//			return snmpTraps;
+//		}
+//
+//		try {
+//
+//			File file = new File(DToolsContext.HOME_DIR + XML_SNMP_TRAPS);
+//			if (!file.exists()) {
+//				snmpTraps = new TrapsTable();
+//				JAXBContext jaxbContext = JAXBContext.newInstance(TrapsTable.class);
+//				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+//				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+//				jaxbMarshaller.marshal(snmpTraps, file);
+//			}
+//			JAXBContext jaxbContext = JAXBContext.newInstance(TrapsTable.class);
+//			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+//			snmpTraps = (TrapsTable) jaxbUnmarshaller.unmarshal(file);
+//			if (snmpTraps.getTrapsList() == null) {
+//				snmpTraps.setTrapsList(new ArrayList<SnmpTrap>());
+//			}
+//			
+//			logger.info("DAO:loadSnmpTraps(): " + file.getAbsolutePath());
+//
+//		} catch (JAXBException e) {
+//			logger.error("DAO:loadSnmpTraps(): JAXBException: ", e);
+//		}
+//
+//		return snmpTraps;
+//
+//	}
 
-		try {
-
-			File file = new File(DToolsContext.HOME_DIR + XML_SNMP_TRAPS);
-			if (!file.exists()) {
-				snmpTraps = new TrapsTable();
-				JAXBContext jaxbContext = JAXBContext.newInstance(TrapsTable.class);
-				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-				jaxbMarshaller.marshal(snmpTraps, file);
-			}
-			JAXBContext jaxbContext = JAXBContext.newInstance(TrapsTable.class);
-			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			snmpTraps = (TrapsTable) jaxbUnmarshaller.unmarshal(file);
-			if (snmpTraps.getTrapsList() == null) {
-				snmpTraps.setTrapsList(new ArrayList<SnmpTrap>());
-			}
-			
-			logger.info("DAO:loadSnmpTraps(): " + file.getAbsolutePath());
-
-		} catch (JAXBException e) {
-			logger.error("DAO:loadSnmpTraps(): JAXBException: ", e);
-		}
-
-		return snmpTraps;
-
-	}
-
-	@Deprecated
-	public void saveSnmpTraps2() {
-
-		try {
-
-			File file = new File(DToolsContext.HOME_DIR + XML_SNMP_TRAPS);
-			JAXBContext jaxbContext = JAXBContext.newInstance(TrapsTable.class);
-			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			jaxbMarshaller.marshal(snmpTraps, file);
-			
-			logger.info("DAO:saveSnmpTraps(): " + file.getAbsolutePath());
-
-		} catch (JAXBException e) {
-			logger.error("DAO:saveSnmpTraps(): JAXBException: ", e);
-		}
-
-	}
+//	@Deprecated
+//	public void saveSnmpTraps2() {
+//
+//		try {
+//
+//			File file = new File(DToolsContext.HOME_DIR + XML_SNMP_TRAPS);
+//			JAXBContext jaxbContext = JAXBContext.newInstance(TrapsTable.class);
+//			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+//			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+//			jaxbMarshaller.marshal(snmpTraps, file);
+//			
+//			logger.info("DAO:saveSnmpTraps(): " + file.getAbsolutePath());
+//
+//		} catch (JAXBException e) {
+//			logger.error("DAO:saveSnmpTraps(): JAXBException: ", e);
+//		}
+//
+//	}
 
 //	public void addSnmpTrap(SnmpTrap t) {
 //
@@ -1133,6 +1130,7 @@ public class DAO {
 	
 
 	/* SSH RESPONSE */
+	
 
 	public void saveSshResponse(String filename, SshResponse sshResponse) {
 
@@ -1239,6 +1237,7 @@ public class DAO {
 	
 	
 	/* GENERIC METHODS */
+	
 	
 	/**
 	 * Write data to txt file.

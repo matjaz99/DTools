@@ -82,11 +82,12 @@ public class TrapsTable {
 		trapsList.remove(t);
 	}
 
+	@XmlTransient
 	public String getFilePath() {
 		return filePath;
 	}
 
-	@XmlTransient
+	
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
 	}
@@ -95,6 +96,7 @@ public class TrapsTable {
 		return agent;
 	}
 
+	@XmlTransient
 	public void setAgent(SnmpAgent agent) {
 		this.agent = agent;
 	}

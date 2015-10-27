@@ -20,6 +20,15 @@ For a developer it should help to simplify common tasks
 Commons-logging is required by commons-vfs
 
 -----------------------------------------------------------
+0.4.0-beta.02
+
+27. october 2015
+
+- code cleaning
+- bug fixes
+
+-----------------------------------------------------------
+
 0.4.0-beta.01
 
 24. october 2015
