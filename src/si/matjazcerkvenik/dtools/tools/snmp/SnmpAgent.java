@@ -19,6 +19,7 @@
 package si.matjazcerkvenik.dtools.tools.snmp;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.event.ValueChangeEvent;
@@ -27,6 +28,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.primefaces.context.RequestContext;
+
+import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapSender;
 import si.matjazcerkvenik.dtools.xml.DAO;
 
@@ -47,6 +51,8 @@ public class SnmpAgent implements Serializable {
 	
 	private List<TrapsTable> trapsTableList;
 	private List<SnmpTable> snmpTablesList;
+	
+	private String newObjectName;
 	
 	
 	public SnmpAgent() {
@@ -137,6 +143,7 @@ public class SnmpAgent implements Serializable {
 	public void setSnmpTablesList(List<SnmpTable> snmpTablesList) {
 		this.snmpTablesList = snmpTablesList;
 	}
+	
 
 	/**
 	 * Return true if trapSender is running
@@ -212,5 +219,36 @@ public class SnmpAgent implements Serializable {
 	}
 	
 	
+	
+	public String getNewObjectName() {
+		return newObjectName;
+	}
+
+	public void setNewObjectName(String newObjectName) {
+		this.newObjectName = newObjectName;
+	}
+	
+	
+	public void addTrapScenarioAction(SnmpAgent a) {
+		
+		// create new empty table with default trap destination
+		TrapsTable tt = new TrapsTable();
+		tt.setName(newObjectName);
+		tt.setFilePath(a.getDirectoryPath() + "/traps/" + newObjectName + "-" + System.currentTimeMillis() + ".xml");
+		tt.setTrapsList(new ArrayList<SnmpTrap>());
+		
+		TrapDestination td = new TrapDestination(LocalhostInfo.getLocalIpAddress(), 162);
+		List<TrapDestination> destList = new ArrayList<TrapDestination>();
+		destList.add(td);
+		tt.setTrapDestinationsList(destList);
+		
+		a.getTrapsTableList().add(tt);
+		DAO.getInstance().saveSnmpTraps(tt);
+		
+		newObjectName = null;
+		
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.addCallbackParam("success", true);
+	}
 
 }

@@ -58,7 +58,7 @@
 								</h:panelGrid>
 							</h:panelGrid>
 							<h:panelGrid columns="1">
-								<h:outputText value="Trap lists:" />
+								<h:outputText value="Traps scenario:" />
 								<h:dataTable id="trapsTable" value="#{agent.trapsTableList}" var="trapsTable" 
 									cellpadding="0" cellspacing="0" width="100%">
 									<h:column>
@@ -69,6 +69,21 @@
 										</p:link>
 									</h:column>
 								</h:dataTable>
+								<p:commandButton value="New scenario" onclick="PF('addScenarioDlg#{agent.name}').show();" />
+			 				 	<p:dialog header="Add new scenario" widgetVar="addScenarioDlg#{agent.name}" resizable="false">
+			 				 		<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+										<h:outputLabel for="scName" value="Name: " />
+										<p:inputText id="scName" value="#{agent.newObjectName}" required="false" 
+											requiredMessage="Missing scenario name">
+										</p:inputText>
+										<f:facet name="footer">
+							                <p:commandButton value="Add" action="#{agent.addTrapScenarioAction(agent)}" 
+												update="growl trapsTable"
+												oncomplete="PF('addScenarioDlg#{agent.name}').hide();" />
+							                <p:commandButton value="Cancel" onclick="PF('addScenarioDlg#{agent.name}').hide();" />
+							            </f:facet>
+									</h:panelGrid>
+			 				 	</p:dialog>
 							</h:panelGrid>
 							<h:panelGrid columns="1">
 								<h:outputText value="Tables:" />

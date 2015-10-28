@@ -19,18 +19,26 @@
 package si.matjazcerkvenik.dtools.web;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.context.RequestContext;
 
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpSimulator;
+import si.matjazcerkvenik.dtools.tools.snmp.TrapsTable;
 import si.matjazcerkvenik.dtools.xml.DAO;
 
 @ManagedBean
 @ApplicationScoped
 public class SnmpSimulatorBean {
+	
+	private String newObjectName;
 	
 	/**
 	 * Add new SNMP agent with default settings
@@ -71,5 +79,44 @@ public class SnmpSimulatorBean {
 			Growl.addGrowlMessage("Stop agent", FacesMessage.SEVERITY_INFO);
 		}
 	}
+
+	
+	
+//	public String getNewObjectName() {
+//		return newObjectName;
+//	}
+//
+//	public void setNewObjectName(String newObjectName) {
+//		this.newObjectName = newObjectName;
+//	}
+//	
+//	
+//	public void addTrapScenarioAction(SnmpAgent a) {
+////		Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+////		if (requestParameterMap.containsKey("agent")) {
+////			String name = requestParameterMap.get("agent");
+////			System.out.println("=="+name);
+////			SnmpSimulator sim = DAO.getInstance().loadSnmpSimulator();
+////			for (SnmpAgent a : sim.getSnmpAgentsList()) {
+////				if (a.getName().equals(name)) {
+//////					agent = a;
+////					break;
+////				}
+////			}
+////		}
+//		
+//		System.out.println("=="+a.getName());
+//		TrapsTable tt = new TrapsTable();
+//		tt.setName(newObjectName);
+//		tt.setFilePath(a.getDirectoryPath() + "/traps/" + newObjectName + "-" + System.currentTimeMillis() + ".xml");
+//		
+//		a.getTrapsTableList().add(tt);
+//		DAO.getInstance().saveSnmpTraps(tt);
+//		
+//		newObjectName = null;
+//		
+//		RequestContext context = RequestContext.getCurrentInstance();
+//		context.addCallbackParam("success", true);
+//	}
 	
 }
