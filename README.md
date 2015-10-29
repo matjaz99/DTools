@@ -20,6 +20,16 @@ For a developer it should help to simplify common tasks
 Commons-logging is required by commons-vfs
 
 -----------------------------------------------------------
+0.4.0
+
+30. october 2015
+
+- added reload data button
+- add ftp client in dialog window
+- bug fixes
+
+-----------------------------------------------------------
+
 0.4.0-beta.03
 
 28. october 2015

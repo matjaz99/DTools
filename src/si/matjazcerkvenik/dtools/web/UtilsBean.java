@@ -31,6 +31,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
+import si.matjazcerkvenik.dtools.xml.DAO;
 
 @ManagedBean
 @SessionScoped
@@ -132,6 +133,12 @@ public class UtilsBean {
 	    
 	    return list;
 	    
+	}
+	
+	
+	
+	public void reloadAllData() {
+		DAO.getInstance().resetAllDataToNull();
 	}
 	
 }

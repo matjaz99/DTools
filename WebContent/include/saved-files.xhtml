@@ -26,7 +26,7 @@
 					<h:column headerClass="col0">
 						<f:facet name="header">File</f:facet>
 						<h:form>
-							<h:commandLink>
+							<h:commandLink action="#{historyBean.openSshResponse(sshResponse)}">
 								<h:outputText value="#{sshResponse.filename}" />
 							</h:commandLink>
 						</h:form>
@@ -34,29 +34,17 @@
 					
 					<h:column headerClass="col0">
 						<f:facet name="header">Host</f:facet>
-						<h:form>
-							<h:commandLink>
-								<h:outputText value="ssh://#{sshResponse.sshClient.username}@#{sshResponse.sshClient.hostname}:#{sshResponse.sshClient.port}" />
-							</h:commandLink>
-						</h:form>
+						<h:outputText value="ssh://#{sshResponse.sshClient.username}@#{sshResponse.sshClient.hostname}:#{sshResponse.sshClient.port}" />
 					</h:column>
 					
 					<h:column headerClass="col0">
 						<f:facet name="header">Command</f:facet>
-						<h:form>
-							<h:commandLink>
-								<h:outputText value="#{sshResponse.command}" />
-							</h:commandLink>
-						</h:form>
+						<h:outputText value="#{sshResponse.command}" />
 					</h:column>
 					
 					<h:column headerClass="col0">
 						<f:facet name="header">Date</f:facet>
-						<h:form>
-							<h:commandLink>
-								<h:outputText value="#{sshResponse.date}" />
-							</h:commandLink>
-						</h:form>
+						<h:outputText value="#{sshResponse.date}" />
 					</h:column>
 					
 					<h:column headerClass="col0 col1">

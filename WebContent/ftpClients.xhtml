@@ -12,6 +12,7 @@
     <h:body>
     	
     	<h:outputStylesheet library="default" name="css/dstyles.css"/>
+    	<h:outputScript library="default" name="js/dtools.js" />
     	<p:growl id="growl" life="2000"/>
     	
     	<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
@@ -20,47 +21,49 @@
 			
 			<h:outputText value="FTP Clients" styleClass="title" />
 			
-			<h:form id="addFtpClientForm">
-				<p:fieldset legend="Add new FTP client" toggleable="true" toggleSpeed="300" collapsed="true">
-				<h:panelGrid columns="3" cellpadding="2" cellspacing="0">
-				
-					<h:outputLabel value="Hostname: " />
-					<p:inputText id="ftpHost" value="#{ftpClientsBean.hostname}" required="true"
-						 requiredMessage="Missing value">
-						<f:validator validatorId="newFtpClientValidator"/>
-						<f:attribute name="port" value="#{ftpPort}" />
-						<f:attribute name="user" value="#{ftpUser}" />
-					</p:inputText>
-					<h:message for="ftpHost" style="color: red;" />
-					
-					<h:outputLabel value="Protocol" />
-					<h:selectOneRadio value="#{ftpClientsBean.protocol}" onchange="submit()"
-						valueChangeListener="#{ftpClientsBean.protocolValueChanged}">
-						<f:ajax render="ftpPort" />
-						<f:selectItem itemLabel="FTP" itemValue="FTP" />
-						<f:selectItem itemLabel="SFTP" itemValue="SFTP" />
-					</h:selectOneRadio>
-					<h:outputText value="" />
-					
-					<h:outputLabel value="Port " />
-					<p:inputText id="ftpPort" value="#{ftpClientsBean.port}" binding="#{ftpPort}"
-						required="true" requiredMessage="Missing value" />
-					<h:message for="ftpPort" style="color: red;" />
-					
-					<h:outputLabel value="Username: " />
-					<p:inputText id="ftpUser" value="#{ftpClientsBean.username}" binding="#{ftpUser}"
-						required="true" requiredMessage="Missing value" />
-					<h:message for="ftpUser" style="color: red;" />
-					
-					<h:outputLabel value="Password: " />
-					<p:inputText value="#{ftpClientsBean.password}" />
-					<h:outputLabel value="" />
-					
-					<p:commandButton value="Add" action="#{ftpClientsBean.addClientAction}" 
-						update="growl addFtpClientForm ftpClientsTable" ajax="true" />
-				</h:panelGrid>
-				</p:fieldset>
+			<h:form>
+				<p:commandButton value="Add new FTP client" onclick="PF('addFtpDlg').show();" />
+			 				 
+			    <p:dialog header="Add new FTP client" widgetVar="addFtpDlg" resizable="false">
+					<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+						<h:outputLabel value="Hostname: " />
+						<p:inputText id="ftpHost" value="#{ftpClientsBean.hostname}" required="true"
+							 requiredMessage="Missing value">
+							<f:validator validatorId="newFtpClientValidator"/>
+							<f:attribute name="port" value="#{ftpPort}" />
+							<f:attribute name="user" value="#{ftpUser}" />
+						</p:inputText>
+						
+						<h:outputLabel value="Protocol" />
+						<h:selectOneRadio value="#{ftpClientsBean.protocol}" onchange="submit()"
+							valueChangeListener="#{ftpClientsBean.protocolValueChanged}">
+							<f:ajax render="ftpPort" />
+							<f:selectItem itemLabel="FTP" itemValue="FTP" />
+							<f:selectItem itemLabel="SFTP" itemValue="SFTP" />
+						</h:selectOneRadio>
+						
+						<h:outputLabel value="Port " />
+						<p:inputText id="ftpPort" value="#{ftpClientsBean.port}" binding="#{ftpPort}"
+							required="true" requiredMessage="Missing value" />
+						
+						<h:outputLabel value="Username: " />
+						<p:inputText id="ftpUser" value="#{ftpClientsBean.username}" binding="#{ftpUser}"
+							required="true" requiredMessage="Missing value" />
+						
+						<h:outputLabel value="Password: " />
+						<p:inputText id="ftpPass" value="#{ftpClientsBean.password}" />
+						
+						<f:facet name="footer">
+			                <p:commandButton value="Add" action="#{ftpClientsBean.addClientAction}" 
+								update="growl ftpHost ftpPort ftpUser ftpPass ftpClientsTable"
+								oncomplete="handleDialogRequest('addFtpDlg', xhr, status, args)" />
+			                <p:commandButton value="Cancel" onclick="PF('addFtpDlg').hide();" />
+			            </f:facet>
+					</h:panelGrid>
+				</p:dialog>
+			
 			</h:form>
+			
 			
 			
 			<h:panelGrid columns="1" cellspacing="5" width="100%">

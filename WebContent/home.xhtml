@@ -12,6 +12,7 @@
     <h:body>
     
     	<h:outputStylesheet library="default" name="css/dstyles.css"/>
+    	<h:outputStylesheet library="default" name="css/dstyles2.css"/>
     	
     	<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
     		
@@ -32,7 +33,10 @@
 				
 			</h:panelGrid>
 			
-        
+        	
+        	<p:commandButton action="#{utilsBean.reloadAllData()}" value="Reload data" />
+        	
+        	
         </h:panelGrid>
         
     </h:body>

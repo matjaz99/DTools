@@ -9,7 +9,6 @@ body {
 	margin: 0px;
 }
 
-
 .ui-message-info, .ui-message-error, .ui-message-warn, .ui-message-fatal, .ui-messages-error, .ui-messages-warn {
 border: 1px solid;
 margin: 0px 5px;

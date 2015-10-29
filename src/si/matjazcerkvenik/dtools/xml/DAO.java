@@ -114,6 +114,22 @@ public class DAO {
 	}
 	
 	
+	public void resetAllDataToNull() {
+		servers = null;
+		sshClients = null;
+		ftpClients = null;
+		ftpTransfers = null;
+		commands = null;
+		snmpManager = null;
+		snmpClients = null;
+		snmpSimulator = null;
+		notes = null;
+		todos = null;
+	}
+	
+	
+	
+	
 	
 	
 

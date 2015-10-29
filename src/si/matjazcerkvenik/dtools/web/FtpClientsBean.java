@@ -20,9 +20,12 @@ package si.matjazcerkvenik.dtools.web;
 
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ValueChangeEvent;
+
+import org.primefaces.context.RequestContext;
 
 import si.matjazcerkvenik.dtools.xml.DAO;
 import si.matjazcerkvenik.dtools.xml.FtpClient;
@@ -88,12 +91,16 @@ public class FtpClientsBean {
 		c.setProtocol(protocol);
 
 		DAO.getInstance().addFtpClient(c);
+		Growl.addGrowlMessage("Created FTP client: " + c.toUrlString(), FacesMessage.SEVERITY_INFO);
 
 		username = null;
 		password = null;
 		hostname = null;
 		port = 21;
 		protocol = "FTP";
+		
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.addCallbackParam("success", true);
 
 	}
 

@@ -47,11 +47,11 @@
 							required="true" requiredMessage="Missing username" />
 						
 						<h:outputLabel value="Password: " />
-						<p:inputText value="#{sshClientsBean.password}" />
+						<p:inputText id="sshPass" value="#{sshClientsBean.password}" />
 						
 						<f:facet name="footer">
 			                <p:commandButton value="Add" action="#{sshClientsBean.addClientAction}" 
-								update="growl sshHost sshPort sshUser sshClientsTable"
+								update="growl sshHost sshPort sshUser sshPass sshClientsTable"
 								oncomplete="handleDialogRequest('addSshDlg', xhr, status, args)" />
 			                <p:commandButton value="Cancel" onclick="PF('addSshDlg').hide();" />
 			            </f:facet>

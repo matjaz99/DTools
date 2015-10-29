@@ -134,6 +134,14 @@ public class SnmpAgent implements Serializable {
 		this.trapsTableList = list;
 	}
 	
+	public void addNewTrapsTable(TrapsTable tt) {
+		if (trapsTableList == null) {
+			trapsTableList = new ArrayList<TrapsTable>();
+		}
+		trapsTableList.add(tt);
+	}
+	
+	
 
 	public List<SnmpTable> getSnmpTablesList() {
 		return snmpTablesList;
@@ -171,6 +179,7 @@ public class SnmpAgent implements Serializable {
 			trapSender = new TrapSender(localIp, localPort);
 			active = trapSender.start();
 		}
+		System.out.println("== agent started("+name+")="+active);
 		return active;
 	}
 	
@@ -182,7 +191,11 @@ public class SnmpAgent implements Serializable {
 		if (trapSender != null) {
 			trapSender.stop();
 			trapSender = null;
-//			stopSenderThread(); TODO stop all sender threads
+			for (TrapsTable tt : trapsTableList) {
+				tt.stopSenderThread();
+			}
+//			active = false;
+			System.out.println("== agent stopped("+name+")="+active);
 		}
 	}
 	
@@ -242,7 +255,7 @@ public class SnmpAgent implements Serializable {
 		destList.add(td);
 		tt.setTrapDestinationsList(destList);
 		
-		a.getTrapsTableList().add(tt);
+		a.addNewTrapsTable(tt);
 		DAO.getInstance().saveSnmpTraps(tt);
 		
 		newObjectName = null;

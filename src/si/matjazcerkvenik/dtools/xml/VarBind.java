@@ -19,7 +19,6 @@
 package si.matjazcerkvenik.dtools.xml;
 
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 
 import org.snmp4j.smi.Counter32;
 import org.snmp4j.smi.Counter64;

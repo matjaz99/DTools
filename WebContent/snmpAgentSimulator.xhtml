@@ -26,6 +26,7 @@
 						cellpadding="0" cellspacing="0" width="100%">
 						
 						<h:column>
+							
 							<h:panelGrid columns="3" styleClass="border" width="100%">
 							<h:panelGrid columns="1">
 								<h:panelGrid columns="2" cellpadding="2">
@@ -78,7 +79,7 @@
 										</p:inputText>
 										<f:facet name="footer">
 							                <p:commandButton value="Add" action="#{agent.addTrapScenarioAction(agent)}" 
-												update="growl trapsTable"
+												update="growl trapsTable scName"
 												oncomplete="PF('addScenarioDlg#{agent.name}').hide();" />
 							                <p:commandButton value="Cancel" onclick="PF('addScenarioDlg#{agent.name}').hide();" />
 							            </f:facet>
@@ -95,6 +96,7 @@
 								</h:dataTable>
 							</h:panelGrid>
 							</h:panelGrid>
+							
 						</h:column>
 						
 					</h:dataTable>
