@@ -3,7 +3,10 @@ Developer tools (SSH, FTP, SNMP simulator, automatization of common tasks, netwo
 
 This application is still in development phase.
 
-For a developer it should help to simplify common tasks
+For a developer it should help to simplify common tasks.
+
+## Features
+
 - create a network of servers
 - monitor network
 - execute ssh commands
@@ -19,8 +22,11 @@ For a developer it should help to simplify common tasks
 
 Commons-logging is required by commons-vfs
 
+
+## Version history
+
 -----------------------------------------------------------
-## 0.4.0
+### 0.4.0
 
 30. october 2015
 
@@ -30,7 +36,7 @@ Commons-logging is required by commons-vfs
 
 -----------------------------------------------------------
 
-0.4.0-beta.03
+### 0.4.0-beta.03
 
 28. october 2015
 
@@ -38,7 +44,7 @@ Commons-logging is required by commons-vfs
 
 -----------------------------------------------------------
 
-0.4.0-beta.02
+### 0.4.0-beta.02
 
 27. october 2015
 
@@ -47,7 +53,7 @@ Commons-logging is required by commons-vfs
 
 -----------------------------------------------------------
 
-0.4.0-beta.01
+### 0.4.0-beta.01
 
 24. october 2015
 
@@ -57,7 +63,7 @@ Commons-logging is required by commons-vfs
 
 -----------------------------------------------------------
 
-0.4.0-alpha.02
+### 0.4.0-alpha.02
 
 23. october 2015
 
@@ -65,7 +71,7 @@ Commons-logging is required by commons-vfs
 
 -----------------------------------------------------------
 
-0.4.0-alpha.01
+### 0.4.0-alpha.01
 
 21. october 2015
 
@@ -74,7 +80,7 @@ Commons-logging is required by commons-vfs
 
 -----------------------------------------------------------
 
-0.3.0
+### 0.3.0
 
 16. october 2015
 
@@ -83,7 +89,7 @@ Commons-logging is required by commons-vfs
 
 -----------------------------------------------------------
 
-0.3.0-beta.01
+### 0.3.0-beta.01
 
 14. october 2015
 
@@ -91,7 +97,7 @@ Commons-logging is required by commons-vfs
 - updater: added copy functionality for files and directories
 
 -----------------------------------------------------------
-0.3.0-alpha.02
+### 0.3.0-alpha.02
 
 8. october 2015
 
@@ -100,7 +106,7 @@ Commons-logging is required by commons-vfs
 
 -----------------------------------------------------------
 
-0.3.0-alpha.01
+### 0.3.0-alpha.01
 
 02. october 2015
 
@@ -115,7 +121,7 @@ Commons-logging is required by commons-vfs
 
 -----------------------------------------------------------
 
-0.2.2
+### 0.2.2
 
 21. september 2015
 
@@ -123,7 +129,7 @@ Commons-logging is required by commons-vfs
 
 -----------------------------------------------------------
 
-0.2.1
+### 0.2.1
 
 07. september 2015
 
@@ -133,7 +139,7 @@ Commons-logging is required by commons-vfs
 
 -----------------------------------------------------------
 
-0.2.0
+### 0.2.0
 
 03. september 2015
 
@@ -146,7 +152,7 @@ Commons-logging is required by commons-vfs
 
 -----------------------------------------------------------
 
-0.1.0
+### 0.1.0
 
 31. july 2015
 
