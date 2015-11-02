@@ -970,11 +970,12 @@ public class DAO {
 				
 				JAXBContext jaxbContext = JAXBContext.newInstance(SnmpTable.class);
 				Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-				SnmpTable snmpTab = (SnmpTable) jaxbUnmarshaller.unmarshal(tablesXml[i]);
-//				if (snmpTraps.getTraps() == null) {
-//					snmpTraps.setTraps(new ArrayList<SnmpTrap>());
-//				}
-				snmpTableList.add(snmpTab);
+				SnmpTable tbl = (SnmpTable) jaxbUnmarshaller.unmarshal(tablesXml[i]);
+				
+				tbl.setFilePath(tablesXml[i].getAbsolutePath());
+				tbl.applyMetadataToRows();
+				
+				snmpTableList.add(tbl);
 				
 				logger.info("DAO:loadSnmpTraps(): " + tablesXml[i].getAbsolutePath());
 
@@ -989,11 +990,30 @@ public class DAO {
 	}
 	
 	
+	public void saveSnmpTable(SnmpTable table) {
+		
+		try {
+			
+			File file = new File(table.getFilePath());
+			JAXBContext jaxbContext = JAXBContext.newInstance(SnmpTable.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.marshal(table, file);
+			
+			logger.info("DAO:saveSnmpTable(): " + file.getAbsolutePath());
+
+		} catch (JAXBException e) {
+			logger.error("DAO:saveSnmpTable(): JAXBException: ", e);
+		}
+		
+	}
+	
+	
 	/**
 	 * Add new agent, create directories and write agent.xml metadata
 	 * @param a
 	 */
-	public void addSnmpAgent(SnmpAgent a) {
+	public void createNewSnmpAgent(SnmpAgent a) {
 		
 		a.setDirectoryPath(DToolsContext.HOME_DIR + DIR_SNMP_SIMULATOR + "/" + a.getName() + "-" + System.currentTimeMillis());
 		

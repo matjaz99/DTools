@@ -152,6 +152,13 @@ public class SnmpAgent implements Serializable {
 		this.snmpTablesList = snmpTablesList;
 	}
 	
+	public void addNewSnmpTable(SnmpTable table) {
+		if (snmpTablesList == null) {
+			snmpTablesList = new ArrayList<SnmpTable>();
+		}
+		snmpTablesList.add(table);
+	}
+	
 
 	/**
 	 * Return true if trapSender is running
@@ -262,6 +269,23 @@ public class SnmpAgent implements Serializable {
 		
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.addCallbackParam("success", true);
+	}
+	
+	public void addSnmpTableAction(/*SnmpAgent a*/) {
+		
+		// create new empty table
+		SnmpTable tbl = new SnmpTable();
+		tbl.setName(newObjectName);
+		tbl.setFilePath(getDirectoryPath() + "/tables/" + newObjectName + "-" + System.currentTimeMillis() + ".xml");
+		
+		addNewSnmpTable(tbl);
+		DAO.getInstance().saveSnmpTable(tbl);
+		
+		newObjectName = null;
+		
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.addCallbackParam("success", true);
+		
 	}
 
 }

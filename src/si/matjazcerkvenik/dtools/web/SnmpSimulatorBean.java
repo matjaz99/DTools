@@ -44,7 +44,7 @@ public class SnmpSimulatorBean implements Serializable {
 		SnmpAgent a = new SnmpAgent("SnmpAgent" + DAO.getInstance().loadSnmpSimulator().getSnmpAgentsList().size(), 
 				LocalhostInfo.getLocalIpAddress(), 161);
 		
-		DAO.getInstance().addSnmpAgent(a);
+		DAO.getInstance().createNewSnmpAgent(a);
 		Growl.addGrowlMessage("Created SNMP agent: " + a.toString(), FacesMessage.SEVERITY_INFO);
 		
 	}

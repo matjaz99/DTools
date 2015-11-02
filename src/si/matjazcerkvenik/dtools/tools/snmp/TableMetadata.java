@@ -1,14 +1,15 @@
 package si.matjazcerkvenik.dtools.tools.snmp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-public class SnmpTableMetadata {
+public class TableMetadata {
 	
 	private String tableOid;
-	private List<SnmpColumn> columnsMetaList;
+	private List<ColumnMetadata> columnsMetaList;
 
 	public String getTableOid() {
 		return tableOid;
@@ -19,12 +20,15 @@ public class SnmpTableMetadata {
 		this.tableOid = tableOid;
 	}
 
-	public List<SnmpColumn> getColumnsMetaList() {
+	public List<ColumnMetadata> getColumnsMetaList() {
+		if (columnsMetaList == null) {
+			columnsMetaList = new ArrayList<ColumnMetadata>();
+		}
 		return columnsMetaList;
 	}
 
-	@XmlElement
-	public void setColumnsMetaList(List<SnmpColumn> columnsMetaList) {
+	@XmlElement(name="column")
+	public void setColumnsMetaList(List<ColumnMetadata> columnsMetaList) {
 		this.columnsMetaList = columnsMetaList;
 	}
 	

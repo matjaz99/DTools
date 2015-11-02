@@ -26,12 +26,20 @@ Commons-logging is required by commons-vfs
 ## Version history
 
 -----------------------------------------------------------
+### 0.4.1-alpha.01
+
+xx. october 2015
+
+- button for adding new snmp tables
+
+-----------------------------------------------------------
+
 ### 0.4.0
 
 30. october 2015
 
-- added reload data button
-- add ftp client in dialog window
+- reload data button
+- ftp client in dialog window
 - bug fixes
 
 -----------------------------------------------------------
@@ -40,7 +48,7 @@ Commons-logging is required by commons-vfs
 
 28. october 2015
 
-- added button for adding new trap scenarios
+- button for adding new trap scenarios
 
 -----------------------------------------------------------
 

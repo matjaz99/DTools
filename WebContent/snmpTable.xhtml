@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:dt="http://dtools.com/ui">
+    <h:head>
+        <title>DTools</title>
+    </h:head>
+    <h:body>
+    	
+    	<h:outputStylesheet library="default" name="css/dstyles.css"/>
+    	<p:growl id="growl" life="2000"/>
+    	
+    	<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
+    		
+    		<ui:include src="/include/ptoolbar.xhtml"/>
+    		
+    		<p:breadCrumb>
+			    <p:menuitem value="Home" url="home.xhtml" />
+			    <p:menuitem value="SNMP Simulator" url="snmpAgentSimulator.xhtml" />
+			    <p:menuitem value="#{snmpTableBean.agent.name}" url="#" />
+			    <p:menuitem value="#{snmpTableBean.table.name}" url="#" />
+			</p:breadCrumb>
+    		
+			
+			<h:outputText value="SNMP Agent Table: #{snmpTableBean.table.name}" styleClass="title" />
+			
+			
+			
+			<h:form>
+				<p:button value="Back" outcome="snmpAgentSimulator" />
+			</h:form>
+			
+			<hr/>
+			
+			<h:outputText value="Table OID: #{snmpTableBean.table.metadata.tableOid}" />
+			
+			
+			<h:form id="mainForm">
+			
+				<h:panelGrid columns="1" cellspacing="5" width="100%">
+					<p:dataTable value="#{snmpTableBean.rows}" var="row">
+						<p:columns value="#{snmpTableBean.columns}" var="col" headerText="#{col}">
+							#{row[col]}
+						</p:columns>
+					</p:dataTable>
+				</h:panelGrid>
+				
+				
+			</h:form>
+			
+        
+        </h:panelGrid>
+        
+    </h:body>
+</html>

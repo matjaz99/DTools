@@ -63,7 +63,6 @@
 								<h:dataTable id="trapsTable" value="#{agent.trapsTableList}" var="trapsTable" 
 									cellpadding="0" cellspacing="0" width="100%">
 									<h:column>
-										<h:outputLink value="#{trapsTable.name}" />
 										<p:link outcome="snmpTrapsTable" value="#{trapsTable.name}">
 										    <f:param name="agent" value="#{agent.name}" />
 										    <f:param name="trapsTableName" value="#{trapsTable.name}" />
@@ -91,9 +90,27 @@
 								<h:dataTable id="tablesTable" value="#{agent.snmpTablesList}" var="table" 
 									cellpadding="0" cellspacing="0" width="100%">
 									<h:column>
-										<h:outputText value="#{table.name}" />
+										<p:link outcome="snmpTable" value="#{table.name}">
+										    <f:param name="agent" value="#{agent.name}" />
+										    <f:param name="snmpTableName" value="#{table.name}" />
+										</p:link>
 									</h:column>
 								</h:dataTable>
+								<p:commandButton value="New table" onclick="PF('addTableDlg#{agent.name}').show();" />
+			 				 	<p:dialog header="Add new table" widgetVar="addTableDlg#{agent.name}" resizable="false">
+			 				 		<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+										<h:outputLabel for="tblName" value="Name: " />
+										<p:inputText id="tblName" value="#{agent.newObjectName}" required="false" 
+											requiredMessage="Missing name">
+										</p:inputText>
+										<f:facet name="footer">
+							                <p:commandButton value="Add" action="#{agent.addSnmpTableAction()}" 
+												update="growl tablesTable tblName"
+												oncomplete="PF('addTableDlg#{agent.name}').hide();" />
+							                <p:commandButton value="Cancel" onclick="PF('addTableDlg#{agent.name}').hide();" />
+							            </f:facet>
+									</h:panelGrid>
+			 				 	</p:dialog>
 							</h:panelGrid>
 							</h:panelGrid>
 							

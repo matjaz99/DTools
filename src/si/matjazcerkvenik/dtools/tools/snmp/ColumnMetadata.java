@@ -2,12 +2,12 @@ package si.matjazcerkvenik.dtools.tools.snmp;
 
 import javax.xml.bind.annotation.XmlAttribute;
 
-public class SnmpColumn {
+public class ColumnMetadata {
 	
 	private String name;
 	private String type;
 	private String oid;
-	private boolean access;
+	private String access;
 	
 	
 	public String getName() {
@@ -31,11 +31,11 @@ public class SnmpColumn {
 	public void setOid(String oid) {
 		this.oid = oid;
 	}
-	public boolean getAccess() {
+	public String getAccess() {
 		return access;
 	}
 	@XmlAttribute
-	public void setAccess(boolean access) {
+	public void setAccess(String access) {
 		this.access = access;
 	}
 	
