@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.primefaces.context.RequestContext;
 
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
+import si.matjazcerkvenik.dtools.tools.snmp.impl.SimpleSnmpAgentImpl;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapSender;
 import si.matjazcerkvenik.dtools.xml.DAO;
 
@@ -47,6 +48,7 @@ public class SnmpAgent implements Serializable {
 	private String description;
 	
 	private TrapSender trapSender;
+	private SimpleSnmpAgentImpl agentImpl;
 	private boolean active = false;
 	
 	private List<TrapsTable> trapsTableList;
@@ -186,7 +188,10 @@ public class SnmpAgent implements Serializable {
 			trapSender = new TrapSender(localIp, localPort);
 			active = trapSender.start();
 		}
-		System.out.println("== agent started("+name+")="+active);
+		if (agentImpl == null) {
+			agentImpl = new SimpleSnmpAgentImpl(this);
+			agentImpl.startSnmpAgent();
+		}
 		return active;
 	}
 	
@@ -201,8 +206,11 @@ public class SnmpAgent implements Serializable {
 			for (TrapsTable tt : trapsTableList) {
 				tt.stopSenderThread();
 			}
-//			active = false;
-			System.out.println("== agent stopped("+name+")="+active);
+//			active = false;          where is this set to false if not here???
+		}
+		if (agentImpl != null) {
+			agentImpl.stop();
+			agentImpl = null;
 		}
 	}
 	

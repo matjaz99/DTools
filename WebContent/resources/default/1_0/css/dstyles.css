@@ -105,6 +105,12 @@ padding: 2px 5px;
 	width: 32px;
 }
 
+.ui-menuitem-icon.ui-icon.refresh-icon {
+	background: url("#{resource['default:img/update.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}
+
 span.ui-menuitem-text {
 	font-size: 14px;
 	font-weight: bold;

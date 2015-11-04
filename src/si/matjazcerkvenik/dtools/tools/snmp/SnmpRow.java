@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 public class SnmpRow {
 
-	private int index;
+	private int index; // is this needed??
 	private List<String> valuesList;
 //	private TableMetadata metadata;
 

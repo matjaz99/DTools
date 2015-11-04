@@ -114,5 +114,16 @@ public class SnmpTableBean implements Serializable {
 	public void setRows(List<Map<String, Object>> rows) {
 		this.rows = rows;
 	}
+	
+	
+	// $ snmpget -v 2c -c public 192.168.1.100:6161 1.3.6.1.4.1.444.1.8.3.2
+	// $ snmpbulkwalk -v 2c -c public 192.168.1.100:6161 1.3.6.1.4.1.444.1.8
+	// $ snmpbulkget -v 2c -C r16 -c public 192.168.1.100:6161 1.3.6.1.4.1.444.1.8
+	public String generateNetSnmpHelp() {
+		String s = "$ snmpget -v 2c -c public " + agent.getLocalIp() + ":" + agent.getLocalPort() + " " + table.getMetadata().getTableOid() + ".row.col\n";
+		s += "$ snmpbulkwalk -v 2c -c public " + agent.getLocalIp() + ":" + agent.getLocalPort() + " " + table.getMetadata().getTableOid() + "\n";
+		s+= "$ snmpbulkget -v 2c -C r16 -c public " + agent.getLocalIp() + ":" + agent.getLocalPort() + " " + table.getMetadata().getTableOid() + "\n";
+		return s;
+	}
 
 }

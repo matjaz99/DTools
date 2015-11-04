@@ -32,7 +32,22 @@
 			
 			<h:form>
 				<p:button value="Back" outcome="snmpAgentSimulator" />
+				<p:commandButton value="Net-SNMP help" oncomplete="PF('helpDlg').show();" />
 			</h:form>
+			
+			
+			<h:form id="helpForm">
+	        	<p:dialog header="Net-SNMP help" widgetVar="helpDlg" resizable="false" dynamic="true" closable="true">
+	        		<h:panelGrid columns="1" width="100%">
+	        			<h:inputTextarea value="#{snmpTableBean.generateNetSnmpHelp()}" 
+							cols="100" rows="5" styleClass="codeStyle" readonly="true" />
+	        		</h:panelGrid>
+					<f:facet name="footer">
+				    	<p:commandButton value="Ok" onclick="PF('trapInfoDlg').hide();" />
+				    </f:facet>
+				</p:dialog>
+        </h:form>
+			
 			
 			<hr/>
 			

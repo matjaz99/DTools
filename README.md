@@ -31,6 +31,9 @@ Commons-logging is required by commons-vfs
 xx. october 2015
 
 - button for adding new snmp tables
+- snmp tables view
+- snmp agent implementation
+- tables respond to get/walk requests
 
 -----------------------------------------------------------
 
