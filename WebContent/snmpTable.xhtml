@@ -21,7 +21,7 @@
     		<p:breadCrumb>
 			    <p:menuitem value="Home" url="home.xhtml" />
 			    <p:menuitem value="SNMP Simulator" url="snmpAgentSimulator.xhtml" />
-			    <p:menuitem value="#{snmpTableBean.agent.name}" url="#" />
+			    <p:menuitem value="#{snmpTableBean.agent.name}" url="snmpAgent.xhtml?agent=#{snmpTableBean.agent.name}" />
 			    <p:menuitem value="#{snmpTableBean.table.name}" url="#" />
 			</p:breadCrumb>
     		
@@ -31,7 +31,9 @@
 			
 			
 			<h:form>
-				<p:button value="Back" outcome="snmpAgentSimulator" />
+				<p:button value="Back" outcome="snmpAgent">
+					<f:param name="agent" value="#{snmpTableBean.agent.name}" />
+				</p:button>
 				<p:commandButton value="Net-SNMP help" oncomplete="PF('helpDlg').show();" />
 			</h:form>
 			

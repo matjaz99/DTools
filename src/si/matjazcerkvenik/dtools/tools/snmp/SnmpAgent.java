@@ -287,7 +287,7 @@ public class SnmpAgent implements Serializable {
 		tbl.setFilePath(getDirectoryPath() + "/tables/" + newObjectName + "-" + System.currentTimeMillis() + ".xml");
 		
 		addNewSnmpTable(tbl);
-		DAO.getInstance().saveSnmpTable(tbl);
+		DAO.getInstance().saveSnmpDataTable(tbl);
 		
 		newObjectName = null;
 		

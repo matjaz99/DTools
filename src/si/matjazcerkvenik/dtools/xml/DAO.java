@@ -948,6 +948,20 @@ public class DAO {
 	}
 	
 	
+	public void deleteTrapsTable(SnmpAgent agent, TrapsTable table) {
+		for (int i = 0; i < snmpSimulator.getSnmpAgentsList().size(); i++) {
+			if (snmpSimulator.getSnmpAgentsList().get(i).equals(agent)) {
+				snmpSimulator.getSnmpAgentsList().get(i).getTrapsTableList().remove(table);
+			}
+		}
+		delete(new File(table.getFilePath()));
+		logger.info("DAO:deleteTrapsTable(): " + table.getFilePath());
+	}
+	
+	
+	
+	
+	
 	public List<SnmpTable> loadSnmpTablesFromDir(File trapsDir) {
 
 		List<SnmpTable> snmpTableList = new ArrayList<SnmpTable>();
@@ -973,7 +987,6 @@ public class DAO {
 				SnmpTable tbl = (SnmpTable) jaxbUnmarshaller.unmarshal(tablesXml[i]);
 				
 				tbl.setFilePath(tablesXml[i].getAbsolutePath());
-				tbl.applyMetadataToRows();
 				
 				snmpTableList.add(tbl);
 				
@@ -990,7 +1003,11 @@ public class DAO {
 	}
 	
 	
-	public void saveSnmpTable(SnmpTable table) {
+	/**
+	 * Write table data to disc.
+	 * @param table
+	 */
+	public void saveSnmpDataTable(SnmpTable table) {
 		
 		try {
 			
@@ -1007,6 +1024,24 @@ public class DAO {
 		}
 		
 	}
+	
+	
+	/**
+	 * Delete table data xml file from disc.
+	 * @param agent
+	 * @param table
+	 */
+	public void deleteSnmpDataTable(SnmpAgent agent, SnmpTable table) {
+		for (int i = 0; i < snmpSimulator.getSnmpAgentsList().size(); i++) {
+			if (snmpSimulator.getSnmpAgentsList().get(i).equals(agent)) {
+				snmpSimulator.getSnmpAgentsList().get(i).getSnmpTablesList().remove(table);
+			}
+		}
+		delete(new File(table.getFilePath()));
+		logger.info("DAO:deleteSnmpDataTable(): " + table.getFilePath());
+	}
+	
+	
 	
 	
 	/**
@@ -1033,7 +1068,7 @@ public class DAO {
 	
 
 	/**
-	 * Delete agent and remove directory
+	 * Delete agent and remove directory (including traps and tables subdirectories)
 	 * @param a
 	 */
 	public void deleteSnmpAgent(SnmpAgent a) {

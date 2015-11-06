@@ -52,7 +52,10 @@
 							            <p:ajax update="growl actBtn" listener="#{snmpSimulatorBean.toggleSnmpAgent(agent)}" />
 							        </p:inputSwitch>
 								</h:panelGrid>
-								<h:panelGrid columns="1" cellpadding="2">
+								<h:panelGrid columns="2" cellpadding="2">
+									<p:button value="Open" outcome="snmpAgent" >
+										<f:param name="agent" value="#{agent.name}" />
+									</p:button>
 							        <p:commandButton id="delBtn" value="Delete" 
 										action="#{snmpSimulatorBean.deleteSnmpAgent(agent)}" 
 										update="growl simForm" ajax="true" />
@@ -69,21 +72,6 @@
 										</p:link>
 									</h:column>
 								</h:dataTable>
-								<p:commandButton value="New scenario" onclick="PF('addScenarioDlg#{agent.name}').show();" />
-			 				 	<p:dialog header="Add new scenario" widgetVar="addScenarioDlg#{agent.name}" resizable="false">
-			 				 		<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
-										<h:outputLabel for="scName" value="Name: " />
-										<p:inputText id="scName" value="#{agent.newObjectName}" required="false" 
-											requiredMessage="Missing scenario name">
-										</p:inputText>
-										<f:facet name="footer">
-							                <p:commandButton value="Add" action="#{agent.addTrapScenarioAction(agent)}" 
-												update="growl trapsTable scName"
-												oncomplete="PF('addScenarioDlg#{agent.name}').hide();" />
-							                <p:commandButton value="Cancel" onclick="PF('addScenarioDlg#{agent.name}').hide();" />
-							            </f:facet>
-									</h:panelGrid>
-			 				 	</p:dialog>
 							</h:panelGrid>
 							<h:panelGrid columns="1">
 								<h:outputText value="Tables:" />
@@ -96,21 +84,6 @@
 										</p:link>
 									</h:column>
 								</h:dataTable>
-								<p:commandButton value="New table" onclick="PF('addTableDlg#{agent.name}').show();" />
-			 				 	<p:dialog header="Add new table" widgetVar="addTableDlg#{agent.name}" resizable="false">
-			 				 		<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
-										<h:outputLabel for="tblName" value="Name: " />
-										<p:inputText id="tblName" value="#{agent.newObjectName}" required="false" 
-											requiredMessage="Missing name">
-										</p:inputText>
-										<f:facet name="footer">
-							                <p:commandButton value="Add" action="#{agent.addSnmpTableAction()}" 
-												update="growl tablesTable tblName"
-												oncomplete="PF('addTableDlg#{agent.name}').hide();" />
-							                <p:commandButton value="Cancel" onclick="PF('addTableDlg#{agent.name}').hide();" />
-							            </f:facet>
-									</h:panelGrid>
-			 				 	</p:dialog>
 							</h:panelGrid>
 							</h:panelGrid>
 							
