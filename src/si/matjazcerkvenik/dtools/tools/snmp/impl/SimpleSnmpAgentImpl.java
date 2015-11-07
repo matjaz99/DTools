@@ -10,16 +10,6 @@ import org.snmp4j.agent.DuplicateRegistrationException;
 import org.snmp4j.agent.MOGroup;
 import org.snmp4j.agent.ManagedObject;
 import org.snmp4j.agent.io.ImportModes;
-import org.snmp4j.agent.mo.DefaultMOMutableRow2PC;
-import org.snmp4j.agent.mo.DefaultMOTable;
-import org.snmp4j.agent.mo.MOAccessImpl;
-import org.snmp4j.agent.mo.MOColumn;
-import org.snmp4j.agent.mo.MOMutableColumn;
-import org.snmp4j.agent.mo.MOMutableTableModel;
-import org.snmp4j.agent.mo.MOTableIndex;
-import org.snmp4j.agent.mo.MOTableModel;
-import org.snmp4j.agent.mo.MOTableRow;
-import org.snmp4j.agent.mo.MOTableSubIndex;
 import org.snmp4j.agent.mo.snmp.RowStatus;
 import org.snmp4j.agent.mo.snmp.SnmpCommunityMIB;
 import org.snmp4j.agent.mo.snmp.SnmpNotificationMIB;
@@ -32,12 +22,10 @@ import org.snmp4j.security.SecurityLevel;
 import org.snmp4j.security.SecurityModel;
 import org.snmp4j.security.USM;
 import org.snmp4j.smi.Address;
-import org.snmp4j.smi.Gauge32;
 import org.snmp4j.smi.GenericAddress;
 import org.snmp4j.smi.Integer32;
 import org.snmp4j.smi.OID;
 import org.snmp4j.smi.OctetString;
-import org.snmp4j.smi.SMIConstants;
 import org.snmp4j.smi.Variable;
 import org.snmp4j.transport.TransportMappings;
 
@@ -103,7 +91,9 @@ public class SimpleSnmpAgentImpl extends BaseAgent {
 			server.register(TableFactory.createMyCustomTable(), null);
 			for (int i = 0; i < agent.getSnmpTablesList().size(); i++) {
 				SnmpTable tab = agent.getSnmpTablesList().get(i);
-				server.register(TableFactory.createTable(tab), null);
+				if (tab.getMetadata().getColumnsMetaList().size() > 0) {
+					server.register(TableFactory.createTable(tab), null);
+				}
 			}
 		} catch (DuplicateRegistrationException e) {
 			e.printStackTrace();
@@ -195,43 +185,6 @@ public class SimpleSnmpAgentImpl extends BaseAgent {
 		// no implementation
 		// only for v3
 	}
-
 	
-
-	
-	
-//	public static DefaultMOTable createMyCustomTable() {
-//
-//		MOTableSubIndex[] subIndexes = new MOTableSubIndex[] { new MOTableSubIndex(
-//				SMIConstants.SYNTAX_INTEGER) };
-//		MOTableIndex indexDef = new MOTableIndex(subIndexes, false);
-//		MOColumn<Variable>[] columns = new MOColumn[3];
-//		int c = 0;
-//		columns[c++] = new MOColumn<Variable>(c, SMIConstants.SYNTAX_INTEGER,
-//				MOAccessImpl.ACCESS_READ_ONLY); // index
-//		columns[c++] = new MOColumn<Variable>(c,
-//				SMIConstants.SYNTAX_OCTET_STRING, MOAccessImpl.ACCESS_READ_ONLY); // descr
-//		columns[c++] = new MOColumn<Variable>(c, SMIConstants.SYNTAX_INTEGER,
-//				MOAccessImpl.ACCESS_READ_ONLY); // number
-//
-//		DefaultMOTable<MOTableRow<Variable>, MOColumn<Variable>, MOTableModel<MOTableRow<Variable>>> myTable = new DefaultMOTable<MOTableRow<Variable>, MOColumn<Variable>, MOTableModel<MOTableRow<Variable>>>(
-//				new OID("1.3.6.1.4.1.444.1.8"), indexDef, columns);
-//		MOMutableTableModel<MOTableRow<Variable>> model = (MOMutableTableModel<MOTableRow<Variable>>) myTable.getModel();
-//		
-//		Variable[] rowValues1 = new Variable[] { new Integer32(1),
-//				new OctetString("port 1"), new Integer32(6) };
-//		Variable[] rowValues2 = new Variable[] { new Integer32(1),
-//				new OctetString("port 2"), new Integer32(2) };
-//		Variable[] rowValues3 = new Variable[] { new Integer32(1),
-//				new OctetString("port 3"), new Integer32(4) };
-//		
-//		model.addRow(new DefaultMOMutableRow2PC(new OID("1"), rowValues1));
-//		model.addRow(new DefaultMOMutableRow2PC(new OID("2"), rowValues2));
-//		model.addRow(new DefaultMOMutableRow2PC(new OID("3"), rowValues3));
-//
-//		myTable.setVolatile(true);
-//		return myTable;
-//
-//	}
 
 }

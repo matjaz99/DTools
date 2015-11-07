@@ -25,9 +25,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.xml.bind.annotation.XmlTransient;
 
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
@@ -99,6 +102,9 @@ public class SnmpTableBean implements Serializable {
 	
 	public void populateColumns() {
 		
+		columns.clear();
+		rows.clear();
+		
 		for (int i = 0; i < table.getMetadata().getColumnsMetaList().size(); i++) {
 			columns.add(table.getMetadata().getColumnsMetaList().get(i).getName());
 		}
@@ -131,6 +137,47 @@ public class SnmpTableBean implements Serializable {
 	@XmlTransient
 	public void setRows(List<Map<String, Object>> rows) {
 		this.rows = rows;
+	}
+	
+	
+
+	public void addNewRow() {
+		if (table.getMetadata().getColumnsMetaList().isEmpty()) {
+			Growl.addGrowlMessage("Create columns first!", FacesMessage.SEVERITY_WARN);
+			return;
+		}
+		table.addNewRowWithDefaultValues();
+		populateColumns();
+	}
+	
+	public void saveTable() {
+		DAO.getInstance().saveSnmpDataTable(table);
+		Growl.addGrowlMessage("Table saved", FacesMessage.SEVERITY_INFO);
+	}
+	
+	
+	public void tableValueChanged(ValueChangeEvent e) {
+		String s = e.getNewValue().toString();
+//		System.out.println("tableValueChanged: " + s);
+		
+		int rowIndex = 0;
+		Map<String, Object> rowComponent = (Map<String, Object>) e.getComponent().getAttributes().get("row"); // Map: ifIndex=12, ifDesc=dsds
+		for (int i = 0; i < rows.size(); i++) {
+			if (rows.get(i).equals(rowComponent)) {
+//				System.out.println("row: " + i);
+				rowIndex = i;
+			}
+		}
+		
+		int colIndex = 0;
+		String col = (String) e.getComponent().getAttributes().get("col"); // ifIndex
+		for (int i = 0; i < table.getMetadata().getColumnsMetaList().size(); i++) {
+			if (table.getMetadata().getColumnsMetaList().get(i).getName().equals(col)) {
+//				System.out.println("col: " + i);
+				colIndex = i;
+			}
+		}
+		table.getRowsList().get(rowIndex).getValuesList().set(colIndex, s);
 	}
 	
 	

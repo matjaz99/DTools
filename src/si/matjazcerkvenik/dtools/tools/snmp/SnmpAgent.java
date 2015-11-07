@@ -257,6 +257,7 @@ public class SnmpAgent implements Serializable {
 	}
 	
 	
+	// TODO move to SnmpAgentBean??
 	public void addTrapScenarioAction(SnmpAgent a) {
 		
 		// create new empty table with default trap destination
@@ -285,6 +286,11 @@ public class SnmpAgent implements Serializable {
 		SnmpTable tbl = new SnmpTable();
 		tbl.setName(newObjectName);
 		tbl.setFilePath(getDirectoryPath() + "/tables/" + newObjectName + "-" + System.currentTimeMillis() + ".xml");
+		TableMetadata meta = new TableMetadata();
+		meta.setColumnsMetaList(new ArrayList<ColumnMetadata>());
+		meta.setTableOid("1.3.6.1.4.1.999999.1");
+		tbl.setMetadata(meta);
+		tbl.setRowsList(new ArrayList<SnmpRow>());
 		
 		addNewSnmpTable(tbl);
 		DAO.getInstance().saveSnmpDataTable(tbl);

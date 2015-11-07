@@ -18,6 +18,7 @@
 
 package si.matjazcerkvenik.dtools.web;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +35,9 @@ import si.matjazcerkvenik.dtools.xml.DAO;
 
 @ManagedBean
 @ViewScoped
-public class SnmpAgentBean {
+public class SnmpAgentBean implements Serializable {
+	
+	private static final long serialVersionUID = 7581142519721287280L;
 	
 	private SnmpAgent agent;
 	

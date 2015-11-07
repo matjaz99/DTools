@@ -26,9 +26,18 @@ Commons-logging is required by commons-vfs
 ## Version history
 
 -----------------------------------------------------------
+### 0.4.1-alpha.03
+
+7. november 2015
+
+- modify snmp table values
+- save table
+
+-----------------------------------------------------------
+
 ### 0.4.1-alpha.02
 
-xx. november 2015
+6. november 2015
 
 - snmp agent view
 - moved create new button to agent view

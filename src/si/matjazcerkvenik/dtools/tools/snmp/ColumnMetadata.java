@@ -8,6 +8,7 @@ public class ColumnMetadata {
 	private String type;
 	private String oid;
 	private String access;
+	private boolean index;
 	
 	
 	public String getName() {
@@ -37,6 +38,13 @@ public class ColumnMetadata {
 	@XmlAttribute
 	public void setAccess(String access) {
 		this.access = access;
+	}
+	public boolean isIndex() {
+		return index;
+	}
+	@XmlAttribute
+	public void setIndex(boolean index) {
+		this.index = index;
 	}
 	
 }

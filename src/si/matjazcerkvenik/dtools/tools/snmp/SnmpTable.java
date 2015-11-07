@@ -18,6 +18,7 @@
 
 package si.matjazcerkvenik.dtools.tools.snmp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -82,6 +83,28 @@ public class SnmpTable {
 	@XmlTransient
 	public void setAgent(SnmpAgent agent) {
 		this.agent = agent;
+	}
+	
+	public void addNewRowWithDefaultValues() {
+		
+		List<String> values = new ArrayList<String>();
+		for (int i = 0; i < metadata.getColumnsMetaList().size(); i++) {
+			if (metadata.getColumnsMetaList().get(i).getType().equals("INTEGER")) {
+				if (metadata.getColumnsMetaList().get(i).isIndex()) {
+					values.add("" + (rowsList.size() + 1)); // automatically increase index column
+				} else {
+					values.add("0");
+				}
+				
+			} else if (metadata.getColumnsMetaList().get(i).getType().equals("OCTET_STRING")) {
+				values.add("value" + (rowsList.size() + 1));
+			}
+		}
+		
+		SnmpRow row = new SnmpRow();
+		row.setIndex(rowsList.size() + 1);
+		row.setValuesList(values);
+		rowsList.add(row);
 	}
 
 }
