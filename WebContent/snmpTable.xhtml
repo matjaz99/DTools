@@ -34,6 +34,10 @@
 				<p:button value="Back" outcome="snmpAgent">
 					<f:param name="agent" value="#{snmpTableBean.agent.name}" />
 				</p:button>
+				<p:button value="Edit Table" outcome="snmpTableMetadata">
+					<f:param name="agent" value="#{snmpTableBean.agent.name}" />
+					<f:param name="snmpTableName" value="#{snmpTableBean.table.name}" />
+				</p:button>
 				<p:commandButton value="Net-SNMP help" oncomplete="PF('helpDlg').show();" />
 			</h:form>
 			
@@ -48,12 +52,20 @@
 				    	<p:commandButton value="Ok" onclick="PF('trapInfoDlg').hide();" />
 				    </f:facet>
 				</p:dialog>
-        </h:form>
+        	</h:form>
 			
 			
 			<hr/>
 			
-			<h:outputText value="Table OID: #{snmpTableBean.table.metadata.tableOid}" />
+			<h:form>
+				<h:panelGrid columns="2" cellspacing="5">
+					<h:outputText value="Table OID: " />
+					<p:inplace editor="true" >
+						<p:inputText value="#{snmpTableBean.table.metadata.tableOid}" required="true" 
+							label="tblOid" valueChangeListener="#{snmpTableBean.changedTableOid}" />
+					</p:inplace>
+				</h:panelGrid>
+			</h:form>
 			
 			
 			<h:form id="mainForm">
@@ -63,7 +75,7 @@
 						<p:columns value="#{snmpTableBean.columns}" var="col" headerText="#{col}">
 							<p:inplace editor="true">
 						        <p:inputText value="#{row[col]}" required="false" label="text"
-						        	valueChangeListener="#{snmpTableBean.tableValueChanged}"  >
+						        	valueChangeListener="#{snmpTableBean.tableValueChanged}" >
 						        	<f:attribute name="row" value="#{row}" />
 									<f:attribute name="col" value="#{col}" />
 						        </p:inputText>

@@ -47,6 +47,10 @@
 										<p:inputText id="tblName" value="#{snmpAgentBean.agent.newObjectName}" required="false" 
 											requiredMessage="Missing name">
 										</p:inputText>
+										<h:outputLabel for="tblOid" value="Table OID: " />
+										<p:inputText id="tblOid" value="#{snmpAgentBean.agent.tableOID}" required="false" 
+											requiredMessage="Missing name">
+										</p:inputText>
 										<f:facet name="footer">
 							                <p:commandButton value="Add" action="#{snmpAgentBean.agent.addSnmpTableAction()}" 
 												update="growl tablesTbl tblName"
@@ -61,6 +65,13 @@
 						<p:column>
 							<f:facet name="header">Table name</f:facet>
 							<p:link outcome="snmpTable" value="#{table.name}">
+								    <f:param name="agent" value="#{snmpAgentBean.agent.name}" />
+								    <f:param name="snmpTableName" value="#{table.name}" />
+								</p:link>
+						</p:column>
+						<p:column>
+							<f:facet name="header">Table OID</f:facet>
+							<p:link outcome="snmpTable" value="#{table.metadata.tableOid}">
 								    <f:param name="agent" value="#{snmpAgentBean.agent.name}" />
 								    <f:param name="snmpTableName" value="#{table.name}" />
 								</p:link>

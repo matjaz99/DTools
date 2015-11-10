@@ -26,6 +26,13 @@ Commons-logging is required by commons-vfs
 ## Version history
 
 -----------------------------------------------------------
+### 0.4.1-alpha.04
+
+10. november 2015
+
+- add columns metadata
+
+-----------------------------------------------------------
 ### 0.4.1-alpha.03
 
 7. november 2015

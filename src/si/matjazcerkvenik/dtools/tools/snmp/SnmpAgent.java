@@ -55,6 +55,7 @@ public class SnmpAgent implements Serializable {
 	private List<SnmpTable> snmpTablesList;
 	
 	private String newObjectName;
+	private String tableOID;
 	
 	
 	public SnmpAgent() {
@@ -252,6 +253,7 @@ public class SnmpAgent implements Serializable {
 		return newObjectName;
 	}
 
+	@XmlTransient
 	public void setNewObjectName(String newObjectName) {
 		this.newObjectName = newObjectName;
 	}
@@ -288,7 +290,7 @@ public class SnmpAgent implements Serializable {
 		tbl.setFilePath(getDirectoryPath() + "/tables/" + newObjectName + "-" + System.currentTimeMillis() + ".xml");
 		TableMetadata meta = new TableMetadata();
 		meta.setColumnsMetaList(new ArrayList<ColumnMetadata>());
-		meta.setTableOid("1.3.6.1.4.1.999999.1");
+		meta.setTableOid(tableOID);
 		tbl.setMetadata(meta);
 		tbl.setRowsList(new ArrayList<SnmpRow>());
 		
@@ -300,6 +302,15 @@ public class SnmpAgent implements Serializable {
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.addCallbackParam("success", true);
 		
+	}
+
+	public String getTableOID() {
+		return tableOID;
+	}
+
+	@XmlTransient
+	public void setTableOID(String tableOID) {
+		this.tableOID = tableOID;
 	}
 
 }

@@ -33,6 +33,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.xml.bind.annotation.XmlTransient;
 
+import si.matjazcerkvenik.dtools.tools.snmp.ColumnMetadata;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpSimulator;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTable;
@@ -150,9 +151,38 @@ public class SnmpTableBean implements Serializable {
 		populateColumns();
 	}
 	
+	public void addNewColumn() {
+		if (table.getMetadata().getColumnsMetaList().isEmpty()) {
+			List<ColumnMetadata> col = new ArrayList<ColumnMetadata>();
+			table.getMetadata().setColumnsMetaList(col);
+		}
+		ColumnMetadata cm = new ColumnMetadata();
+		cm.setAccess("ro");
+		cm.setIndex(false);
+		cm.setName("colName");
+		cm.setOid(table.getMetadata().getTableOid());
+		cm.setType("OCTET_STRING");
+		table.getMetadata().getColumnsMetaList().add(cm);
+		
+		for (int i = 0; i < table.getRowsList().size(); i++) {
+			table.getRowsList().get(i).getValuesList().add("value");
+		}
+		
+		populateColumns();
+	}
+	
+	
 	public void saveTable() {
 		DAO.getInstance().saveSnmpDataTable(table);
 		Growl.addGrowlMessage("Table saved", FacesMessage.SEVERITY_INFO);
+	}
+	
+	
+	public void changedTableOid(ValueChangeEvent e) {
+		if (e.getOldValue().toString().equalsIgnoreCase(e.getNewValue().toString())) {
+			return;
+		}
+		table.getMetadata().setTableOid(e.getNewValue().toString());
 	}
 	
 	
@@ -164,6 +194,7 @@ public class SnmpTableBean implements Serializable {
 		Map<String, Object> rowComponent = (Map<String, Object>) e.getComponent().getAttributes().get("row"); // Map: ifIndex=12, ifDesc=dsds
 		for (int i = 0; i < rows.size(); i++) {
 			if (rows.get(i).equals(rowComponent)) {
+				// warning: equals method compares values in row, so it might find more than one row if values are identical!!
 //				System.out.println("row: " + i);
 				rowIndex = i;
 			}
