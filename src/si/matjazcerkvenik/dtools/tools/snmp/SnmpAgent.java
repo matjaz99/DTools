@@ -28,9 +28,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.primefaces.context.RequestContext;
-
-import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.SimpleSnmpAgentImpl;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapSender;
 import si.matjazcerkvenik.dtools.xml.DAO;
@@ -54,8 +51,6 @@ public class SnmpAgent implements Serializable {
 	private List<TrapsTable> trapsTableList;
 	private List<SnmpTable> snmpTablesList;
 	
-	private String newObjectName;
-	private String tableOID;
 	
 	
 	public SnmpAgent() {
@@ -162,6 +157,13 @@ public class SnmpAgent implements Serializable {
 		snmpTablesList.add(table);
 	}
 	
+	public SnmpTable findSnmpTable(String name) {
+		for (SnmpTable t : snmpTablesList) {
+			if (t.getName().equals(name)) return t;
+		}
+		return null;
+	}
+	
 
 	/**
 	 * Return true if trapSender is running
@@ -245,72 +247,6 @@ public class SnmpAgent implements Serializable {
 			ex.printStackTrace();
 		}
 		DAO.getInstance().saveAgentMetadata(this);
-	}
-	
-	
-	
-	public String getNewObjectName() {
-		return newObjectName;
-	}
-
-	@XmlTransient
-	public void setNewObjectName(String newObjectName) {
-		this.newObjectName = newObjectName;
-	}
-	
-	
-	// TODO move to SnmpAgentBean??
-	public void addTrapScenarioAction(SnmpAgent a) {
-		
-		// create new empty table with default trap destination
-		TrapsTable tt = new TrapsTable();
-		tt.setName(newObjectName);
-		tt.setFilePath(a.getDirectoryPath() + "/traps/" + newObjectName + "-" + System.currentTimeMillis() + ".xml");
-		tt.setTrapsList(new ArrayList<SnmpTrap>());
-		
-		TrapDestination td = new TrapDestination(LocalhostInfo.getLocalIpAddress(), 162);
-		List<TrapDestination> destList = new ArrayList<TrapDestination>();
-		destList.add(td);
-		tt.setTrapDestinationsList(destList);
-		
-		a.addNewTrapsTable(tt);
-		DAO.getInstance().saveSnmpTraps(tt);
-		
-		newObjectName = null;
-		
-		RequestContext context = RequestContext.getCurrentInstance();
-		context.addCallbackParam("success", true);
-	}
-	
-	public void addSnmpTableAction(/*SnmpAgent a*/) {
-		
-		// create new empty table
-		SnmpTable tbl = new SnmpTable();
-		tbl.setName(newObjectName);
-		tbl.setFilePath(getDirectoryPath() + "/tables/" + newObjectName + "-" + System.currentTimeMillis() + ".xml");
-		TableMetadata meta = new TableMetadata();
-		meta.setColumnsMetaList(new ArrayList<ColumnMetadata>());
-		meta.setTableOid(tableOID);
-		tbl.setMetadata(meta);
-		tbl.setRowsList(new ArrayList<SnmpRow>());
-		
-		addNewSnmpTable(tbl);
-		DAO.getInstance().saveSnmpDataTable(tbl);
-		
-		newObjectName = null;
-		
-		RequestContext context = RequestContext.getCurrentInstance();
-		context.addCallbackParam("success", true);
-		
-	}
-
-	public String getTableOID() {
-		return tableOID;
-	}
-
-	@XmlTransient
-	public void setTableOID(String tableOID) {
-		this.tableOID = tableOID;
 	}
 
 }

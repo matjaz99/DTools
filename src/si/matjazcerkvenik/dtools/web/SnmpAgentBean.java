@@ -19,6 +19,7 @@
 package si.matjazcerkvenik.dtools.web;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,9 +28,17 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.context.RequestContext;
+
+import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
+import si.matjazcerkvenik.dtools.tools.snmp.ColumnMetadata;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpRow;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpSimulator;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTable;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrap;
+import si.matjazcerkvenik.dtools.tools.snmp.TableMetadata;
+import si.matjazcerkvenik.dtools.tools.snmp.TrapDestination;
 import si.matjazcerkvenik.dtools.tools.snmp.TrapsTable;
 import si.matjazcerkvenik.dtools.xml.DAO;
 
@@ -40,6 +49,10 @@ public class SnmpAgentBean implements Serializable {
 	private static final long serialVersionUID = 7581142519721287280L;
 	
 	private SnmpAgent agent;
+	
+	private String newTableName;
+	private String newTableOID;
+	private String newTrapsTableName;
 	
 	@PostConstruct
 	public void init() {
@@ -65,6 +78,30 @@ public class SnmpAgentBean implements Serializable {
 		this.agent = agent;
 	}
 
+	public String getNewTableName() {
+		return newTableName;
+	}
+
+	public void setNewTableName(String newTableName) {
+		this.newTableName = newTableName;
+	}
+
+	public String getNewTableOID() {
+		return newTableOID;
+	}
+
+	public void setNewTableOID(String tableOID) {
+		this.newTableOID = tableOID;
+	}
+	
+	public String getNewTrapsTableName() {
+		return newTrapsTableName;
+	}
+
+	public void setNewTrapsTableName(String newTrapsTableName) {
+		this.newTrapsTableName = newTrapsTableName;
+	}
+
 	public List<TrapsTable> getTrapsTableList() {
 		return agent.getTrapsTableList();
 	}
@@ -72,6 +109,54 @@ public class SnmpAgentBean implements Serializable {
 	public List<SnmpTable> getSnmpTablesList() {
 		return agent.getSnmpTablesList();
 	}
+	
+	
+	public void addTrapScenarioAction(SnmpAgent a) {
+		
+		// create new empty table with default trap destination
+		TrapsTable tt = new TrapsTable();
+		tt.setName(newTrapsTableName);
+		tt.setFilePath(a.getDirectoryPath() + "/traps/" + newTrapsTableName + "-" + System.currentTimeMillis() + ".xml");
+		tt.setTrapsList(new ArrayList<SnmpTrap>());
+		
+		TrapDestination td = new TrapDestination(LocalhostInfo.getLocalIpAddress(), 162);
+		List<TrapDestination> destList = new ArrayList<TrapDestination>();
+		destList.add(td);
+		tt.setTrapDestinationsList(destList);
+		
+		a.addNewTrapsTable(tt);
+		DAO.getInstance().saveSnmpTraps(tt);
+		
+		newTrapsTableName = null;
+		
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.addCallbackParam("success", true);
+	}
+	
+	
+	public void addSnmpTableAction(/*SnmpAgent a*/) {
+		
+		// create new empty table
+		SnmpTable tbl = new SnmpTable();
+		tbl.setName(newTableName);
+		tbl.setFilePath(agent.getDirectoryPath() + "/tables/" + newTableName + "-" + System.currentTimeMillis() + ".xml");
+		TableMetadata meta = new TableMetadata();
+		meta.setColumnsMetaList(new ArrayList<ColumnMetadata>());
+		meta.setTableOid(newTableOID);
+		tbl.setMetadata(meta);
+		tbl.setRowsList(new ArrayList<SnmpRow>());
+		
+		agent.addNewSnmpTable(tbl);
+		DAO.getInstance().saveSnmpDataTable(tbl);
+		
+		newTableName = null;
+		newTableOID = null;
+		
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.addCallbackParam("success", true);
+		
+	}
+	
 	
 	public void deleteDataTable(SnmpTable table) {
 		DAO.getInstance().deleteSnmpDataTable(agent, table);

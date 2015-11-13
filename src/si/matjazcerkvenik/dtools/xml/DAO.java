@@ -38,6 +38,7 @@ import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpClient;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpClients;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpManager;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpRow;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpSimulator;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTable;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrap;
@@ -886,6 +887,19 @@ public class DAO {
 	}
 	
 	
+	/**
+	 * Find SNMP agent according to name
+	 * @param name
+	 * @return agent
+	 */
+	public SnmpAgent findSnmpAgent(String name) {
+		for (SnmpAgent a : snmpSimulator.getSnmpAgentsList()) {
+			if (a.getName().equals(name)) return a;
+		}
+		return null;
+	}
+	
+	
 	
 	public List<TrapsTable> loadSnmpTrapsFromDir(File trapsDir) {
 
@@ -987,6 +1001,9 @@ public class DAO {
 				SnmpTable tbl = (SnmpTable) jaxbUnmarshaller.unmarshal(tablesXml[i]);
 				
 				tbl.setFilePath(tablesXml[i].getAbsolutePath());
+				if (tbl.getRowsList() == null) {
+					tbl.setRowsList(new ArrayList<SnmpRow>());
+				}
 				
 				snmpTableList.add(tbl);
 				
@@ -1017,6 +1034,8 @@ public class DAO {
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(table, file);
 			
+			
+			
 			logger.info("DAO:saveSnmpTable(): " + file.getAbsolutePath());
 
 		} catch (JAXBException e) {
@@ -1040,6 +1059,9 @@ public class DAO {
 		delete(new File(table.getFilePath()));
 		logger.info("DAO:deleteSnmpDataTable(): " + table.getFilePath());
 	}
+	
+	
+	
 	
 	
 	

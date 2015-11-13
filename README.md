@@ -26,11 +26,19 @@ Commons-logging is required by commons-vfs
 ## Version history
 
 -----------------------------------------------------------
+### 0.4.1-beta.01
+
+13. november 2015
+
+- delete rows and columns
+
+-----------------------------------------------------------
+
 ### 0.4.1-alpha.04
 
 10. november 2015
 
-- add columns metadata
+- edit columns metadata
 
 -----------------------------------------------------------
 ### 0.4.1-alpha.03

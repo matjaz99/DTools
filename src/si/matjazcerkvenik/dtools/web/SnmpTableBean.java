@@ -48,29 +48,27 @@ public class SnmpTableBean implements Serializable {
 	private SnmpAgent agent;
 	private SnmpTable table;
 	
+	private String newColumnType;
+	
 	@PostConstruct
 	public void init() {
 		
 		Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		if (requestParameterMap.containsKey("agent")) {
 			String name = requestParameterMap.get("agent");
-			SnmpSimulator sim = DAO.getInstance().loadSnmpSimulator();
-			for (SnmpAgent a : sim.getSnmpAgentsList()) {
-				if (a.getName().equals(name)) {
-					agent = a;
-					break;
-				}
-			}
+			agent = DAO.getInstance().findSnmpAgent(name);
+//			SnmpSimulator sim = DAO.getInstance().loadSnmpSimulator();
+//			for (SnmpAgent a : sim.getSnmpAgentsList()) {
+//				if (a.getName().equals(name)) {
+//					agent = a;
+//					break;
+//				}
+//			}
 		}
 		if (requestParameterMap.containsKey("snmpTableName")) {
 			String name = requestParameterMap.get("snmpTableName");
-			for (SnmpTable t : agent.getSnmpTablesList()) {
-				if (t.getName().equals(name)) {
-					table = t;
-					table.setAgent(agent);
-					break;
-				}
-			}
+			table = agent.findSnmpTable(name);
+			table.setAgent(agent);
 		}
 		
 		populateColumns();
@@ -94,9 +92,18 @@ public class SnmpTableBean implements Serializable {
 	}
 	
 	
-	
-	
-	
+//	public String getNewColumnType() {
+//		return newColumnType;
+//	}
+//
+//	public void setNewColumnType(String newColumnType) {
+//		this.newColumnType = newColumnType;
+//	}
+
+
+
+
+
 	private List<String> columns = new ArrayList<String>();
 	private List<Map<String, Object>> rows = new ArrayList<Map<String,Object>>();
 	
@@ -151,6 +158,18 @@ public class SnmpTableBean implements Serializable {
 		populateColumns();
 	}
 	
+	public void deleteRow(Map<String, Object> row) {
+		int removeRowIndex = 99;
+		for (int i = 0; i < rows.size(); i++) {
+			if (rows.get(i).equals(row)) {
+				removeRowIndex = i;
+				break;
+			}
+		}
+		table.getRowsList().remove(removeRowIndex);
+		populateColumns();
+	}
+	
 	public void addNewColumn() {
 		if (table.getMetadata().getColumnsMetaList().isEmpty()) {
 			List<ColumnMetadata> col = new ArrayList<ColumnMetadata>();
@@ -159,7 +178,7 @@ public class SnmpTableBean implements Serializable {
 		ColumnMetadata cm = new ColumnMetadata();
 		cm.setAccess("ro");
 		cm.setIndex(false);
-		cm.setName("colName");
+		cm.setName("colName" + table.getMetadata().getColumnsMetaList().size());
 		cm.setOid(table.getMetadata().getTableOid());
 		cm.setType("OCTET_STRING");
 		table.getMetadata().getColumnsMetaList().add(cm);
@@ -169,6 +188,20 @@ public class SnmpTableBean implements Serializable {
 		}
 		
 		populateColumns();
+	}
+	
+	public void deleteColumn(ColumnMetadata cm) {
+		int removeRowsIndex = 99;
+		for (int i = 0; i < table.getMetadata().getColumnsMetaList().size(); i++) {
+			if (table.getMetadata().getColumnsMetaList().get(i).getName().equals(cm.getName())) {
+				removeRowsIndex = i;
+				break;
+			}
+		}
+		table.getMetadata().getColumnsMetaList().remove(cm);
+		for (int i = 0; i < table.getRowsList().size(); i++) {
+			table.getRowsList().get(i).getValuesList().remove(removeRowsIndex);
+		}
 	}
 	
 	

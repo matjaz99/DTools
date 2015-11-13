@@ -31,7 +31,7 @@
 			
 			
 			<h:form>
-				<p:button value="Back" outcome="snmpAgent">
+				<p:button value="Back" outcome="snmpAgent" >
 					<f:param name="agent" value="#{snmpTableBean.agent.name}" />
 				</p:button>
 				<p:button value="Edit Table" outcome="snmpTableMetadata">
@@ -72,7 +72,7 @@
 			
 				<h:panelGrid columns="1" cellspacing="5" width="100%">
 					<p:dataTable id="tbl" value="#{snmpTableBean.rows}" var="row" >
-						<p:columns value="#{snmpTableBean.columns}" var="col" headerText="#{col}">
+						<p:columns value="#{snmpTableBean.columns}" var="col" headerText="#{col}" >
 							<p:inplace editor="true">
 						        <p:inputText value="#{row[col]}" required="false" label="text"
 						        	valueChangeListener="#{snmpTableBean.tableValueChanged}" >
@@ -80,15 +80,21 @@
 									<f:attribute name="col" value="#{col}" />
 						        </p:inputText>
 						    </p:inplace>
-							
 						</p:columns>
+						<p:column>
+							<f:facet name="header">Action</f:facet>
+								<p:commandButton value="Remove row" 
+									action="#{snmpTableBean.deleteRow(row)}" 
+									update="mainForm" ajax="true" >
+								</p:commandButton>
+						</p:column>
 					</p:dataTable>
 				</h:panelGrid>
 				
 				<h:panelGrid columns="3" cellpadding="3" cellspacing="3">
 		            	<p:commandButton value="Add row" 
 							action="#{snmpTableBean.addNewRow()}" 
-							update="mainForm" ajax="true" />
+							update="mainForm growl" ajax="true" />
 						<p:commandButton value="Save table" 
 							action="#{snmpTableBean.saveTable()}"
 							update="growl mainForm" ajax="true" >

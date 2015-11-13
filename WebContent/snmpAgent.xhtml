@@ -23,15 +23,6 @@
 			    <p:menuitem value="SNMP Simulator" url="snmpAgentSimulator.xhtml" />
 			    <p:menuitem value="#{snmpAgentBean.agent.name}" url="#" />
 			</p:breadCrumb>
-    		
-			
-			<h:outputText value="SNMP Agent #{snmpAgentBean.agent.name}" styleClass="title" />
-			
-			
-			
-			<h:form>
-				<p:button value="Back" outcome="snmpAgentSimulator" />
-			</h:form>
 			
 			
 			
@@ -44,15 +35,15 @@
 			 				 	<p:dialog header="Add new table" widgetVar="addTableDlg#{snmpAgentBean.agent.name}" resizable="false">
 			 				 		<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
 										<h:outputLabel for="tblName" value="Name: " />
-										<p:inputText id="tblName" value="#{snmpAgentBean.agent.newObjectName}" required="false" 
+										<p:inputText id="tblName" value="#{snmpAgentBean.newTableName}" required="false" 
 											requiredMessage="Missing name">
 										</p:inputText>
 										<h:outputLabel for="tblOid" value="Table OID: " />
-										<p:inputText id="tblOid" value="#{snmpAgentBean.agent.tableOID}" required="false" 
+										<p:inputText id="tblOid" value="#{snmpAgentBean.newTableOID}" required="false" 
 											requiredMessage="Missing name">
 										</p:inputText>
 										<f:facet name="footer">
-							                <p:commandButton value="Add" action="#{snmpAgentBean.agent.addSnmpTableAction()}" 
+							                <p:commandButton value="Add" action="#{snmpAgentBean.addSnmpTableAction()}" 
 												update="growl tablesTbl tblName"
 												oncomplete="PF('addTableDlg#{snmpAgentBean.agent.name}').hide();" />
 							                <p:commandButton value="Cancel" onclick="PF('addTableDlg#{snmpAgentBean.agent.name}').hide();" />
@@ -94,11 +85,11 @@
 			 				 	<p:dialog header="Add new scenario" widgetVar="addScenarioDlg#{snmpAgentBean.agent.name}" resizable="false">
 			 				 		<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
 										<h:outputLabel for="scName" value="Name: " />
-										<p:inputText id="scName" value="#{snmpAgentBean.agent.newObjectName}" required="false" 
+										<p:inputText id="scName" value="#{snmpAgentBean.newTrapsTableName}" required="false" 
 											requiredMessage="Missing scenario name">
 										</p:inputText>
 										<f:facet name="footer">
-							                <p:commandButton value="Add" action="#{snmpAgentBean.agent.addTrapScenarioAction(snmpAgentBean.agent)}" 
+							                <p:commandButton value="Add" action="#{snmpAgentBean.addTrapScenarioAction(snmpAgentBean.agent)}" 
 												update="growl trapsTbl scName"
 												oncomplete="PF('addScenarioDlg#{snmpAgentBean.agent.name}').hide();" />
 							                <p:commandButton value="Cancel" onclick="PF('addScenarioDlg#{snmpAgentBean.agent.name}').hide();" />
