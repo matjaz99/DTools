@@ -10,33 +10,21 @@
         <title>DTools</title>
     </h:head>
     <h:body>
-    
+    	
     	<h:outputStylesheet library="default" name="css/dstyles.css"/>
-    	<h:outputStylesheet library="default" name="css/dstyles2.css"/>
+    	<p:growl id="growl" life="2000"/>
     	
     	<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
     		
     		<ui:include src="/include/ptoolbar.xhtml"/>
-    		
-	        
 			
-			<h:outputText value="User: #{utilsBean.systemUser} / Local IP: #{utilsBean.localIpAddress}" styleClass="title" />
+			<h:outputText value="DTools settings" styleClass="title" />
+			
+			<p:commandButton action="#{utilsBean.reloadAllData()}" value="Reload data" />
 			
 			
-			<h:panelGrid columns="2" cellpadding="5" cellspacing="5" width="100%">
-				
-				
-				<ui:include src="/include/favorite-servers.xhtml"/>
-				
-				<ui:include src="/include/saved-files.xhtml"/>
-				
-				
-			</h:panelGrid>
-			        	
-        	
+        
         </h:panelGrid>
         
     </h:body>
 </html>
-
-

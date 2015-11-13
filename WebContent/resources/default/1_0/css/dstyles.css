@@ -105,8 +105,8 @@ padding: 2px 5px;
 	width: 32px;
 }
 
-.ui-menuitem-icon.ui-icon.refresh-icon {
-	background: url("#{resource['default:img/update.png']}") no-repeat;
+.ui-menuitem-icon.ui-icon.settings-icon {
+	background: url("#{resource['default:img/user-settings.png']}") no-repeat;
 	height: 32px; 
 	width: 32px;
 }
