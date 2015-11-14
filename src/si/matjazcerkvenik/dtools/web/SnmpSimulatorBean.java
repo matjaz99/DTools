@@ -50,7 +50,7 @@ public class SnmpSimulatorBean implements Serializable {
 	}
 	
 	public void deleteSnmpAgent(SnmpAgent a) {
-		a.stop();
+		a.destroyAgent();
 		DAO.getInstance().deleteSnmpAgent(a);
 		Growl.addGrowlMessage(a.getName() + " deleted", FacesMessage.SEVERITY_INFO);
 	}

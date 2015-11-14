@@ -21,8 +21,6 @@ package si.matjazcerkvenik.dtools.tools.snmp;
 import java.util.ArrayList;
 import java.util.List;
 
-import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
-
 /**
  * This class contains a list of all agents.
  * 
@@ -50,14 +48,6 @@ public class SnmpSimulator {
 	
 	public void removeSnmpAgent(SnmpAgent a) {
 		snmpAgentsList.remove(a);
-	}
-	
-	public void createDefaultAgent() {
-		if (snmpAgentsList == null) {
-			snmpAgentsList = new ArrayList<SnmpAgent>();
-		}
-		SnmpAgent a = new SnmpAgent("DefaultAgent0", LocalhostInfo.getLocalIpAddress(), 6161);
-		snmpAgentsList.add(a);
 	}
 	
 }

@@ -211,12 +211,12 @@ public class SnmpTableBean implements Serializable {
 	}
 	
 	
-	public void changedTableOid(ValueChangeEvent e) {
-		if (e.getOldValue().toString().equalsIgnoreCase(e.getNewValue().toString())) {
-			return;
-		}
-		table.getMetadata().setTableOid(e.getNewValue().toString());
-	}
+//	public void changedTableOid(ValueChangeEvent e) {
+//		if (e.getOldValue().toString().equalsIgnoreCase(e.getNewValue().toString())) {
+//			return;
+//		}
+//		table.getMetadata().setTableOid(e.getNewValue().toString());
+//	}
 	
 	
 	public void tableValueChanged(ValueChangeEvent e) {

@@ -31,9 +31,6 @@
 			
 			
 			<h:form>
-				<p:button value="Back" outcome="snmpAgent" >
-					<f:param name="agent" value="#{snmpTableBean.agent.name}" />
-				</p:button>
 				<p:button value="Edit Table" outcome="snmpTableMetadata">
 					<f:param name="agent" value="#{snmpTableBean.agent.name}" />
 					<f:param name="snmpTableName" value="#{snmpTableBean.table.name}" />
@@ -57,15 +54,8 @@
 			
 			<hr/>
 			
-			<h:form>
-				<h:panelGrid columns="2" cellspacing="5">
-					<h:outputText value="Table OID: " />
-					<p:inplace editor="true" >
-						<p:inputText value="#{snmpTableBean.table.metadata.tableOid}" required="true" 
-							label="tblOid" valueChangeListener="#{snmpTableBean.changedTableOid}" />
-					</p:inplace>
-				</h:panelGrid>
-			</h:form>
+			<h:outputText value="Table OID: #{snmpTableBean.table.metadata.tableOid}" />
+
 			
 			
 			<h:form id="mainForm">

@@ -31,11 +31,14 @@ import javax.xml.bind.annotation.XmlTransient;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.SimpleSnmpAgentImpl;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapSender;
 import si.matjazcerkvenik.dtools.xml.DAO;
+import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 @XmlRootElement
 public class SnmpAgent implements Serializable {
 	
 	private static final long serialVersionUID = -2488608414261579629L;
+	
+	private SimpleLogger logger;
 	
 	private String directoryPath;
 	
@@ -62,6 +65,29 @@ public class SnmpAgent implements Serializable {
 		this.localPort = port;
 	}
 	
+	
+	/**
+	 * Initialize agent:<br>
+	 * - create logger
+	 */
+	public void init() {
+		logger = new SimpleLogger(directoryPath + "/log/agent.log");
+		logger.info("SNMP Agent initialized: " + name);
+	}
+	
+	/**
+	 * Prepare agent to be deleted (close logger stream)
+	 */
+	public void destroyAgent() {
+		stop();
+		logger.close();
+	}
+	
+	
+	public SimpleLogger getLogger() {
+		return logger;
+	}
+
 	public String getDirectoryPath() {
 		return directoryPath;
 	}
@@ -132,11 +158,16 @@ public class SnmpAgent implements Serializable {
 		this.trapsTableList = list;
 	}
 	
+	/**
+	 * Add new (empty) traps scenario.
+	 * @param tt
+	 */
 	public void addNewTrapsTable(TrapsTable tt) {
 		if (trapsTableList == null) {
 			trapsTableList = new ArrayList<TrapsTable>();
 		}
 		trapsTableList.add(tt);
+		logger.info("SnmpAgent:addNewTrapsTable(): added trap scenario: " + tt.getName());
 	}
 	
 	
@@ -150,13 +181,23 @@ public class SnmpAgent implements Serializable {
 		this.snmpTablesList = snmpTablesList;
 	}
 	
+	/**
+	 * Add new (empty) data table.
+	 * @param table
+	 */
 	public void addNewSnmpTable(SnmpTable table) {
 		if (snmpTablesList == null) {
 			snmpTablesList = new ArrayList<SnmpTable>();
 		}
 		snmpTablesList.add(table);
+		logger.info("SnmpAgent:addNewSnmpTable(): added data table: " + table.getName());
 	}
 	
+	/**
+	 * Find data table according to name.
+	 * @param name
+	 * @return snmp data table
+	 */
 	public SnmpTable findSnmpTable(String name) {
 		for (SnmpTable t : snmpTablesList) {
 			if (t.getName().equals(name)) return t;
@@ -190,10 +231,12 @@ public class SnmpAgent implements Serializable {
 		if (trapSender == null) {
 			trapSender = new TrapSender(localIp, localPort);
 			active = trapSender.start();
+			logger.info("SnmpAgent:start(): trap sender started on " + localIp + "/" + localPort);
 		}
 		if (agentImpl == null) {
 			agentImpl = new SimpleSnmpAgentImpl(this);
 			agentImpl.startSnmpAgent();
+			logger.info("SnmpAgent:start(): agent started on " + localIp + "/" + localPort);
 		}
 		return active;
 	}
@@ -209,11 +252,13 @@ public class SnmpAgent implements Serializable {
 			for (TrapsTable tt : trapsTableList) {
 				tt.stopSenderThread();
 			}
+			logger.info("SnmpAgent:stop(): trap sender stopped");
 //			active = false;          where is this set to false if not here???
 		}
 		if (agentImpl != null) {
 			agentImpl.stop();
 			agentImpl = null;
+			logger.info("SnmpAgent:stop(): agent stopped");
 		}
 	}
 	

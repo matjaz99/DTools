@@ -34,8 +34,7 @@ import si.matjazcerkvenik.dtools.tools.snmp.SnmpTable;
 
 public class SimpleSnmpAgentImpl extends BaseAgent {
 
-	// private String address = "0.0.0.0/6161";
-//	private String address = "192.168.1.100/6161";
+	
 	private SnmpAgent agent;
 
 	

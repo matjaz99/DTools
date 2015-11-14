@@ -853,6 +853,7 @@ public class DAO {
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			snmpAgent = (SnmpAgent) jaxbUnmarshaller.unmarshal(file);
 			snmpAgent.setDirectoryPath(file.getParentFile().getAbsolutePath());
+			snmpAgent.init();
 
 			logger.info("DAO:loadAgentMetaFile(): " + file.getAbsolutePath());
 
@@ -1084,6 +1085,7 @@ public class DAO {
 		File tablesDir = new File(a.getDirectoryPath() + "/tables");
 		tablesDir.mkdirs();
 		
+		a.init();
 		snmpSimulator.addSnmpAgent(a);
 
 	}

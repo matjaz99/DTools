@@ -26,6 +26,17 @@ Commons-logging is required by commons-vfs
 ## Version history
 
 -----------------------------------------------------------
+### 0.4.1-beta.02
+
+x. november 2015
+
+- settings window
+- updated simple-logger library to 1.6.2
+- logger for each snmp agent
+- refactoring
+- bug fixes
+
+-----------------------------------------------------------
 ### 0.4.1-beta.01
 
 13. november 2015
