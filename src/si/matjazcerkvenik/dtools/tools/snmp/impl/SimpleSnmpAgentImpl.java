@@ -31,9 +31,11 @@ import org.snmp4j.transport.TransportMappings;
 
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTable;
+import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 public class SimpleSnmpAgentImpl extends BaseAgent {
 
+	private SimpleLogger logger;
 	
 	private SnmpAgent agent;
 
@@ -44,6 +46,7 @@ public class SimpleSnmpAgentImpl extends BaseAgent {
 				new CommandProcessor(
 						new OctetString(MPv3.createLocalEngineID())));
 		this.agent = agent;
+		logger = agent.getLogger();
 	}
 	
 
@@ -51,6 +54,7 @@ public class SimpleSnmpAgentImpl extends BaseAgent {
 		try {
 
 			init();
+			logger.info("SimpleSnmpAgentImpl:startSnmpAgent(): initialized");
 			unregisterManagedObjects();
 			loadConfig(ImportModes.REPLACE_CREATE);
 			addShutdownHook();
@@ -85,25 +89,33 @@ public class SimpleSnmpAgentImpl extends BaseAgent {
 	@Override
 	protected void registerManagedObjects() {
 		// register custom MOs
-		try {
-			server.register(TableFactory.createStaticIfTable(), null);
-			server.register(TableFactory.createMyCustomTable(), null);
-			for (int i = 0; i < agent.getSnmpTablesList().size(); i++) {
-				SnmpTable tab = agent.getSnmpTablesList().get(i);
-				if (tab.getMetadata().getColumnsMetaList().size() > 0) {
-					server.register(TableFactory.createTable(tab), null);
-				}
+		registerManagedObject(TableFactory.createStaticIfTable());
+		registerManagedObject(TableFactory.createMyCustomTable());
+		for (int i = 0; i < agent.getSnmpTablesList().size(); i++) {
+			SnmpTable tab = agent.getSnmpTablesList().get(i);
+			if (tab.getMetadata().getColumnsMetaList().size() > 0) {
+				registerManagedObject(TableFactory.createTable(tab));
 			}
-		} catch (DuplicateRegistrationException e) {
-			e.printStackTrace();
 		}
+//		try {
+//			server.register(TableFactory.createStaticIfTable(), null);
+//			server.register(TableFactory.createMyCustomTable(), null);
+//			for (int i = 0; i < agent.getSnmpTablesList().size(); i++) {
+//				SnmpTable tab = agent.getSnmpTablesList().get(i);
+//				if (tab.getMetadata().getColumnsMetaList().size() > 0) {
+//					server.register(TableFactory.createTable(tab), null);
+//				}
+//			}
+//		} catch (DuplicateRegistrationException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	public void registerManagedObject(ManagedObject mo) {
 		try {
 			server.register(mo, null);
 		} catch (DuplicateRegistrationException ex) {
-			throw new RuntimeException(ex);
+			logger.error("SimpleSnmpAgentImpl:registerManagedObject(): failed to register: " + mo.toString());
 		}
 	}
 

@@ -1,0 +1,27 @@
+@CHARSET "UTF-8";
+
+span.ui-menuitem-text {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.title {
+	font-weight: bold;
+	font-size: 1.5em;
+}
+
+.codeStyle {
+	font: 12px monospace;
+}
+
+.valign-middle {
+	vertical-align: middle;
+}
+
+.align-right {
+	text-align: right;
+}
+
+/* .text-white { */
+/* 	color: white; */
+/* } */

@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -60,13 +61,7 @@ public class SnmpAgentBean implements Serializable {
 		Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		if (requestParameterMap.containsKey("agent")) {
 			String name = requestParameterMap.get("agent");
-			SnmpSimulator sim = DAO.getInstance().loadSnmpSimulator();
-			for (SnmpAgent a : sim.getSnmpAgentsList()) {
-				if (a.getName().equals(name)) {
-					agent = a;
-					break;
-				}
-			}
+			agent = DAO.getInstance().findSnmpAgent(name);
 		}
 	}
 	
@@ -127,6 +122,8 @@ public class SnmpAgentBean implements Serializable {
 		a.addNewTrapsTable(tt);
 		DAO.getInstance().saveSnmpTraps(tt);
 		
+		Growl.addGrowlMessage("Scenario " + newTrapsTableName + " added", FacesMessage.SEVERITY_INFO);
+		
 		newTrapsTableName = null;
 		
 		RequestContext context = RequestContext.getCurrentInstance();
@@ -149,6 +146,8 @@ public class SnmpAgentBean implements Serializable {
 		agent.addNewSnmpTable(tbl);
 		DAO.getInstance().saveSnmpDataTable(tbl);
 		
+		Growl.addGrowlMessage("Table " + newTableName + " added", FacesMessage.SEVERITY_INFO);
+		
 		newTableName = null;
 		newTableOID = null;
 		
@@ -160,10 +159,12 @@ public class SnmpAgentBean implements Serializable {
 	
 	public void deleteDataTable(SnmpTable table) {
 		DAO.getInstance().deleteSnmpDataTable(agent, table);
+		Growl.addGrowlMessage("Table " + table.getName() + " deleted", FacesMessage.SEVERITY_INFO);
 	}
 	
 	public void deleteTrapsTable(TrapsTable table) {
 		DAO.getInstance().deleteTrapsTable(agent, table);
+		Growl.addGrowlMessage("Table " + table.getName() + " deleted", FacesMessage.SEVERITY_INFO);
 	}
 	
 }

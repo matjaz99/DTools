@@ -10,128 +10,13 @@ body {
 }
 
 .ui-message-info, .ui-message-error, .ui-message-warn, .ui-message-fatal, .ui-messages-error, .ui-messages-warn {
-border: 1px solid;
-margin: 0px 5px;
-padding: 2px 5px;
-}
-
-.ui-menuitem-icon.ui-icon.home-icon {
-	background: url("#{resource['default:img/home.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
-}
-
-.ui-menuitem-icon.ui-icon.network-icon {
-	background: url("#{resource['default:img/network.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
-}
-
-.ui-menuitem-icon.ui-icon.server-icon {
-	background: url("#{resource['default:img/server.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
-}
-
-.ui-menuitem-icon.ui-icon.tools-icon {
-	background: url("#{resource['default:img/tools.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
-}
-
-.ui-menuitem-icon.ui-icon.cabriolet-icon {
-	background: url("#{resource['default:img/cabriolet.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
-}
-
-.ui-menuitem-icon.ui-icon.truck-icon {
-	background: url("#{resource['default:img/truck.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
-}
-
-.ui-menuitem-icon.ui-icon.tractor-icon {
-	background: url("#{resource['default:img/tractor.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
-}
-
-.ui-menuitem-icon.ui-icon.rocket-icon {
-	background: url("#{resource['default:img/rocket.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
-}
-
-.ui-menuitem-icon.ui-icon.boat-icon {
-	background: url("#{resource['default:img/boat.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
-}
-
-.ui-menuitem-icon.ui-icon.fire-truck-icon {
-	background: url("#{resource['default:img/fire_truck.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
-}
-
-.ui-menuitem-icon.ui-icon.favorites-icon {
-	background: url("#{resource['default:img/star-full.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
-}
-
-.ui-menuitem-icon.ui-icon.notes-icon {
-	background: url("#{resource['default:img/notes.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
-}
-
-.ui-menuitem-icon.ui-icon.todo-icon {
-	background: url("#{resource['default:img/todo.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
-}
-
-.ui-menuitem-icon.ui-icon.google-icon {
-	background: url("#{resource['default:img/google.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
-}
-
-.ui-menuitem-icon.ui-icon.info-icon {
-	background: url("#{resource['default:img/info.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
-}
-
-.ui-menuitem-icon.ui-icon.settings-icon {
-	background: url("#{resource['default:img/user-settings.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
-}
-
-span.ui-menuitem-text {
-	font-size: 14px;
-	font-weight: bold;
+	border: 1px solid;
+	margin: 0px 5px;
+	padding: 2px 5px;
 }
 
 
 
-
-.title {
-	font-weight: bold;
-	font-size: 1.5em;
-}
-
-.titleLarge {
-	font-weight: bold;
-	font-size: 18px;
-}
-
-.codeStyle {
-	font: 12px monospace;
-}
 
 a, a:visited, a:link {
 	text-decoration: none;
@@ -149,13 +34,7 @@ a:hover {
 	border: 1px solid #FF0000;
 }
 
-.valign-middle {
-	vertical-align: middle;
-}
 
-.align-right {
-	text-align: right;
-}
 
 .table {   
    border-collapse: collapse;
@@ -221,33 +100,27 @@ a:hover {
 
 
 
-fieldset { 
-    display: block;
-    margin: 5px;
-    padding: 5px 10px;
-    border: 2px groove (internal value);
-}
+/* fieldset {  */
+/*     display: block; */
+/*     margin: 5px; */
+/*     padding: 5px 10px; */
+/*     border: 2px groove (internal value); */
+/* } */
 
-legend {
-	font-style: italic;
-}
-
-
+/* legend { */
+/* 	font-style: italic; */
+/* } */
 
 
 
-.largeText {
-	font-size: 24px;
-}
 
-.text-white {
-	color: white;
-}
+
+
 
 /* radio box */
-.text-white tr td label {
-	color: white;
-}
+/* .text-white tr td label { */
+/* 	color: white; */
+/* } */
 
 /* .error tr td { */
 /* 	color: red; */
@@ -261,7 +134,7 @@ legend {
 	border-bottom-right-radius: 4px 4px;
 	border-top-left-radius: 4px 4px;
 	border-top-right-radius: 4px 4px;
-	font-size: 14px;
+/* 	font-size: 14px; */
 	padding: 3px;
 	margin-right: 5px;
 	margin-top: 5px;

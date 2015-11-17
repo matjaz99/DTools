@@ -1,0 +1,98 @@
+@CHARSET "UTF-8";
+
+.ui-menuitem-icon.ui-icon.home-icon {
+	background: url("#{resource['default:img/home.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}
+
+.ui-menuitem-icon.ui-icon.network-icon {
+	background: url("#{resource['default:img/network.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}
+
+.ui-menuitem-icon.ui-icon.server-icon {
+	background: url("#{resource['default:img/server.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}
+
+.ui-menuitem-icon.ui-icon.tools-icon {
+	background: url("#{resource['default:img/tools.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}
+
+.ui-menuitem-icon.ui-icon.cabriolet-icon {
+	background: url("#{resource['default:img/cabriolet.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}
+
+.ui-menuitem-icon.ui-icon.truck-icon {
+	background: url("#{resource['default:img/truck.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}
+
+.ui-menuitem-icon.ui-icon.tractor-icon {
+	background: url("#{resource['default:img/tractor.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}
+
+.ui-menuitem-icon.ui-icon.rocket-icon {
+	background: url("#{resource['default:img/rocket.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}
+
+.ui-menuitem-icon.ui-icon.boat-icon {
+	background: url("#{resource['default:img/boat.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}
+
+.ui-menuitem-icon.ui-icon.fire-truck-icon {
+	background: url("#{resource['default:img/fire_truck.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}
+
+.ui-menuitem-icon.ui-icon.favorites-icon {
+	background: url("#{resource['default:img/star-full.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}
+
+.ui-menuitem-icon.ui-icon.notes-icon {
+	background: url("#{resource['default:img/notes.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}
+
+.ui-menuitem-icon.ui-icon.todo-icon {
+	background: url("#{resource['default:img/todo.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}
+
+.ui-menuitem-icon.ui-icon.google-icon {
+	background: url("#{resource['default:img/google.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}
+
+.ui-menuitem-icon.ui-icon.info-icon {
+	background: url("#{resource['default:img/info.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}
+
+.ui-menuitem-icon.ui-icon.settings-icon {
+	background: url("#{resource['default:img/user-settings.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}
+
