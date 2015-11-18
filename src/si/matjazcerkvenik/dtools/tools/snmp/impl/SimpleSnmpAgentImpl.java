@@ -94,28 +94,19 @@ public class SimpleSnmpAgentImpl extends BaseAgent {
 		for (int i = 0; i < agent.getSnmpTablesList().size(); i++) {
 			SnmpTable tab = agent.getSnmpTablesList().get(i);
 			if (tab.getMetadata().getColumnsMetaList().size() > 0) {
-				registerManagedObject(TableFactory.createTable(tab));
+				if (tab.getMetadata().isEnabled()) {
+					registerManagedObject(TableFactory.createTable(tab));
+				}
 			}
 		}
-//		try {
-//			server.register(TableFactory.createStaticIfTable(), null);
-//			server.register(TableFactory.createMyCustomTable(), null);
-//			for (int i = 0; i < agent.getSnmpTablesList().size(); i++) {
-//				SnmpTable tab = agent.getSnmpTablesList().get(i);
-//				if (tab.getMetadata().getColumnsMetaList().size() > 0) {
-//					server.register(TableFactory.createTable(tab), null);
-//				}
-//			}
-//		} catch (DuplicateRegistrationException e) {
-//			e.printStackTrace();
-//		}
+
 	}
 
 	public void registerManagedObject(ManagedObject mo) {
 		try {
 			server.register(mo, null);
 		} catch (DuplicateRegistrationException ex) {
-			logger.error("SimpleSnmpAgentImpl:registerManagedObject(): failed to register: " + mo.toString());
+			logger.error("SimpleSnmpAgentImpl:registerManagedObject(): DuplicateRegistrationException: " + mo.toString(), ex);
 		}
 	}
 

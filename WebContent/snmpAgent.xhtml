@@ -57,6 +57,12 @@
 				<h:panelGrid columns="1" cellspacing="5" width="100%">
 					<p:dataTable id="tablesTbl" value="#{snmpAgentBean.snmpTablesList}" var="table" >
 						<p:column>
+							<f:facet name="header">Enabled</f:facet>
+							<p:selectBooleanCheckbox value="#{table.metadata.enabled}">
+					            <p:ajax listener="#{snmpAgentBean.toggleTableEnable(table)}" />
+					        </p:selectBooleanCheckbox>
+						</p:column>
+						<p:column>
 							<f:facet name="header">Table name</f:facet>
 							<p:link outcome="snmpTable" value="#{table.name}">
 								    <f:param name="agent" value="#{snmpAgentBean.agent.name}" />
@@ -81,7 +87,7 @@
 				
 			</h:form>
 			
-			<h:outputText value="Trap scenarios list" styleClass="title" />
+			<h:outputText value="Trap scenarios" styleClass="title" />
 			
 			<h:form>
 				<p:commandButton value="New scenario" onclick="PF('addScenarioDlg#{snmpAgentBean.agent.name}').show();" />

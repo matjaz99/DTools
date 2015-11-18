@@ -157,6 +157,12 @@ public class SnmpAgentBean implements Serializable {
 	}
 	
 	
+	public void toggleTableEnable(SnmpTable table) {
+		table.getMetadata().setEnabled(!table.getMetadata().isEnabled());
+		DAO.getInstance().saveSnmpDataTable(table);
+	}
+	
+	
 	public void deleteDataTable(SnmpTable table) {
 		DAO.getInstance().deleteSnmpDataTable(agent, table);
 		Growl.addGrowlMessage("Table " + table.getName() + " deleted", FacesMessage.SEVERITY_INFO);

@@ -33,6 +33,7 @@ x. november 2015
 - settings window
 - updated simple-logger library to 1.6.2
 - logger for each snmp agent
+- enable/disable snmp tables
 - multiple css files (general, icons, fonts)
 - small icons
 - refactoring
