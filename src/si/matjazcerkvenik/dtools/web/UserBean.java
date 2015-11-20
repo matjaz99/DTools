@@ -6,6 +6,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
+
+import si.matjazcerkvenik.dtools.context.DProps;
 
 @ManagedBean
 @SessionScoped
@@ -15,6 +18,7 @@ public class UserBean implements Serializable {
 	
 	private String username;
 	private String password;
+	private String cssTheme;
 	
 	public String getUsername() {
 		return username;
@@ -40,6 +44,16 @@ public class UserBean implements Serializable {
 		FacesContext.getCurrentInstance().addMessage("loginBtn", new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!", "Login failed"));
 		return "login";
 		
+	}
+	
+	public void setCssTheme(String cssTheme) {
+		this.cssTheme = cssTheme;
+	}
+	public String getCssTheme() {
+		return DProps.getProperty(DProps.DTOOLS_GUI_CSS_THEME);
+	}
+	public void cssThemeChanged(ValueChangeEvent e) {
+		DProps.setProperty(DProps.DTOOLS_GUI_CSS_THEME, e.getNewValue().toString());
 	}
 	
 }

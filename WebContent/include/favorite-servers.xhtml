@@ -3,6 +3,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
     xmlns:dt="http://dtools.com/ui" >
     
     <h:panelGrid columns="1" cellspacing="5" width="100%">
@@ -18,7 +19,7 @@
 						<f:facet name="header">Status</f:facet>
 						<h:form id="status" rendered="#{server.favorite}">
 							<h:commandLink action="#{serversBean.sendIcmpPingAction(server)}">
-								<dt:icon img="#{serversBean.getStatusIcon(server.icmpPingStatus)}"/>
+								<p:graphicImage value="resources/#{userBean.cssTheme}/1_0/img/#{serversBean.getStatusIcon(server.icmpPingStatus)}.png" />
 								<f:ajax render="status" />
 							</h:commandLink>
 						</h:form>
@@ -55,7 +56,7 @@
 						<f:facet name="header">Icon</f:facet>
 						<h:form rendered="#{client.favorite}">
 							<h:commandLink action="#{navigationBean.openSshClient(client)}">
-								<dt:icon img="terminal"/>
+								<p:graphicImage value="resources/#{userBean.cssTheme}/1_0/img/terminal.png" />
 							</h:commandLink>
 						</h:form>
 					</h:column>
@@ -78,7 +79,7 @@
 						<f:facet name="header">Icon</f:facet>
 						<h:form rendered="#{client.favorite}">
 							<h:commandLink action="#{navigationBean.openFtpClient(client)}">
-								<dt:icon img="terminal"/>
+								<p:graphicImage value="resources/#{userBean.cssTheme}/1_0/img/terminal.png" />
 							</h:commandLink>
 						</h:form>
 					</h:column>

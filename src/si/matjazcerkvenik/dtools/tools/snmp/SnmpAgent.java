@@ -224,7 +224,7 @@ public class SnmpAgent implements Serializable {
 	
 	
 	/**
-	 * Start agent on localIp and local Port.
+	 * Start agent and trap sender on localIp and local Port.
 	 * @return true if successfully started
 	 */
 	public boolean start() {
@@ -243,7 +243,7 @@ public class SnmpAgent implements Serializable {
 	
 	
 	/**
-	 * Stop agent
+	 * Stop agent and trap sender
 	 */
 	public void stop() {
 		if (trapSender != null) {

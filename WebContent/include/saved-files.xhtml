@@ -3,7 +3,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:dt="http://dtools.com/ui" >
+    xmlns:p="http://primefaces.org/ui" >
     
     <h:panelGrid columns="1" cellspacing="5" width="100%">
     
@@ -18,7 +18,7 @@
 						<f:facet name="header">View</f:facet>
 						<h:form>
 							<h:commandLink action="#{historyBean.openSshResponse(sshResponse)}">
-							<dt:icon img="view-file"/>
+							<p:graphicImage value="resources/#{userBean.cssTheme}/1_0/img/view-file.png" />
 						</h:commandLink>
 						</h:form>
 					</h:column>
@@ -51,7 +51,7 @@
 						<f:facet name="header">Delete</f:facet>
 						<h:form>
 							<h:commandLink action="#{historyBean.deleteSshResponse(sshResponse)}">
-							<dt:icon img="remove"/>
+							<p:graphicImage value="resources/#{userBean.cssTheme}/1_0/img/remove.png" />
 						</h:commandLink>
 						</h:form>
 					</h:column>

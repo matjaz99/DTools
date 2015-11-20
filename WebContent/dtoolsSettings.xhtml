@@ -11,9 +11,9 @@
     </h:head>
     <h:body>
     	
-    	<h:outputStylesheet library="default" name="css/dstyles.css"/>
-    	<h:outputStylesheet library="default" name="css/icons.css"/>
-    	<h:outputStylesheet library="default" name="css/fonts.css"/>
+    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/dstyles.css"/>
+    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/icons.css"/>
+    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/fonts.css"/>
     	
     	<p:growl id="growl" life="2000"/>
     	
@@ -25,6 +25,16 @@
 			
 			<p:commandButton action="#{utilsBean.reloadAllData()}" value="Reload data" />
 			
+			<h:form>
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Select style" />
+				<p:selectOneMenu value="#{userBean.cssTheme}" style="width:125px" onchange="submit()" 
+					valueChangeListener="#{userBean.cssThemeChanged}">
+		            <f:selectItem itemLabel="Default" itemValue="default" />
+		            <f:selectItem itemLabel="Antracid" itemValue="antracid" />
+		        </p:selectOneMenu>
+			</p:panelGrid>
+			</h:form>
 			
         
         </h:panelGrid>

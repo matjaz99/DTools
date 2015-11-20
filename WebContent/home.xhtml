@@ -11,9 +11,9 @@
     </h:head>
     <h:body>
     
-    	<h:outputStylesheet library="default" name="css/dstyles.css"/>
-    	<h:outputStylesheet library="default" name="css/icons.css"/>
-    	<h:outputStylesheet library="default" name="css/fonts.css"/>
+    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/dstyles.css"/>
+    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/icons.css"/>
+    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/fonts.css"/>
     	
     	<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
     		

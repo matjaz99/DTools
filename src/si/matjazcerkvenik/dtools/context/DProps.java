@@ -19,6 +19,7 @@
 package si.matjazcerkvenik.dtools.context;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -29,15 +30,16 @@ public class DProps {
 	
 	private static Properties props;
 	
-	public static String SIMPLELOGGER_FILENAME = "simplelogger.filename";
-	public static String SIMPLELOGGER_LEVEL = "simplelogger.level";
-	public static String SIMPLELOGGER_APPEND = "simplelogger.append";
-	public static String SIMPLELOGGER_VERBOSE = "simplelogger.verbose";
-	public static String SIMPLELOGGER_MAXFILESIZE = "simplelogger.maxFileSize";
-	public static String SIMPLELOGGER_MAXBACKUPFILES = "simplelogger.maxBackupFiles";
-	public static String SIMPLELOGGER_DATEFORMAT = "simplelogger.dateFormat";
-	public static String SNMP_RECEIVER_QUEUE_SIZE = "snmp.receiver.queue.size";
-	public static String SNMP_RECEIVER_RULES_FILE = "snmp.rules.file";
+	public static final String SIMPLELOGGER_FILENAME = "simplelogger.filename";
+	public static final String SIMPLELOGGER_LEVEL = "simplelogger.level";
+	public static final String SIMPLELOGGER_APPEND = "simplelogger.append";
+	public static final String SIMPLELOGGER_VERBOSE = "simplelogger.verbose";
+	public static final String SIMPLELOGGER_MAXFILESIZE = "simplelogger.maxFileSize";
+	public static final String SIMPLELOGGER_MAXBACKUPFILES = "simplelogger.maxBackupFiles";
+	public static final String SIMPLELOGGER_DATEFORMAT = "simplelogger.dateFormat";
+	public static final String SNMP_RECEIVER_QUEUE_SIZE = "snmp.receiver.queue.size";
+	public static final String SNMP_RECEIVER_RULES_FILE = "snmp.rules.file";
+	public static final String DTOOLS_GUI_CSS_THEME = "dtools.gui.css.theme";
 	
 	private static Map<String, String> defaultValues = new HashMap<String, String>();
 	
@@ -50,12 +52,13 @@ public class DProps {
 		defaultValues.put(SIMPLELOGGER_MAXBACKUPFILES, "2");
 		defaultValues.put(SIMPLELOGGER_DATEFORMAT, "yyyy.MM.dd hh:mm:ss:SSS");
 		defaultValues.put(SNMP_RECEIVER_QUEUE_SIZE, "100");
-		defaultValues.put(SNMP_RECEIVER_RULES_FILE, "/config/users/default/snmp/trap-rules-default.js");
+		defaultValues.put(SNMP_RECEIVER_RULES_FILE, "/config/users/default/snmp/manager/rules/trap-rules-default.js");
+		defaultValues.put(DTOOLS_GUI_CSS_THEME, "default");
 	}
 	
 	/**
-	 * Read dtools.properties and load parameters.
-	 * @return properties
+	 * Read dtools.properties and load parameters. Check if all parameters are present in 
+	 * properties file. If property is missing, write it's default value into dtools.properties file.
 	 */
 	public static void loadProperties() {
 		
@@ -73,12 +76,23 @@ public class DProps {
 				}
 			}
 			
+			// write default value if property didn't exist
 			if (propsModified) {
-				props.store(new FileOutputStream(DToolsContext.HOME_DIR + "/config/dtools.properties"), null);
+				writeProperties();
 			}
 			
 		} catch (IOException e) {
 			props = null;
+			e.printStackTrace();
+		}
+	}
+	
+	public static void writeProperties() {
+		try {
+			props.store(new FileOutputStream(DToolsContext.HOME_DIR + "/config/dtools.properties"), null);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -100,6 +114,11 @@ public class DProps {
 			loadProperties();
 		}
 		return props.getProperty(key);
+	}
+	
+	public static void setProperty(String key, String value) {
+		props.put(key, value);
+		writeProperties();
 	}
 	
 }
