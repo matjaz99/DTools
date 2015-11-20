@@ -35,7 +35,7 @@ x. november 2015
 - logger for each snmp agent
 - enable/disable snmp tables
 - multiple css files (general, icons, fonts)
-- css themes (antracid)
+- css themes (antracit)
 - refactoring
 - bug fixes
 
