@@ -1,98 +1,98 @@
 @CHARSET "UTF-8";
 
 .ui-menuitem-icon.ui-icon.home-icon {
-	background: url("#{resource['default:img_small/home.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
+	background: url("#{resource['antracit:img/home.png']}") no-repeat;
+	height: 20px; 
+	width: 20px;
 }
 
 .ui-menuitem-icon.ui-icon.network-icon {
-	background: url("#{resource['default:img_small/network.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
+	background: url("#{resource['antracit:img/network.png']}") no-repeat;
+	height: 20px; 
+	width: 20px;
 }
 
 .ui-menuitem-icon.ui-icon.server-icon {
-	background: url("#{resource['default:img_small/server.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
+	background: url("#{resource['antracit:img/server.png']}") no-repeat;
+	height: 20px; 
+	width: 20px;
 }
 
 .ui-menuitem-icon.ui-icon.tools-icon {
-	background: url("#{resource['default:img_small/tools.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
+	background: url("#{resource['antracit:img/tools.png']}") no-repeat;
+	height: 20px; 
+	width: 20px;
 }
 
 .ui-menuitem-icon.ui-icon.cabriolet-icon {
-	background: url("#{resource['default:img_small/cabriolet.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
+	background: url("#{resource['antracit:img/cabriolet.png']}") no-repeat;
+	height: 20px; 
+	width: 20px;
 }
 
 .ui-menuitem-icon.ui-icon.truck-icon {
-	background: url("#{resource['default:img_small/truck.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
+	background: url("#{resource['antracit:img/truck.png']}") no-repeat;
+	height: 20px; 
+	width: 20px;
 }
 
 .ui-menuitem-icon.ui-icon.tractor-icon {
-	background: url("#{resource['default:img_small/tractor.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
+	background: url("#{resource['antracit:img/tractor.png']}") no-repeat;
+	height: 20px; 
+	width: 20px;
 }
 
 .ui-menuitem-icon.ui-icon.rocket-icon {
-	background: url("#{resource['default:img_small/rocket.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
+	background: url("#{resource['antracit:img/rocket.png']}") no-repeat;
+	height: 20px; 
+	width: 20px;
 }
 
 .ui-menuitem-icon.ui-icon.boat-icon {
-	background: url("#{resource['default:img_small/boat.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
+	background: url("#{resource['antracit:img/boat.png']}") no-repeat;
+	height: 20px; 
+	width: 20px;
 }
 
 .ui-menuitem-icon.ui-icon.fire-truck-icon {
-	background: url("#{resource['default:img_small/fire_truck.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
+	background: url("#{resource['antracit:img/fire_truck.png']}") no-repeat;
+	height: 20px; 
+	width: 20px;
 }
 
 .ui-menuitem-icon.ui-icon.favorites-icon {
-	background: url("#{resource['default:img_small/star-full.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
+	background: url("#{resource['antracit:img/star-full.png']}") no-repeat;
+	height: 20px; 
+	width: 20px;
 }
 
 .ui-menuitem-icon.ui-icon.notes-icon {
-	background: url("#{resource['default:img_small/notes.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
+	background: url("#{resource['antracit:img/notes.png']}") no-repeat;
+	height: 20px; 
+	width: 20px;
 }
 
 .ui-menuitem-icon.ui-icon.todo-icon {
-	background: url("#{resource['default:img_small/todo.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
+	background: url("#{resource['antracit:img/todo.png']}") no-repeat;
+	height: 20px; 
+	width: 20px;
 }
 
 .ui-menuitem-icon.ui-icon.google-icon {
-	background: url("#{resource['default:img_small/google.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
+	background: url("#{resource['antracit:img/google.png']}") no-repeat;
+	height: 20px; 
+	width: 20px;
 }
 
 .ui-menuitem-icon.ui-icon.info-icon {
-	background: url("#{resource['default:img_small/info.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
+	background: url("#{resource['antracit:img/info.png']}") no-repeat;
+	height: 20px; 
+	width: 20px;
 }
 
 .ui-menuitem-icon.ui-icon.settings-icon {
-	background: url("#{resource['default:img_small/user-settings.png']}") no-repeat;
-	height: 32px; 
-	width: 32px;
+	background: url("#{resource['antracit:img/user-settings.png']}") no-repeat;
+	height: 20px; 
+	width: 20px;
 }
 
