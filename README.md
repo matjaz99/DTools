@@ -28,7 +28,7 @@ Commons-logging is required by commons-vfs
 -----------------------------------------------------------
 ### 0.4.1-beta.02
 
-x. november 2015
+21. november 2015
 
 - settings window
 - updated simple-logger library to 1.6.2
