@@ -1062,6 +1062,26 @@ public class DAO {
 	}
 	
 	
+	public List<File> loadAgentMibs(SnmpAgent agent) {
+		File mibsDir = new File(agent.getDirectoryPath() + "/mibs");
+		File[] mibs = mibsDir.listFiles(new FileFilter() {
+			
+			@Override
+			public boolean accept(File f) {
+				return f.getAbsolutePath().endsWith(".mib") || f.getAbsolutePath().endsWith(".txt");
+			}
+		});
+		
+		List<File> filesList = new ArrayList<File>();
+		if (mibs == null || mibs.length == 0) {
+			return filesList;
+		}
+		
+		for (int i = 0; i < mibs.length; i++) {
+			filesList.add(mibs[i]);
+		}
+		return filesList;
+	}
 	
 	
 	
@@ -1084,6 +1104,9 @@ public class DAO {
 		
 		File tablesDir = new File(a.getDirectoryPath() + "/tables");
 		tablesDir.mkdirs();
+		
+		File mibsDir = new File(a.getDirectoryPath() + "/mibs");
+		mibsDir.mkdirs();
 		
 		a.init();
 		snmpSimulator.addSnmpAgent(a);
@@ -1324,6 +1347,19 @@ public class DAO {
 		
 		return list;
 		
+	}
+	
+	/**
+	 * Delete SSH response (xml and txt)
+	 * @param resp
+	 */
+	public void deleteSshResponse(SshResponse resp) {
+		String txtFile = DToolsContext.HOME_DIR + TXT_SAVE_SSH_RESPONSE.replace("$FILENAME$", resp.getFilename());
+		String xmlFile = DToolsContext.HOME_DIR + XML_SAVE_SSH_RESPONSE.replace("$FILENAME$", resp.getFilename());
+		File txt = new File(txtFile);
+		File xml = new File(xmlFile);
+		txt.delete();
+		xml.delete();
 	}
 	
 	

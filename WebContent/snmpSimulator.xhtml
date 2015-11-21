@@ -55,11 +55,14 @@
 							            <p:ajax update="growl actBtn" listener="#{snmpSimulatorBean.toggleSnmpAgent(agent)}" />
 							        </p:inputSwitch>
 								</h:panelGrid>
-								<h:panelGrid columns="2" cellpadding="2">
-									<p:button value="Open" outcome="snmpAgent" >
+								<h:panelGrid columns="3" cellpadding="2">
+									<p:button value="Open" outcome="snmpAgent" icon="ui-icon-folder-open" >
 										<f:param name="agent" value="#{agent.name}" />
 									</p:button>
-							        <p:commandButton id="delBtn" value="Delete" 
+									<p:button value="MIB Browser" outcome="snmpMibBrowser" icon="ui-icon-suitcase" >
+										<f:param name="agent" value="#{agent.name}" />
+									</p:button>
+							        <p:commandButton id="delBtn" value="Delete" icon="ui-icon-trash"
 										action="#{snmpSimulatorBean.deleteSnmpAgent(agent)}" 
 										update="growl simForm" ajax="true" />
 								</h:panelGrid>

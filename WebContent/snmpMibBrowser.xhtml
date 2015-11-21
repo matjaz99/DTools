@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:dt="http://dtools.com/ui">
+    <h:head>
+        <title>DTools</title>
+    </h:head>
+    <h:body>
+    	
+    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/dstyles.css"/>
+    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/icons.css"/>
+    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/fonts.css"/>
+    	
+    	<p:growl id="growl" life="2000"/>
+    	
+    	<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
+    		
+    		<ui:include src="/include/ptoolbar.xhtml"/>
+    		
+    		<p:breadCrumb>
+			    <p:menuitem value="Home" url="home.xhtml" />
+			    <p:menuitem value="SNMP Simulator" url="snmpSimulator.xhtml" />
+			    <p:menuitem value="#{snmpAgentBean.agent.name}" url="#" />
+			</p:breadCrumb>
+			
+			
+			
+			<h:outputText value="MIB Browser" styleClass="title" />
+			
+			
+			<h:form id="mibsTbl">
+				
+				<h:panelGrid columns="1" cellspacing="5" width="100%">
+					
+					<p:outputLabel value="Select MIB files to upload" />
+					<p:fileUpload fileUploadListener="#{snmpMibBrowserBean.handleFileUpload}" mode="advanced" dragDropSupport="false"
+                  		multiple="true" update="growl mibsTbl" auto="true" />
+					
+					<p:outputLabel value="Loaded MIB files" />
+					<p:dataTable value="#{snmpMibBrowserBean.mibFiles}" var="mib" >
+						<p:column>
+							<f:facet name="header">Mib File</f:facet>
+							<p:outputLabel value="#{mib.name}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">Actions</f:facet>
+							<p:commandButton value="Delete" 
+									action="#{snmpMibBrowserBean.deleteMibFile(mib)}" 
+									update="growl mibsTbl" ajax="true" />
+						</p:column>
+					</p:dataTable>
+				</h:panelGrid>
+				
+			</h:form>
+        
+        </h:panelGrid>
+        
+    </h:body>
+</html>

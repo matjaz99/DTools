@@ -15,15 +15,35 @@ body {
 	padding: 2px 5px;
 }
 
+.ui-widget {
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 1.1em;
+}
+
+/* MENU */
+.ui-widget-content {
+	border: 0px none;
+    border-bottom: 1px solid #000000;
+    background: #252525;
+    color: #4f4f4f; /* what is this? */
+}
+
+.ui-corner-all {
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+}
 
 
 
 a, a:visited, a:link {
 	text-decoration: none;
+	color: #FAFAFA;
 }
 
 a:hover {
 	text-decoration: underline;
+	color: #DADADA;
 }
 
 .icon {
@@ -54,11 +74,11 @@ a:hover {
 /* } */
 
 .tableOddRow {
-	background-color: #FFF;
+	background-color: #333;
 }
 
 .tableEvenRow {
-	background-color: #FAFAFA;
+	background-color: #444;
 }
 
 .col0 {

@@ -42,7 +42,7 @@ public class HistoryBean {
 	}
 	
 	public void deleteSshResponse(SshResponse response) {
-		// TODO
+		DAO.getInstance().deleteSshResponse(response);
 	}
 	
 }

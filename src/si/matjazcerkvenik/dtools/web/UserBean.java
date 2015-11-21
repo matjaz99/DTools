@@ -47,6 +47,7 @@ public class UserBean implements Serializable {
 	}
 	
 	public void setCssTheme(String cssTheme) {
+		// TODO why do i need this if theme can be changed with cssThemeChanged method?
 		this.cssTheme = cssTheme;
 	}
 	public String getCssTheme() {

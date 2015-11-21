@@ -36,6 +36,7 @@ x. november 2015
 - enable/disable snmp tables
 - multiple css files (general, icons, fonts)
 - css themes (antracit)
+- mib browser (prototype) - just upload mib files
 - refactoring
 - bug fixes
 
