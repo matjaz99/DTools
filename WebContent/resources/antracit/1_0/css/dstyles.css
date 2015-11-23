@@ -36,23 +36,70 @@ body {
 }
 
 
-#menubarForm .ui-state-hover, #menubarForm .ui-widget-content .ui-state-hover, #menubarForm .ui-widget-header #menubarForm .ui-state-hover, #menubarForm .ui-state-focus, #menubarForm .ui-widget-content #menubarForm .ui-state-focus, #menubarForm .ui-widget-header #menubarForm .ui-state-focus {
-/*     border: 1px solid #272727; */
+/* TODO if you remove this style, the links will go blue */
+#menubarForm .ui-state-hover, 
+#menubarForm .ui-widget-content .ui-state-hover, 
+#menubarForm .ui-widget-header .ui-state-hover, 
+#menubarForm .ui-state-focus, 
+#menubarForm .ui-widget-content .ui-state-focus, 
+#menubarForm .ui-widget-header .ui-state-focus
+{
+	background: #FF4500 -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0.3)), to(rgba(255,255,255,0)));
+/*     background: #FF4500; */
     font-weight: bold;
-/*     color: #313131; */
     -moz-box-shadow: 0 0 5px #FF4500;
     -webkit-box-shadow: 0px 0px 8px #FF4500;
     box-shadow: 0px 0px 8px #FF4500;
 }
 
-/* #menubarForm .ui-state-hover, #menubarForm .ui-widget-content .ui-state-hover, #menubarForm .ui-widget-header .ui-state-hover, #menubarForm .ui-state-focus, #menubarForm .ui-widget-content #menubarForm .ui-state-focus, #menubarForm .ui-widget-header #menubarForm .ui-state-focus { */
-/*     border: 1px solid #7096ab; */
-/*     font-weight: bold; */
-/*     color: #313131; */
-/*     -moz-box-shadow: 0 0 5px #FF4500; */
-/*     -webkit-box-shadow: 0px 0px 8px #FF4500; */
-/*     box-shadow: 0px 0px 8px #FF4500; */
-/* } */
+#menubarForm .ui-menuitem-text {
+	font-weight: normal;
+}
+
+
+/** BREADCRUMB */
+.ui-breadcrumb {
+    margin: 0 0 5px 0;
+    padding: 0;
+    overflow: hidden;
+    padding: 2px 5px 5px 5px;
+}
+#breadCrumb .ui-corner-all {
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+}
+.ui-widget-header {
+    border: none;
+	background: #272727;
+    color: #333;
+    font-weight: normal;
+    text-shadow: none;
+}
+
+#breadCrumb span.ui-menuitem-text {
+    font-size: 11px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#breadCrumb a, #breadCrumb a:visited, #breadCrumb a:link {
+	text-decoration: none;
+	color: #FF4500;
+}
+
+#breadCrumb a:hover {
+	text-decoration: underline;
+	color: #DD5511;
+}
+
+
+/** links inside primefaces table*/
+a.ui-link.ui-widget {
+    color: #272727;
+}
+
+
+
 
 
 
@@ -138,18 +185,6 @@ a:hover {
 	background-color: Plum;
 }
 
-
-
-/* fieldset {  */
-/*     display: block; */
-/*     margin: 5px; */
-/*     padding: 5px 10px; */
-/*     border: 2px groove (internal value); */
-/* } */
-
-/* legend { */
-/* 	font-style: italic; */
-/* } */
 
 
 

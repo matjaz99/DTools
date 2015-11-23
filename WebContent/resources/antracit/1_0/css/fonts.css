@@ -5,9 +5,9 @@ span.ui-menuitem-text {
 /* 	font-weight: bold; */
 }
 
-.title {
+span.title {
 	font-weight: bold;
-	font-size: 1 em;
+	font-size: 1.5em;
 }
 
 .codeStyle {

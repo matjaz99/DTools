@@ -20,49 +20,60 @@
     	<h:panelGrid columns="1" cellpadding="0" cellspacing="0" width="100%">
     	
 	        <ui:include src="/include/ptoolbar.xhtml"/>
-			
-			<h:outputText value="Notes" styleClass="title" />
-			
-			<h:form id="addNoteForm">
-				<p:fieldset legend="Add new note" toggleable="true" toggleSpeed="300" collapsed="true">
-				<h:panelGrid columns="2" cellpadding="0" cellspacing="0">
-					<h:inputTextarea id="noteMsg" value="#{notesBean.message}" cols="50" rows="7" 
-						required="true" requiredMessage="Message is empty"/>
-					<h:message for="noteMsg" style="color: red;" />
-					<p:commandButton value="Add" action="#{notesBean.addNoteAction}" update="growl addNoteForm notesTable" ajax="true" />
-				</h:panelGrid>
-				</p:fieldset>
+	        
+	        <h:form id="breadCrumb">
+    		<p:breadCrumb>
+			    <p:menuitem value="Home" url="home.xhtml" />
+			    <p:menuitem value="Notes" url="notes.xhtml" />
+			</p:breadCrumb>
 			</h:form>
+	        
+	        <h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
 			
-			<hr/>
-			
-			<h:panelGrid columns="1" cellspacing="5" width="100%">
-				<h:dataTable id="notesTable" value="#{notesBean.notes}" var="note" 
-					styleClass="table"
-					rowClasses="tableOddRow,tableEvenRow"
-					cellpadding="0" cellspacing="0" width="100%">
-					
-					<h:column headerClass="col0 col2">
-						<f:facet name="header">Date</f:facet>
-						<h:outputText value="#{note.timestamp}" />
-					</h:column>
-					
-					<h:column headerClass="col0 col3">
-						<f:facet name="header">Message</f:facet>
-						<h:outputText value="#{note.message}" />
-					</h:column>
-					
-					<h:column headerClass="col0">
-						<f:facet name="header">Actions</f:facet>
-						<h:form>
-							<h:commandLink action="#{notesBean.deleteNote(note)}">
-								<dt:icon img="remove"/>
-							</h:commandLink>
-						</h:form>
-					</h:column>
-					
-				</h:dataTable>
+				<h:outputText value="Notes" styleClass="title" />
+				
+				<h:form id="addNoteForm">
+					<p:fieldset legend="Add new note" toggleable="true" toggleSpeed="300" collapsed="true">
+					<h:panelGrid columns="2" cellpadding="0" cellspacing="0">
+						<h:inputTextarea id="noteMsg" value="#{notesBean.message}" cols="50" rows="7" 
+							required="true" requiredMessage="Message is empty"/>
+						<h:message for="noteMsg" style="color: red;" />
+						<p:commandButton value="Add" action="#{notesBean.addNoteAction}" update="growl addNoteForm notesTable" ajax="true" />
+					</h:panelGrid>
+					</p:fieldset>
+				</h:form>
+				
+				<hr/>
+				
+				<h:panelGrid columns="1" cellspacing="5" width="100%">
+					<h:dataTable id="notesTable" value="#{notesBean.notes}" var="note" 
+						styleClass="table"
+						rowClasses="tableOddRow,tableEvenRow"
+						cellpadding="0" cellspacing="0" width="100%">
+						
+						<h:column headerClass="col0 col2">
+							<f:facet name="header">Date</f:facet>
+							<h:outputText value="#{note.timestamp}" />
+						</h:column>
+						
+						<h:column headerClass="col0 col3">
+							<f:facet name="header">Message</f:facet>
+							<h:outputText value="#{note.message}" />
+						</h:column>
+						
+						<h:column headerClass="col0">
+							<f:facet name="header">Actions</f:facet>
+							<h:form>
+								<h:commandLink action="#{notesBean.deleteNote(note)}">
+									<dt:icon img="remove"/>
+								</h:commandLink>
+							</h:form>
+						</h:column>
+						
+					</h:dataTable>
+				</h:panelGrid>
 			</h:panelGrid>
+			
         
         </h:panelGrid>
         

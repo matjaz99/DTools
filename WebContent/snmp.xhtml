@@ -21,94 +21,103 @@
     		
     		<ui:include src="/include/ptoolbar.xhtml"/>
 			
-			<h:outputText value="SNMP" styleClass="title" />
-			
-			
-			<h:form id="addSnmpForm">
-				<p:fieldset legend="Add new SNMP client" toggleable="true" toggleSpeed="300" collapsed="true">
-				<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
-				
-					<h:outputLabel value="Name: " />
-					<p:inputText value="#{snmpBean.name}"></p:inputText>
-					
-					<h:outputLabel value="Hostname: " />
-					<p:inputText value="#{snmpBean.hostname}" />
-					
-					<h:outputLabel value="Port: " />
-					<p:inputText value="#{snmpBean.port}" />
-					
-					<h:outputText value="SNMP version: " />
-					<h:selectOneRadio value="#{snmpBean.snmpVersion}" >
-						<f:selectItem itemLabel="v1" itemValue="v1" />
-						<f:selectItem itemLabel="v2c" itemValue="v2c" />
-					</h:selectOneRadio>
-					
-					<h:outputText value="Community: " />
-					<p:inputText value="#{snmpBean.community}" />
-					
-					<p:commandButton value="Add" action="#{snmpBean.addSnmpClient}" 
-						update="growl addSnmpForm snmpClientsTable" ajax="true" />
-					
-				</h:panelGrid>
-				</p:fieldset>
+			<h:form id="breadCrumb">
+    		<p:breadCrumb>
+			    <p:menuitem value="Home" url="home.xhtml" />
+			    <p:menuitem value="SNMP Clients" url="snmp.xhtml" />
+			</p:breadCrumb>
 			</h:form>
 			
+			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
 			
-			<h:panelGrid columns="1" cellspacing="5" width="100%">
-				<h:dataTable id="snmpClientsTable" value="#{snmpBean.snmpClientsList}" var="client" 
-					styleClass="table"
-					rowClasses="tableOddRow,tableEvenRow"
-					cellpadding="0" cellspacing="0" width="100%">
+				<h:outputText value="SNMP" styleClass="title" />
+				
+				
+				<h:form id="addSnmpForm">
+					<p:fieldset legend="Add new SNMP client" toggleable="true" toggleSpeed="300" collapsed="true">
+					<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
 					
-					<h:column headerClass="col0 col1">
-						<f:facet name="header">Console</f:facet>
-						<h:form>
-							<h:commandLink action="#{navigationBean.openSnmpClient(client)}">
-								<dt:icon img="terminal"/>
-							</h:commandLink>
-						</h:form>
-					</h:column>
-					
-					<h:column headerClass="col0 col2">
-						<f:facet name="header">Name</f:facet>
-						<h:form>
-							<h:commandLink action="#{navigationBean.openSnmpClient(client)}">
-								<h:outputText value="#{client.name}" />
-							</h:commandLink>
-						</h:form>
-					</h:column>
-					
-					<h:column headerClass="col0 col3">
-						<f:facet name="header">SNMP Client</f:facet>
-						<h:form>
-							<h:commandLink action="#{navigationBean.openSnmpClient(client)}">
-								<h:outputText value="#{client.toUrlString()}" />
-							</h:commandLink>
-						</h:form>
-					</h:column>
-					
-					<h:column headerClass="col0">
-						<f:facet name="header">Favorite</f:facet>
-						<h:form>
-							<h:commandLink id="favoriteStar" action="#{snmpBean.toggleFavorite(client)}">
-								<dt:icon img="#{client.favorite == true ? 'star-full' : 'star-empty'}"/>
-								<f:ajax render="favoriteStar" />
-							</h:commandLink>
-						</h:form>
-					</h:column>
-					
-					<h:column headerClass="col0">
-						<f:facet name="header">Delete</f:facet>
-						<h:form>
-							<h:commandLink action="#{snmpBean.deleteSnmpClientAction(client)}">
-								<dt:icon img="remove"/>
-							</h:commandLink>
-						</h:form>
-					</h:column>
-					
-				</h:dataTable>
+						<h:outputLabel value="Name: " />
+						<p:inputText value="#{snmpBean.name}"></p:inputText>
+						
+						<h:outputLabel value="Hostname: " />
+						<p:inputText value="#{snmpBean.hostname}" />
+						
+						<h:outputLabel value="Port: " />
+						<p:inputText value="#{snmpBean.port}" />
+						
+						<h:outputText value="SNMP version: " />
+						<h:selectOneRadio value="#{snmpBean.snmpVersion}" >
+							<f:selectItem itemLabel="v1" itemValue="v1" />
+							<f:selectItem itemLabel="v2c" itemValue="v2c" />
+						</h:selectOneRadio>
+						
+						<h:outputText value="Community: " />
+						<p:inputText value="#{snmpBean.community}" />
+						
+						<p:commandButton value="Add" action="#{snmpBean.addSnmpClient}" 
+							update="growl addSnmpForm snmpClientsTable" ajax="true" />
+						
+					</h:panelGrid>
+					</p:fieldset>
+				</h:form>
+				
+				
+				<h:panelGrid columns="1" cellspacing="5" width="100%">
+					<h:dataTable id="snmpClientsTable" value="#{snmpBean.snmpClientsList}" var="client" 
+						styleClass="table"
+						rowClasses="tableOddRow,tableEvenRow"
+						cellpadding="0" cellspacing="0" width="100%">
+						
+						<h:column headerClass="col0 col1">
+							<f:facet name="header">Console</f:facet>
+							<h:form>
+								<h:commandLink action="#{navigationBean.openSnmpClient(client)}">
+									<dt:icon img="terminal"/>
+								</h:commandLink>
+							</h:form>
+						</h:column>
+						
+						<h:column headerClass="col0 col2">
+							<f:facet name="header">Name</f:facet>
+							<h:form>
+								<h:commandLink action="#{navigationBean.openSnmpClient(client)}">
+									<h:outputText value="#{client.name}" />
+								</h:commandLink>
+							</h:form>
+						</h:column>
+						
+						<h:column headerClass="col0 col3">
+							<f:facet name="header">SNMP Client</f:facet>
+							<h:form>
+								<h:commandLink action="#{navigationBean.openSnmpClient(client)}">
+									<h:outputText value="#{client.toUrlString()}" />
+								</h:commandLink>
+							</h:form>
+						</h:column>
+						
+						<h:column headerClass="col0">
+							<f:facet name="header">Favorite</f:facet>
+							<h:form>
+								<h:commandLink id="favoriteStar" action="#{snmpBean.toggleFavorite(client)}">
+									<dt:icon img="#{client.favorite == true ? 'star-full' : 'star-empty'}"/>
+									<f:ajax render="favoriteStar" />
+								</h:commandLink>
+							</h:form>
+						</h:column>
+						
+						<h:column headerClass="col0">
+							<f:facet name="header">Delete</f:facet>
+							<h:form>
+								<h:commandLink action="#{snmpBean.deleteSnmpClientAction(client)}">
+									<dt:icon img="remove"/>
+								</h:commandLink>
+							</h:form>
+						</h:column>
+						
+					</h:dataTable>
+				</h:panelGrid>
 			</h:panelGrid>
-			
         
         </h:panelGrid>
         

@@ -17,25 +17,39 @@
     	
     	<p:growl id="growl" life="2000"/>
     	
-    	<h:panelGrid columns="1" cellpadding="0" cellspacing="0" width="100%">
+    	<h:panelGrid id="mainPanel" columns="1" cellpadding="0" cellspacing="0" width="100%">
     		
     		<ui:include src="/include/ptoolbar.xhtml"/>
-			
-			<h:outputText value="DTools settings" styleClass="title" />
-			
-			<p:commandButton action="#{utilsBean.reloadAllData()}" value="Reload data" />
-			
-			<h:form>
-			<p:panelGrid columns="2">
-				<p:outputLabel value="Select style" />
-				<p:selectOneMenu value="#{userBean.cssTheme}" style="width:125px" onchange="submit()" 
-					valueChangeListener="#{userBean.cssThemeChanged}">
-		            <f:selectItem itemLabel="Default" itemValue="default" />
-		            <f:selectItem itemLabel="Antracit" itemValue="antracit" />
-		        </p:selectOneMenu>
-			</p:panelGrid>
+    		
+    		<h:form id="breadCrumb">
+    		<p:breadCrumb>
+			    <p:menuitem value="Home" url="home.xhtml" />
+			    <p:menuitem value="Settings" url="dtoolsSettings.xhtml" />
+			</p:breadCrumb>
 			</h:form>
 			
+			
+			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
+			
+				<h:outputText value="DTools settings" styleClass="title" />
+				
+				<h:form>
+				<p:panelGrid columns="2">
+					
+					<p:outputLabel value="Reload data" />
+					<p:commandButton action="#{utilsBean.reloadAllData()}" value="Reload" />
+					
+					<p:outputLabel value="Select style" />
+					<p:selectOneMenu value="#{userBean.cssTheme}" style="width:125px" onchange="submit()" 
+						valueChangeListener="#{userBean.cssThemeChanged}">
+			            <f:selectItem itemLabel="Default" itemValue="default" />
+			            <f:selectItem itemLabel="Antracit" itemValue="antracit" />
+			        </p:selectOneMenu>
+			        
+				</p:panelGrid>
+				</h:form>
+			
+			</h:panelGrid>
         
         </h:panelGrid>
         

@@ -21,96 +21,102 @@
 	    
 	    	<ui:include src="/include/ptoolbar.xhtml"/>
 	    	
+	    	<h:form id="breadCrumb">
 	    	<p:breadCrumb>
 			    <p:menuitem value="Home" url="home.xhtml" />
 			    <p:menuitem value="SNMP Simulator" url="snmpSimulator.xhtml" />
 			    <p:menuitem value="#{snmpTrapsTableBean.agent.name}" 
-			    	url="snmpTrapsTable.xhtml?agent=#{snmpTrapsTableBean.agent.name}&amp;trapsTableName=#{snmpTrapV2CComposer.trapsTable.name}" />
+			    	url="snmpAgent.xhtml?agent=#{snmpTrapsTableBean.agent.name}" />
 			    <p:menuitem value="#{snmpTrapsTableBean.trapsTable.name}" 
 			    	url="snmpTrapsTable.xhtml?agent=#{snmpTrapsTableBean.agent.name}&amp;trapsTableName=#{snmpTrapV2CComposer.trapsTable.name}" />
 			    <p:menuitem value="#{snmpTrapV2CComposer.trapName}" url="#" />
 			</p:breadCrumb>
+			</h:form>
 			
-			<h:outputText value="SNMP Trap V2C Composer" styleClass="title" />
-    
-    		<h:form id="mainForm">
-    	
-    			<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
-		            <h:outputLabel value="Save trap as: " />
-		            <p:inputText id="trapName" value="#{snmpTrapV2CComposer.trapName}"
-		             	required="true" requiredMessage="Missing trap name" />
-		            <h:outputLabel value="Community: " />
-		            <p:inputText value="#{snmpTrapV2CComposer.community}" />
-		            <h:outputLabel value="Source IP: " />
-		            <p:inputText value="#{snmpTrapV2CComposer.sourceIp}" />
-		        </h:panelGrid>
-		            
-		            <h:outputText value="OIDs:" />
-		            <p:dataTable id="oidsTable" value="#{snmpTrapV2CComposer.varbinds}" var="vb" 
-						styleClass="table"
-						rowClasses="tableOddRow,tableEvenRow"
-						cellpadding="0" cellspacing="0" width="100%">
-						<p:column>
-							<f:facet name="header">OID Name</f:facet>
-								<p:inplace editor="true">
-						            <p:inputText value="#{vb.oidName}" required="true" label="text" />
-						        </p:inplace>
-						</p:column>
-						<p:column>
-							<f:facet name="header">OID</f:facet>
-								<p:inplace editor="true">
-						            <p:inputText value="#{vb.oid}" required="true" label="text" />
-						        </p:inplace>
-						</p:column>
-						<p:column>
-							<f:facet name="header">Type</f:facet>
-								<h:selectOneMenu value="#{vb.type}">
-									<f:selectItem itemValue="OCTET_STRING" />
-									<f:selectItem itemValue="INTEGER" />
-									<f:selectItem itemValue="OID" />
-									<f:selectItem itemValue="GAUGE" />
-									<f:selectItem itemValue="COUNTER32" />
-									<f:selectItem itemValue="IP_ADDRESS" />
-									<f:selectItem itemValue="TIMETICKS" />
-									<f:selectItem itemValue="COUNTER64" />
-									<f:selectItem itemValue="UNSIGNED_INTEGER" />
-									<f:selectItem itemValue="BITS" />
-								</h:selectOneMenu>
-						</p:column>
-						<p:column>
-							<f:facet name="header">Value</f:facet>
-								<p:inplace editor="true">
-						            <p:inputText value="#{vb.value}" label="text" />
-						        </p:inplace>
-						</p:column>
-						<p:column>
-							<f:facet name="header">Remove</f:facet>
-								<p:commandButton value="Remove" 
-									action="#{snmpTrapV2CComposer.removeOid(vb)}" 
-									update="oidsTable" ajax="true" />
-						</p:column>
-		            </p:dataTable>
-		            <h:panelGrid columns="4" cellpadding="3" cellspacing="3">
-		            	<p:commandButton value="Add OID" 
-							action="#{snmpTrapV2CComposer.addNewOid()}" 
-							update="oidsTable" ajax="true" />
-						<p:commandButton value="Save trap" 
-							action="#{snmpTrapV2CComposer.saveTrap()}"
-							update="growl mainForm" ajax="true" >
-							<f:param name="agent" value="#{snmpTrapV2CComposer.agent.name}" />
-							<f:param name="trapsTableName" value="#{snmpTrapV2CComposer.trapsTable.name}" />
-						</p:commandButton>
-						<p:commandButton value="Reset trap" 
-							action="#{snmpTrapV2CComposer.resetTrap()}" 
-							update="mainForm" ajax="true" />
-						<p:button value="Cancel" outcome="snmpTrapsTable" >
-							<f:param name="agent" value="#{snmpTrapV2CComposer.agent.name}" />
-							<f:param name="trapsTableName" value="#{snmpTrapV2CComposer.trapsTable.name}" />
-						</p:button>
-		            </h:panelGrid>
-		            
-
-        	</h:form>
+			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
+			
+				<h:outputText value="SNMP Trap V2C Composer" styleClass="title" />
+	    
+	    		<h:form id="mainForm">
+	    	
+	    			<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+			            <h:outputLabel value="Save trap as: " />
+			            <p:inputText id="trapName" value="#{snmpTrapV2CComposer.trapName}"
+			             	required="true" requiredMessage="Missing trap name" />
+			            <h:outputLabel value="Community: " />
+			            <p:inputText value="#{snmpTrapV2CComposer.community}" />
+			            <h:outputLabel value="Source IP: " />
+			            <p:inputText value="#{snmpTrapV2CComposer.sourceIp}" />
+			        </h:panelGrid>
+			            
+			            <h:outputText value="OIDs:" />
+			            <p:dataTable id="oidsTable" value="#{snmpTrapV2CComposer.varbinds}" var="vb" 
+							styleClass="table"
+							rowClasses="tableOddRow,tableEvenRow"
+							cellpadding="0" cellspacing="0" width="100%">
+							<p:column>
+								<f:facet name="header">OID Name</f:facet>
+									<p:inplace editor="true">
+							            <p:inputText value="#{vb.oidName}" required="true" label="text" />
+							        </p:inplace>
+							</p:column>
+							<p:column>
+								<f:facet name="header">OID</f:facet>
+									<p:inplace editor="true">
+							            <p:inputText value="#{vb.oid}" required="true" label="text" />
+							        </p:inplace>
+							</p:column>
+							<p:column>
+								<f:facet name="header">Type</f:facet>
+									<h:selectOneMenu value="#{vb.type}">
+										<f:selectItem itemValue="OCTET_STRING" />
+										<f:selectItem itemValue="INTEGER" />
+										<f:selectItem itemValue="OID" />
+										<f:selectItem itemValue="GAUGE" />
+										<f:selectItem itemValue="COUNTER32" />
+										<f:selectItem itemValue="IP_ADDRESS" />
+										<f:selectItem itemValue="TIMETICKS" />
+										<f:selectItem itemValue="COUNTER64" />
+										<f:selectItem itemValue="UNSIGNED_INTEGER" />
+										<f:selectItem itemValue="BITS" />
+									</h:selectOneMenu>
+							</p:column>
+							<p:column>
+								<f:facet name="header">Value</f:facet>
+									<p:inplace editor="true">
+							            <p:inputText value="#{vb.value}" label="text" />
+							        </p:inplace>
+							</p:column>
+							<p:column>
+								<f:facet name="header">Remove</f:facet>
+									<p:commandButton value="Remove" 
+										action="#{snmpTrapV2CComposer.removeOid(vb)}" 
+										update="oidsTable" ajax="true" />
+							</p:column>
+			            </p:dataTable>
+			            <h:panelGrid columns="4" cellpadding="3" cellspacing="3">
+			            	<p:commandButton value="Add OID" 
+								action="#{snmpTrapV2CComposer.addNewOid()}" 
+								update="oidsTable" ajax="true" />
+							<p:commandButton value="Save trap" 
+								action="#{snmpTrapV2CComposer.saveTrap()}"
+								update="growl mainForm" ajax="true" >
+								<f:param name="agent" value="#{snmpTrapV2CComposer.agent.name}" />
+								<f:param name="trapsTableName" value="#{snmpTrapV2CComposer.trapsTable.name}" />
+							</p:commandButton>
+							<p:commandButton value="Reset trap" 
+								action="#{snmpTrapV2CComposer.resetTrap()}" 
+								update="mainForm" ajax="true" />
+							<p:button value="Cancel" outcome="snmpTrapsTable" >
+								<f:param name="agent" value="#{snmpTrapV2CComposer.agent.name}" />
+								<f:param name="trapsTableName" value="#{snmpTrapV2CComposer.trapsTable.name}" />
+							</p:button>
+			            </h:panelGrid>
+			            
+	
+	        	</h:form>
+        	</h:panelGrid>
+        	
         	
         </h:panelGrid>
         

@@ -20,88 +20,91 @@
     	<h:panelGrid columns="1" cellpadding="0" cellspacing="0" width="100%">
     		
     		<ui:include src="/include/ptoolbar.xhtml"/>
+    		
+    		<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
 			
-			<h:outputText value="SNMP Agent Simulator" styleClass="title" />
-			
-			<h:form id="simForm">
-				<h:panelGrid columns="1" cellspacing="5" width="100%">
-					<h:dataTable id="smTable" value="#{snmpSimulatorBean.snmpAgents}" var="agent" 
-						cellpadding="0" cellspacing="0" width="100%">
-						
-						<h:column>
+				<h:outputText value="SNMP Agent Simulator" styleClass="title" />
+				
+				<h:form id="simForm">
+					<h:panelGrid columns="1" cellspacing="5" width="100%">
+						<h:dataTable id="smTable" value="#{snmpSimulatorBean.snmpAgents}" var="agent" 
+							cellpadding="0" cellspacing="0" width="100%">
 							
-							<h:panelGrid columns="3" styleClass="border" width="100%">
-							<h:panelGrid columns="1">
-								<h:panelGrid columns="2" cellpadding="2">
-									<dt:icon img="rocket" />
-									<p:inplace editor="true" styleClass="title" >
-								        <p:inputText value="#{agent.name}" required="true" label="name" 
-								        	valueChangeListener="#{agent.changedName}">
-								        	<p:ajax update="trapsTable tablesTable" />
-								        </p:inputText>
-								    </p:inplace>
-							    </h:panelGrid>
-							    <h:panelGrid columns="2" cellpadding="2" cellspacing="5" >
-									<h:outputText value="Local IP: " />
-									<p:inplace editor="true" >
-							            <p:inputText value="#{agent.localIp}" required="true" label="ip" valueChangeListener="#{agent.changedIp}" />
-							        </p:inplace>
-									<h:outputText value="Local port: " />
-									<p:inplace editor="true" >
-							            <p:inputText value="#{agent.localPort}" required="true" label="port" valueChangeListener="#{agent.changedPort}" />
-							        </p:inplace>
-							        <h:outputText value="Active: " />
-							        <p:inputSwitch id="actBtn" value="#{agent.active}">
-							            <p:ajax update="growl actBtn" listener="#{snmpSimulatorBean.toggleSnmpAgent(agent)}" />
-							        </p:inputSwitch>
+							<h:column>
+								
+								<h:panelGrid columns="3" styleClass="border" width="100%">
+								<h:panelGrid columns="1">
+									<h:panelGrid columns="2" cellpadding="2">
+										<dt:icon img="rocket" />
+										<p:inplace editor="true" styleClass="title" >
+									        <p:inputText value="#{agent.name}" required="true" label="name" 
+									        	valueChangeListener="#{agent.changedName}">
+									        	<p:ajax update="trapsTable tablesTable" />
+									        </p:inputText>
+									    </p:inplace>
+								    </h:panelGrid>
+								    <h:panelGrid columns="2" cellpadding="2" cellspacing="5" >
+										<h:outputText value="Local IP: " />
+										<p:inplace editor="true" >
+								            <p:inputText value="#{agent.localIp}" required="true" label="ip" valueChangeListener="#{agent.changedIp}" />
+								        </p:inplace>
+										<h:outputText value="Local port: " />
+										<p:inplace editor="true" >
+								            <p:inputText value="#{agent.localPort}" required="true" label="port" valueChangeListener="#{agent.changedPort}" />
+								        </p:inplace>
+								        <h:outputText value="Active: " />
+								        <p:inputSwitch id="actBtn" value="#{agent.active}">
+								            <p:ajax update="growl actBtn" listener="#{snmpSimulatorBean.toggleSnmpAgent(agent)}" />
+								        </p:inputSwitch>
+									</h:panelGrid>
+									<h:panelGrid columns="3" cellpadding="2">
+										<p:button value="Open" outcome="snmpAgent" icon="ui-icon-folder-open" >
+											<f:param name="agent" value="#{agent.name}" />
+										</p:button>
+										<p:button value="MIB Browser" outcome="snmpMibBrowser" icon="ui-icon-suitcase" >
+											<f:param name="agent" value="#{agent.name}" />
+										</p:button>
+								        <p:commandButton id="delBtn" value="Delete" icon="ui-icon-trash"
+											action="#{snmpSimulatorBean.deleteSnmpAgent(agent)}" 
+											update="growl simForm" ajax="true" />
+									</h:panelGrid>
 								</h:panelGrid>
-								<h:panelGrid columns="3" cellpadding="2">
-									<p:button value="Open" outcome="snmpAgent" icon="ui-icon-folder-open" >
-										<f:param name="agent" value="#{agent.name}" />
-									</p:button>
-									<p:button value="MIB Browser" outcome="snmpMibBrowser" icon="ui-icon-suitcase" >
-										<f:param name="agent" value="#{agent.name}" />
-									</p:button>
-							        <p:commandButton id="delBtn" value="Delete" icon="ui-icon-trash"
-										action="#{snmpSimulatorBean.deleteSnmpAgent(agent)}" 
-										update="growl simForm" ajax="true" />
+								<h:panelGrid columns="1">
+									<h:outputText value="Traps scenario:" />
+									<h:dataTable id="trapsTable" value="#{agent.trapsTableList}" var="trapsTable" 
+										cellpadding="0" cellspacing="0" width="100%">
+										<h:column>
+											<p:link outcome="snmpTrapsTable" value="#{trapsTable.name}" style="color: #FAFAFA;">
+											    <f:param name="agent" value="#{agent.name}" />
+											    <f:param name="trapsTableName" value="#{trapsTable.name}" />
+											</p:link>
+										</h:column>
+									</h:dataTable>
 								</h:panelGrid>
-							</h:panelGrid>
-							<h:panelGrid columns="1">
-								<h:outputText value="Traps scenario:" />
-								<h:dataTable id="trapsTable" value="#{agent.trapsTableList}" var="trapsTable" 
-									cellpadding="0" cellspacing="0" width="100%">
-									<h:column>
-										<p:link outcome="snmpTrapsTable" value="#{trapsTable.name}">
-										    <f:param name="agent" value="#{agent.name}" />
-										    <f:param name="trapsTableName" value="#{trapsTable.name}" />
-										</p:link>
-									</h:column>
-								</h:dataTable>
-							</h:panelGrid>
-							<h:panelGrid columns="1">
-								<h:outputText value="Tables:" />
-								<h:dataTable id="tablesTable" value="#{agent.snmpTablesList}" var="table" 
-									cellpadding="0" cellspacing="0" width="100%">
-									<h:column>
-										<p:link outcome="snmpTable" value="#{table.name}">
-										    <f:param name="agent" value="#{agent.name}" />
-										    <f:param name="snmpTableName" value="#{table.name}" />
-										</p:link>
-									</h:column>
-								</h:dataTable>
-							</h:panelGrid>
-							</h:panelGrid>
+								<h:panelGrid columns="1">
+									<h:outputText value="Tables:" />
+									<h:dataTable id="tablesTable" value="#{agent.snmpTablesList}" var="table" 
+										cellpadding="0" cellspacing="0" width="100%">
+										<h:column>
+											<p:link outcome="snmpTable" value="#{table.name}" style="color: #FAFAFA;">
+											    <f:param name="agent" value="#{agent.name}" />
+											    <f:param name="snmpTableName" value="#{table.name}" />
+											</p:link>
+										</h:column>
+									</h:dataTable>
+								</h:panelGrid>
+								</h:panelGrid>
+								
+							</h:column>
 							
-						</h:column>
-						
-					</h:dataTable>
-					<p:commandButton value="Add new agent" 
-						action="#{snmpSimulatorBean.addNewSnmpAgent()}" 
-						update="simForm" ajax="true" />
-				</h:panelGrid>
-			</h:form>
-        
+						</h:dataTable>
+						<p:commandButton value="Add new agent" 
+							action="#{snmpSimulatorBean.addNewSnmpAgent()}" 
+							update="simForm" ajax="true" />
+					</h:panelGrid>
+				</h:form>
+        	</h:panelGrid>
+        	
         </h:panelGrid>
         
     </h:body>

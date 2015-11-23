@@ -18,39 +18,39 @@
     		
     		<ui:include src="/include/ptoolbar.xhtml"/>
     		
-	        
+	        <h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
 			
-			<h:outputText value="SSH Response details" />
-			
-			<br/>
-			
-			<h:form>
-				<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+				<h:outputText value="SSH Response details" />
 				
-					<h:outputLabel value="Name: " />
-					<h:outputText value="#{sshResponseBean.sshResponse.filename}.txt" />
+				<br/>
+				
+				<h:form>
+					<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
 					
-					<h:outputLabel value="Date: " />
-					<h:outputText value="#{sshResponseBean.sshResponse.date}" />
-					
-					<h:outputLabel value="Server: " />
-					<h:outputText value="ssh://#{sshResponseBean.sshResponse.sshClient.username}@#{sshResponseBean.sshResponse.sshClient.hostname}:#{sshResponseBean.sshResponse.sshClient.port}" />
-					
-					<h:outputLabel value="Command: " />
-					<h:outputText value="#{sshResponseBean.sshResponse.command}" />
-					
-					<h:outputLabel value="Comment: " />
-					<h:outputText value="#{sshResponseBean.sshResponse.remark}" />
-					
-					<h:outputLabel value="Response: " />
-					<h:inputTextarea value="#{sshResponseBean.sshResponse.response}" cols="100" rows="30" styleClass="codeStyle" />
-					
-					<h:commandButton action="#" value="Repeat execution"></h:commandButton>
-					
-				</h:panelGrid>
-			
-			</h:form>
-			
+						<h:outputLabel value="Name: " />
+						<h:outputText value="#{sshResponseBean.sshResponse.filename}.txt" />
+						
+						<h:outputLabel value="Date: " />
+						<h:outputText value="#{sshResponseBean.sshResponse.date}" />
+						
+						<h:outputLabel value="Server: " />
+						<h:outputText value="ssh://#{sshResponseBean.sshResponse.sshClient.username}@#{sshResponseBean.sshResponse.sshClient.hostname}:#{sshResponseBean.sshResponse.sshClient.port}" />
+						
+						<h:outputLabel value="Command: " />
+						<h:outputText value="#{sshResponseBean.sshResponse.command}" />
+						
+						<h:outputLabel value="Comment: " />
+						<h:outputText value="#{sshResponseBean.sshResponse.remark}" />
+						
+						<h:outputLabel value="Response: " />
+						<h:inputTextarea value="#{sshResponseBean.sshResponse.response}" cols="100" rows="30" styleClass="codeStyle" />
+						
+						<h:commandButton action="#" value="Repeat execution"></h:commandButton>
+						
+					</h:panelGrid>
+				
+				</h:form>
+			</h:panelGrid>
         
         </h:panelGrid>
         

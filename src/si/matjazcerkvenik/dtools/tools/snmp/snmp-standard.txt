@@ -8,10 +8,14 @@ http://docwiki.cisco.com/wiki/Simple_Network_Management_Protocol
 http://tools.cisco.com/Support/SNMP/do/BrowseOID.do?local=en&translate=Translate&objectInput=1.3.6.1.6.3.1.1.5.3
 
 
+Understanding Table Index Values in SNMP
+http://www.cisco.com/c/en/us/support/docs/ip/simple-network-management-protocol-snmp/40700-snmp-ifIndex40700.html
+
+
+
 snmp4j how to:
 
 http://www.jitendrazaa.com/blog/java/snmp/creating-snmp-agent-server-in-java-using-snmp4j/
-
 http://www.jayway.com/2010/05/21/introduction-to-snmp4j/
 
 

@@ -20,59 +20,60 @@
     	<h:panelGrid columns="1" cellpadding="0" cellspacing="0" width="100%">
     		
     		<ui:include src="/include/ptoolbar.xhtml"/>
+    		
+    		<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
 			
-			<h:outputText value="SNMP Manager" styleClass="title" />
-			
-			<h:form id="trForm">
-			<h:panelGrid columns="1" cellspacing="5" width="100%">
-				<h:dataTable id="smTable" value="#{snmpManagerBean.trapReceivers}" var="recv" 
-					
-					
-					cellpadding="0" cellspacing="0" width="100%">
+				<h:outputText value="SNMP Manager" styleClass="title" />
 				
-					<h:column>
-						<h:panelGrid columns="1" styleClass="border" width="100%">
-							<h:panelGrid columns="2" cellpadding="2">
-								<dt:icon img="fire_truck" />
-								<p:inplace editor="true" styleClass="title" >
-							        <p:inputText value="#{recv.name}" required="true" label="name" 
-							        	valueChangeListener="#{recv.changedName}" />
-							    </p:inplace>
-						    </h:panelGrid>
-							<h:panelGrid columns="2" cellpadding="2" cellspacing="5" >
-								<h:outputText value="Listening IP: " />
-								<p:inplace editor="true" >
-						            <p:inputText value="#{recv.ip}" required="true" label="ip" valueChangeListener="#{recv.changedIp}" />
-						        </p:inplace>
-								<h:outputText value="Listening port: " />
-								<p:inplace editor="true" >
-						            <p:inputText value="#{recv.port}" required="true" label="port" valueChangeListener="#{recv.changedPort}" />
-						        </p:inplace>
-						        <h:outputText value="Active: " />
-						        <p:inputSwitch id="actBtn" value="#{recv.active}">
-						            <p:ajax update="growl actBtn" listener="#{snmpManagerBean.toggleTrapReceiver(recv)}" />
-						        </p:inputSwitch>
+				<h:form id="trForm">
+				<h:panelGrid columns="1" cellspacing="5" width="100%">
+					<h:dataTable id="smTable" value="#{snmpManagerBean.trapReceivers}" var="recv" 
+						cellpadding="0" cellspacing="0" width="100%">
+					
+						<h:column>
+							<h:panelGrid columns="1" styleClass="border" width="100%">
+								<h:panelGrid columns="2" cellpadding="2">
+									<dt:icon img="fire_truck" />
+									<p:inplace editor="true" styleClass="title" >
+								        <p:inputText value="#{recv.name}" required="true" label="name" 
+								        	valueChangeListener="#{recv.changedName}" />
+								    </p:inplace>
+							    </h:panelGrid>
+								<h:panelGrid columns="2" cellpadding="2" cellspacing="5" >
+									<h:outputText value="Listening IP: " />
+									<p:inplace editor="true" >
+							            <p:inputText value="#{recv.ip}" required="true" label="ip" valueChangeListener="#{recv.changedIp}" />
+							        </p:inplace>
+									<h:outputText value="Listening port: " />
+									<p:inplace editor="true" >
+							            <p:inputText value="#{recv.port}" required="true" label="port" valueChangeListener="#{recv.changedPort}" />
+							        </p:inplace>
+							        <h:outputText value="Active: " />
+							        <p:inputSwitch id="actBtn" value="#{recv.active}">
+							            <p:ajax update="growl actBtn" listener="#{snmpManagerBean.toggleTrapReceiver(recv)}" />
+							        </p:inputSwitch>
+								</h:panelGrid>
+								<h:panelGrid columns="3" cellpadding="2">
+							        <p:commandButton id="viewBtn" value="View raw traps" 
+										action="#{navigationBean.openSnmpTrapReceiver(recv)}" />
+									<p:commandButton id="monitorBtn" value="Trap Monitor" 
+										action="#{navigationBean.openTrapMonitor(recv)}" />
+							        <p:commandButton id="delBtn" value="Delete" 
+										action="#{snmpManagerBean.deleteTrapReceiver(recv)}" 
+										update="growl trForm" ajax="true" />
+								</h:panelGrid>
 							</h:panelGrid>
-							<h:panelGrid columns="3" cellpadding="2">
-						        <p:commandButton id="viewBtn" value="View raw traps" 
-									action="#{navigationBean.openSnmpTrapReceiver(recv)}" />
-								<p:commandButton id="monitorBtn" value="Trap Monitor" 
-									action="#{navigationBean.openTrapMonitor(recv)}" />
-						        <p:commandButton id="delBtn" value="Delete" 
-									action="#{snmpManagerBean.deleteTrapReceiver(recv)}" 
-									update="growl trForm" ajax="true" />
-							</h:panelGrid>
-						</h:panelGrid>
-					</h:column>
-				
-				</h:dataTable>
+						</h:column>
+					
+					</h:dataTable>
+					
+				</h:panelGrid>
 				<p:commandButton value="Add new trap receiver" 
-					action="#{snmpManagerBean.addNewTrapReceiver()}" 
-					update="trForm" ajax="true" />
+						action="#{snmpManagerBean.addNewTrapReceiver()}" 
+						update="trForm" ajax="true" />
+				</h:form>
+			
 			</h:panelGrid>
-			</h:form>
-			
-			
 			
         
         </h:panelGrid>

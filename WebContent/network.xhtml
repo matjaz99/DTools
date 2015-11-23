@@ -22,114 +22,112 @@
     	
 	        <ui:include src="/include/ptoolbar.xhtml"/>
 			
-			<h:outputText value="Network" styleClass="title" />
 			
-			
-			
-			
-			<h:form>
-			    <p:commandButton value="Add new device" onclick="PF('addDevDlg').show();" />
-			 				 
-			    <p:dialog header="Add new IP device" widgetVar="addDevDlg" resizable="false" dynamic="true" closable="false">
-			    	
-			    	<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
-						
-						<h:outputLabel for="srvName" value="Name: " />
-						<p:inputText id="srvName" value="#{serversBean.name}" required="true" 
-							requiredMessage="Missing device name">
-							<f:validator validatorId="newDeviceValidator"/>
-						</p:inputText>
-						
-						<h:outputLabel for="srvHostname" value="Hostname: " />
-						<p:inputText id="srvHostname" value="#{serversBean.hostname}" required="true" 
-							requiredMessage="Missing hostname or ip" />
-						
-						<h:outputLabel value="Description: " />
-						<p:inputText value="#{serversBean.description}" />
-						
-						<f:facet name="footer">
-			                <p:commandButton value="Add" update="growl srvName srvHostname serversTable" 
-			                	actionListener="#{serversBean.addServerAction}"
-			                	oncomplete="handleDialogRequest('addDevDlg', xhr, status, args)" />
-			                <p:commandButton value="Cancel" onclick="PF('addDevDlg').hide();" />
-			            </f:facet>
-						
-					</h:panelGrid>
-			    	
-			    </p:dialog>
-			</h:form>
-			
-			
-			
-			
-			
-			
-			<h:panelGrid columns="1" cellspacing="5" width="100%">
-			<h:dataTable id="serversTable" value="#{serversBean.serversList}" var="server" 
-				styleClass="table"
-				rowClasses="tableOddRow,tableEvenRow"
-				cellpadding="0" cellspacing="0" width="100%">
+			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
 				
-				<h:column headerClass="col0 col1">
-					<f:facet name="header">Icon</f:facet>
-					<h:form>
-						<h:commandLink action="#{navigationBean.openServer(server)}">
-							<dt:icon img="drive_network"/>
-						</h:commandLink>
-					</h:form>
-				</h:column>
+				<h:outputText value="Network" styleClass="title" />
+			
+				<h:form>
+				    <p:commandButton value="Add new device" onclick="PF('addDevDlg').show();" />
+				 				 
+				    <p:dialog header="Add new IP device" widgetVar="addDevDlg" resizable="false" dynamic="true" closable="false">
+				    	
+				    	<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+							
+							<h:outputLabel for="srvName" value="Name: " />
+							<p:inputText id="srvName" value="#{serversBean.name}" required="true" 
+								requiredMessage="Missing device name">
+								<f:validator validatorId="newDeviceValidator"/>
+							</p:inputText>
+							
+							<h:outputLabel for="srvHostname" value="Hostname: " />
+							<p:inputText id="srvHostname" value="#{serversBean.hostname}" required="true" 
+								requiredMessage="Missing hostname or ip" />
+							
+							<h:outputLabel value="Description: " />
+							<p:inputText value="#{serversBean.description}" />
+							
+							<f:facet name="footer">
+				                <p:commandButton value="Add" update="growl srvName srvHostname serversTable" 
+				                	actionListener="#{serversBean.addServerAction}"
+				                	oncomplete="handleDialogRequest('addDevDlg', xhr, status, args)" />
+				                <p:commandButton value="Cancel" onclick="PF('addDevDlg').hide();" />
+				            </f:facet>
+							
+						</h:panelGrid>
+				    	
+				    </p:dialog>
+				</h:form>
 				
-				<h:column headerClass="col0 col1">
-					<f:facet name="header">Status</f:facet>
-					<h:form id="status">
-						<h:commandLink action="#{serversBean.sendIcmpPingAction(server)}">
-							<dt:icon img="#{serversBean.getStatusIcon(server.icmpPingStatus)}"/>
-							<f:ajax render="status" />
-						</h:commandLink>
-					</h:form>
-				</h:column>
 				
-				<h:column headerClass="col0 col2">
-					<f:facet name="header">Name</f:facet>
-					<h:form>
-						<h:commandLink action="#{navigationBean.openServer(server)}">
-							<h:outputText value="#{server.name}" />
-						</h:commandLink>
-					</h:form>
-				</h:column>
-				
-				<h:column headerClass="col0 col2">
-					<f:facet name="header">Hostname</f:facet>
-					<h:form>
-						<h:commandLink action="#{navigationBean.openServer(server)}">
-							<h:outputText value="#{server.hostname}" />
-						</h:commandLink>
-					</h:form>
-				</h:column>
-				
-				<h:column headerClass="col0">
-					<f:facet name="header">Description</f:facet>
-					<h:form>
-						<h:outputText value="#{server.description}" />
-					</h:form>
-				</h:column>
-				
-				<h:column headerClass="col0">
-					<f:facet name="header">Actions</f:facet>
-					<h:form>
-						<h:commandLink id="favoriteStar" action="#{serversBean.toggleFavorite(server)}">
-							<dt:icon img="#{server.favorite == true ? 'star-full' : 'star-empty'}"/>
-							<f:ajax render="favoriteStar" />
-						</h:commandLink>
-						<h:commandLink action="#{serversBean.deleteServerAction(server)}">
-							<dt:icon img="remove"/>
-							<f:ajax render="serversTable" />
-						</h:commandLink>
-					</h:form>
-				</h:column>
-				
-			</h:dataTable>
+				<h:panelGrid columns="1" cellspacing="5" width="100%">
+				<h:dataTable id="serversTable" value="#{serversBean.serversList}" var="server" 
+					styleClass="table"
+					rowClasses="tableOddRow,tableEvenRow"
+					cellpadding="0" cellspacing="0" width="100%">
+					
+					<h:column headerClass="col0 col1">
+						<f:facet name="header">Icon</f:facet>
+						<h:form>
+							<h:commandLink action="#{navigationBean.openServer(server)}">
+								<dt:icon img="drive_network"/>
+							</h:commandLink>
+						</h:form>
+					</h:column>
+					
+					<h:column headerClass="col0 col1">
+						<f:facet name="header">Status</f:facet>
+						<h:form id="status">
+							<h:commandLink action="#{serversBean.sendIcmpPingAction(server)}">
+								<dt:icon img="#{serversBean.getStatusIcon(server.icmpPingStatus)}"/>
+								<f:ajax render="status" />
+							</h:commandLink>
+						</h:form>
+					</h:column>
+					
+					<h:column headerClass="col0 col2">
+						<f:facet name="header">Name</f:facet>
+						<h:form>
+							<h:commandLink action="#{navigationBean.openServer(server)}">
+								<h:outputText value="#{server.name}" />
+							</h:commandLink>
+						</h:form>
+					</h:column>
+					
+					<h:column headerClass="col0 col2">
+						<f:facet name="header">Hostname</f:facet>
+						<h:form>
+							<h:commandLink action="#{navigationBean.openServer(server)}">
+								<h:outputText value="#{server.hostname}" />
+							</h:commandLink>
+						</h:form>
+					</h:column>
+					
+					<h:column headerClass="col0">
+						<f:facet name="header">Description</f:facet>
+						<h:form>
+							<h:outputText value="#{server.description}" />
+						</h:form>
+					</h:column>
+					
+					<h:column headerClass="col0">
+						<f:facet name="header">Actions</f:facet>
+						<h:form>
+							<h:commandLink id="favoriteStar" action="#{serversBean.toggleFavorite(server)}">
+								<dt:icon img="#{server.favorite == true ? 'star-full' : 'star-empty'}"/>
+								<f:ajax render="favoriteStar" />
+							</h:commandLink>
+							<h:commandLink action="#{serversBean.deleteServerAction(server)}">
+								<dt:icon img="remove"/>
+								<f:ajax render="serversTable" />
+							</h:commandLink>
+						</h:form>
+					</h:column>
+					
+				</h:dataTable>
+				</h:panelGrid>
 			</h:panelGrid>
+			
         
         </h:panelGrid>
         

@@ -21,73 +21,77 @@
     		
     		<ui:include src="/include/ptoolbar.xhtml"/>
     		
+    		<h:form id="breadCrumb">
     		<p:breadCrumb>
 			    <p:menuitem value="Home" url="home.xhtml" />
 			    <p:menuitem value="SSH Clients" url="sshClients.xhtml" />
 			    <p:menuitem value="#{sshClientBean.sshClient.toUrlString()}" url="#" />
 			</p:breadCrumb>
-			
-			<h:panelGrid columns="2">
-				<dt:icon img="terminal" />
-				<h:outputText value="#{sshClientBean.sshClient.toUrlString()}" styleClass="title" />
-			</h:panelGrid>
-						
-			
-			<h:form id="execOne">
-				<fieldset>
-				<legend> Enter new command </legend>
-					<h:outputLabel value="Command: " />
-					<h:inputText value="#{sshClientBean.newCommand}" size="50" />
-					<p:commandButton value="Add to list" action="#{sshClientBean.addCommand}" 
-						update="growl execSelected" ajax="true" />
-					<p:commandButton value="Execute" action="#{sshClientBean.executeOne}" 
-						update="growl exec" ajax="true" />
-				</fieldset>
 			</h:form>
 			
-			<hr/>
+			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
 			
-			<h:form id="execSelected">
-				<h:outputText value="Or select command from the list" />
 				<h:panelGrid columns="2">
-					<h:selectOneListbox value="#{sshClientBean.selectedCommand}" size="10"
-						onchange="submit()" valueChangeListener="#{sshClientBean.commandValueChanged}">
-						<f:selectItems value="#{sshClientBean.commands}" />
-					</h:selectOneListbox>
-					<p:commandButton value="Execute" action="#{sshClientBean.executeSelected}" 
-						update="growl exec" ajax="true" />
+					<dt:icon img="terminal" />
+					<h:outputText value="#{sshClientBean.sshClient.toUrlString()}" styleClass="title" />
 				</h:panelGrid>
-			</h:form>
-			
-			<hr/>
+							
 				
-			<h:form id="exec">
-				<h:panelGrid columns="1" cellspacing="0">
-					<h:outputText value="$ #{sshClientBean.selectedCommand}" />
-					<h:message for="exec" style="color: #{sshClientBean.execStatusColor};" />
-					<h:inputTextarea id="sshResponse" value="#{sshClientBean.sshResponse}" 
-						cols="100" rows="15" styleClass="codeStyle" />
-					<h:commandButton value="Refresh">
-						<f:ajax render="sshResponse exec"/>
-					</h:commandButton>
-				</h:panelGrid>
-			</h:form>
+				<h:form id="execOne">
+					<fieldset>
+					<legend> Enter new command </legend>
+						<h:outputLabel value="Command: " />
+						<h:inputText value="#{sshClientBean.newCommand}" size="50" />
+						<p:commandButton value="Add to list" action="#{sshClientBean.addCommand}" 
+							update="growl execSelected" ajax="true" />
+						<p:commandButton value="Execute" action="#{sshClientBean.executeOne}" 
+							update="growl exec" ajax="true" />
+					</fieldset>
+				</h:form>
 				
+				<hr/>
 				
-			<h:form id="save">
-				<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+				<h:form id="execSelected">
+					<h:outputText value="Or select command from the list" />
+					<h:panelGrid columns="2">
+						<h:selectOneListbox value="#{sshClientBean.selectedCommand}" size="10"
+							onchange="submit()" valueChangeListener="#{sshClientBean.commandValueChanged}">
+							<f:selectItems value="#{sshClientBean.commands}" />
+						</h:selectOneListbox>
+						<p:commandButton value="Execute" action="#{sshClientBean.executeSelected}" 
+							update="growl exec" ajax="true" />
+					</h:panelGrid>
+				</h:form>
+				
+				<hr/>
 					
-					<h:outputText value="Save as filename: " />
-					<h:inputText value="#{sshClientBean.filename}" />
+				<h:form id="exec">
+					<h:panelGrid columns="1" cellspacing="0">
+						<h:outputText value="$ #{sshClientBean.selectedCommand}" />
+						<h:message for="exec" style="color: #{sshClientBean.execStatusColor};" />
+						<h:inputTextarea id="sshResponse" value="#{sshClientBean.sshResponse}" 
+							cols="100" rows="15" styleClass="codeStyle" />
+						<h:commandButton value="Refresh">
+							<f:ajax render="sshResponse exec"/>
+						</h:commandButton>
+					</h:panelGrid>
+				</h:form>
 					
-					<h:outputText value="Comments: " />
-					<h:inputTextarea value="#{sshClientBean.remark}" cols="30" rows="3" />
 					
-					<p:commandButton value="Save result" action="#{sshClientBean.saveResponse}" 
-						update="save" ajax="true" />
-				</h:panelGrid>
-			</h:form>
-			
+				<h:form id="save">
+					<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+						
+						<h:outputText value="Save as filename: " />
+						<h:inputText value="#{sshClientBean.filename}" />
+						
+						<h:outputText value="Comments: " />
+						<h:inputTextarea value="#{sshClientBean.remark}" cols="30" rows="3" />
+						
+						<p:commandButton value="Save result" action="#{sshClientBean.saveResponse}" 
+							update="save" ajax="true" />
+					</h:panelGrid>
+				</h:form>
+			</h:panelGrid>
 			
         
         </h:panelGrid>

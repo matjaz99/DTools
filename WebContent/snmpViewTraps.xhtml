@@ -21,28 +21,29 @@
     		
     		<ui:include src="/include/ptoolbar.xhtml"/>
 			
-			<h:outputText value="SNMP Manager" styleClass="title" />
+			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
 			
-			
-			<h:form>
-				<h:panelGrid columns="1" cellpadding="2" cellspacing="0">
-					<p:commandButton value="Back" action="snmpManager" />
-					<h:panelGrid columns="3" cellpadding="2" cellspacing="5">
-						<p:commandButton value="Refresh" action="#" 
-							update="receivedTraps" ajax="true" />
-						<p:commandButton value="Clear" action="#{snmpTrapMonitorBean.clearData()}" 
-							update="receivedTraps" ajax="true" />
-						<p:commandButton value="Save as .txt" action="#{snmpTrapMonitorBean.saveData()}" 
-							update="growl" ajax="true" />
+				<h:outputText value="SNMP Manager" styleClass="title" />
+				
+				<h:form>
+					<h:panelGrid columns="1" cellpadding="2" cellspacing="0">
+						<p:commandButton value="Back" action="snmpManager" />
+						<h:panelGrid columns="3" cellpadding="2" cellspacing="5">
+							<p:commandButton value="Refresh" action="#" 
+								update="receivedTraps" ajax="true" />
+							<p:commandButton value="Clear" action="#{snmpTrapMonitorBean.clearData()}" 
+								update="receivedTraps" ajax="true" />
+							<p:commandButton value="Save as .txt" action="#{snmpTrapMonitorBean.saveData()}" 
+								update="growl" ajax="true" />
+						</h:panelGrid>
+						
+						<h:inputTextarea id="receivedTraps" value="#{snmpTrapMonitorBean.receivedTrapsAsString}" 
+							cols="100" rows="30" styleClass="codeStyle" />
+						<p:poll interval="10" update="receivedTraps" />
+						
 					</h:panelGrid>
-					
-					<h:inputTextarea id="receivedTraps" value="#{snmpTrapMonitorBean.receivedTrapsAsString}" 
-						cols="100" rows="30" styleClass="codeStyle" />
-					<p:poll interval="10" update="receivedTraps" />
-					
-				</h:panelGrid>
-			</h:form>
-			
+				</h:form>
+			</h:panelGrid>
         
         </h:panelGrid>
         
