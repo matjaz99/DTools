@@ -158,7 +158,7 @@ public class SnmpAgentBean implements Serializable {
 	
 	
 	public void toggleTableEnable(SnmpTable table) {
-		table.getMetadata().setEnabled(!table.getMetadata().isEnabled());
+//		table.getMetadata().setEnabled(!table.getMetadata().isEnabled());
 		DAO.getInstance().saveSnmpDataTable(table);
 	}
 	

@@ -3,7 +3,7 @@
 	
 	<description>Ant buildfile</description>
 
-	<property name="project.version" value="0.4.1-beta.03" />
+	<property name="project.version" value="0.4.1-beta.04" />
 	<property name="bin.dir" value="bin" />
 	<property name="src.dir" value="src" />
 	<property name="web.dir" value="WebContent" />
@@ -80,9 +80,7 @@
 		</copy>
 		
 		<mkdir dir="${dist.dir}/${ant.project.name}-${project.version}/data" />
-		
-		<mkdir dir="${dist.dir}/${ant.project.name}-${project.version}/log" />
-		
+				
 		<mkdir dir="${dist.dir}/${ant.project.name}-${project.version}/temp" />
 			
 		<copy todir="${dist.dir}/${ant.project.name}-${project.version}">

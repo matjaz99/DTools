@@ -25,6 +25,10 @@
 			
 				<h:outputText value="SNMP Manager" styleClass="title" />
 				
+				<p:commandButton value="Add new trap receiver" icon="ui-icon-plus"
+						action="#{snmpManagerBean.addNewTrapReceiver()}" 
+						update="trForm" ajax="true" />
+				
 				<h:form id="trForm">
 				<h:panelGrid columns="1" cellspacing="5" width="100%">
 					<h:dataTable id="smTable" value="#{snmpManagerBean.trapReceivers}" var="recv" 
@@ -54,11 +58,11 @@
 							        </p:inputSwitch>
 								</h:panelGrid>
 								<h:panelGrid columns="3" cellpadding="2">
-							        <p:commandButton id="viewBtn" value="View raw traps" 
+							        <p:commandButton id="viewBtn" value="View raw traps" icon="ui-icon-folder-open"
 										action="#{navigationBean.openSnmpTrapReceiver(recv)}" />
-									<p:commandButton id="monitorBtn" value="Trap Monitor" 
+									<p:commandButton id="monitorBtn" value="Trap Monitor" icon="ui-icon-bookmark"
 										action="#{navigationBean.openTrapMonitor(recv)}" />
-							        <p:commandButton id="delBtn" value="Delete" 
+							        <p:commandButton id="delBtn" value="Delete" icon="ui-icon-trash"
 										action="#{snmpManagerBean.deleteTrapReceiver(recv)}" 
 										update="growl trForm" ajax="true" />
 								</h:panelGrid>
@@ -68,9 +72,7 @@
 					</h:dataTable>
 					
 				</h:panelGrid>
-				<p:commandButton value="Add new trap receiver" 
-						action="#{snmpManagerBean.addNewTrapReceiver()}" 
-						update="trForm" ajax="true" />
+				
 				</h:form>
 			
 			</h:panelGrid>

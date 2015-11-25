@@ -38,7 +38,7 @@
 					<h:panelGrid columns="2" cellspacing="5">
 						<h:outputText value="Table OID: " />
 						<p:inputText value="#{snmpTableBean.table.metadata.tableOid}" required="true" 
-							label="tblOid" />
+							label="tblOid" size="60" />
 					</h:panelGrid>
 				
 					<h:panelGrid columns="1" cellspacing="5" width="100%">
@@ -63,6 +63,12 @@
 									</h:selectOneMenu>
 							</p:column>
 							<p:column>
+								<f:facet name="header">Index</f:facet>
+									<p:selectBooleanCheckbox value="#{col.index}">
+							            <p:ajax />
+							        </p:selectBooleanCheckbox>
+							</p:column>
+							<p:column>
 								<f:facet name="header">Action</f:facet>
 									<p:commandButton value="Remove column" 
 										action="#{snmpTableBean.deleteColumn(col)}" 
@@ -72,14 +78,14 @@
 					</h:panelGrid>
 					
 					<h:panelGrid columns="3" cellpadding="3" cellspacing="3">
-			            	<p:commandButton value="Add column" 
+			            	<p:commandButton value="Add column" icon="ui-icon-plus"
 								action="#{snmpTableBean.addNewColumn()}" 
 								update="mainForm" ajax="true" />
-							<p:commandButton value="Save" 
+							<p:commandButton value="Save" icon="ui-icon-disk"
 								action="#{snmpTableBean.saveTable()}"
 								update="growl mainForm" ajax="true" >
 							</p:commandButton>
-							<p:button value="Cancel" outcome="snmpTable" >
+							<p:button value="Cancel" outcome="snmpTable" icon="ui-icon-close" >
 								<f:param name="agent" value="#{snmpTableBean.agent.name}" />
 								<f:param name="snmpTableName" value="#{snmpTableBean.table.name}" />
 							</p:button>

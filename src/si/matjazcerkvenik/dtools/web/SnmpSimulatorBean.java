@@ -25,7 +25,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
-import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
 import si.matjazcerkvenik.dtools.xml.DAO;
 
@@ -41,8 +40,7 @@ public class SnmpSimulatorBean implements Serializable {
 	 */
 	public void addNewSnmpAgent() {
 		
-		SnmpAgent a = new SnmpAgent("SnmpAgent" + DAO.getInstance().loadSnmpSimulator().getSnmpAgentsList().size(), 
-				LocalhostInfo.getLocalIpAddress(), 161);
+		SnmpAgent a = SnmpAgent.createDefaultAgent();
 		
 		DAO.getInstance().createNewSnmpAgent(a);
 		Growl.addGrowlMessage("Created SNMP agent: " + a.toString(), FacesMessage.SEVERITY_INFO);

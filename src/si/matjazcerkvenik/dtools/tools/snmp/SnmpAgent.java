@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.SimpleSnmpAgentImpl;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapSender;
 import si.matjazcerkvenik.dtools.xml.DAO;
@@ -59,10 +60,15 @@ public class SnmpAgent implements Serializable {
 	public SnmpAgent() {
 	}
 	
-	public SnmpAgent(String name, String ip, int port) {
-		this.name = name;
-		this.localIp = ip;
-		this.localPort = port;
+	
+	public static SnmpAgent createDefaultAgent() {
+		SnmpAgent a = new SnmpAgent();
+		a.setName("SnmpAgent" + DAO.getInstance().loadSnmpSimulator().getSnmpAgentsList().size());
+		a.setLocalIp(LocalhostInfo.getLocalIpAddress());
+		a.setLocalPort(161);
+		a.setSnmpTablesList(new ArrayList<SnmpTable>());
+		a.setTrapsTableList(new ArrayList<TrapsTable>());
+		return a;
 	}
 	
 	

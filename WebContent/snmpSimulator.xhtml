@@ -27,6 +27,11 @@
 				
 				<h:form id="simForm">
 					<h:panelGrid columns="1" cellspacing="5" width="100%">
+						
+						<p:commandButton value="Add new agent" icon="ui-icon-plus"
+							action="#{snmpSimulatorBean.addNewSnmpAgent()}" 
+							update="simForm" ajax="true" />
+						
 						<h:dataTable id="smTable" value="#{snmpSimulatorBean.snmpAgents}" var="agent" 
 							cellpadding="0" cellspacing="0" width="100%">
 							
@@ -98,9 +103,7 @@
 							</h:column>
 							
 						</h:dataTable>
-						<p:commandButton value="Add new agent" 
-							action="#{snmpSimulatorBean.addNewSnmpAgent()}" 
-							update="simForm" ajax="true" />
+						
 					</h:panelGrid>
 				</h:form>
         	</h:panelGrid>

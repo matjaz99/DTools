@@ -28,14 +28,12 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.xml.bind.annotation.XmlTransient;
 
 import si.matjazcerkvenik.dtools.tools.snmp.ColumnMetadata;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
-import si.matjazcerkvenik.dtools.tools.snmp.SnmpSimulator;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTable;
 import si.matjazcerkvenik.dtools.xml.DAO;
 
@@ -48,7 +46,7 @@ public class SnmpTableBean implements Serializable {
 	private SnmpAgent agent;
 	private SnmpTable table;
 	
-	private String newColumnType;
+//	private String newColumnType;
 	
 	@PostConstruct
 	public void init() {
@@ -211,13 +209,6 @@ public class SnmpTableBean implements Serializable {
 	}
 	
 	
-//	public void changedTableOid(ValueChangeEvent e) {
-//		if (e.getOldValue().toString().equalsIgnoreCase(e.getNewValue().toString())) {
-//			return;
-//		}
-//		table.getMetadata().setTableOid(e.getNewValue().toString());
-//	}
-	
 	
 	public void tableValueChanged(ValueChangeEvent e) {
 		String s = e.getNewValue().toString();
@@ -249,7 +240,7 @@ public class SnmpTableBean implements Serializable {
 	// $ snmpbulkwalk -v 2c -c public 192.168.1.100:6161 1.3.6.1.4.1.444.1.8
 	// $ snmpbulkget -v 2c -C r16 -c public 192.168.1.100:6161 1.3.6.1.4.1.444.1.8
 	public String generateNetSnmpHelp() {
-		String s = "$ snmpget -v 2c -c public " + agent.getLocalIp() + ":" + agent.getLocalPort() + " " + table.getMetadata().getTableOid() + ".row.col\n";
+		String s = "$ snmpget -v 2c -c public " + agent.getLocalIp() + ":" + agent.getLocalPort() + " " + table.getMetadata().getTableOid() + ".index.col\n";
 		s += "$ snmpbulkwalk -v 2c -c public " + agent.getLocalIp() + ":" + agent.getLocalPort() + " " + table.getMetadata().getTableOid() + "\n";
 		s+= "$ snmpbulkget -v 2c -C r16 -c public " + agent.getLocalIp() + ":" + agent.getLocalPort() + " " + table.getMetadata().getTableOid() + "\n";
 		return s;

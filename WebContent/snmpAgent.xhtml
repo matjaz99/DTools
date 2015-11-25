@@ -35,7 +35,7 @@
 				
 				<h:form>
 					
-					<p:commandButton value="New table" onclick="PF('addTableDlg#{snmpAgentBean.agent.name}').show();" />
+					<p:commandButton value="New table" onclick="PF('addTableDlg#{snmpAgentBean.agent.name}').show();" icon="ui-icon-plus" />
 				 				 	<p:dialog header="Add new table" widgetVar="addTableDlg#{snmpAgentBean.agent.name}" resizable="false">
 				 				 		<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
 											<h:outputLabel for="tblName" value="Name: " />
@@ -48,7 +48,7 @@
 											</p:inputText>
 											<f:facet name="footer">
 								                <p:commandButton value="Add" action="#{snmpAgentBean.addSnmpTableAction()}" 
-													update="growl tablesTbl tblName"
+													update="growl tablesTbl tblName tblOid"
 													oncomplete="PF('addTableDlg#{snmpAgentBean.agent.name}').hide();" />
 								                <p:commandButton value="Cancel" onclick="PF('addTableDlg#{snmpAgentBean.agent.name}').hide();" />
 								            </f:facet>
@@ -79,7 +79,7 @@
 							</p:column>
 							<p:column>
 								<f:facet name="header">Actions</f:facet>
-								<p:commandButton value="Delete" 
+								<p:commandButton value="Delete" icon="ui-icon-trash"
 										action="#{snmpAgentBean.deleteDataTable(table)}" 
 										update="growl tablesTbl" ajax="true" />
 							</p:column>
@@ -91,7 +91,7 @@
 				<h:outputText value="Trap scenarios" styleClass="title" />
 				
 				<h:form>
-					<p:commandButton value="New scenario" onclick="PF('addScenarioDlg#{snmpAgentBean.agent.name}').show();" />
+					<p:commandButton value="New scenario" onclick="PF('addScenarioDlg#{snmpAgentBean.agent.name}').show();" icon="ui-icon-plus" />
 				 				 	<p:dialog header="Add new scenario" widgetVar="addScenarioDlg#{snmpAgentBean.agent.name}" resizable="false">
 				 				 		<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
 											<h:outputLabel for="scName" value="Name: " />
@@ -117,7 +117,7 @@
 							</p:column>
 							<p:column>
 								<f:facet name="header">Actions</f:facet>
-								<p:commandButton value="Delete" 
+								<p:commandButton value="Delete" icon="ui-icon-trash"
 										action="#{snmpAgentBean.deleteTrapsTable(table)}" 
 										update="growl trapsTbl" ajax="true" />
 							</p:column>

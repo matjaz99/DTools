@@ -34,29 +34,6 @@
 			
 				<h:outputText value="SNMP Agent Table: #{snmpTableBean.table.name}" styleClass="title" />
 				
-				<h:form>
-					<p:button value="Edit Table" outcome="snmpTableMetadata">
-						<f:param name="agent" value="#{snmpTableBean.agent.name}" />
-						<f:param name="snmpTableName" value="#{snmpTableBean.table.name}" />
-					</p:button>
-					<p:commandButton value="Net-SNMP help" oncomplete="PF('helpDlg').show();" />
-				</h:form>
-				
-				
-				<h:form id="helpForm">
-		        	<p:dialog header="Net-SNMP help" widgetVar="helpDlg" resizable="false" dynamic="true" closable="true">
-		        		<h:panelGrid columns="1" width="100%">
-		        			<h:inputTextarea value="#{snmpTableBean.generateNetSnmpHelp()}" 
-								cols="100" rows="5" styleClass="codeStyle" readonly="true" />
-		        		</h:panelGrid>
-						<f:facet name="footer">
-					    	<p:commandButton value="Ok" onclick="PF('trapInfoDlg').hide();" />
-					    </f:facet>
-					</p:dialog>
-	        	</h:form>
-				
-				
-				<hr/>
 				
 				<h:outputText value="Table OID: #{snmpTableBean.table.metadata.tableOid}" />
 	
@@ -85,20 +62,37 @@
 						</p:dataTable>
 					</h:panelGrid>
 					
-					<h:panelGrid columns="3" cellpadding="3" cellspacing="3">
-			            	<p:commandButton value="Add row" 
+					<h:panelGrid columns="5" cellpadding="3" cellspacing="3">
+			            	<p:commandButton value="Add row" icon="ui-icon-plus"
 								action="#{snmpTableBean.addNewRow()}" 
 								update="mainForm growl" ajax="true" />
-							<p:commandButton value="Save table" 
+							<p:button value="Edit Table" outcome="snmpTableMetadata" icon="ui-icon-pencil">
+								<f:param name="agent" value="#{snmpTableBean.agent.name}" />
+								<f:param name="snmpTableName" value="#{snmpTableBean.table.name}" />
+							</p:button>
+							<p:commandButton value="Save table" icon="ui-icon-disk"
 								action="#{snmpTableBean.saveTable()}"
 								update="growl mainForm" ajax="true" >
 							</p:commandButton>
-							<p:button value="Cancel" outcome="snmpAgent" >
+							<p:commandButton value="Net-SNMP help" oncomplete="PF('helpDlg').show();" icon="ui-icon-info" />
+							<p:button value="Cancel" outcome="snmpAgent" icon="ui-icon-close" >
 								<f:param name="agent" value="#{snmpTableBean.agent.name}" />
 							</p:button>
 			            </h:panelGrid>
 					
 				</h:form>
+				
+				<h:form id="netSnmpHelpForm">
+		        	<p:dialog header="Net-SNMP help" widgetVar="helpDlg" resizable="false" dynamic="true" closable="true">
+		        		<h:panelGrid columns="1" width="100%">
+		        			<h:inputTextarea value="#{snmpTableBean.generateNetSnmpHelp()}" 
+								cols="100" rows="5" styleClass="codeStyle" readonly="true" />
+		        		</h:panelGrid>
+						<f:facet name="footer">
+					    	<p:commandButton value="Ok" onclick="PF('trapInfoDlg').hide();" />
+					    </f:facet>
+					</p:dialog>
+	        	</h:form>
 			</h:panelGrid>
         
         </h:panelGrid>

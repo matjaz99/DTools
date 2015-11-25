@@ -915,7 +915,7 @@ public class DAO {
 		});
 		
 		if (trapsXml == null || trapsXml.length == 0) {
-			return null;
+			return snmpTrapsList;
 		}
 		
 		for (int i = 0; i < trapsXml.length; i++) {

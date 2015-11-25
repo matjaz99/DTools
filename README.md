@@ -26,9 +26,20 @@ Commons-logging is required by commons-vfs
 ## Version history
 
 -----------------------------------------------------------
+### 0.4.1-beta.04
+
+25. november 2015
+
+- added mini icons on buttons
+- fixed bug with opening snmp agent without any tables
+- fixed bug with enable/disable table
+- updated user manual
+- other bug fixes
+
+-----------------------------------------------------------
 ### 0.4.1-beta.03
 
-xx. november 2015
+24. november 2015
 
 - antracit theme improvements
 - bug fixes
