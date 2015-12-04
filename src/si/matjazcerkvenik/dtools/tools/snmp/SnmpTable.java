@@ -98,6 +98,10 @@ public class SnmpTable {
 				
 			} else if (metadata.getColumnsMetaList().get(i).getType().equals("OCTET_STRING")) {
 				values.add("value" + (rowsList.size() + 1));
+			} else if (metadata.getColumnsMetaList().get(i).getType().equals("IP_ADDRESS")) {
+				values.add("0.0.0.0");
+			} else {
+				values.add("value" + (rowsList.size() + 1));
 			}
 		}
 		

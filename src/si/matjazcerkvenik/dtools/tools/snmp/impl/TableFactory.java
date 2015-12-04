@@ -12,11 +12,13 @@ import org.snmp4j.agent.mo.MOTableRow;
 import org.snmp4j.agent.mo.MOTableSubIndex;
 import org.snmp4j.smi.Gauge32;
 import org.snmp4j.smi.Integer32;
+import org.snmp4j.smi.IpAddress;
 import org.snmp4j.smi.OID;
 import org.snmp4j.smi.OctetString;
 import org.snmp4j.smi.SMIConstants;
 import org.snmp4j.smi.Variable;
 
+import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.tools.snmp.ColumnMetadata;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTable;
 
@@ -111,9 +113,31 @@ public class TableFactory {
 	public static DefaultMOTable<MOTableRow<Variable>, MOColumn<Variable>, MOTableModel<MOTableRow<Variable>>> createTable(SnmpTable table) {
 		
 		int numberOfColumns = table.getMetadata().getColumnsMetaList().size();
+		int numberOfIndexes = 0;
+		for (int i = 0; i < numberOfColumns; i++) {
+			if (table.getMetadata().getColumnsMetaList().get(i).isIndex()) {
+				numberOfIndexes++;
+			}
+		}
+		numberOfIndexes = (numberOfIndexes == 0 ?  1 : numberOfIndexes);
 		
-		MOTableSubIndex[] subIndexes = new MOTableSubIndex[] { new MOTableSubIndex(
-				SMIConstants.SYNTAX_INTEGER) };
+		DToolsContext.getInstance().getLogger().info("numberOfIndexes: " + numberOfIndexes);
+		
+		MOTableSubIndex[] subIndexes = new MOTableSubIndex[numberOfIndexes];
+//		MOTableSubIndex[numberOfIndexes] subIndexes = new MOTableSubIndex[] { new MOTableSubIndex(
+//				SMIConstants.SYNTAX_INTEGER) };
+		
+		int c = 0;
+		for (int i = 0; i < numberOfColumns; i++) {
+			if (table.getMetadata().getColumnsMetaList().get(i).isIndex()) {
+				MOTableSubIndex si = new MOTableSubIndex(getSmiConstant(table.getMetadata().getColumnsMetaList().get(i).getType()));
+				DToolsContext.getInstance().getLogger().info(si.toString());
+				subIndexes[c] = si;
+				c++;
+			}
+		}
+		
+		
 		MOTableIndex indexDef = new MOTableIndex(subIndexes, false);
 		MOColumn<Variable>[] columns = new MOColumn[numberOfColumns];
 		for (int i = 0; i < numberOfColumns; i++) {
@@ -144,6 +168,8 @@ public class TableFactory {
 			return SMIConstants.SYNTAX_INTEGER;
 		} else if (type.equals("OCTET_STRING")) {
 			return SMIConstants.SYNTAX_OCTET_STRING;
+		} else if (type.equals("IP_ADDRESS")) {
+			return SMIConstants.SYNTAX_IPADDRESS;
 		}
 		return SMIConstants.SYNTAX_OCTET_STRING;
 	}
@@ -155,6 +181,8 @@ public class TableFactory {
 			return new Integer32(i);
 		} else if (type.equals("OCTET_STRING")) {
 			return new OctetString(value);
+		} else if (type.equals("IP_ADDRESS")) {
+			return new IpAddress(value);
 		}
 		return new OctetString(value);
 		

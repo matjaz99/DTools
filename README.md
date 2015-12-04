@@ -26,6 +26,13 @@ Commons-logging is required by commons-vfs
 ## Version history
 
 -----------------------------------------------------------
+### 0.4.1-beta.05
+
+4. december 2015
+
+- AdvancedSnmpAgentImpl
+
+-----------------------------------------------------------
 ### 0.4.1-beta.04
 
 25. november 2015

@@ -33,7 +33,13 @@ import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTable;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
-public class SimpleSnmpAgentImpl extends BaseAgent {
+
+/**
+ * This is simple implementation of agent. It is replaced by AdvancedSnmpAgentImpl.
+ * @author matjaz
+ *
+ */
+public class SimpleSnmpAgentImpl extends BaseAgent implements ISnmpAgentImpl {
 
 	private SimpleLogger logger;
 	
@@ -50,6 +56,7 @@ public class SimpleSnmpAgentImpl extends BaseAgent {
 	}
 	
 
+	@Override
 	public void startSnmpAgent() {
 		try {
 
@@ -75,6 +82,11 @@ public class SimpleSnmpAgentImpl extends BaseAgent {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public void stopSnmpAgent() {
+		
 	}
 
 	@Override
@@ -124,7 +136,7 @@ public class SimpleSnmpAgentImpl extends BaseAgent {
 	protected void addNotificationTargets(SnmpTargetMIB targetMIB,
 			SnmpNotificationMIB notificationMIB) {
 
-		// TODO do i need this
+		// do i need this?????????
 		// targetMIB.addDefaultTDomains();
 		//
 		// targetMIB.addTargetAddress(new OctetString("notificationV2c"),

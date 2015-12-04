@@ -115,9 +115,13 @@ public class SnmpTableBean implements Serializable {
 			columns.add(table.getMetadata().getColumnsMetaList().get(i).getName());
 		}
 		
+		
 		for (int i = 0; i < table.getRowsList().size(); i++) {
 			
 			Map<String, Object> m = new HashMap<String, Object>();
+//			if (table.getRowsList().get(i).getValuesList() == null || table.getRowsList().get(i).getValuesList().isEmpty()) {
+//				continue;
+//			}
 			for (int j = 0; j < table.getMetadata().getColumnsMetaList().size(); j++) {
 				m.put(table.getMetadata().getColumnsMetaList().get(j).getName(), table.getRowsList().get(i).getValuesList().get(j));
 			}

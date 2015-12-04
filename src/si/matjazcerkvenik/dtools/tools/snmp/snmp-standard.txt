@@ -10,7 +10,7 @@ http://tools.cisco.com/Support/SNMP/do/BrowseOID.do?local=en&translate=Translate
 
 Understanding Table Index Values in SNMP
 http://www.cisco.com/c/en/us/support/docs/ip/simple-network-management-protocol-snmp/40700-snmp-ifIndex40700.html
-
+https://www.webnms.com/snmp/help/snmpapi/snmpv3/table_handling/snmptables_basics.html
 
 
 snmp4j how to:
@@ -18,5 +18,12 @@ snmp4j how to:
 http://www.jitendrazaa.com/blog/java/snmp/creating-snmp-agent-server-in-java-using-snmp4j/
 http://www.jayway.com/2010/05/21/introduction-to-snmp4j/
 
+table properties:
+http://www.snmp4j.org/agent/doc/org/snmp4j/agent/io/prop/PropertyMOInput.html
 
+
+
+Primefaces
+
+http://jqueryui.com/themeroller/
 

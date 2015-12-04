@@ -131,7 +131,10 @@ public class SnmpAgentBean implements Serializable {
 	}
 	
 	
-	public void addSnmpTableAction(/*SnmpAgent a*/) {
+	/**
+	 * Create new empty table. Columns and rows are instanced but they are empty.
+	 */
+	public void addSnmpTableAction() {
 		
 		// create new empty table
 		SnmpTable tbl = new SnmpTable();

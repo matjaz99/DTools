@@ -29,6 +29,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
+import si.matjazcerkvenik.dtools.tools.snmp.impl.AdvancedSnmpAgentImpl;
+import si.matjazcerkvenik.dtools.tools.snmp.impl.ISnmpAgentImpl;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.SimpleSnmpAgentImpl;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapSender;
 import si.matjazcerkvenik.dtools.xml.DAO;
@@ -49,7 +51,7 @@ public class SnmpAgent implements Serializable {
 	private String description;
 	
 	private TrapSender trapSender;
-	private SimpleSnmpAgentImpl agentImpl;
+	private ISnmpAgentImpl agentImpl;
 	private boolean active = false;
 	
 	private List<TrapsTable> trapsTableList;
@@ -240,7 +242,8 @@ public class SnmpAgent implements Serializable {
 			logger.info("SnmpAgent:start(): trap sender started on " + localIp + "/" + localPort);
 		}
 		if (agentImpl == null) {
-			agentImpl = new SimpleSnmpAgentImpl(this);
+//			agentImpl = new SimpleSnmpAgentImpl(this);
+			agentImpl = new AdvancedSnmpAgentImpl(this);
 			agentImpl.startSnmpAgent();
 			logger.info("SnmpAgent:start(): agent started on " + localIp + "/" + localPort);
 		}
@@ -262,7 +265,7 @@ public class SnmpAgent implements Serializable {
 //			active = false;          where is this set to false if not here???
 		}
 		if (agentImpl != null) {
-			agentImpl.stop();
+			agentImpl.stopSnmpAgent();
 			agentImpl = null;
 			logger.info("SnmpAgent:stop(): agent stopped");
 		}
