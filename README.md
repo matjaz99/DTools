@@ -26,6 +26,13 @@ Commons-logging is required by commons-vfs
 ## Version history
 
 -----------------------------------------------------------
+### 0.4.1-beta.06
+
+xx. december 2015
+
+- server in url parameter
+
+-----------------------------------------------------------
 ### 0.4.1-beta.05
 
 4. december 2015

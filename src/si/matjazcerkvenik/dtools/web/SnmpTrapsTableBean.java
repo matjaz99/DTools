@@ -28,11 +28,11 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 
+import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpSimulator;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrap;
 import si.matjazcerkvenik.dtools.tools.snmp.TrapsTable;
-import si.matjazcerkvenik.dtools.xml.DAO;
 
 @ManagedBean
 @ViewScoped

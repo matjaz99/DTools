@@ -26,7 +26,7 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-import si.matjazcerkvenik.dtools.xml.DAO;
+import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.xml.FtpClient;
 import si.matjazcerkvenik.dtools.xml.FtpClients;
 

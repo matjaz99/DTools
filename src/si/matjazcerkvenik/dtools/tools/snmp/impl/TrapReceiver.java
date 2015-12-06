@@ -53,7 +53,7 @@ import org.snmp4j.util.ThreadPool;
 
 import si.matjazcerkvenik.dtools.context.DProps;
 import si.matjazcerkvenik.dtools.context.DToolsContext;
-import si.matjazcerkvenik.dtools.xml.DAO;
+import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 public class TrapReceiver implements Serializable, CommandResponder {

@@ -26,7 +26,7 @@ import javax.faces.bean.SessionScoped;
 
 import org.primefaces.context.RequestContext;
 
-import si.matjazcerkvenik.dtools.xml.DAO;
+import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.xml.EPingStatus;
 import si.matjazcerkvenik.dtools.xml.Server;
 

@@ -69,9 +69,10 @@
 					<h:column headerClass="col0 col1">
 						<f:facet name="header">Icon</f:facet>
 						<h:form>
-							<h:commandLink action="#{navigationBean.openServer(server)}">
+							<p:link outcome="server" value="#{server.name}">
+								<f:param name="serverName" value="#{server.name}" />
 								<dt:icon img="drive_network"/>
-							</h:commandLink>
+							</p:link>
 						</h:form>
 					</h:column>
 					
@@ -88,18 +89,18 @@
 					<h:column headerClass="col0 col2">
 						<f:facet name="header">Name</f:facet>
 						<h:form>
-							<h:commandLink action="#{navigationBean.openServer(server)}">
-								<h:outputText value="#{server.name}" />
-							</h:commandLink>
+							<p:link outcome="server" value="#{server.name}">
+							    <f:param name="serverName" value="#{server.name}" />
+							</p:link>
 						</h:form>
 					</h:column>
 					
 					<h:column headerClass="col0 col2">
 						<f:facet name="header">Hostname</f:facet>
 						<h:form>
-							<h:commandLink action="#{navigationBean.openServer(server)}">
-								<h:outputText value="#{server.hostname}" />
-							</h:commandLink>
+							<p:link outcome="server" value="#{server.hostname}">
+							    <f:param name="serverName" value="#{server.name}" />
+							</p:link>
 						</h:form>
 					</h:column>
 					

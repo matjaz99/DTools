@@ -25,8 +25,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
+import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
-import si.matjazcerkvenik.dtools.xml.DAO;
 
 @ManagedBean
 @ApplicationScoped

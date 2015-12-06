@@ -23,8 +23,8 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpClient;
-import si.matjazcerkvenik.dtools.xml.DAO;
 
 @ManagedBean
 @SessionScoped

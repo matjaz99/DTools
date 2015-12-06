@@ -26,17 +26,11 @@ import si.matjazcerkvenik.dtools.tools.snmp.SnmpClient;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrap;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapReceiver;
 import si.matjazcerkvenik.dtools.xml.FtpClient;
-import si.matjazcerkvenik.dtools.xml.Server;
 import si.matjazcerkvenik.dtools.xml.SshClient;
 
 @ManagedBean
 @SessionScoped
 public class NavigationBean {
-	
-	public String openServer(Server s) {
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("server", s);
-		return "server.xhtml?redirect=true";
-	}
 	
 	public String openSshClient(SshClient client) {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("client", client);

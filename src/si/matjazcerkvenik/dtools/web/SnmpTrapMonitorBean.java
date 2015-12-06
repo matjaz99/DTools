@@ -29,9 +29,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapNotification;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapReceiver;
-import si.matjazcerkvenik.dtools.xml.DAO;
 
 @ManagedBean
 @ViewScoped

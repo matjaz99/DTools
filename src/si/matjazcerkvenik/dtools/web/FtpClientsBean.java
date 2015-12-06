@@ -27,7 +27,7 @@ import javax.faces.event.ValueChangeEvent;
 
 import org.primefaces.context.RequestContext;
 
-import si.matjazcerkvenik.dtools.xml.DAO;
+import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.xml.FtpClient;
 
 @ManagedBean

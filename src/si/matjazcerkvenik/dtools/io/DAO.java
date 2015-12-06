@@ -16,7 +16,7 @@
  * 
  */
 
-package si.matjazcerkvenik.dtools.xml;
+package si.matjazcerkvenik.dtools.io;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -44,6 +44,20 @@ import si.matjazcerkvenik.dtools.tools.snmp.SnmpTable;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrap;
 import si.matjazcerkvenik.dtools.tools.snmp.TrapsTable;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapReceiver;
+import si.matjazcerkvenik.dtools.xml.Commands;
+import si.matjazcerkvenik.dtools.xml.FtpClient;
+import si.matjazcerkvenik.dtools.xml.FtpClients;
+import si.matjazcerkvenik.dtools.xml.FtpTransfer;
+import si.matjazcerkvenik.dtools.xml.FtpTransfers;
+import si.matjazcerkvenik.dtools.xml.Note;
+import si.matjazcerkvenik.dtools.xml.Notes;
+import si.matjazcerkvenik.dtools.xml.Server;
+import si.matjazcerkvenik.dtools.xml.Servers;
+import si.matjazcerkvenik.dtools.xml.SshClient;
+import si.matjazcerkvenik.dtools.xml.SshClients;
+import si.matjazcerkvenik.dtools.xml.SshResponse;
+import si.matjazcerkvenik.dtools.xml.Todo;
+import si.matjazcerkvenik.dtools.xml.Todos;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 public class DAO {
@@ -137,6 +151,10 @@ public class DAO {
 	/* SERVERS */
 
 	
+	/**
+	 * Load servers configuration
+	 * @return servers
+	 */
 	public Servers loadServers() {
 
 		if (servers != null) {
@@ -171,7 +189,24 @@ public class DAO {
 		return servers;
 
 	}
+	
+	/**
+	 * Find server according to given name.
+	 * @param name
+	 * @return
+	 */
+	public Server findServer(String name) {
+		for (Server s : servers.getServerList()) {
+			if (s.getName().equals(name)) {
+				return s;
+			}
+		}
+		return null;
+	}
 
+	/**
+	 * Save servers configuration
+	 */
 	public void saveServers() {
 
 		try {
@@ -190,6 +225,10 @@ public class DAO {
 
 	}
 
+	/**
+	 * Add new server and save configuration
+	 * @param server
+	 */
 	public void addServer(Server server) {
 
 		servers.addServer(server);
@@ -197,12 +236,17 @@ public class DAO {
 
 	}
 
+	/**
+	 * Permanently delete server and save configuration
+	 * @param server
+	 */
 	public void deleteServer(Server server) {
 
 		servers.deleteServer(server);
 		saveServers();
 
 	}
+	
 	
 	
 	
@@ -822,10 +866,10 @@ public class DAO {
 			SnmpAgent agent = loadAgentMetadata(agentXmlFile);
 			
 			File trapsDir = new File(simFiles[i].getAbsolutePath() + "/traps");
-			List<TrapsTable> snmpTraps = loadSnmpTrapsFromDir(trapsDir);
+			List<TrapsTable> snmpTraps = loadSnmpTraps(trapsDir);
 			
 			File tablesDir = new File(simFiles[i].getAbsolutePath() + "/tables");
-			List<SnmpTable> snmpTablesList = loadSnmpTablesFromDir(tablesDir);
+			List<SnmpTable> snmpTablesList = loadSnmpTables(tablesDir);
 			
 			agent.setTrapsTableList(snmpTraps);
 			agent.setSnmpTablesList(snmpTablesList);
@@ -902,7 +946,7 @@ public class DAO {
 	
 	
 	
-	public List<TrapsTable> loadSnmpTrapsFromDir(File trapsDir) {
+	public List<TrapsTable> loadSnmpTraps(File trapsDir) {
 
 		List<TrapsTable> snmpTrapsList = new ArrayList<TrapsTable>();
 		
@@ -977,7 +1021,7 @@ public class DAO {
 	
 	
 	
-	public List<SnmpTable> loadSnmpTablesFromDir(File trapsDir) {
+	public List<SnmpTable> loadSnmpTables(File trapsDir) {
 
 		List<SnmpTable> snmpTableList = new ArrayList<SnmpTable>();
 		
@@ -1008,10 +1052,10 @@ public class DAO {
 				
 				snmpTableList.add(tbl);
 				
-				logger.info("DAO:loadSnmpTraps(): " + tablesXml[i].getAbsolutePath());
+				logger.info("DAO:loadSnmpTables(): " + tablesXml[i].getAbsolutePath());
 
 			} catch (JAXBException e) {
-				logger.error("DAO:loadSnmpTraps(): JAXBException: ", e);
+				logger.error("DAO:loadSnmpTables(): JAXBException: ", e);
 			}
 			
 		}

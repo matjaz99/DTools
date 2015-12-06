@@ -98,7 +98,10 @@ a.ui-link.ui-widget {
     color: #272727;
 }
 
-
+/** links inside my table */
+.myForm a.ui-link.ui-widget {
+	color: #FAFAFA;
+}
 
 
 

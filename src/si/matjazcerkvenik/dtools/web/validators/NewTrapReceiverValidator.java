@@ -25,9 +25,9 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
+import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpManager;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapReceiver;
-import si.matjazcerkvenik.dtools.xml.DAO;
 
 @FacesValidator(value="newTrapReceiverValidator")
 public class NewTrapReceiverValidator implements Validator {

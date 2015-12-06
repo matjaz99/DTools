@@ -31,6 +31,7 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
 
+import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 import si.matjazcerkvenik.dtools.tools.snmp.ColumnMetadata;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
@@ -41,7 +42,6 @@ import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrap;
 import si.matjazcerkvenik.dtools.tools.snmp.TableMetadata;
 import si.matjazcerkvenik.dtools.tools.snmp.TrapDestination;
 import si.matjazcerkvenik.dtools.tools.snmp.TrapsTable;
-import si.matjazcerkvenik.dtools.xml.DAO;
 
 @ManagedBean
 @ViewScoped

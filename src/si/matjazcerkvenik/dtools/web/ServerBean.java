@@ -28,9 +28,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpClient;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpClients;
-import si.matjazcerkvenik.dtools.xml.DAO;
 import si.matjazcerkvenik.dtools.xml.FtpClient;
 import si.matjazcerkvenik.dtools.xml.FtpClients;
 import si.matjazcerkvenik.dtools.xml.Server;
@@ -45,8 +45,11 @@ public class ServerBean {
 	
 	@PostConstruct
 	public void init() {
-		Map<String, Object> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-		server = (Server) requestParameterMap.get("server");
+		Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		if (requestParameterMap.containsKey("serverName")) {
+			String name = requestParameterMap.get("serverName");
+			server = DAO.getInstance().findServer(name);
+		}
 	}
 
 	public Server getServer() {

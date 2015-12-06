@@ -27,19 +27,19 @@
 					
 					<h:column headerClass="col0">
 						<f:facet name="header">Name</f:facet>
-						<h:form rendered="#{server.favorite}">
-							<h:commandLink action="#{navigationBean.openServer(server)}">
-								<h:outputText value="#{server.name}" />
-							</h:commandLink>
+						<h:form rendered="#{server.favorite}" styleClass="myForm">
+							<p:link outcome="server" value="#{server.name}">
+							    <f:param name="serverName" value="#{server.name}" />
+							</p:link>
 						</h:form>
 					</h:column>
 					
 					<h:column headerClass="col0">
 						<f:facet name="header">Hostname</f:facet>
-						<h:form rendered="#{server.favorite}">
-							<h:commandLink action="#{navigationBean.openServer(server)}">
-								<h:outputText value="#{server.hostname}" />
-							</h:commandLink>
+						<h:form rendered="#{server.favorite}" styleClass="myForm">
+							<p:link outcome="server" value="#{server.hostname}">
+							    <f:param name="serverName" value="#{server.name}" />
+							</p:link>
 						</h:form>
 					</h:column>
 					
@@ -62,7 +62,7 @@
 					</h:column>
 					<h:column headerClass="col0">
 						<f:facet name="header">SSH Clients</f:facet>
-						<h:form rendered="#{client.favorite}">
+						<h:form rendered="#{client.favorite}" styleClass="myForm">
 							<h:commandLink action="#{navigationBean.openSshClient(client)}">
 								<h:outputText value="#{client.toUrlString()}" />
 							</h:commandLink>
@@ -85,7 +85,7 @@
 					</h:column>
 					<h:column headerClass="col0">
 						<f:facet name="header">FTP Clients</f:facet>
-						<h:form rendered="#{client.favorite}">
+						<h:form rendered="#{client.favorite}" styleClass="myForm">
 							<h:commandLink action="#{navigationBean.openFtpClient(client)}">
 								<h:outputText value="#{client.toUrlString()}" />
 							</h:commandLink>

@@ -28,12 +28,12 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.AdvancedSnmpAgentImpl;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.ISnmpAgentImpl;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.SimpleSnmpAgentImpl;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapSender;
-import si.matjazcerkvenik.dtools.xml.DAO;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 @XmlRootElement
