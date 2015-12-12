@@ -99,6 +99,7 @@ a.ui-link.ui-widget {
 }
 
 /** links inside my table */
+/** someday .myForm class should be removed */
 .myForm a.ui-link.ui-widget {
 	color: #FAFAFA;
 }

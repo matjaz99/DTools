@@ -69,9 +69,9 @@
 					<h:column headerClass="col0 col1">
 						<f:facet name="header">Icon</f:facet>
 						<h:form>
-							<p:link outcome="server" value="#{server.name}">
-								<f:param name="serverName" value="#{server.name}" />
-								<dt:icon img="drive_network"/>
+							<p:link outcome="server" >
+							    <f:param name="serverName" value="#{server.name}" />
+							    <p:graphicImage library="#{userBean.cssTheme}" name="img/drive_network.png" />
 							</p:link>
 						</h:form>
 					</h:column>
@@ -80,7 +80,7 @@
 						<f:facet name="header">Status</f:facet>
 						<h:form id="status">
 							<h:commandLink action="#{serversBean.sendIcmpPingAction(server)}">
-								<dt:icon img="#{serversBean.getStatusIcon(server.icmpPingStatus)}"/>
+								<p:graphicImage library="#{userBean.cssTheme}" name="img/#{serversBean.getStatusIcon(server.icmpPingStatus)}.png" />
 								<f:ajax render="status" />
 							</h:commandLink>
 						</h:form>
@@ -88,7 +88,7 @@
 					
 					<h:column headerClass="col0 col2">
 						<f:facet name="header">Name</f:facet>
-						<h:form>
+						<h:form styleClass="myForm">
 							<p:link outcome="server" value="#{server.name}">
 							    <f:param name="serverName" value="#{server.name}" />
 							</p:link>
@@ -97,7 +97,7 @@
 					
 					<h:column headerClass="col0 col2">
 						<f:facet name="header">Hostname</f:facet>
-						<h:form>
+						<h:form styleClass="myForm">
 							<p:link outcome="server" value="#{server.hostname}">
 							    <f:param name="serverName" value="#{server.name}" />
 							</p:link>
@@ -111,15 +111,21 @@
 						</h:form>
 					</h:column>
 					
-					<h:column headerClass="col0">
-						<f:facet name="header">Actions</f:facet>
+					<h:column headerClass="col0 col1">
+						<f:facet name="header">Favorite</f:facet>
 						<h:form>
 							<h:commandLink id="favoriteStar" action="#{serversBean.toggleFavorite(server)}">
-								<dt:icon img="#{server.favorite == true ? 'star-full' : 'star-empty'}"/>
+								<p:graphicImage library="#{userBean.cssTheme}" name="#{server.favorite == true ? 'img/star-full.png' : 'img/star-empty.png'}" />
 								<f:ajax render="favoriteStar" />
 							</h:commandLink>
+						</h:form>
+					</h:column>
+					
+					<h:column headerClass="col0 col1">
+						<f:facet name="header">Delete</f:facet>
+						<h:form>
 							<h:commandLink action="#{serversBean.deleteServerAction(server)}">
-								<dt:icon img="remove"/>
+								<p:graphicImage library="#{userBean.cssTheme}" name="img/remove.png" />
 								<f:ajax render="serversTable" />
 							</h:commandLink>
 						</h:form>

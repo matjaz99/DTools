@@ -31,6 +31,7 @@ Commons-logging is required by commons-vfs
 xx. december 2015
 
 - server in url parameter
+- fixed icons in network view
 
 -----------------------------------------------------------
 ### 0.4.1-beta.05
