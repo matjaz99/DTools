@@ -30,6 +30,23 @@
 			</h:form>
 			
 			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
+				
+				<h:form>
+				<h:panelGrid columns="2" cellpadding="2" cellspacing="5" >
+										<h:outputText value="Local IP: " />
+										<p:inplace editor="true" >
+								            <p:inputText value="#{snmpAgentBean.agent.localIp}" required="true" label="ip" valueChangeListener="#{snmpAgentBean.agent.changedIp}" />
+								        </p:inplace>
+										<h:outputText value="Local port: " />
+										<p:inplace editor="true" >
+								            <p:inputText value="#{snmpAgentBean.agent.localPort}" required="true" label="port" valueChangeListener="#{snmpAgentBean.agent.changedPort}" />
+								        </p:inplace>
+								        <h:outputText value="Active: " />
+								        <p:inputSwitch id="actBtn" value="#{snmpAgentBean.agent.active}">
+								            <p:ajax update="growl actBtn" listener="#{snmpSimulatorBean.toggleSnmpAgent(snmpAgentBean.agent)}" />
+								        </p:inputSwitch>
+									</h:panelGrid>
+				</h:form>
 			
 				<h:outputText value="Tables" styleClass="title" />
 				

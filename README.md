@@ -26,9 +26,9 @@ Commons-logging is required by commons-vfs
 ## Version history
 
 -----------------------------------------------------------
-### 0.4.1-beta.06
+### 0.4.1
 
-xx. december 2015
+17. december 2015
 
 - server in url parameter
 - fixed icons in network view

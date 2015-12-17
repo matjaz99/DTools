@@ -93,6 +93,12 @@ body {
 }
 
 
+/** dialog title color */
+.ui-dialog-titlebar {
+	color: #FF4500;
+}
+
+
 /** links inside primefaces table*/
 a.ui-link.ui-widget {
     color: #272727;

@@ -43,7 +43,7 @@ public class SnmpSimulatorBean implements Serializable {
 		SnmpAgent a = SnmpAgent.createDefaultAgent();
 		
 		DAO.getInstance().createNewSnmpAgent(a);
-		Growl.addGrowlMessage("Created SNMP agent: " + a.toString(), FacesMessage.SEVERITY_INFO);
+		Growl.addGrowlMessage("Agent created: " + a.toString(), FacesMessage.SEVERITY_INFO);
 		
 	}
 	
@@ -63,14 +63,14 @@ public class SnmpSimulatorBean implements Serializable {
 		if (a.isActive()) {
 			boolean b = a.start();
 			if (b) {
-				Growl.addGrowlMessage("Start agent on port " + a.getLocalPort(), FacesMessage.SEVERITY_INFO);
+				Growl.addGrowlMessage("Agent started on port " + a.getLocalPort(), FacesMessage.SEVERITY_INFO);
 			} else {
 				Growl.addGrowlMessage("Error starting agent", FacesMessage.SEVERITY_WARN);
 			}
 		} else {
 			// already listening
 			a.stop();
-			Growl.addGrowlMessage("Stop agent", FacesMessage.SEVERITY_INFO);
+			Growl.addGrowlMessage("Agent stopped", FacesMessage.SEVERITY_INFO);
 		}
 	}
 
