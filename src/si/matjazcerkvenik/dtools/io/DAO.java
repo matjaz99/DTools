@@ -756,6 +756,15 @@ public class DAO {
 
 	}
 	
+	public TrapReceiver findtrapReceiver(String name) {
+		for (TrapReceiver tr : snmpManager.getTrapReceiversList()) {
+			if (tr.getName().equals(name)) {
+				return tr;
+			}
+		}
+		return null;
+	}
+	
 	
 	
 	

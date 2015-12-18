@@ -58,10 +58,12 @@
 							        </p:inputSwitch>
 								</h:panelGrid>
 								<h:panelGrid columns="3" cellpadding="2">
-							        <p:commandButton id="viewBtn" value="View raw traps" icon="ui-icon-folder-open"
-										action="#{navigationBean.openSnmpTrapReceiver(recv)}" />
-									<p:commandButton id="monitorBtn" value="Trap Monitor" icon="ui-icon-bookmark"
-										action="#{navigationBean.openTrapMonitor(recv)}" />
+									<p:button value="View raw traps" outcome="snmpViewTraps" icon="ui-icon-folder-open" >
+											<f:param name="recv" value="#{recv.name}" />
+									</p:button>
+									<p:button value="Trap Monitor" outcome="snmpTrapMonitor" icon="ui-icon-bookmark" >
+											<f:param name="recv" value="#{recv.name}" />
+									</p:button>
 							        <p:commandButton id="delBtn" value="Delete" icon="ui-icon-trash"
 										action="#{snmpManagerBean.deleteTrapReceiver(recv)}" 
 										update="growl trForm" ajax="true" />

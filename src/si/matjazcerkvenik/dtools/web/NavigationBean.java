@@ -47,15 +47,15 @@ public class NavigationBean {
 		return "snmpClient";
 	}
 	
-	public String openSnmpTrapReceiver(TrapReceiver trap) {
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("trapRecv", trap);
-		return "snmpViewTraps";
-	}
-	
-	public String openTrapMonitor(TrapReceiver trap) {
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("trapRecv", trap);
-		return "snmpTrapMonitor";
-	}
+//	public String openSnmpTrapReceiver(TrapReceiver trap) {
+//		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("trapRecv", trap);
+//		return "snmpViewTraps";
+//	}
+//	
+//	public String openTrapMonitor(TrapReceiver trap) {
+//		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("trapRecv", trap);
+//		return "snmpTrapMonitor";
+//	}
 	
 	public String openSnmpTrap(SnmpTrap trap) {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("trap", trap);

@@ -49,12 +49,18 @@ public class SnmpTrapMonitorBean implements Serializable {
 	
 	@PostConstruct
 	public void init() {
-		Map<String, Object> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-		trapReceiver = (TrapReceiver) requestParameterMap.get("trapRecv");
+//		Map<String, Object> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+//		trapReceiver = (TrapReceiver) requestParameterMap.get("trapRecv");
+//		
+//		Map<String, String> requestParameterMap2 = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+//		if (requestParameterMap2.containsKey("name")) {
+//			System.out.println("found " + requestParameterMap2.get("name"));
+//		}
 		
-		Map<String, String> requestParameterMap2 = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-		if (requestParameterMap2.containsKey("name")) {
-			System.out.println("found " + requestParameterMap2.get("name"));
+		Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		if (requestParameterMap.containsKey("recv")) {
+			String name = requestParameterMap.get("recv");
+			trapReceiver = DAO.getInstance().findtrapReceiver(name);
 		}
 	}
 	

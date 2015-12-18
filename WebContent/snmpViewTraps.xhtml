@@ -27,14 +27,14 @@
 				
 				<h:form>
 					<h:panelGrid columns="1" cellpadding="2" cellspacing="0">
-						<p:commandButton value="Back" action="snmpManager" />
-						<h:panelGrid columns="3" cellpadding="2" cellspacing="5">
-							<p:commandButton value="Refresh" action="#" 
+						<h:panelGrid columns="4" cellpadding="2" cellspacing="5">
+							<p:button value="Back" outcome="snmpManager" icon="ui-icon-arrowreturnthick-1-w" />
+							<p:commandButton value="Refresh" action="#" icon="ui-icon-refresh"
 								update="receivedTraps" ajax="true" />
 							<p:commandButton value="Clear" action="#{snmpTrapMonitorBean.clearData()}" 
-								update="receivedTraps" ajax="true" />
+								update="receivedTraps" ajax="true" icon="ui-icon-circle-close" />
 							<p:commandButton value="Save as .txt" action="#{snmpTrapMonitorBean.saveData()}" 
-								update="growl" ajax="true" />
+								update="growl" ajax="true" icon="ui-icon-disk" />
 						</h:panelGrid>
 						
 						<h:inputTextarea id="receivedTraps" value="#{snmpTrapMonitorBean.receivedTrapsAsString}" 

@@ -27,10 +27,10 @@
 				
 				<h:form>
 					<h:panelGrid columns="1" cellspacing="5" width="100%">
-						<p:commandButton value="Back" action="snmpManager" />
-						<h:panelGrid columns="2" cellspacing="5">
-							<p:commandButton value="Refresh" update="trapsTable" ajax="true" />
-							<p:commandButton value="Columns" oncomplete="PF('selectColumnsDlg').show();" />
+						<h:panelGrid columns="3" cellspacing="5">
+							<p:button value="Back" outcome="snmpManager" icon="ui-icon-arrowreturnthick-1-w" />
+							<p:commandButton value="Refresh" icon="ui-icon-refresh" update="trapsTable" ajax="true" />
+							<p:commandButton value="Columns" oncomplete="PF('selectColumnsDlg').show();" icon="ui-icon-pin-s" />
 						</h:panelGrid>
 						<h:dataTable id="trapsTable" value="#{snmpTrapMonitorBean.getTrapNotifications()}" var="trap" 
 							styleClass="table"

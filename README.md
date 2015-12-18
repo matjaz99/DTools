@@ -26,6 +26,13 @@ Commons-logging is required by commons-vfs
 ## Version history
 
 -----------------------------------------------------------
+### 0.4.2-alpha.01
+
+xx. december 2015
+
+- url navigation (raw traps, trap monitor)
+
+-----------------------------------------------------------
 ### 0.4.1
 
 17. december 2015
