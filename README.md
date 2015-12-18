@@ -31,6 +31,7 @@ Commons-logging is required by commons-vfs
 xx. december 2015
 
 - url navigation (raw traps, trap monitor)
+- severities in separate css file
 
 -----------------------------------------------------------
 ### 0.4.1

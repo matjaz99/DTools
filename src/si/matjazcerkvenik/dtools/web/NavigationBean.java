@@ -24,7 +24,6 @@ import javax.faces.context.FacesContext;
 
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpClient;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpTrap;
-import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapReceiver;
 import si.matjazcerkvenik.dtools.xml.FtpClient;
 import si.matjazcerkvenik.dtools.xml.SshClient;
 
@@ -47,15 +46,6 @@ public class NavigationBean {
 		return "snmpClient";
 	}
 	
-//	public String openSnmpTrapReceiver(TrapReceiver trap) {
-//		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("trapRecv", trap);
-//		return "snmpViewTraps";
-//	}
-//	
-//	public String openTrapMonitor(TrapReceiver trap) {
-//		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("trapRecv", trap);
-//		return "snmpTrapMonitor";
-//	}
 	
 	public String openSnmpTrap(SnmpTrap trap) {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("trap", trap);

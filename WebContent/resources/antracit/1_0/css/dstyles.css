@@ -176,25 +176,6 @@ a:hover {
 	width: 60%;
 }
 
-.bgTrapColor-Critical {
-	background-color: Red;
-}
-.bgTrapColor-Major {
-	background-color: DarkOrange;
-}
-.bgTrapColor-Minor {
-	background-color: Orange;
-}
-.bgTrapColor-Warning {
-	background-color: Yellow;
-}
-.bgTrapColor-Clear {
-	background-color: #33ee33;
-}
-.bgTrapColor-Info {
-	background-color: Orchid;
-}
-
 
 
 
