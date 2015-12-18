@@ -32,6 +32,8 @@ xx. december 2015
 
 - url navigation (raw traps, trap monitor)
 - severities in separate css file
+- new trap receiver dialog (+ validator)
+- new snmp agent dialog (+ validator)
 
 -----------------------------------------------------------
 ### 0.4.1

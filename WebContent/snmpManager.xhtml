@@ -14,6 +14,7 @@
     	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/dstyles.css"/>
     	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/icons.css"/>
     	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/fonts.css"/>
+    	<h:outputScript library="default" name="js/dtools.js" />
     	
     	<p:growl id="growl" life="2000"/>
     	
@@ -25,9 +26,30 @@
 			
 				<h:outputText value="SNMP Manager" styleClass="title" />
 				
-				<p:commandButton value="Add new trap receiver" icon="ui-icon-plus"
-						action="#{snmpManagerBean.addNewTrapReceiver()}" 
-						update="trForm" ajax="true" />
+				<h:form>
+					<p:commandButton value="Add new trap receiver" onclick="PF('addTrDlg').show();" icon="ui-icon-plus" />
+					<p:dialog header="Add new trap receiver" widgetVar="addTrDlg" resizable="false" dynamic="true" closable="false">
+				    	
+				    	<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+							
+							<h:outputLabel for="trName" value="Name: " />
+							<p:inputText id="trName" value="#{snmpManagerBean.newTrapReceiverName}" required="true" 
+								requiredMessage="Missing name">
+								<f:validator validatorId="newTrapReceiverValidator"/>
+							</p:inputText>
+							
+							<f:facet name="footer">
+				                <p:commandButton value="Add" update="growl trName trForm" 
+				                	actionListener="#{snmpManagerBean.addNewTrapReceiver}"
+				                	oncomplete="handleDialogRequest('addTrDlg', xhr, status, args)" />
+				                <p:commandButton value="Cancel" onclick="PF('addTrDlg').hide();" />
+				            </f:facet>
+							
+						</h:panelGrid>
+				    	
+				    </p:dialog>
+				</h:form>
+				
 				
 				<h:form id="trForm">
 				<h:panelGrid columns="1" cellspacing="5" width="100%">

@@ -63,9 +63,9 @@ public class SnmpAgent implements Serializable {
 	}
 	
 	
-	public static SnmpAgent createDefaultAgent() {
+	public static SnmpAgent createDefaultAgent(String name) {
 		SnmpAgent a = new SnmpAgent();
-		a.setName("SnmpAgent" + DAO.getInstance().loadSnmpSimulator().getSnmpAgentsList().size());
+		a.setName(name);
 		a.setLocalIp(LocalhostInfo.getLocalIpAddress());
 		a.setLocalPort(161);
 		a.setSnmpTablesList(new ArrayList<SnmpTable>());

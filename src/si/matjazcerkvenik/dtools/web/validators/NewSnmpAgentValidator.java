@@ -26,11 +26,11 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 import si.matjazcerkvenik.dtools.io.DAO;
-import si.matjazcerkvenik.dtools.tools.snmp.SnmpManager;
-import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapReceiver;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
+import si.matjazcerkvenik.dtools.tools.snmp.SnmpSimulator;
 
-@FacesValidator(value="newTrapReceiverValidator")
-public class NewTrapReceiverValidator implements Validator {
+@FacesValidator(value="newSnmpAgentValidator")
+public class NewSnmpAgentValidator implements Validator {
 	
 	@Override
 	public void validate(FacesContext ctx, UIComponent comp, Object value)
@@ -38,14 +38,14 @@ public class NewTrapReceiverValidator implements Validator {
 		
 		String name = (String) value;
         
-        SnmpManager mng = DAO.getInstance().loadSnmpManager();
+        SnmpSimulator sim = DAO.getInstance().loadSnmpSimulator();
         
-        for (TrapReceiver recv : mng.getTrapReceiversList()) {
+        for (SnmpAgent ag: sim.getSnmpAgentsList()) {
 			
-        	if (recv.getName().equalsIgnoreCase(name)) {
+        	if (ag.getName().equalsIgnoreCase(name)) {
 				
         		FacesMessage message = new FacesMessage();
-				message.setSummary(recv.getName() + " already exists");
+				message.setSummary(ag.getName() + " already exists");
 				message.setSeverity(FacesMessage.SEVERITY_ERROR);
 				throw new ValidatorException(message);        		
 			}

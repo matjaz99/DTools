@@ -25,6 +25,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
+import org.primefaces.context.RequestContext;
+
 import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
 
@@ -34,16 +36,32 @@ public class SnmpSimulatorBean implements Serializable {
 	
 	private static final long serialVersionUID = 6126035339817141055L;
 
+	private String newAgentName;
+	
+	
+
+	public String getNewAgentName() {
+		return newAgentName;
+	}
+
+	public void setNewAgentName(String newAgentName) {
+		this.newAgentName = newAgentName;
+	}
 
 	/**
 	 * Add new SNMP agent with default settings
 	 */
 	public void addNewSnmpAgent() {
 		
-		SnmpAgent a = SnmpAgent.createDefaultAgent();
+		SnmpAgent a = SnmpAgent.createDefaultAgent(newAgentName);
 		
 		DAO.getInstance().createNewSnmpAgent(a);
-		Growl.addGrowlMessage("Agent created: " + a.toString(), FacesMessage.SEVERITY_INFO);
+		Growl.addGrowlMessage("Agent created: " + newAgentName, FacesMessage.SEVERITY_INFO);
+		
+		newAgentName = null;
+		
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.addCallbackParam("success", true);
 		
 	}
 	

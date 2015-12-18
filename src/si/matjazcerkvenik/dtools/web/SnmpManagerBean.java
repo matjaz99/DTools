@@ -25,6 +25,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
+import org.primefaces.context.RequestContext;
+
 import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpManager;
@@ -35,17 +37,33 @@ import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapReceiver;
 public class SnmpManagerBean implements Serializable {
 	
 	private static final long serialVersionUID = -8242154775224005611L;
+	
+	private String newTrapReceiverName;
+	
+	
+
+	public String getNewTrapReceiverName() {
+		return newTrapReceiverName;
+	}
+
+	public void setNewTrapReceiverName(String newTrapReceiverName) {
+		this.newTrapReceiverName = newTrapReceiverName;
+	}
 
 	/**
 	 * Create new trap receiver with default settings
 	 */
 	public void addNewTrapReceiver() {
 		
-		TrapReceiver r = new TrapReceiver("TrapReceiver" + DAO.getInstance().loadSnmpManager().getTrapReceiversList().size(), 
-				LocalhostInfo.getLocalIpAddress(), 6162);
+		TrapReceiver r = new TrapReceiver(newTrapReceiverName, LocalhostInfo.getLocalIpAddress(), 162);
 		
 		DAO.getInstance().addTrapReceiver(r);
-		Growl.addGrowlMessage("Created SNMP manager: " + r.toString(), FacesMessage.SEVERITY_INFO);
+		Growl.addGrowlMessage("Created SNMP manager: " + newTrapReceiverName, FacesMessage.SEVERITY_INFO);
+		
+		newTrapReceiverName = null;
+		
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.addCallbackParam("success", true);
 		
 	}
 	
