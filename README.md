@@ -34,6 +34,7 @@ xx. december 2015
 - severities in separate css file
 - new trap receiver dialog (+ validator)
 - new snmp agent dialog (+ validator)
+- new snmp data table dialog (+ validator)
 
 -----------------------------------------------------------
 ### 0.4.1

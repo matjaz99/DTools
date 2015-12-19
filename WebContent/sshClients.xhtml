@@ -44,7 +44,7 @@
 							<h:outputLabel for="sshHost" value="Hostname: " />
 							<p:inputText id="sshHost" value="#{sshClientsBean.hostname}" required="true" 
 								requiredMessage="Missing hostname or IP">
-								<f:validator validatorId="newSshClientValidator"/>
+								<f:validator validatorId="newSshClientValidator" />
 								<f:attribute name="port" value="#{sshPort}" />
 								<f:attribute name="user" value="#{sshUser}" />
 							</p:inputText>

@@ -54,27 +54,31 @@
 				<h:outputText value="Tables" styleClass="title" />
 				
 				<h:form>
-					
 					<p:commandButton value="New table" onclick="PF('addTableDlg#{snmpAgentBean.agent.name}').show();" icon="ui-icon-plus" />
-				 				 	<p:dialog header="Add new table" widgetVar="addTableDlg#{snmpAgentBean.agent.name}" resizable="false">
-				 				 		<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
-											<h:outputLabel for="tblName" value="Name: " />
-											<p:inputText id="tblName" value="#{snmpAgentBean.newTableName}" required="false" 
-												requiredMessage="Missing name">
-											</p:inputText>
-											<h:outputLabel for="tblOid" value="Table OID: " />
-											<p:inputText id="tblOid" value="#{snmpAgentBean.newTableOID}" required="false" 
-												requiredMessage="Missing name">
-											</p:inputText>
-											<f:facet name="footer">
-								                <p:commandButton value="Add" action="#{snmpAgentBean.addSnmpTableAction()}" 
-													update="growl tablesTbl tblName tblOid"
-													oncomplete="PF('addTableDlg#{snmpAgentBean.agent.name}').hide();" />
-								                <p:commandButton value="Cancel" onclick="PF('addTableDlg#{snmpAgentBean.agent.name}').hide();" />
-								            </f:facet>
-										</h:panelGrid>
-				 				 	</p:dialog>
-					
+				 	<p:dialog header="Add new table" widgetVar="addTableDlg#{snmpAgentBean.agent.name}" resizable="false">
+				 		<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+							<h:outputLabel for="tblName" value="Name: " />
+							<p:inputText id="tblName" value="#{snmpAgentBean.newTableName}" required="true" 
+								requiredMessage="Missing name">
+								<f:validator validatorId="newSnmpTableValidator"/>
+								<f:attribute name="agent" value="#{snmpAgentBean.agent.name}" />
+							</p:inputText>
+							<h:outputLabel for="tblOid" value="Table OID: " />
+							<p:inputText id="tblOid" value="#{snmpAgentBean.newTableOID}" required="true" 
+								requiredMessage="Missing value">
+							</p:inputText>
+							<f:facet name="footer">
+								<p:commandButton value="Add" action="#{snmpAgentBean.addSnmpTableAction}" 
+									update="growl tablesTblForm tblName tblOid"
+									oncomplete="handleDialogRequest('addTableDlg#{snmpAgentBean.agent.name}', xhr, status, args)" />
+							    <p:commandButton value="Cancel" onclick="PF('addTableDlg#{snmpAgentBean.agent.name}').hide();" />
+							</f:facet>
+						</h:panelGrid>
+				 	</p:dialog>
+				 </h:form>
+				 
+				 
+				 <h:form id="tablesTblForm">
 					<h:panelGrid columns="1" cellspacing="5" width="100%">
 						<p:dataTable id="tablesTbl" value="#{snmpAgentBean.snmpTablesList}" var="table" >
 							<p:column>
