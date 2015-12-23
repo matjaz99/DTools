@@ -27,28 +27,29 @@ import javax.faces.validator.ValidatorException;
 
 import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
-import si.matjazcerkvenik.dtools.tools.snmp.SnmpTable;
+import si.matjazcerkvenik.dtools.tools.snmp.TrapsTable;
 
-@FacesValidator(value="newSnmpTableValidator")
-public class NewSnmpTableValidator implements Validator {
+@FacesValidator(value="newTrapScenarioValidator")
+public class NewTrapScenarioValidator implements Validator {
 	
 	@Override
 	public void validate(FacesContext ctx, UIComponent comp, Object value)
 			throws ValidatorException {
 		
 		String name = (String) value;
+		ValidatorUtils.validateFileName(name);
 		
 		String agentName = (String) comp.getAttributes().get("agent");
         SnmpAgent agent = DAO.getInstance().findSnmpAgent(agentName);
         
-        for (SnmpTable tbl : agent.getSnmpTablesList()) {
+        for (TrapsTable tbl : agent.getTrapsTableList()) {
 			
         	if (tbl.getName().equalsIgnoreCase(name)) {
 				
         		FacesMessage message = new FacesMessage();
 				message.setSummary(tbl.getName() + " already exists");
 				message.setSeverity(FacesMessage.SEVERITY_ERROR);
-				throw new ValidatorException(message);        		
+				throw new ValidatorException(message);
 			}
         	
 		}

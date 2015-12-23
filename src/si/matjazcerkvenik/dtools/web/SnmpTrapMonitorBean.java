@@ -65,6 +65,16 @@ public class SnmpTrapMonitorBean implements Serializable {
 	}
 	
 	
+	public TrapReceiver getTrapReceiver() {
+		return trapReceiver;
+	}
+
+
+	public void setTrapReceiver(TrapReceiver trapReceiver) {
+		this.trapReceiver = trapReceiver;
+	}
+
+
 	/**
 	 * Get trap to show info
 	 * @return

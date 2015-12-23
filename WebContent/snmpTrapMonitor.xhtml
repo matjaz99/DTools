@@ -22,6 +22,14 @@
     		
     		<ui:include src="/include/ptoolbar.xhtml"/>
     		
+    		<h:form id="breadCrumb">
+    		<p:breadCrumb>
+			    <p:menuitem value="Home" url="home.xhtml" />
+			    <p:menuitem value="SNMP Manager" url="snmpManager.xhtml" />
+			    <p:menuitem value="#{snmpTrapMonitorBean.trapReceiver.name}" url="#" />
+			</p:breadCrumb>
+			</h:form>
+    		
     		<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
 			
 				<h:outputText value="SNMP Trap Monitor" styleClass="title" />

@@ -39,12 +39,15 @@ public class NewSshClientValidator implements Validator {
 			throws ValidatorException {
 		
 		String host = (String) value;
+		ValidatorUtils.validateFileName(host);
 		
 		UIInput portComponent = (UIInput) comp.getAttributes().get("port");
         String port = (String) portComponent.getSubmittedValue();
+        ValidatorUtils.validateInteger(port);
         
         UIInput userComponent = (UIInput) comp.getAttributes().get("user");
         String user = (String) userComponent.getSubmittedValue();
+        ValidatorUtils.validateFileName(user);
         
         SshClients clients = DAO.getInstance().loadSshClients();
         

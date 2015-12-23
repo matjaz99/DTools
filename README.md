@@ -35,6 +35,8 @@ xx. december 2015
 - new trap receiver dialog (+ validator)
 - new snmp agent dialog (+ validator)
 - new snmp data table dialog (+ validator)
+- new snmp trap scenario dialog (+ validator)
+- check input validator (file names for valid characters and ports for number)
 
 -----------------------------------------------------------
 ### 0.4.1

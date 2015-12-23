@@ -116,20 +116,26 @@
 				
 				<h:form>
 					<p:commandButton value="New scenario" onclick="PF('addScenarioDlg#{snmpAgentBean.agent.name}').show();" icon="ui-icon-plus" />
-				 				 	<p:dialog header="Add new scenario" widgetVar="addScenarioDlg#{snmpAgentBean.agent.name}" resizable="false">
-				 				 		<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
-											<h:outputLabel for="scName" value="Name: " />
-											<p:inputText id="scName" value="#{snmpAgentBean.newTrapsTableName}" required="false" 
-												requiredMessage="Missing scenario name">
-											</p:inputText>
-											<f:facet name="footer">
-								                <p:commandButton value="Add" action="#{snmpAgentBean.addTrapScenarioAction(snmpAgentBean.agent)}" 
-													update="growl trapsTbl scName"
-													oncomplete="PF('addScenarioDlg#{snmpAgentBean.agent.name}').hide();" />
-								                <p:commandButton value="Cancel" onclick="PF('addScenarioDlg#{snmpAgentBean.agent.name}').hide();" />
-								            </f:facet>
-										</h:panelGrid>
-				 				 	</p:dialog>
+				 	<p:dialog header="Add new scenario" widgetVar="addScenarioDlg#{snmpAgentBean.agent.name}" resizable="false">
+				 		<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+							<h:outputLabel for="scName" value="Name: " />
+							<p:inputText id="scName" value="#{snmpAgentBean.newTrapsTableName}" required="true" 
+								requiredMessage="Missing name">
+								<f:validator validatorId="newTrapScenarioValidator"/>
+								<f:attribute name="agent" value="#{snmpAgentBean.agent.name}" />
+							</p:inputText>
+							<f:facet name="footer">
+								<p:commandButton value="Add" action="#{snmpAgentBean.addTrapScenarioAction(snmpAgentBean.agent)}" 
+									update="growl trapScForm scName"
+									oncomplete="handleDialogRequest('addScenarioDlg#{snmpAgentBean.agent.name}', xhr, status, args)" />
+							    <p:commandButton value="Cancel" onclick="PF('addScenarioDlg#{snmpAgentBean.agent.name}').hide();" />
+							</f:facet>
+						</h:panelGrid>
+				 	</p:dialog>
+				 </h:form>
+				
+				<h:form id="trapScForm">
+
 					<h:panelGrid columns="1" cellspacing="5" width="100%">
 						<p:dataTable id="trapsTbl" value="#{snmpAgentBean.trapsTableList}" var="table" >
 							<p:column>

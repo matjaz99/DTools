@@ -37,6 +37,7 @@ public class NewDeviceValidator implements Validator {
 			throws ValidatorException {
 		
 		String newServerName = ((String) value).trim();
+		ValidatorUtils.validateFileName(newServerName);
 		
 		Servers servers = DAO.getInstance().loadServers();
 		

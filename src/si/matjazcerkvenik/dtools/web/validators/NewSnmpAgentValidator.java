@@ -37,6 +37,7 @@ public class NewSnmpAgentValidator implements Validator {
 			throws ValidatorException {
 		
 		String name = (String) value;
+		ValidatorUtils.validateFileName(name);
         
         SnmpSimulator sim = DAO.getInstance().loadSnmpSimulator();
         
