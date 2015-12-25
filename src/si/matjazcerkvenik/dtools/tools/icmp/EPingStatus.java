@@ -16,7 +16,7 @@
  * 
  */
 
-package si.matjazcerkvenik.dtools.xml;
+package si.matjazcerkvenik.dtools.tools.icmp;
 
 public enum EPingStatus {
 	

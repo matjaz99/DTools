@@ -22,7 +22,6 @@ import java.net.Inet4Address;
 import java.net.UnknownHostException;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
-import si.matjazcerkvenik.dtools.xml.EPingStatus;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 public class IcmpPing {

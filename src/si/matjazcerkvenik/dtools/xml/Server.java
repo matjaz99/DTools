@@ -21,6 +21,7 @@ package si.matjazcerkvenik.dtools.xml;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import si.matjazcerkvenik.dtools.tools.icmp.EPingStatus;
 import si.matjazcerkvenik.dtools.tools.icmp.IcmpPing;
 
 public class Server {
