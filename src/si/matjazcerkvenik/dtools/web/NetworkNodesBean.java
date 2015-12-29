@@ -18,6 +18,7 @@
 
 package si.matjazcerkvenik.dtools.web;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -28,7 +29,7 @@ import org.primefaces.context.RequestContext;
 
 import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.icmp.EPingStatus;
-import si.matjazcerkvenik.dtools.xml.Server;
+import si.matjazcerkvenik.dtools.xml.Node;
 
 
 /**
@@ -39,8 +40,10 @@ import si.matjazcerkvenik.dtools.xml.Server;
  */
 @ManagedBean
 @SessionScoped
-public class ServersBean {
-
+public class NetworkNodesBean implements Serializable {
+	
+	private static final long serialVersionUID = -7361094739598080594L;
+	
 	private String name;
 	private String hostname;
 	private String description;
@@ -69,15 +72,15 @@ public class ServersBean {
 		this.description = description;
 	}
 
-	public void addServerAction() {
+	public void addNodeAction() {
 		
-		Server s = new Server();
+		Node s = new Node();
 		s.setName(name);
 		s.setHostname(hostname);
 		s.setDescription(description);
 		s.setIcmpPingStatus(EPingStatus.UNKNOWN);
 		
-		DAO.getInstance().addServer(s);
+		DAO.getInstance().addNode(s);
 		Growl.addGrowlMessage("Created: " + s.getName(), FacesMessage.SEVERITY_INFO);
 		
 		name = null;
@@ -89,13 +92,13 @@ public class ServersBean {
 		
 	}
 	
-	public void deleteServerAction(Server server) {
-		DAO.getInstance().deleteServer(server);
-		Growl.addGrowlMessage("Deleted: " + server.getHostname(), FacesMessage.SEVERITY_INFO);
+	public void deleteNodeAction(Node n) {
+		DAO.getInstance().deleteNode(n);
+		Growl.addGrowlMessage("Deleted: " + n.getHostname(), FacesMessage.SEVERITY_INFO);
 	}
 	
-	public List<Server> getServersList() {
-		return DAO.getInstance().loadServers().getServerList();
+	public List<Node> getNodesList() {
+		return DAO.getInstance().loadNetworkNodes().getNodesList();
 	}
 	
 	
@@ -122,9 +125,9 @@ public class ServersBean {
 		
 	}
 	
-	public void toggleFavorite(Server server) {
-		server.setFavorite(!server.isFavorite());
-		DAO.getInstance().saveServers();
+	public void toggleFavorite(Node n) {
+		n.setFavorite(!n.isFavorite());
+		DAO.getInstance().saveNetworkNodes();
 	}
 	
 //	public String getFavoriteIcon(boolean isFavorite) {
@@ -138,11 +141,11 @@ public class ServersBean {
 //	}
 	
 	/**
-	 * Send ICMP ping on selected server.
-	 * @param server
+	 * Send ICMP ping on selected node.
+	 * @param node
 	 */
-	public void sendIcmpPingAction(Server server) {
-		server.updateIcmpStatus();
+	public void sendIcmpPingAction(Node node) {
+		node.updateIcmpStatus();
 	}
 	
 

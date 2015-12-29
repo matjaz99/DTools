@@ -25,29 +25,29 @@
 			<p:breadCrumb>
 			    <p:menuitem value="Home" url="home.xhtml" />
 			    <p:menuitem value="Network" url="network.xhtml" />
-			    <p:menuitem value="#{serverBean.server.name}" url="#" />
+			    <p:menuitem value="#{nodeBean.node.name}" url="#" />
 			</p:breadCrumb>
 			</h:form>
 			
-			<h:outputText value="Server details: #{serverBean.server.name}" styleClass="title" />
+			<h:outputText value="Node details: #{nodeBean.node.name}" styleClass="title" />
 			
 			<h:panelGrid columns="2">
 				<h:outputText value="Name:" />
-				<h:outputText value="#{serverBean.server.name}" />
+				<h:outputText value="#{nodeBean.node.name}" />
 				<h:outputText value="Hostname:" />
-				<h:outputText value="#{serverBean.server.hostname}" />
+				<h:outputText value="#{nodeBean.node.hostname}" />
 				<h:outputText value="IP address:" />
-				<h:outputText value="#{serverBean.getResolvedIpAddress()}" />
+				<h:outputText value="#{nodeBean.getResolvedIpAddress()}" />
 				<h:outputText value="Description:" />
-				<h:outputText value="#{serverBean.server.description}" />
+				<h:outputText value="#{nodeBean.node.description}" />
 				<h:outputText value="ICMP status: " />
-				<h:outputText value="#{serverBean.server.icmpPingStatus}" />
+				<h:outputText value="#{nodeBean.node.icmpPingStatus}" />
 			</h:panelGrid>
 			
 			<h:panelGrid columns="1" cellspacing="5" width="100%">
-			<h:dataTable id="sshClientsTable" value="#{serverBean.listOfSshClients}" var="sshClient" 
+			<h:dataTable id="sshClientsTable" value="#{nodeBean.listOfSshClients}" var="sshClient" 
 				styleClass="table" rowClasses="tableOddRow,tableEvenRow"
-				cellpadding="0" cellspacing="0" rendered="#{serverBean.listOfSshClients.size() > 0}">
+				cellpadding="0" cellspacing="0" rendered="#{nodeBean.listOfSshClients.size() > 0}">
 				
 				<h:column headerClass="col0 col1">
 					<f:facet name="header">Console</f:facet>
@@ -69,9 +69,9 @@
 				
 			</h:dataTable>
 			
-			<h:dataTable id="ftpClientsTable" value="#{serverBean.listOfFtpClients}" var="ftpClient" 
+			<h:dataTable id="ftpClientsTable" value="#{nodeBean.listOfFtpClients}" var="ftpClient" 
 				styleClass="table" rowClasses="tableOddRow,tableEvenRow"
-				cellpadding="0" cellspacing="0" rendered="#{serverBean.listOfFtpClients.size() > 0}">
+				cellpadding="0" cellspacing="0" rendered="#{nodeBean.listOfFtpClients.size() > 0}">
 				
 				<h:column headerClass="col0">
 					<f:facet name="header">Console</f:facet>
@@ -93,9 +93,9 @@
 				
 			</h:dataTable>
 			
-			<h:dataTable id="snmpMngTable" value="#{serverBean.listOfSnmpClients}" var="snmpMng" 
+			<h:dataTable id="snmpMngTable" value="#{nodeBean.listOfSnmpClients}" var="snmpMng" 
 				styleClass="table" rowClasses="tableOddRow,tableEvenRow"
-				cellpadding="0" cellspacing="0" rendered="#{serverBean.listOfSnmpClients.size() > 0}">
+				cellpadding="0" cellspacing="0" rendered="#{nodeBean.listOfSnmpClients.size() > 0}">
 				
 				<h:column headerClass="col0 col1">
 					<f:facet name="header">Console</f:facet>

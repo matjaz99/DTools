@@ -38,11 +38,16 @@ public class DToolsContext {
 	private SimpleLogger logger;
 	private long startTime;
 	
+//	private ConnThread testConnectionThread = null;
+	
 	private DToolsContext() {
 		setHomeDir();
 		DProps.loadProperties();
 		readVersion();
 		initLogger();
+		
+//		testConnectionThread = new ConnThread();
+//		testConnectionThread.startThread();
 	}
 	
 	public static DToolsContext getInstance() {

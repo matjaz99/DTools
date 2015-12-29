@@ -26,25 +26,25 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 import si.matjazcerkvenik.dtools.io.DAO;
-import si.matjazcerkvenik.dtools.xml.Server;
-import si.matjazcerkvenik.dtools.xml.Servers;
+import si.matjazcerkvenik.dtools.xml.Node;
+import si.matjazcerkvenik.dtools.xml.NetworkNodes;
 
-@FacesValidator(value="newDeviceValidator")
-public class NewDeviceValidator implements Validator {
+@FacesValidator(value="newNodeValidator")
+public class NewNodeValidator implements Validator {
 
 	@Override
 	public void validate(FacesContext ctx, UIComponent comp, Object value)
 			throws ValidatorException {
 		
-		String newServerName = ((String) value).trim();
-		ValidatorUtils.validateFileName(newServerName);
+		String newNodeName = ((String) value).trim();
+		ValidatorUtils.validateFileName(newNodeName);
 		
-		Servers servers = DAO.getInstance().loadServers();
+		NetworkNodes networkNodes = DAO.getInstance().loadNetworkNodes();
 		
-		for (Server srv : servers.getServerList()) {
-			if (srv.getName().equalsIgnoreCase(newServerName)) {
+		for (Node node : networkNodes.getNodesList()) {
+			if (node.getName().equalsIgnoreCase(newNodeName)) {
 				FacesMessage message = new FacesMessage();
-				message.setSummary(newServerName + " already exists");
+				message.setSummary(newNodeName + " already exists");
 				message.setSeverity(FacesMessage.SEVERITY_ERROR);
 				throw new ValidatorException(message);
 			}

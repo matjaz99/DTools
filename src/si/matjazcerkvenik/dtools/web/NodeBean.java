@@ -18,6 +18,7 @@
 
 package si.matjazcerkvenik.dtools.web;
 
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
@@ -33,37 +34,39 @@ import si.matjazcerkvenik.dtools.tools.snmp.SnmpClient;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpClients;
 import si.matjazcerkvenik.dtools.xml.FtpClient;
 import si.matjazcerkvenik.dtools.xml.FtpClients;
-import si.matjazcerkvenik.dtools.xml.Server;
+import si.matjazcerkvenik.dtools.xml.Node;
 import si.matjazcerkvenik.dtools.xml.SshClient;
 import si.matjazcerkvenik.dtools.xml.SshClients;
 
 @ManagedBean
 @ViewScoped
-public class ServerBean {
+public class NodeBean implements Serializable {
 	
-	private Server server;
+	private static final long serialVersionUID = 8600188798586688068L;
+	
+	private Node node;
 	
 	@PostConstruct
 	public void init() {
 		Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-		if (requestParameterMap.containsKey("serverName")) {
-			String name = requestParameterMap.get("serverName");
-			server = DAO.getInstance().findServer(name);
+		if (requestParameterMap.containsKey("nodeName")) {
+			String name = requestParameterMap.get("nodeName");
+			node = DAO.getInstance().findNode(name);
 		}
 	}
 
-	public Server getServer() {
-		return server;
+	public Node getNode() {
+		return node;
 	}
 
-	public void setServer(Server server) {
-		this.server = server;
+	public void setNode(Node node) {
+		this.node = node;
 	}
 	
 	public List<SshClient> getListOfSshClients() {
 		
 		SshClients allClients = DAO.getInstance().loadSshClients();
-		List<SshClient> tempList = allClients.getCustomSshClientsList(server.getHostname());
+		List<SshClient> tempList = allClients.getCustomSshClientsList(node.getHostname());
 		
 		return tempList;
 		
@@ -72,7 +75,7 @@ public class ServerBean {
 	public List<FtpClient> getListOfFtpClients() {
 		
 		FtpClients allClients = DAO.getInstance().loadFtpClients();
-		List<FtpClient> tempList = allClients.getCustomFtpClientsList(server.getHostname());
+		List<FtpClient> tempList = allClients.getCustomFtpClientsList(node.getHostname());
 		
 		return tempList;
 		
@@ -81,7 +84,7 @@ public class ServerBean {
 	public List<SnmpClient> getListOfSnmpClients() {
 		
 		SnmpClients allMngs = DAO.getInstance().loadSnmpClients();
-		List<SnmpClient> tempList = allMngs.getCustomSnmpClientsList(server.getHostname());
+		List<SnmpClient> tempList = allMngs.getCustomSnmpClientsList(node.getHostname());
 		
 		return tempList;
 		
@@ -90,7 +93,7 @@ public class ServerBean {
 	public String getResolvedIpAddress() {
 		String ip = "n/a";
 		try {
-			InetAddress address = InetAddress.getByName(server.getHostname());
+			InetAddress address = InetAddress.getByName(node.getHostname());
 			ip = address.getHostAddress();
 		} catch (UnknownHostException e) {
 			ip = "n/a";

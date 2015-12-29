@@ -23,26 +23,26 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name="servers")
-public class Servers {
+@XmlRootElement(name="networkNodes")
+public class NetworkNodes {
 	
-	private List<Server> serverList;
+	private List<Node> nodesList;
 
-	public List<Server> getServerList() {
-		return serverList;
+	public List<Node> getNodesList() {
+		return nodesList;
 	}
 
-	@XmlElement(name="server") // name of element (instead of serverList)
-	public void setServerList(List<Server> server) {
-		this.serverList = server;
+	@XmlElement(name="node") // name of element (instead of nodesList)
+	public void setNodesList(List<Node> node) {
+		this.nodesList = node;
 	}
 	
-	public void addServer(Server s) {
-		serverList.add(s);
+	public void addNode(Node n) {
+		nodesList.add(n);
 	}
 	
-	public void deleteServer(Server s) {
-		serverList.remove(s);
+	public void deleteNode(Node n) {
+		nodesList.remove(n);
 	}
 	
 }

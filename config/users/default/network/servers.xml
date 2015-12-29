@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<servers>
+<nodes>
     <server>
         <description>CentOS in VirtualBox</description>
         <favorite>true</favorite>
@@ -12,4 +12,19 @@
         <hostname>localhost</hostname>
         <name>iMac</name>
     </server>
-</servers>
+    <node type="server">
+        <description>This is test node</description>
+        <hostname>192.168.1.110</hostname>
+        <favorite>false</favorite>
+        <name>Test node</name>
+        <monitoring active="true">
+        	<monitor name="ICMP" />
+        	<monitor name="SSH" port="22" />
+        	<monitor name="HTTP">
+        		<param key="interval" value="60" />
+        		<param key="url" value="http://192.168.1.110/app" />
+        		<param key="port" value="8080" />
+        	</monitor>
+        </monitoring>
+    </node>
+</nodes>

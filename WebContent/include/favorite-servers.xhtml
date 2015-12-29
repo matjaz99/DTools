@@ -8,18 +8,18 @@
     
     <h:panelGrid columns="1" cellspacing="5" width="100%">
     
-    	<h:outputText value="Favorite servers" />
+    	<h:outputText value="Favorite nodes" />
     	
-    	<h:dataTable value="#{serversBean.serversList}" var="server" 
+    	<h:dataTable value="#{networkNodesBean.nodesList}" var="node" 
 					styleClass="table"
 					rowClasses="tableOddRow,tableEvenRow"
 					cellpadding="0" cellspacing="0" width="10%">
 					
 					<h:column headerClass="col0 col1">
 						<f:facet name="header">Status</f:facet>
-						<h:form id="status" rendered="#{server.favorite}">
-							<h:commandLink action="#{serversBean.sendIcmpPingAction(server)}">
-								<p:graphicImage value="resources/#{userBean.cssTheme}/1_0/img/#{serversBean.getStatusIcon(server.icmpPingStatus)}.png" />
+						<h:form id="status" rendered="#{node.favorite}">
+							<h:commandLink action="#{networkNodesBean.sendIcmpPingAction(node)}">
+								<p:graphicImage value="resources/#{userBean.cssTheme}/1_0/img/#{networkNodesBean.getStatusIcon(node.icmpPingStatus)}.png" />
 								<f:ajax render="status" />
 							</h:commandLink>
 						</h:form>
@@ -27,18 +27,18 @@
 					
 					<h:column headerClass="col0">
 						<f:facet name="header">Name</f:facet>
-						<h:form rendered="#{server.favorite}" styleClass="myForm">
-							<p:link outcome="server" value="#{server.name}">
-							    <f:param name="serverName" value="#{server.name}" />
+						<h:form rendered="#{node.favorite}" styleClass="myForm">
+							<p:link outcome="node" value="#{node.name}">
+							    <f:param name="nodeName" value="#{node.name}" />
 							</p:link>
 						</h:form>
 					</h:column>
 					
 					<h:column headerClass="col0">
 						<f:facet name="header">Hostname</f:facet>
-						<h:form rendered="#{server.favorite}" styleClass="myForm">
-							<p:link outcome="server" value="#{server.hostname}">
-							    <f:param name="serverName" value="#{server.name}" />
+						<h:form rendered="#{node.favorite}" styleClass="myForm">
+							<p:link outcome="node" value="#{node.hostname}">
+							    <f:param name="nodeName" value="#{node.name}" />
 							</p:link>
 						</h:form>
 					</h:column>

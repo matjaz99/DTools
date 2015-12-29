@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import si.matjazcerkvenik.dtools.tools.icmp.EPingStatus;
 import si.matjazcerkvenik.dtools.tools.icmp.IcmpPing;
 
-public class Server {
+public class Node {
 
 	private String name;
 	private String hostname;
@@ -78,7 +78,7 @@ public class Server {
 	}
 
 	/**
-	 * Send ping on this server
+	 * Send ping to this node
 	 */
 	public void updateIcmpStatus() {
 		IcmpPing p = new IcmpPing();

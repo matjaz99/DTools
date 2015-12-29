@@ -37,6 +37,7 @@ xx. december 2015
 - new snmp data table dialog (+ validator)
 - new snmp trap scenario dialog (+ validator)
 - check input validator (file names for valid characters and ports for number)
+- renamed Server class to Node class
 
 -----------------------------------------------------------
 ### 0.4.1

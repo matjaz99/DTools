@@ -28,28 +28,28 @@
 				<h:outputText value="Network" styleClass="title" />
 			
 				<h:form>
-				    <p:commandButton value="Add new device" onclick="PF('addDevDlg').show();" icon="ui-icon-plus" />
+				    <p:commandButton value="Add new node" onclick="PF('addDevDlg').show();" icon="ui-icon-plus" />
 				 				 
-				    <p:dialog header="Add new IP device" widgetVar="addDevDlg" resizable="false" dynamic="true" closable="false">
+				    <p:dialog header="Add new node" widgetVar="addDevDlg" resizable="false" dynamic="true" closable="false">
 				    	
 				    	<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
 							
-							<h:outputLabel for="srvName" value="Name: " />
-							<p:inputText id="srvName" value="#{serversBean.name}" required="true" 
-								requiredMessage="Missing device name">
-								<f:validator validatorId="newDeviceValidator"/>
+							<h:outputLabel for="nodeName" value="Name: " />
+							<p:inputText id="nodeName" value="#{networkNodesBean.name}" required="true" 
+								requiredMessage="Missing node name">
+								<f:validator validatorId="newNodeValidator"/>
 							</p:inputText>
 							
-							<h:outputLabel for="srvHostname" value="Hostname: " />
-							<p:inputText id="srvHostname" value="#{serversBean.hostname}" required="true" 
+							<h:outputLabel for="nodeHostname" value="Hostname: " />
+							<p:inputText id="nodeHostname" value="#{networkNodesBean.hostname}" required="true" 
 								requiredMessage="Missing hostname or ip" />
 							
 							<h:outputLabel value="Description: " />
-							<p:inputText value="#{serversBean.description}" />
+							<p:inputText value="#{networkNodesBean.description}" />
 							
 							<f:facet name="footer">
-				                <p:commandButton value="Add" update="growl srvName srvHostname serversTable" 
-				                	actionListener="#{serversBean.addServerAction}"
+				                <p:commandButton value="Add" update="growl nodeName nodeHostname nodesForm" 
+				                	actionListener="#{networkNodesBean.addNodeAction}"
 				                	oncomplete="handleDialogRequest('addDevDlg', xhr, status, args)" />
 				                <p:commandButton value="Cancel" onclick="PF('addDevDlg').hide();" />
 				            </f:facet>
@@ -60,79 +60,69 @@
 				</h:form>
 				
 				
-				<h:panelGrid columns="1" cellspacing="5" width="100%">
-				<h:dataTable id="serversTable" value="#{serversBean.serversList}" var="server" 
-					styleClass="table"
-					rowClasses="tableOddRow,tableEvenRow"
-					cellpadding="0" cellspacing="0" width="100%">
-					
-					<h:column headerClass="col0 col1">
-						<f:facet name="header">Icon</f:facet>
-						<h:form>
-							<p:link outcome="server" >
-							    <f:param name="serverName" value="#{server.name}" />
-							    <p:graphicImage library="#{userBean.cssTheme}" name="img/drive_network.png" />
-							</p:link>
-						</h:form>
-					</h:column>
-					
-					<h:column headerClass="col0 col1">
-						<f:facet name="header">Status</f:facet>
-						<h:form id="status">
-							<h:commandLink action="#{serversBean.sendIcmpPingAction(server)}">
-								<p:graphicImage library="#{userBean.cssTheme}" name="img/#{serversBean.getStatusIcon(server.icmpPingStatus)}.png" />
-								<f:ajax render="status" />
-							</h:commandLink>
-						</h:form>
-					</h:column>
-					
-					<h:column headerClass="col0 col2">
-						<f:facet name="header">Name</f:facet>
-						<h:form styleClass="myForm">
-							<p:link outcome="server" value="#{server.name}">
-							    <f:param name="serverName" value="#{server.name}" />
-							</p:link>
-						</h:form>
-					</h:column>
-					
-					<h:column headerClass="col0 col2">
-						<f:facet name="header">Hostname</f:facet>
-						<h:form styleClass="myForm">
-							<p:link outcome="server" value="#{server.hostname}">
-							    <f:param name="serverName" value="#{server.name}" />
-							</p:link>
-						</h:form>
-					</h:column>
-					
-					<h:column headerClass="col0">
-						<f:facet name="header">Description</f:facet>
-						<h:form>
-							<h:outputText value="#{server.description}" />
-						</h:form>
-					</h:column>
-					
-					<h:column headerClass="col0 col1">
-						<f:facet name="header">Favorite</f:facet>
-						<h:form>
-							<h:commandLink id="favoriteStar" action="#{serversBean.toggleFavorite(server)}">
-								<p:graphicImage library="#{userBean.cssTheme}" name="#{server.favorite == true ? 'img/star-full.png' : 'img/star-empty.png'}" />
-								<f:ajax render="favoriteStar" />
-							</h:commandLink>
-						</h:form>
-					</h:column>
-					
-					<h:column headerClass="col0 col1">
-						<f:facet name="header">Delete</f:facet>
-						<h:form>
-							<h:commandLink action="#{serversBean.deleteServerAction(server)}">
-								<p:graphicImage library="#{userBean.cssTheme}" name="img/remove.png" />
-								<f:ajax render="serversTable" />
-							</h:commandLink>
-						</h:form>
-					</h:column>
-					
-				</h:dataTable>
-				</h:panelGrid>
+				<h:form id="nodesForm">
+					<h:panelGrid columns="1" cellspacing="5" width="100%">
+						<h:dataTable id="nodesTable" value="#{networkNodesBean.nodesList}" var="node" 
+							styleClass="table"
+							rowClasses="tableOddRow,tableEvenRow"
+							cellpadding="0" cellspacing="0" width="100%">
+							
+							<h:column headerClass="col0 col1">
+								<f:facet name="header">Icon</f:facet>
+								<p:link outcome="node" >
+								    <f:param name="nodeName" value="#{node.name}" />
+								    <p:graphicImage library="#{userBean.cssTheme}" name="img/drive_network.png" />
+								</p:link>
+							</h:column>
+							
+							<h:column headerClass="col0 col1">
+								<f:facet name="header">Status</f:facet>
+								<h:commandLink id="status" action="#{networkNodesBean.sendIcmpPingAction(node)}">
+									<p:graphicImage library="#{userBean.cssTheme}" name="img/#{networkNodesBean.getStatusIcon(node.icmpPingStatus)}.png" />
+									<f:ajax render="status" />
+								</h:commandLink>
+							</h:column>
+							
+							<h:column headerClass="col0 col2">
+								<f:facet name="header">Name</f:facet>
+								<p:link outcome="node" value="#{node.name}" style="color: #FAFAFA;">
+								    <f:param name="nodeName" value="#{node.name}" />
+								</p:link>
+							</h:column>
+							
+							<h:column headerClass="col0 col2">
+								<f:facet name="header">Hostname</f:facet>
+								<p:link outcome="node" value="#{node.hostname}" style="color: #FAFAFA;">
+									<f:param name="nodeName" value="#{node.name}" />
+								</p:link>
+							</h:column>
+							
+							<h:column headerClass="col0">
+								<f:facet name="header">Description</f:facet>
+								<h:outputText value="#{node.description}" />
+							</h:column>
+							
+							<h:column headerClass="col0 col1">
+								<f:facet name="header">Favorite</f:facet>
+								<h:commandLink id="favoriteStar" action="#{networkNodesBean.toggleFavorite(node)}">
+									<p:graphicImage library="#{userBean.cssTheme}" name="#{node.favorite == true ? 'img/star-full.png' : 'img/star-empty.png'}" />
+									<f:ajax render="favoriteStar" />
+								</h:commandLink>
+							</h:column>
+							
+							<h:column headerClass="col0 col1">
+								<f:facet name="header">Delete</f:facet>
+								<h:commandLink action="#{networkNodesBean.deleteNodeAction(node)}">
+									<p:graphicImage library="#{userBean.cssTheme}" name="img/remove.png" />
+									<f:ajax render="nodesForm" />
+								</h:commandLink>
+							</h:column>
+							
+						</h:dataTable>
+					<p:poll interval="60" update="nodesTable" />
+					</h:panelGrid>
+				</h:form>
+				
 			</h:panelGrid>
 			
         
