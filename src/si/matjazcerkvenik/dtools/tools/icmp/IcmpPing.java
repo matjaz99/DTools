@@ -18,7 +18,7 @@
 
 package si.matjazcerkvenik.dtools.tools.icmp;
 
-import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
@@ -35,7 +35,8 @@ public class IcmpPing {
 	public EPingStatus ping(String hostname) {
 		
 		try {
-			if (Inet4Address.getByName(hostname).isReachable(3000)) {
+			InetAddress address = InetAddress.getByName(hostname);
+			if (address.isReachable(3000)) {
 				logger.info("IcmpPing: ping " + hostname + " [" + EPingStatus.UP + "]");
 				return EPingStatus.UP;
 			} else {
@@ -44,7 +45,7 @@ public class IcmpPing {
 			}
 
 		} catch (UnknownHostException e) {
-			logger.error("IcmpPing:UnknownHostException", e);
+			logger.warn("IcmpPing:UnknownHostException: " + e.getMessage());
 			return EPingStatus.DOWN;
 		} catch (Exception e) {
 			logger.error("IcmpPing:Exception", e);

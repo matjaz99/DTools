@@ -18,6 +18,7 @@
 
 package si.matjazcerkvenik.dtools.xml;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -29,7 +30,9 @@ public class Node {
 	private String name;
 	private String hostname;
 	private String description;
+	private String type = "IP_NODE";
 	private boolean favorite = false;
+	private NodeServices nodeServices;
 	private EPingStatus icmpPingStatus = EPingStatus.UNKNOWN;
 
 	public String getName() {
@@ -57,6 +60,42 @@ public class Node {
 	@XmlElement
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	@XmlAttribute
+	public void setType(String type) {
+		this.type = type;
+	}
+	
+	public NodeServices getNodeServices() {
+		return nodeServices;
+	}
+
+	@XmlElement(name="services")
+	public void setNodeServices(NodeServices nodeServices) {
+		this.nodeServices = nodeServices;
+	}
+	
+	public void addService(Service service) {
+		if (nodeServices == null) {
+			nodeServices = new NodeServices();
+		}
+		nodeServices.addService(service);
+	}
+
+	public String getIcon() {
+		if (type.equals("SERVER")) {
+			return "server-icon.png";
+		} else if (type.equals("ROUTER")) {
+			return "router-icon.png";
+		} else if (type.equals("APPLICATION")) {
+			return "application-icon.png";
+		}
+		return "drive_network.png"; // IP_NODE
 	}
 
 	public EPingStatus getIcmpPingStatus() {

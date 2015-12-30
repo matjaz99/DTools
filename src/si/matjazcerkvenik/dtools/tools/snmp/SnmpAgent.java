@@ -32,7 +32,6 @@ import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.AdvancedSnmpAgentImpl;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.ISnmpAgentImpl;
-import si.matjazcerkvenik.dtools.tools.snmp.impl.SimpleSnmpAgentImpl;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapSender;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
@@ -280,7 +279,6 @@ public class SnmpAgent implements Serializable {
 		}
 		name = e.getNewValue().toString();
 		DAO.getInstance().saveAgentMetadata(this);
-		
 	}
 	
 	public void changedIp(ValueChangeEvent e) {

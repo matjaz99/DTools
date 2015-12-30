@@ -26,7 +26,7 @@ Commons-logging is required by commons-vfs
 ## Version history
 
 -----------------------------------------------------------
-### 0.4.2-alpha.01
+### 0.5.0-alpha.01
 
 xx. december 2015
 
@@ -38,6 +38,8 @@ xx. december 2015
 - new snmp trap scenario dialog (+ validator)
 - check input validator (file names for valid characters and ports for number)
 - renamed Server class to Node class
+- node types (+ icons)
+- introduction of node services
 
 -----------------------------------------------------------
 ### 0.4.1

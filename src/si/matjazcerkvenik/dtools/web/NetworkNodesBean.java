@@ -30,6 +30,7 @@ import org.primefaces.context.RequestContext;
 import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.icmp.EPingStatus;
 import si.matjazcerkvenik.dtools.xml.Node;
+import si.matjazcerkvenik.dtools.xml.Service;
 
 
 /**
@@ -47,6 +48,7 @@ public class NetworkNodesBean implements Serializable {
 	private String name;
 	private String hostname;
 	private String description;
+	private String type;
 
 	public String getName() {
 		return name;
@@ -72,20 +74,35 @@ public class NetworkNodesBean implements Serializable {
 		this.description = description;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public void addNodeAction() {
 		
-		Node s = new Node();
-		s.setName(name);
-		s.setHostname(hostname);
-		s.setDescription(description);
-		s.setIcmpPingStatus(EPingStatus.UNKNOWN);
+		Node n = new Node();
+		n.setName(name);
+		n.setHostname(hostname);
+		n.setDescription(description);
+		n.setType(type);
+		n.setIcmpPingStatus(EPingStatus.UNKNOWN);
 		
-		DAO.getInstance().addNode(s);
-		Growl.addGrowlMessage("Created: " + s.getName(), FacesMessage.SEVERITY_INFO);
+		// create ICMP ping as default service
+		Service s = new Service();
+		s.setName("ICMP");
+		n.addService(s);
+		
+		DAO.getInstance().addNode(n);
+		Growl.addGrowlMessage("Created: " + n.getName(), FacesMessage.SEVERITY_INFO);
 		
 		name = null;
 		hostname = null;
 		description = null;
+		type = "IP_NODE";
 		
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.addCallbackParam("success", true);
@@ -130,15 +147,6 @@ public class NetworkNodesBean implements Serializable {
 		DAO.getInstance().saveNetworkNodes();
 	}
 	
-//	public String getFavoriteIcon(boolean isFavorite) {
-//		
-//		if (isFavorite) {
-//			return "star-full";
-//		}
-//		
-//		return "star-empty";
-//		
-//	}
 	
 	/**
 	 * Send ICMP ping on selected node.

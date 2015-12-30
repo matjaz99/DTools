@@ -47,6 +47,14 @@
 							<h:outputLabel value="Description: " />
 							<p:inputText value="#{networkNodesBean.description}" />
 							
+							<h:outputLabel value="Type: " />
+							<p:selectOneMenu value="#{networkNodesBean.type}" style="width:130px">
+					            <f:selectItem itemLabel="IP Node" itemValue="IP_NODE" />
+					            <f:selectItem itemLabel="Server" itemValue="SERVER" />
+					            <f:selectItem itemLabel="Router" itemValue="ROUTER" />
+					            <f:selectItem itemLabel="Application" itemValue="APPLICATION" />
+					        </p:selectOneMenu>
+							
 							<f:facet name="footer">
 				                <p:commandButton value="Add" update="growl nodeName nodeHostname nodesForm" 
 				                	actionListener="#{networkNodesBean.addNodeAction}"
@@ -71,7 +79,7 @@
 								<f:facet name="header">Icon</f:facet>
 								<p:link outcome="node" >
 								    <f:param name="nodeName" value="#{node.name}" />
-								    <p:graphicImage library="#{userBean.cssTheme}" name="img/drive_network.png" />
+								    <p:graphicImage library="#{userBean.cssTheme}" name="img/#{node.icon}" title="#{node.type}" />
 								</p:link>
 							</h:column>
 							

@@ -14,7 +14,8 @@
     	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/dstyles.css"/>
     	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/icons.css"/>
     	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/fonts.css"/>
-    	
+    	<h:outputScript library="default" name="js/dtools.js" />
+    	    	
     	<p:growl id="growl" life="2000"/>
     	
     	<h:panelGrid columns="1" cellpadding="0" cellspacing="0" width="100%">
@@ -29,96 +30,160 @@
 			</p:breadCrumb>
 			</h:form>
 			
-			<h:outputText value="Node details: #{nodeBean.node.name}" styleClass="title" />
-			
-			<h:panelGrid columns="2">
-				<h:outputText value="Name:" />
-				<h:outputText value="#{nodeBean.node.name}" />
-				<h:outputText value="Hostname:" />
-				<h:outputText value="#{nodeBean.node.hostname}" />
-				<h:outputText value="IP address:" />
-				<h:outputText value="#{nodeBean.getResolvedIpAddress()}" />
-				<h:outputText value="Description:" />
-				<h:outputText value="#{nodeBean.node.description}" />
-				<h:outputText value="ICMP status: " />
-				<h:outputText value="#{nodeBean.node.icmpPingStatus}" />
-			</h:panelGrid>
-			
-			<h:panelGrid columns="1" cellspacing="5" width="100%">
-			<h:dataTable id="sshClientsTable" value="#{nodeBean.listOfSshClients}" var="sshClient" 
-				styleClass="table" rowClasses="tableOddRow,tableEvenRow"
-				cellpadding="0" cellspacing="0" rendered="#{nodeBean.listOfSshClients.size() > 0}">
+			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
 				
-				<h:column headerClass="col0 col1">
-					<f:facet name="header">Console</f:facet>
-					<h:form id="status">
-						<h:commandLink action="#{navigationBean.openSshClient(sshClient)}">
-							<dt:icon img="terminal"/>
-						</h:commandLink>
-					</h:form>
-				</h:column>
+				<h:panelGrid columns="2" cellpadding="2">
+					<p:graphicImage library="default" name="img/#{nodeBean.node.icon}" />
+					<h:outputText id="nodeNameTitle" value="#{nodeBean.node.name}" styleClass="title" />
+				</h:panelGrid>
 				
-				<h:column headerClass="col0 col2">
-					<f:facet name="header">SSH Clients</f:facet>
-					<h:form>
-						<h:commandLink action="#{navigationBean.openSshClient(sshClient)}">
-							<h:outputText value="#{sshClient.toUrlString()}" />
-						</h:commandLink>
-					</h:form>
-				</h:column>
+				<h:form>
+					<h:panelGrid columns="2">
+						<h:outputText value="Name:" />
+						<p:inplace editor="true" >
+							<p:inputText value="#{nodeBean.node.name}" required="true" label="name" valueChangeListener="#{nodeBean.changedName}" >
+							<p:ajax update="breadCrumb nodeNameTitle" />
+							</p:inputText>
+						</p:inplace>
+						<h:outputText value="Hostname:" />
+						<p:inplace editor="true" >
+							<p:inputText value="#{nodeBean.node.hostname}" required="true" label="hostname" valueChangeListener="#{nodeBean.changedHostname}" />
+						</p:inplace>
+						<h:outputText value="IP address:" />
+						<h:outputText value="#{nodeBean.getResolvedIpAddress()}" />
+						<h:outputText value="Description:" />
+						<p:inplace editor="true" >
+							<p:inputText value="#{nodeBean.node.description}" required="true" label="description" valueChangeListener="#{nodeBean.changedDescription}" />
+						</p:inplace>
+						<h:outputText value="Type:" />
+						<h:outputText value="#{nodeBean.node.type}" />
+						<h:outputText value="ICMP status: " />
+						<h:outputText value="#{nodeBean.node.icmpPingStatus}" />
+					</h:panelGrid>
+				</h:form>
 				
-			</h:dataTable>
-			
-			<h:dataTable id="ftpClientsTable" value="#{nodeBean.listOfFtpClients}" var="ftpClient" 
-				styleClass="table" rowClasses="tableOddRow,tableEvenRow"
-				cellpadding="0" cellspacing="0" rendered="#{nodeBean.listOfFtpClients.size() > 0}">
+				<hr/>
+				<h:outputText value="Services" styleClass="title" />
 				
-				<h:column headerClass="col0">
-					<f:facet name="header">Console</f:facet>
-					<h:form id="status">
-						<h:commandLink action="#{navigationBean.openFtpClient(ftpClient)}">
-							<dt:icon img="terminal"/>
-						</h:commandLink>
-					</h:form>
-				</h:column>
+				<h:form>
+					<p:commandButton value="Add monitor" onclick="PF('addMonDlg').show();" icon="ui-icon-plus" />
+					<p:dialog header="Add monitor" widgetVar="addMonDlg" resizable="false" dynamic="true" closable="false">
+						<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+							<h:outputLabel for="monName" value="Name: " />
+							<p:inputText id="monName" value="#{nodeBean.newMonitorName}" required="true" 
+								requiredMessage="Missing name">
+							</p:inputText>
+							<f:facet name="footer">
+				                <p:commandButton value="Add" update="growl monName servicesTableForm" 
+				                	actionListener="#{nodeBean.addMonitorAction}"
+				                	oncomplete="handleDialogRequest('addMonDlg', xhr, status, args)" />
+				                <p:commandButton value="Cancel" onclick="PF('addMonDlg').hide();" />
+				            </f:facet>
+						</h:panelGrid>
+					</p:dialog>
+				</h:form>
 				
-				<h:column headerClass="col0">
-					<f:facet name="header">FTP Clients</f:facet>
-					<h:form>
-						<h:commandLink action="#{navigationBean.openFtpClient(ftpClient)}">
-							<h:outputText value="#{ftpClient.toUrlString()}" />
-						</h:commandLink>
-					</h:form>
-				</h:column>
+				<h:form id="servicesTableForm">
+					<h:panelGrid columns="1" cellspacing="5" width="100%">
+						<h:dataTable id="servicesTable" value="#{nodeBean.listOfServices}" var="service" 
+							styleClass="table" rowClasses="tableOddRow,tableEvenRow"
+							cellpadding="0" cellspacing="0" >
+							<h:column headerClass="col0 col1">
+								<f:facet name="header">Name</f:facet>
+								<h:outputText value="#{service.name}" />
+							</h:column>
+							<h:column headerClass="col0 col1">
+								<f:facet name="header">Status</f:facet>
+								<h:commandLink id="status" action="#{service.pingService(nodeBean.node)}">
+									<p:graphicImage library="#{userBean.cssTheme}" name="img/#{service.getStatusIcon()}.png" title="#{service.status}" />
+									<f:ajax render="status" />
+								</h:commandLink>
+							</h:column>
+						</h:dataTable>
+					</h:panelGrid>
+				</h:form>
 				
-			</h:dataTable>
-			
-			<h:dataTable id="snmpMngTable" value="#{nodeBean.listOfSnmpClients}" var="snmpMng" 
-				styleClass="table" rowClasses="tableOddRow,tableEvenRow"
-				cellpadding="0" cellspacing="0" rendered="#{nodeBean.listOfSnmpClients.size() > 0}">
 				
-				<h:column headerClass="col0 col1">
-					<f:facet name="header">Console</f:facet>
-					<h:form id="status">
-						<h:commandLink action="#{navigationBean.openSnmpClient(snmpMng)}">
-							<dt:icon img="terminal"/>
-						</h:commandLink>
-					</h:form>
-				</h:column>
+				<hr/>
+				<h:outputText value="Clients" styleClass="title" />
 				
-				<h:column headerClass="col0">
-					<f:facet name="header">SNMP Clients</f:facet>
-					<h:form>
-						<h:commandLink action="#{navigationBean.openSnmpClient(snmpMng)}">
-							<h:outputText value="#{snmpMng.toUrlString()}" />
-						</h:commandLink>
-					</h:form>
-				</h:column>
+				<h:panelGrid columns="1" cellspacing="5" width="100%">
+				<h:dataTable id="sshClientsTable" value="#{nodeBean.listOfSshClients}" var="sshClient" 
+					styleClass="table" rowClasses="tableOddRow,tableEvenRow"
+					cellpadding="0" cellspacing="0" rendered="#{nodeBean.listOfSshClients.size() > 0}">
+					
+					<h:column headerClass="col0 col1">
+						<f:facet name="header">Console</f:facet>
+						<h:form id="status">
+							<h:commandLink action="#{navigationBean.openSshClient(sshClient)}">
+								<dt:icon img="terminal"/>
+							</h:commandLink>
+						</h:form>
+					</h:column>
+					
+					<h:column headerClass="col0 col2">
+						<f:facet name="header">SSH Clients</f:facet>
+						<h:form>
+							<h:commandLink action="#{navigationBean.openSshClient(sshClient)}">
+								<h:outputText value="#{sshClient.toUrlString()}" />
+							</h:commandLink>
+						</h:form>
+					</h:column>
+					
+				</h:dataTable>
 				
-			</h:dataTable>
-			
-			</h:panelGrid>
-        
+				<h:dataTable id="ftpClientsTable" value="#{nodeBean.listOfFtpClients}" var="ftpClient" 
+					styleClass="table" rowClasses="tableOddRow,tableEvenRow"
+					cellpadding="0" cellspacing="0" rendered="#{nodeBean.listOfFtpClients.size() > 0}">
+					
+					<h:column headerClass="col0">
+						<f:facet name="header">Console</f:facet>
+						<h:form id="status">
+							<h:commandLink action="#{navigationBean.openFtpClient(ftpClient)}">
+								<dt:icon img="terminal"/>
+							</h:commandLink>
+						</h:form>
+					</h:column>
+					
+					<h:column headerClass="col0">
+						<f:facet name="header">FTP Clients</f:facet>
+						<h:form>
+							<h:commandLink action="#{navigationBean.openFtpClient(ftpClient)}">
+								<h:outputText value="#{ftpClient.toUrlString()}" />
+							</h:commandLink>
+						</h:form>
+					</h:column>
+					
+				</h:dataTable>
+				
+				<h:dataTable id="snmpMngTable" value="#{nodeBean.listOfSnmpClients}" var="snmpMng" 
+					styleClass="table" rowClasses="tableOddRow,tableEvenRow"
+					cellpadding="0" cellspacing="0" rendered="#{nodeBean.listOfSnmpClients.size() > 0}">
+					
+					<h:column headerClass="col0 col1">
+						<f:facet name="header">Console</f:facet>
+						<h:form id="status">
+							<h:commandLink action="#{navigationBean.openSnmpClient(snmpMng)}">
+								<dt:icon img="terminal"/>
+							</h:commandLink>
+						</h:form>
+					</h:column>
+					
+					<h:column headerClass="col0">
+						<f:facet name="header">SNMP Clients</f:facet>
+						<h:form>
+							<h:commandLink action="#{navigationBean.openSnmpClient(snmpMng)}">
+								<h:outputText value="#{snmpMng.toUrlString()}" />
+							</h:commandLink>
+						</h:form>
+					</h:column>
+					
+				</h:dataTable>
+				
+				</h:panelGrid>
+        	
+        	</h:panelGrid>
+        	
         </h:panelGrid>
         
     </h:body>

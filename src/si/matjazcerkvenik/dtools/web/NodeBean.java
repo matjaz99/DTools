@@ -28,13 +28,19 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 
+import org.primefaces.context.RequestContext;
+
+import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpClient;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpClients;
 import si.matjazcerkvenik.dtools.xml.FtpClient;
 import si.matjazcerkvenik.dtools.xml.FtpClients;
 import si.matjazcerkvenik.dtools.xml.Node;
+import si.matjazcerkvenik.dtools.xml.NodeServices;
+import si.matjazcerkvenik.dtools.xml.Service;
 import si.matjazcerkvenik.dtools.xml.SshClient;
 import si.matjazcerkvenik.dtools.xml.SshClients;
 
@@ -45,6 +51,8 @@ public class NodeBean implements Serializable {
 	private static final long serialVersionUID = 8600188798586688068L;
 	
 	private Node node;
+	
+	private String newMonitorName;
 	
 	@PostConstruct
 	public void init() {
@@ -63,33 +71,52 @@ public class NodeBean implements Serializable {
 		this.node = node;
 	}
 	
+	public String getNewMonitorName() {
+		return newMonitorName;
+	}
+
+	public void setNewMonitorName(String newMonitorName) {
+		this.newMonitorName = newMonitorName;
+	}
+
+	public List<Service> getListOfServices() {
+		return node.getNodeServices().getServices();
+	}
+	
 	public List<SshClient> getListOfSshClients() {
-		
 		SshClients allClients = DAO.getInstance().loadSshClients();
 		List<SshClient> tempList = allClients.getCustomSshClientsList(node.getHostname());
-		
 		return tempList;
-		
 	}
 	
 	public List<FtpClient> getListOfFtpClients() {
-		
 		FtpClients allClients = DAO.getInstance().loadFtpClients();
 		List<FtpClient> tempList = allClients.getCustomFtpClientsList(node.getHostname());
-		
 		return tempList;
-		
 	}
 	
 	public List<SnmpClient> getListOfSnmpClients() {
-		
 		SnmpClients allMngs = DAO.getInstance().loadSnmpClients();
 		List<SnmpClient> tempList = allMngs.getCustomSnmpClientsList(node.getHostname());
-		
 		return tempList;
-		
 	}
 	
+	
+	public void addMonitorAction() {
+		
+		Service s = new Service();
+		s.setName(newMonitorName);
+		node.addService(s);
+		
+		DAO.getInstance().saveNetworkNodes();
+		
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.addCallbackParam("success", true);
+	}
+	
+	
+	
+	// FIXME: move to node class
 	public String getResolvedIpAddress() {
 		String ip = "n/a";
 		try {
@@ -97,9 +124,46 @@ public class NodeBean implements Serializable {
 			ip = address.getHostAddress();
 		} catch (UnknownHostException e) {
 			ip = "n/a";
-			e.printStackTrace();
+			DToolsContext.getInstance().getLogger().warn("NodeBean:getResolvedIpAddress(): UnknownHostException: " + e.getMessage());
 		} 
 		return ip;
+	}
+	
+	
+	/**
+	 * Change node's name
+	 * @param e
+	 */
+	public void changedName(ValueChangeEvent e) {
+		if (e.getOldValue().toString().equalsIgnoreCase(e.getNewValue().toString())) {
+			return;
+		}
+		node.setName(e.getNewValue().toString());
+		DAO.getInstance().saveNetworkNodes();
+	}
+	
+	/**
+	 * Change node's hostname
+	 * @param e
+	 */
+	public void changedHostname(ValueChangeEvent e) {
+		if (e.getOldValue().toString().equalsIgnoreCase(e.getNewValue().toString())) {
+			return;
+		}
+		node.setHostname(e.getNewValue().toString());
+		DAO.getInstance().saveNetworkNodes();
+	}
+	
+	/**
+	 * Change node's description
+	 * @param e
+	 */
+	public void changedDescription(ValueChangeEvent e) {
+		if (e.getOldValue().toString().equalsIgnoreCase(e.getNewValue().toString())) {
+			return;
+		}
+		node.setDescription(e.getNewValue().toString());
+		DAO.getInstance().saveNetworkNodes();
 	}
 	
 }
