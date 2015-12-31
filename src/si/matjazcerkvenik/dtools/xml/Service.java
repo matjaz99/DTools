@@ -1,5 +1,6 @@
 package si.matjazcerkvenik.dtools.xml;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -13,6 +14,7 @@ import si.matjazcerkvenik.dtools.tools.icmp.PortPing;
 public class Service {
 	
 	private String name;
+	private String monitoringClass;
 	private List<Param> params;
 	private EPingStatus status = EPingStatus.UNKNOWN;
 
@@ -23,6 +25,15 @@ public class Service {
 	@XmlAttribute
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getMonitoringClass() {
+		return monitoringClass;
+	}
+
+	@XmlAttribute
+	public void setMonitoringClass(String monitoringClass) {
+		this.monitoringClass = monitoringClass;
 	}
 
 	public List<Param> getParams() {
@@ -43,14 +54,34 @@ public class Service {
 		this.status = status;
 	}
 	
+	public void addParam(String key, String value) {
+		if (params == null) {
+			params = new ArrayList<Param>();
+		}
+		params.add(new Param(key, value));
+	}
+	
+	public String getParam(String key) {
+		for (Param p : params) {
+			if (p.getKey().equals(key)) {
+				return p.getValue();
+			}
+		}
+		return null;
+	}
+	
 	public void pingService(Node node) {
 		// TODO solve this with interface or something
-		if (name.equals("ICMP")) {
+		if (monitoringClass.equals("ICMP_PING")) {
 			IcmpPing p = new IcmpPing();
 			status = p.ping(node.getHostname());
-		} else {
+		} else if (monitoringClass.equals("PORT_PING")) {
 			PortPing p = new PortPing();
-			status = p.ping(node.getHostname(), 21);
+			String portStr = getParam("monitoring.port");
+			int portInt = Integer.parseInt(portStr);
+			status = p.ping(node.getHostname(), portInt);
+		} else if (monitoringClass.equals("HTTP_PING")) {
+			// TODO
 		}
 	}
 	
@@ -74,6 +105,17 @@ public class Service {
 		
 		return "bullet_black";
 		
+	}
+	
+	public String getParamsString() {
+		String s = "";
+		if (params == null) {
+			return s;
+		}
+		for (int i = 0; i < params.size(); i++) {
+			s += params.get(i).getKey() + "=" + params.get(i).getValue() + "; ";
+		}
+		return s;
 	}
 	
 }

@@ -82,6 +82,9 @@ public class NetworkNodesBean implements Serializable {
 		this.type = type;
 	}
 
+	/**
+	 * Add new node
+	 */
 	public void addNodeAction() {
 		
 		Node n = new Node();
@@ -94,6 +97,7 @@ public class NetworkNodesBean implements Serializable {
 		// create ICMP ping as default service
 		Service s = new Service();
 		s.setName("ICMP");
+		s.setMonitoringClass("ICMP_PING");
 		n.addService(s);
 		
 		DAO.getInstance().addNode(n);
@@ -109,11 +113,19 @@ public class NetworkNodesBean implements Serializable {
 		
 	}
 	
+	/**
+	 * Delete selected node
+	 * @param n
+	 */
 	public void deleteNodeAction(Node n) {
 		DAO.getInstance().deleteNode(n);
 		Growl.addGrowlMessage("Deleted: " + n.getHostname(), FacesMessage.SEVERITY_INFO);
 	}
 	
+	/**
+	 * Let list of nodes
+	 * @return list
+	 */
 	public List<Node> getNodesList() {
 		return DAO.getInstance().loadNetworkNodes().getNodesList();
 	}

@@ -57,8 +57,6 @@
 						</p:inplace>
 						<h:outputText value="Type:" />
 						<h:outputText value="#{nodeBean.node.type}" />
-						<h:outputText value="ICMP status: " />
-						<h:outputText value="#{nodeBean.node.icmpPingStatus}" />
 					</h:panelGrid>
 				</h:form>
 				
@@ -66,18 +64,38 @@
 				<h:outputText value="Services" styleClass="title" />
 				
 				<h:form>
-					<p:commandButton value="Add monitor" onclick="PF('addMonDlg').show();" icon="ui-icon-plus" />
-					<p:dialog header="Add monitor" widgetVar="addMonDlg" resizable="false" dynamic="true" closable="false">
-						<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
-							<h:outputLabel for="monName" value="Name: " />
-							<p:inputText id="monName" value="#{nodeBean.newMonitorName}" required="true" 
+					<p:commandButton value="Add service" onclick="PF('addServiceDlg').show();" icon="ui-icon-plus" />
+					<p:dialog header="Add service" widgetVar="addServiceDlg" resizable="false" dynamic="true" closable="false">
+						<h:panelGrid id="srvcPanel" columns="2" cellpadding="2" cellspacing="0">
+							<h:outputLabel for="srvcName" value="Name: " />
+							<p:inputText id="srvcName" value="#{nodeBean.newServiceName}" required="true" 
 								requiredMessage="Missing name">
 							</p:inputText>
+							<h:outputLabel value="Monitoring class: " />
+							<p:selectOneMenu value="#{nodeBean.monitoringClass}" style="width:130px" >
+								<p:ajax update="srvcPortPanGrp1 srvcPortPanGrp2 srvcUrlPanGrp1 srvcUrlPanGrp2" listener="#{nodeBean.monitoringClassChanged}" />
+								<f:selectItem itemLabel="No monitoring" itemValue="DISABLED" />
+					            <f:selectItem itemLabel="ICMP ping" itemValue="ICMP_PING" />
+					            <f:selectItem itemLabel="Port ping" itemValue="PORT_PING" />
+					            <f:selectItem itemLabel="HTTP ping" itemValue="HTTP_PING" />
+					        </p:selectOneMenu>
+					        <h:panelGroup id="srvcPortPanGrp1">
+					        	<h:outputLabel for="srvcPort" value="Port: " rendered="#{nodeBean.monitoringPortRendered}" />
+					        </h:panelGroup>
+					        <h:panelGroup id="srvcPortPanGrp2">
+								<p:inputText id="srvcPort" value="#{nodeBean.monitoringPort}" rendered="#{nodeBean.monitoringPortRendered}" />
+							</h:panelGroup>
+							<h:panelGroup id="srvcUrlPanGrp1">
+								<h:outputLabel for="srvcUrl" value="URL: " rendered="#{nodeBean.monitoringUrlRendered}" />
+							</h:panelGroup>
+							<h:panelGroup id="srvcUrlPanGrp2">
+								<p:inputText id="srvcUrl" value="#{nodeBean.monitoringUrl}" rendered="#{nodeBean.monitoringUrlRendered}" />
+							</h:panelGroup>
 							<f:facet name="footer">
-				                <p:commandButton value="Add" update="growl monName servicesTableForm" 
-				                	actionListener="#{nodeBean.addMonitorAction}"
-				                	oncomplete="handleDialogRequest('addMonDlg', xhr, status, args)" />
-				                <p:commandButton value="Cancel" onclick="PF('addMonDlg').hide();" />
+				                <p:commandButton value="Add" update="growl srvcPanel servicesTableForm" 
+				                	actionListener="#{nodeBean.addServiceAction}"
+				                	oncomplete="handleDialogRequest('addServiceDlg', xhr, status, args)" />
+				                <p:commandButton value="Cancel" onclick="PF('addServiceDlg').hide();" />
 				            </f:facet>
 						</h:panelGrid>
 					</p:dialog>
@@ -87,7 +105,7 @@
 					<h:panelGrid columns="1" cellspacing="5" width="100%">
 						<h:dataTable id="servicesTable" value="#{nodeBean.listOfServices}" var="service" 
 							styleClass="table" rowClasses="tableOddRow,tableEvenRow"
-							cellpadding="0" cellspacing="0" >
+							cellpadding="0" cellspacing="0"  width="100%" >
 							<h:column headerClass="col0 col1">
 								<f:facet name="header">Name</f:facet>
 								<h:outputText value="#{service.name}" />
@@ -97,6 +115,21 @@
 								<h:commandLink id="status" action="#{service.pingService(nodeBean.node)}">
 									<p:graphicImage library="#{userBean.cssTheme}" name="img/#{service.getStatusIcon()}.png" title="#{service.status}" />
 									<f:ajax render="status" />
+								</h:commandLink>
+							</h:column>
+							<h:column headerClass="col0 col2">
+								<f:facet name="header">Monitoring class</f:facet>
+								<h:outputText value="#{service.monitoringClass}" />
+							</h:column>
+							<h:column headerClass="col0 col3">
+								<f:facet name="header">Params</f:facet>
+								<h:outputText value="#{service.paramsString}" />
+							</h:column>
+							<h:column headerClass="col0 col1">
+								<f:facet name="header">Delete</f:facet>
+								<h:commandLink action="#{nodeBean.deleteServiceAction(service)}">
+									<p:graphicImage library="#{userBean.cssTheme}" name="img/remove.png" />
+									<f:ajax render="servicesTableForm" />
 								</h:commandLink>
 							</h:column>
 						</h:dataTable>

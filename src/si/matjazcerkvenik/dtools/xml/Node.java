@@ -86,6 +86,10 @@ public class Node {
 		}
 		nodeServices.addService(service);
 	}
+	
+	public void deleteService(Service service) {
+		nodeServices.getServices().remove(service);
+	}
 
 	public String getIcon() {
 		if (type.equals("SERVER")) {

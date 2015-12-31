@@ -40,6 +40,7 @@ xx. december 2015
 - renamed Server class to Node class
 - node types (+ icons)
 - introduction of node services
+- ping services (ICMP, port)
 
 -----------------------------------------------------------
 ### 0.4.1

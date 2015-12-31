@@ -39,7 +39,6 @@ import si.matjazcerkvenik.dtools.tools.snmp.SnmpClients;
 import si.matjazcerkvenik.dtools.xml.FtpClient;
 import si.matjazcerkvenik.dtools.xml.FtpClients;
 import si.matjazcerkvenik.dtools.xml.Node;
-import si.matjazcerkvenik.dtools.xml.NodeServices;
 import si.matjazcerkvenik.dtools.xml.Service;
 import si.matjazcerkvenik.dtools.xml.SshClient;
 import si.matjazcerkvenik.dtools.xml.SshClients;
@@ -52,7 +51,13 @@ public class NodeBean implements Serializable {
 	
 	private Node node;
 	
-	private String newMonitorName;
+	private String newServiceName;
+	private String monitoringClass = "DISABLED";
+	private String monitoringPort;
+	private String monitoringUrl;
+	private boolean monitoringPortRendered = false;
+	private boolean monitoringUrlRendered = false;
+	
 	
 	@PostConstruct
 	public void init() {
@@ -71,12 +76,54 @@ public class NodeBean implements Serializable {
 		this.node = node;
 	}
 	
-	public String getNewMonitorName() {
-		return newMonitorName;
+	public String getNewServiceName() {
+		return newServiceName;
 	}
 
-	public void setNewMonitorName(String newMonitorName) {
-		this.newMonitorName = newMonitorName;
+	public void setNewServiceName(String newServiceName) {
+		this.newServiceName = newServiceName;
+	}
+
+	public String getMonitoringClass() {
+		return monitoringClass;
+	}
+
+	public void setMonitoringClass(String monitoringClass) {
+		this.monitoringClass = monitoringClass;
+	}
+
+	public String getMonitoringPort() {
+		return monitoringPort;
+	}
+
+	public void setMonitoringPort(String monitoringPort) {
+		this.monitoringPort = monitoringPort;
+	}
+
+	public String getMonitoringUrl() {
+		return monitoringUrl;
+	}
+
+	public void setMonitoringUrl(String monitoringUrl) {
+		this.monitoringUrl = monitoringUrl;
+	}
+
+	public boolean isMonitoringPortRendered() {
+		return monitoringPortRendered;
+	}
+
+	public void setMonitoringPortRendered(boolean monitoringPortRendered) {
+		this.monitoringPortRendered = monitoringPortRendered;
+	}
+
+	
+	
+	public boolean isMonitoringUrlRendered() {
+		return monitoringUrlRendered;
+	}
+
+	public void setMonitoringUrlRendered(boolean monitoringUrlRendered) {
+		this.monitoringUrlRendered = monitoringUrlRendered;
 	}
 
 	public List<Service> getListOfServices() {
@@ -102,16 +149,37 @@ public class NodeBean implements Serializable {
 	}
 	
 	
-	public void addMonitorAction() {
+	/**
+	 * Add new service and set monitoring class
+	 */
+	public void addServiceAction() {
 		
 		Service s = new Service();
-		s.setName(newMonitorName);
+		s.setName(newServiceName);
+		s.setMonitoringClass(monitoringClass);
+		if (monitoringClass.equals("PORT_PING")) {
+			s.addParam("monitoring.port", monitoringPort);
+		} else if (monitoringClass.equals("HTTP_PING")) {
+			s.addParam("monitoring.url", monitoringUrl);
+		}
 		node.addService(s);
 		
 		DAO.getInstance().saveNetworkNodes();
 		
+		newServiceName = null;
+		monitoringClass = "DISABLED";
+		monitoringPort = null;
+		monitoringPortRendered = false;
+		monitoringUrl = null;
+		monitoringUrlRendered = false;
+		
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.addCallbackParam("success", true);
+	}
+	
+	public void deleteServiceAction(Service service) {
+		node.deleteService(service);
+		DAO.getInstance().saveNetworkNodes();
 	}
 	
 	
@@ -164,6 +232,21 @@ public class NodeBean implements Serializable {
 		}
 		node.setDescription(e.getNewValue().toString());
 		DAO.getInstance().saveNetworkNodes();
+	}
+	
+	public void monitoringClassChanged() {
+		
+		if (monitoringClass.equals("ICMP_PING") || monitoringClass.equals("DISABLED")) {
+			monitoringPortRendered = false;
+			monitoringUrlRendered = false;
+		} else if (monitoringClass.equals("PORT_PING")) {
+			monitoringPortRendered = true;
+			monitoringUrlRendered = false;
+		} else if (monitoringClass.equals("HTTP_PING")) {
+			monitoringPortRendered = false;
+			monitoringUrlRendered = true;
+		}
+		
 	}
 	
 }

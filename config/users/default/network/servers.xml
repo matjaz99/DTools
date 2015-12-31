@@ -18,12 +18,20 @@
         <favorite>false</favorite>
         <name>Test node</name>
         <services>
-        	<service name="ICMP" />
-        	<service name="SSH" port="22" />
-        	<service name="HTTP">
-        		<param key="interval" value="60" />
-        		<param key="url" value="http://192.168.1.110/app" />
-        		<param key="port" value="8080" />
+        	<service name="ICMP" monitoringClass="IcmpPing" pollingInterval="60" />
+        	<service name="SSH" port="22" monitoringClass="PortPing" />
+        	<service name="HTTP" monitoringClass="HttpPing">
+        		<param key="httpping.interval" value="60" />
+        		<param key="httpping.url" value="http://192.168.1.110/app" />
+        		<param key="httpping.port" value="8080" />
+        	</service>
+        	<service name="SNMP">
+        		<monitor type="HttpPing">
+        			<param key="interval" value="60" />
+	        		<param key="url" value="http://192.168.1.110/app" />
+	        		<param key="port" value="8080" />
+        		</monitor>
+        		<param key="comunity" value="public" />
         	</service>
         </services>
     </node>
