@@ -40,7 +40,8 @@ xx. december 2015
 - renamed Server class to Node class
 - node types (+ icons)
 - introduction of node services
-- ping services (ICMP, port)
+- ping services (ICMP, PORT, HTTP)
+- replaced EPingStatus enum with PingStatus class
 
 -----------------------------------------------------------
 ### 0.4.1

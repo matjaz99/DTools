@@ -28,7 +28,7 @@ import javax.faces.bean.SessionScoped;
 import org.primefaces.context.RequestContext;
 
 import si.matjazcerkvenik.dtools.io.DAO;
-import si.matjazcerkvenik.dtools.tools.icmp.EPingStatus;
+import si.matjazcerkvenik.dtools.tools.ping.PingStatus;
 import si.matjazcerkvenik.dtools.xml.Node;
 import si.matjazcerkvenik.dtools.xml.Service;
 
@@ -92,7 +92,7 @@ public class NetworkNodesBean implements Serializable {
 		n.setHostname(hostname);
 		n.setDescription(description);
 		n.setType(type);
-		n.setIcmpPingStatus(EPingStatus.UNKNOWN);
+		n.setIcmpPingStatus(new PingStatus());
 		
 		// create ICMP ping as default service
 		Service s = new Service();
@@ -137,20 +137,19 @@ public class NetworkNodesBean implements Serializable {
 	 * @param status
 	 * @return icon
 	 */
-	public String getStatusIcon(EPingStatus status) {
+	public String getStatusIcon(PingStatus status) {
 		
-		switch (status) {
-		case UP:
-			return "bullet_green";
-		case DOWN:
-			return "bullet_red";
-		case UNKNOWN:
+		switch (status.getErrorCode()) {
+		case 0:
 			return "bullet_black";
+		case 1:
+			return "bullet_green";
 		default:
+//			return "bullet_red";
 			break;
 		}
 		
-		return "bullet_black";
+		return "bullet_red";
 		
 	}
 	

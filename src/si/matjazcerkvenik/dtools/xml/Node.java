@@ -22,8 +22,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import si.matjazcerkvenik.dtools.tools.icmp.EPingStatus;
-import si.matjazcerkvenik.dtools.tools.icmp.IcmpPing;
+import si.matjazcerkvenik.dtools.tools.ping.IcmpPing;
+import si.matjazcerkvenik.dtools.tools.ping.PingStatus;
 
 public class Node {
 
@@ -33,7 +33,7 @@ public class Node {
 	private String type = "IP_NODE";
 	private boolean favorite = false;
 	private NodeServices nodeServices;
-	private EPingStatus icmpPingStatus = EPingStatus.UNKNOWN;
+	private PingStatus icmpPingStatus = new PingStatus();
 
 	public String getName() {
 		return name;
@@ -102,12 +102,12 @@ public class Node {
 		return "drive_network.png"; // IP_NODE
 	}
 
-	public EPingStatus getIcmpPingStatus() {
+	public PingStatus getIcmpPingStatus() {
 		return icmpPingStatus;
 	}
 
 	@XmlTransient
-	public void setIcmpPingStatus(EPingStatus status) {
+	public void setIcmpPingStatus(PingStatus status) {
 		this.icmpPingStatus = status;
 	}
 	

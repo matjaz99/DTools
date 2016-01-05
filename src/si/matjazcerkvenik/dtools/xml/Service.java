@@ -7,16 +7,16 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import si.matjazcerkvenik.dtools.tools.icmp.EPingStatus;
-import si.matjazcerkvenik.dtools.tools.icmp.IcmpPing;
-import si.matjazcerkvenik.dtools.tools.icmp.PortPing;
+import si.matjazcerkvenik.dtools.tools.ping.IcmpPing;
+import si.matjazcerkvenik.dtools.tools.ping.PingStatus;
+import si.matjazcerkvenik.dtools.tools.ping.PortPing;
 
 public class Service {
 	
 	private String name;
 	private String monitoringClass;
 	private List<Param> params;
-	private EPingStatus status = EPingStatus.UNKNOWN;
+	private PingStatus status = new PingStatus();
 
 	public String getName() {
 		return name;
@@ -45,12 +45,12 @@ public class Service {
 		this.params = params;
 	}
 
-	public EPingStatus getStatus() {
+	public PingStatus getStatus() {
 		return status;
 	}
 
 	@XmlTransient
-	public void setStatus(EPingStatus status) {
+	public void setStatus(PingStatus status) {
 		this.status = status;
 	}
 	
@@ -92,18 +92,17 @@ public class Service {
 	 */
 	public String getStatusIcon() {
 		
-		switch (status) {
-		case UP:
-			return "bullet_green";
-		case DOWN:
-			return "bullet_red";
-		case UNKNOWN:
+		switch (status.getErrorCode()) {
+		case 0:
 			return "bullet_black";
+		case 1:
+			return "bullet_green";
 		default:
+//			return "bullet_red";
 			break;
 		}
 		
-		return "bullet_black";
+		return "bullet_red";
 		
 	}
 	

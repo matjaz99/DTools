@@ -16,41 +16,40 @@
  * 
  */
 
-package si.matjazcerkvenik.dtools.tools.icmp;
+package si.matjazcerkvenik.dtools.tools.ping;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import si.matjazcerkvenik.dtools.context.DToolsContext;
-import si.matjazcerkvenik.simplelogger.SimpleLogger;
-
 public class IcmpPing {
 	
-	private SimpleLogger logger;
-	
-	public IcmpPing() {
-		logger = DToolsContext.getInstance().getLogger();
-	}
-	
-	public EPingStatus ping(String hostname) {
+	public PingStatus ping(String hostname) {
+		
+		PingStatus ps = new PingStatus();
+		ps.started();
 		
 		try {
 			InetAddress address = InetAddress.getByName(hostname);
 			if (address.isReachable(3000)) {
-				logger.info("IcmpPing: ping " + hostname + " [" + EPingStatus.UP + "]");
-				return EPingStatus.UP;
+				ps.setErrorCode(PingStatus.EC_OK);
+				ps.setErrorMessage(PingStatus.EM_OK);
 			} else {
-				logger.info("IcmpPing: ping " + hostname + " [" + EPingStatus.DOWN + "]");
-				return EPingStatus.DOWN;
+				ps.setErrorCode(PingStatus.EC_CONN_ERROR);
+				ps.setErrorMessage(PingStatus.EM_CONN_ERROR);
 			}
 
 		} catch (UnknownHostException e) {
-			logger.warn("IcmpPing:UnknownHostException: " + e.getMessage());
-			return EPingStatus.DOWN;
+			ps.setErrorCode(PingStatus.EC_UNKN_HOST);
+			ps.setErrorMessage(PingStatus.EM_UNKN_HOST);
+			ps.setErrorDescription(e.getMessage());
 		} catch (Exception e) {
-			logger.error("IcmpPing:Exception", e);
-			return EPingStatus.DOWN;
+			ps.setErrorCode(PingStatus.EC_CONN_ERROR);
+			ps.setErrorMessage(PingStatus.EM_CONN_ERROR);
+			ps.setErrorDescription(e.getMessage());
 		}
+		
+		ps.ended();
+		return ps;
 		
 	}
 	

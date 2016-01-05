@@ -3,7 +3,6 @@ package si.matjazcerkvenik.dtools.tools.ping;
 import java.util.List;
 
 import si.matjazcerkvenik.dtools.io.DAO;
-import si.matjazcerkvenik.dtools.tools.icmp.IcmpPing;
 import si.matjazcerkvenik.dtools.xml.Node;
 
 public class ConnThread extends Thread {
