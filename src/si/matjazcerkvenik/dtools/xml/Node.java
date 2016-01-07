@@ -18,22 +18,35 @@
 
 package si.matjazcerkvenik.dtools.xml;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlTransient;
 
-import si.matjazcerkvenik.dtools.tools.ping.IcmpPing;
 import si.matjazcerkvenik.dtools.tools.ping.PingStatus;
 
-public class Node {
-
+public class Node implements Serializable {
+	
+	private static final long serialVersionUID = 69849387589275333L;
+	
 	private String name;
 	private String hostname;
 	private String description;
 	private String type = "IP_NODE";
 	private boolean favorite = false;
 	private NodeServices nodeServices;
-	private PingStatus icmpPingStatus = new PingStatus();
+	
+	/**
+	 * Initialize node: configure services
+	 */
+	public void init() {
+		if (nodeServices == null) {
+			nodeServices = new NodeServices();
+		}
+		for (Service service : nodeServices.getServices()) {
+			service.init(this);
+		}
+	}
 
 	public String getName() {
 		return name;
@@ -71,6 +84,15 @@ public class Node {
 		this.type = type;
 	}
 	
+	public boolean isFavorite() {
+		return favorite;
+	}
+
+	@XmlElement
+	public void setFavorite(boolean favorite) {
+		this.favorite = favorite;
+	}
+	
 	public NodeServices getNodeServices() {
 		return nodeServices;
 	}
@@ -80,6 +102,11 @@ public class Node {
 		this.nodeServices = nodeServices;
 	}
 	
+	
+	/**
+	 * Add new service
+	 * @param service
+	 */
 	public void addService(Service service) {
 		if (nodeServices == null) {
 			nodeServices = new NodeServices();
@@ -87,10 +114,18 @@ public class Node {
 		nodeServices.addService(service);
 	}
 	
+	/**
+	 * Delete selected service
+	 * @param service
+	 */
 	public void deleteService(Service service) {
 		nodeServices.getServices().remove(service);
 	}
 
+	/**
+	 * Return node icon (.png)
+	 * @return icon
+	 */
 	public String getIcon() {
 		if (type.equals("SERVER")) {
 			return "server-icon.png";
@@ -102,30 +137,44 @@ public class Node {
 		return "drive_network.png"; // IP_NODE
 	}
 
-	public PingStatus getIcmpPingStatus() {
-		return icmpPingStatus;
-	}
-
-	@XmlTransient
-	public void setIcmpPingStatus(PingStatus status) {
-		this.icmpPingStatus = status;
+	/**
+	 * Return ICMP service icon (.png)
+	 * @return icon
+	 */
+	public String getIcmpServiceStatusIcon() {
+		if (nodeServices.getServices().isEmpty()) {
+			return "bullet_disabled.png";
+		}
+		for (Service s : nodeServices.getServices()) {
+			if (s.getMonitoringClass().equals("ICMP_PING")) {
+				return s.getStatusIcon();
+			}
+		}
+		return "bullet_black.png";
 	}
 	
-	public boolean isFavorite() {
-		return favorite;
+	public PingStatus getIcmpServiceStatus() {
+		for (Service s : nodeServices.getServices()) {
+			if (s.getMonitoringClass().equals("ICMP_PING")) {
+				return s.getStatus();
+			}
+		}
+		return new PingStatus();
 	}
-
-	@XmlElement
-	public void setFavorite(boolean favorite) {
-		this.favorite = favorite;
-	}
+	
+	
 
 	/**
-	 * Send ping to this node
+	 * Send ICMP ping to this node
 	 */
-	public void updateIcmpStatus() {
-		IcmpPing p = new IcmpPing();
-		icmpPingStatus = p.ping(hostname);
+	public void testConnection() {
+		
+		for (Service s : nodeServices.getServices()) {
+			if (s.getMonitoringClass().equals("ICMP_PING")) {
+				s.pingService();
+			}
+		}
+		
 	}
 
 }

@@ -21,13 +21,72 @@ package si.matjazcerkvenik.dtools.tools.ping;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-public class IcmpPing {
+import si.matjazcerkvenik.dtools.xml.Service;
+
+public class IcmpPing implements IPing {
+
+	private String hostname;
+	private PingStatus status = new PingStatus();
+
+	@Override
+	public void configure(Service service) {
+		hostname = service.getNode().getHostname();
+	}
+
+	@Override
+	public void ping() {
+		status = new PingStatus();
+		status.started();
+
+		try {
+			InetAddress address = InetAddress.getByName(hostname);
+			if (address.isReachable(3000)) {
+				status.setErrorCode(PingStatus.EC_OK);
+				status.setErrorMessage(PingStatus.EM_OK);
+			} else {
+				status.setErrorCode(PingStatus.EC_CONN_ERROR);
+				status.setErrorMessage(PingStatus.EM_CONN_ERROR);
+			}
+
+		} catch (UnknownHostException e) {
+			status.setErrorCode(PingStatus.EC_UNKN_HOST);
+			status.setErrorMessage(PingStatus.EM_UNKN_HOST);
+			status.setErrorDescription(e.getMessage());
+		} catch (Exception e) {
+			status.setErrorCode(PingStatus.EC_CONN_ERROR);
+			status.setErrorMessage(PingStatus.EM_CONN_ERROR);
+			status.setErrorDescription(e.getMessage());
+		}
+
+		status.ended();
+	}
+
+	@Override
+	public String getStatusIcon() {
+		switch (status.getErrorCode()) {
+		case PingStatus.EC_OK:
+			return "bullet_green.png";
+		case PingStatus.EC_CONN_ERROR:
+			return "bullet_red.png";
+		case PingStatus.EC_UNKN_HOST:
+			return "bullet_red_question.png";
+		default:
+			break;
+		}
+		return "bullet_black.png";
+	}
 	
+	@Override
+	public PingStatus getStatus() {
+		return status;
+	}
+
+	@Deprecated
 	public PingStatus ping(String hostname) {
-		
+
 		PingStatus ps = new PingStatus();
 		ps.started();
-		
+
 		try {
 			InetAddress address = InetAddress.getByName(hostname);
 			if (address.isReachable(3000)) {
@@ -47,10 +106,10 @@ public class IcmpPing {
 			ps.setErrorMessage(PingStatus.EM_CONN_ERROR);
 			ps.setErrorDescription(e.getMessage());
 		}
-		
+
 		ps.ended();
 		return ps;
-		
+
 	}
-	
+
 }

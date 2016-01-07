@@ -163,6 +163,7 @@ public class NodeBean implements Serializable {
 			s.addParam("monitoring.url", monitoringUrl);
 		}
 		node.addService(s);
+		node.init(); // is this needed, maybe just init service
 		
 		DAO.getInstance().saveNetworkNodes();
 		

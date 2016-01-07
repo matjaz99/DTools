@@ -4,8 +4,70 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
-public class PortPing {
+import si.matjazcerkvenik.dtools.xml.Service;
+
+public class PortPing implements IPing {
+	
+	private String hostname;
+	private int port;
+	private PingStatus status = new PingStatus();
+	
+	@Override
+	public void configure(Service service) {
+		hostname = service.getNode().getHostname();
+		String portStr = service.getParam("monitoring.port");
+		port = Integer.parseInt(portStr);
+	}
+	
+	@Override
+	public void ping() {
 		
+		status = new PingStatus();
+		status.started();
+		
+		try {
+            Socket socket = new Socket();
+            socket.connect(new InetSocketAddress(hostname, port), 10000);
+            socket.close();
+            status.setErrorCode(PingStatus.EC_OK);
+            status.setErrorMessage(PingStatus.EM_OK);
+        } catch (IOException e) {
+        	status.setErrorCode(PingStatus.EC_IO_ERROR);
+        	status.setErrorMessage(PingStatus.EM_IO_ERROR);
+        	status.setErrorDescription(e.getMessage());
+        } catch (Exception e) {
+        	status.setErrorCode(PingStatus.EC_CONN_ERROR);
+        	status.setErrorMessage(PingStatus.EM_CONN_ERROR);
+        	status.setErrorDescription(e.getMessage());
+        }
+		
+		status.ended();
+		
+	}
+	
+	@Override
+	public String getStatusIcon() {
+		
+		switch (status.getErrorCode()) {
+		case PingStatus.EC_OK:
+			return "bullet_green.png";
+		case PingStatus.EC_IO_ERROR:
+			return "bullet_red.png";
+		case PingStatus.EC_CONN_ERROR:
+			return "bullet_red.png";
+		default:
+			break;
+		}
+		return "bullet_black.png";
+		
+	}
+	
+	@Override
+	public PingStatus getStatus() {
+		return status;
+	}
+	
+	@Deprecated
 	public PingStatus ping(String hostname, int port) {
 		
 		PingStatus ps = new PingStatus();

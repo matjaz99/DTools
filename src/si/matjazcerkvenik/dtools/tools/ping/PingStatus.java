@@ -73,8 +73,8 @@ public class PingStatus {
 	public String toString() {
 		int delta = (int) (endTime - startTime);
 		return "[eC=" + errorCode + ", eM=" + errorMessage
-				+ ", eD" + errorDescription + ", sT=" + startTime 
-				+ ", eT=" + endTime + ", dT" + delta + "]";
+				+ ", eD=" + errorDescription + ", sT=" + startTime 
+				+ ", eT=" + endTime + ", dT=" + delta + "]";
 	}
 	
 }

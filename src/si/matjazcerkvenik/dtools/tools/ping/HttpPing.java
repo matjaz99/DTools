@@ -7,8 +7,88 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.UnknownHostException;
 
-public class HttpPing {
+import si.matjazcerkvenik.dtools.xml.Service;
 
+public class HttpPing implements IPing {
+	
+	private String urlString;
+	private PingStatus status = new PingStatus();
+
+	@Override
+	public void configure(Service service) {
+		urlString = service.getParam("monitoring.url");
+	}
+	
+	@Override
+	public void ping() {
+		
+		status = new PingStatus();
+		status.started();
+
+		try {
+			URL url = new URL(urlString);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.connect();
+			int code = connection.getResponseCode();
+			status.setErrorCode(PingStatus.EC_OK);
+			status.setErrorMessage(PingStatus.EM_OK);
+			status.setErrorDescription("HTTP code: " + code);
+		} catch (UnknownHostException e) {
+			status.setErrorCode(PingStatus.EC_UNKN_HOST);
+			status.setErrorMessage(PingStatus.EM_UNKN_HOST);
+			status.setErrorDescription(e.getMessage());
+		} catch (MalformedURLException e) {
+			status.setErrorCode(PingStatus.EC_MALF_URL);
+			status.setErrorMessage(PingStatus.EM_MALF_URL);
+			status.setErrorDescription(e.getMessage());
+		} catch (ProtocolException e) {
+			status.setErrorCode(PingStatus.EC_PROT_ERROR);
+			status.setErrorMessage(PingStatus.EM_PROT_ERROR);
+			status.setErrorDescription(e.getMessage());
+		} catch (IOException e) {
+			status.setErrorCode(PingStatus.EC_IO_ERROR);
+			status.setErrorMessage(PingStatus.EM_IO_ERROR);
+			status.setErrorDescription(e.getMessage());
+		} catch (Exception e) {
+			status.setErrorCode(PingStatus.EC_CONN_ERROR);
+			status.setErrorMessage(PingStatus.EM_CONN_ERROR);
+			status.setErrorDescription(e.getMessage());
+		}
+		
+		status.ended();
+		
+	}
+	
+	@Override
+	public String getStatusIcon() {
+		
+		switch (status.getErrorCode()) {
+		case PingStatus.EC_OK:
+			return "bullet_green.png";
+		case PingStatus.EC_UNKN_HOST:
+			return "bullet_red_question.png";
+		case PingStatus.EC_MALF_URL:
+			return "bullet_red.png";
+		case PingStatus.EC_PROT_ERROR:
+			return "bullet_red.png";
+		case PingStatus.EC_IO_ERROR:
+			return "bullet_red.png";
+		case PingStatus.EC_CONN_ERROR:
+			return "bullet_red.png";
+		default:
+			break;
+		}
+		return "bullet_black.png";
+		
+	}
+	
+	@Override
+	public PingStatus getStatus() {
+		return status;
+	}
+	
+	@Deprecated
 	public PingStatus ping(String s) {
 
 		PingStatus ps = new PingStatus();

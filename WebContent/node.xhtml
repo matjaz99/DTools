@@ -37,7 +37,7 @@
 					<h:outputText id="nodeNameTitle" value="#{nodeBean.node.name}" styleClass="title" />
 				</h:panelGrid>
 				
-				<h:form>
+				<h:form id="nodeInfoForm">
 					<h:panelGrid columns="2">
 						<h:outputText value="Name:" />
 						<p:inplace editor="true" >
@@ -63,7 +63,7 @@
 				<hr/>
 				<h:outputText value="Services" styleClass="title" />
 				
-				<h:form>
+				<h:form id="addServiceDialogForm">
 					<p:commandButton value="Add service" onclick="PF('addServiceDlg').show();" icon="ui-icon-plus" />
 					<p:dialog header="Add service" widgetVar="addServiceDlg" resizable="false" dynamic="true" closable="false">
 						<h:panelGrid id="srvcPanel" columns="2" cellpadding="2" cellspacing="0">
@@ -112,8 +112,8 @@
 							</h:column>
 							<h:column headerClass="col0 col1">
 								<f:facet name="header">Status</f:facet>
-								<h:commandLink id="status" action="#{service.pingService(nodeBean.node)}">
-									<p:graphicImage library="#{userBean.cssTheme}" name="img/#{service.getStatusIcon()}.png" title="#{service.status}" />
+								<h:commandLink id="status" action="#{service.pingService()}">
+									<p:graphicImage library="#{userBean.cssTheme}" name="img/#{service.statusIcon}" title="#{service.status}" />
 									<f:ajax render="status" />
 								</h:commandLink>
 							</h:column>
@@ -133,6 +133,7 @@
 								</h:commandLink>
 							</h:column>
 						</h:dataTable>
+						<p:poll interval="60" update="servicesTable" />
 					</h:panelGrid>
 				</h:form>
 				

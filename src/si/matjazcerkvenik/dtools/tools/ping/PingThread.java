@@ -5,7 +5,7 @@ import java.util.List;
 import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.xml.Node;
 
-public class ConnThread extends Thread {
+public class PingThread extends Thread {
 	
 	private boolean running = false;
 	
@@ -23,7 +23,7 @@ public class ConnThread extends Thread {
 				for (int i = 0; i < nodesList.size(); i++) {
 					
 					Node node = nodesList.get(i);
-					node.setIcmpPingStatus(p.ping(node.getHostname()));
+//					node.setIcmpPingStatus(p.ping(node.getHostname()));
 					
 				}
 				

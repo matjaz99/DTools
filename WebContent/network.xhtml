@@ -27,26 +27,20 @@
 				
 				<h:outputText value="Network" styleClass="title" />
 			
-				<h:form>
+				<h:form id="addNodeDialogForm">
 				    <p:commandButton value="Add new node" onclick="PF('addDevDlg').show();" icon="ui-icon-plus" />
-				 				 
 				    <p:dialog header="Add new node" widgetVar="addDevDlg" resizable="false" dynamic="true" closable="false">
-				    	
 				    	<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
-							
 							<h:outputLabel for="nodeName" value="Name: " />
 							<p:inputText id="nodeName" value="#{networkNodesBean.name}" required="true" 
 								requiredMessage="Missing node name">
 								<f:validator validatorId="newNodeValidator"/>
 							</p:inputText>
-							
 							<h:outputLabel for="nodeHostname" value="Hostname: " />
 							<p:inputText id="nodeHostname" value="#{networkNodesBean.hostname}" required="true" 
 								requiredMessage="Missing hostname or ip" />
-							
 							<h:outputLabel value="Description: " />
 							<p:inputText value="#{networkNodesBean.description}" />
-							
 							<h:outputLabel value="Type: " />
 							<p:selectOneMenu value="#{networkNodesBean.type}" style="width:130px">
 					            <f:selectItem itemLabel="IP Node" itemValue="IP_NODE" />
@@ -54,16 +48,13 @@
 					            <f:selectItem itemLabel="Router" itemValue="ROUTER" />
 					            <f:selectItem itemLabel="Application" itemValue="APPLICATION" />
 					        </p:selectOneMenu>
-							
 							<f:facet name="footer">
 				                <p:commandButton value="Add" update="growl nodeName nodeHostname nodesForm" 
 				                	actionListener="#{networkNodesBean.addNodeAction}"
 				                	oncomplete="handleDialogRequest('addDevDlg', xhr, status, args)" />
 				                <p:commandButton value="Cancel" onclick="PF('addDevDlg').hide();" />
 				            </f:facet>
-							
 						</h:panelGrid>
-				    	
 				    </p:dialog>
 				</h:form>
 				
@@ -71,8 +62,7 @@
 				<h:form id="nodesForm">
 					<h:panelGrid columns="1" cellspacing="5" width="100%">
 						<h:dataTable id="nodesTable" value="#{networkNodesBean.nodesList}" var="node" 
-							styleClass="table"
-							rowClasses="tableOddRow,tableEvenRow"
+							styleClass="table" rowClasses="tableOddRow,tableEvenRow"
 							cellpadding="0" cellspacing="0" width="100%">
 							
 							<h:column headerClass="col0 col1">
@@ -85,8 +75,8 @@
 							
 							<h:column headerClass="col0 col1">
 								<f:facet name="header">Status</f:facet>
-								<h:commandLink id="status" action="#{networkNodesBean.sendIcmpPingAction(node)}">
-									<p:graphicImage library="#{userBean.cssTheme}" name="img/#{networkNodesBean.getStatusIcon(node.icmpPingStatus)}.png" />
+								<h:commandLink id="status" action="#{node.testConnection}">
+									<p:graphicImage library="#{userBean.cssTheme}" name="img/#{node.icmpServiceStatusIcon}" title="#{node.icmpServiceStatus}" />
 									<f:ajax render="status" />
 								</h:commandLink>
 							</h:column>

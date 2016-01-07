@@ -51,7 +51,6 @@ import si.matjazcerkvenik.dtools.xml.FtpTransfer;
 import si.matjazcerkvenik.dtools.xml.FtpTransfers;
 import si.matjazcerkvenik.dtools.xml.NetworkNodes;
 import si.matjazcerkvenik.dtools.xml.Node;
-import si.matjazcerkvenik.dtools.xml.NodeServices;
 import si.matjazcerkvenik.dtools.xml.Note;
 import si.matjazcerkvenik.dtools.xml.Notes;
 import si.matjazcerkvenik.dtools.xml.SshClient;
@@ -182,9 +181,7 @@ public class DAO {
 			}
 			
 			for (Node n : networkNodes.getNodesList()) {
-				if (n.getNodeServices() == null) {
-					n.setNodeServices(new NodeServices());
-				}
+				n.init();
 			}
 			
 			logger.info("DAO:loadNetworkNodes(): " + file.getAbsolutePath());

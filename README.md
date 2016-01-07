@@ -28,7 +28,7 @@ Commons-logging is required by commons-vfs
 -----------------------------------------------------------
 ### 0.5.0-alpha.01
 
-xx. december 2015
+xx. january 2016
 
 - url navigation (raw traps, trap monitor)
 - severities in separate css file

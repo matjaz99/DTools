@@ -11,63 +11,57 @@
     	<h:outputText value="Favorite nodes" />
     	
     	<h:dataTable value="#{networkNodesBean.nodesList}" var="node" 
-					styleClass="table"
-					rowClasses="tableOddRow,tableEvenRow"
-					cellpadding="0" cellspacing="0" width="10%">
-					
-					<h:column headerClass="col0 col1">
-						<f:facet name="header">Status</f:facet>
-						<h:form id="status" rendered="#{node.favorite}">
-							<h:commandLink action="#{networkNodesBean.sendIcmpPingAction(node)}">
-								<p:graphicImage value="resources/#{userBean.cssTheme}/1_0/img/#{networkNodesBean.getStatusIcon(node.icmpPingStatus)}.png" />
-								<f:ajax render="status" />
-							</h:commandLink>
-						</h:form>
-					</h:column>
-					
-					<h:column headerClass="col0">
-						<f:facet name="header">Name</f:facet>
-						<h:form rendered="#{node.favorite}" styleClass="myForm">
-							<p:link outcome="node" value="#{node.name}">
-							    <f:param name="nodeName" value="#{node.name}" />
-							</p:link>
-						</h:form>
-					</h:column>
-					
-					<h:column headerClass="col0">
-						<f:facet name="header">Hostname</f:facet>
-						<h:form rendered="#{node.favorite}" styleClass="myForm">
-							<p:link outcome="node" value="#{node.hostname}">
-							    <f:param name="nodeName" value="#{node.name}" />
-							</p:link>
-						</h:form>
-					</h:column>
-					
-				</h:dataTable>
+			styleClass="table" rowClasses="tableOddRow,tableEvenRow"
+			cellpadding="0" cellspacing="0" width="10%">
+			<h:column headerClass="col0 col1">
+				<f:facet name="header">Status</f:facet>
+				<h:form id="status" rendered="#{node.favorite}">
+					<h:commandLink action="#{node.testConnection}">
+						<p:graphicImage library="#{userBean.cssTheme}" name="img/#{node.icmpServiceStatusIcon}" title="#{node.icmpServiceStatus}" />
+						<f:ajax render="status" />
+					</h:commandLink>
+				</h:form>
+			</h:column>
+			<h:column headerClass="col0">
+				<f:facet name="header">Name</f:facet>
+				<h:form rendered="#{node.favorite}" styleClass="myForm">
+					<p:link outcome="node" value="#{node.name}">
+					    <f:param name="nodeName" value="#{node.name}" />
+					</p:link>
+				</h:form>
+			</h:column>
+			<h:column headerClass="col0">
+				<f:facet name="header">Hostname</f:facet>
+				<h:form rendered="#{node.favorite}" styleClass="myForm">
+					<p:link outcome="node" value="#{node.hostname}">
+					    <f:param name="nodeName" value="#{node.name}" />
+					</p:link>
+				</h:form>
+			</h:column>
+		</h:dataTable>
+		
 		
 		<h:outputText value="Favorite clients" />
     	
     	<h:dataTable value="#{sshClientsBean.sshClientsList}" var="client" 
-					styleClass="table"
-					rowClasses="tableOddRow,tableEvenRow"
-					cellpadding="0" cellspacing="0" width="10%">
-					
-					<h:column headerClass="col0 col1">
-						<f:facet name="header">Icon</f:facet>
-						<h:form rendered="#{client.favorite}">
-							<h:commandLink action="#{navigationBean.openSshClient(client)}">
-								<p:graphicImage value="resources/#{userBean.cssTheme}/1_0/img/terminal.png" />
-							</h:commandLink>
-						</h:form>
-					</h:column>
-					<h:column headerClass="col0">
-						<f:facet name="header">SSH Clients</f:facet>
-						<h:form rendered="#{client.favorite}" styleClass="myForm">
-							<h:commandLink action="#{navigationBean.openSshClient(client)}">
-								<h:outputText value="#{client.toUrlString()}" />
-							</h:commandLink>
-						</h:form>
-					</h:column>
+			styleClass="table" rowClasses="tableOddRow,tableEvenRow"
+			cellpadding="0" cellspacing="0" width="10%">
+			<h:column headerClass="col0 col1">
+				<f:facet name="header">Icon</f:facet>
+				<h:form rendered="#{client.favorite}">
+					<h:commandLink action="#{navigationBean.openSshClient(client)}">
+						<p:graphicImage value="resources/#{userBean.cssTheme}/1_0/img/terminal.png" />
+					</h:commandLink>
+				</h:form>
+			</h:column>
+			<h:column headerClass="col0">
+				<f:facet name="header">SSH Clients</f:facet>
+				<h:form rendered="#{client.favorite}" styleClass="myForm">
+					<h:commandLink action="#{navigationBean.openSshClient(client)}">
+						<h:outputText value="#{client.toUrlString()}" />
+					</h:commandLink>
+				</h:form>
+			</h:column>
     	</h:dataTable>
     	
     	<h:dataTable value="#{ftpClientsBean.ftpClientsList}" var="client" 

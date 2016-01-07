@@ -92,13 +92,13 @@ public class NetworkNodesBean implements Serializable {
 		n.setHostname(hostname);
 		n.setDescription(description);
 		n.setType(type);
-		n.setIcmpPingStatus(new PingStatus());
 		
 		// create ICMP ping as default service
 		Service s = new Service();
 		s.setName("ICMP");
 		s.setMonitoringClass("ICMP_PING");
 		n.addService(s);
+		n.init();
 		
 		DAO.getInstance().addNode(n);
 		Growl.addGrowlMessage("Created: " + n.getName(), FacesMessage.SEVERITY_INFO);
@@ -130,6 +130,14 @@ public class NetworkNodesBean implements Serializable {
 		return DAO.getInstance().loadNetworkNodes().getNodesList();
 	}
 	
+	/**
+	 * Toggle favorite flag on selected node
+	 * @param node
+	 */
+	public void toggleFavorite(Node node) {
+		node.setFavorite(!node.isFavorite());
+		DAO.getInstance().saveNetworkNodes();
+	}
 	
 	
 	/**
@@ -137,35 +145,32 @@ public class NetworkNodesBean implements Serializable {
 	 * @param status
 	 * @return icon
 	 */
-	public String getStatusIcon(PingStatus status) {
-		
-		switch (status.getErrorCode()) {
-		case 0:
-			return "bullet_black";
-		case 1:
-			return "bullet_green";
-		default:
-//			return "bullet_red";
-			break;
-		}
-		
-		return "bullet_red";
-		
-	}
+//	public String getStatusIcon(PingStatus status) {
+//		
+//		switch (status.getErrorCode()) {
+//		case 0:
+//			return "bullet_black";
+//		case 1:
+//			return "bullet_green";
+//		default:
+////			return "bullet_red";
+//			break;
+//		}
+//		
+//		return "bullet_red";
+//		
+//	}
 	
-	public void toggleFavorite(Node n) {
-		n.setFavorite(!n.isFavorite());
-		DAO.getInstance().saveNetworkNodes();
-	}
+	
 	
 	
 	/**
-	 * Send ICMP ping on selected node.
+	 * Send ping on selected node.
 	 * @param node
 	 */
-	public void sendIcmpPingAction(Node node) {
-		node.updateIcmpStatus();
-	}
+//	public void testConnection(Node node) {
+//		node.testConnection();
+//	}
 	
 
 }
