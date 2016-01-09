@@ -9,7 +9,9 @@ For a developer it should help to simplify common tasks.
 
 - create a network of servers
 - monitor network
+- monitor services
 - execute ssh commands
+- save common ssh commands
 - upload/download files using ftp/sftp
 - snmp manager
 - snmp agent
@@ -42,13 +44,15 @@ xx. january 2016
 - introduction of node services
 - ping services (ICMP, PORT, HTTP)
 - replaced EPingStatus enum with PingStatus class
+- ssh client as url parameter
+- ftp client as url parameter
 
 -----------------------------------------------------------
 ### 0.4.1
 
 17. december 2015
 
-- server in url parameter
+- server as url parameter
 - fixed icons in network view
 
 -----------------------------------------------------------

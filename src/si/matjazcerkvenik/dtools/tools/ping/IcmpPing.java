@@ -18,13 +18,16 @@
 
 package si.matjazcerkvenik.dtools.tools.ping;
 
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import si.matjazcerkvenik.dtools.xml.Service;
 
-public class IcmpPing implements IPing {
-
+public class IcmpPing implements IPing, Serializable {
+	
+	private static final long serialVersionUID = -725608817177247957L;
+	
 	private String hostname;
 	private PingStatus status = new PingStatus();
 

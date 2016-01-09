@@ -291,6 +291,17 @@ public class DAO {
 		return sshClients;
 
 	}
+	
+	public SshClient findSshClient(String sshUrl) {
+		
+		for (SshClient ssh : sshClients.getSshClientList()) {
+			if (ssh.toUrlString().equals(sshUrl)) {
+				return ssh;
+			}
+		}
+		return null;
+		
+	}
 
 	public void saveSshClients() {
 
@@ -364,6 +375,17 @@ public class DAO {
 
 		return ftpClients;
 
+	}
+	
+	public FtpClient findFtpClient(String ftpUrl) {
+		
+		for (FtpClient ftp : ftpClients.getFtpClientList()) {
+			if (ftp.toUrlString().equals(ftpUrl)) {
+				return ftp;
+			}
+		}
+		return null;
+		
 	}
 
 	public void saveFtpClients() {

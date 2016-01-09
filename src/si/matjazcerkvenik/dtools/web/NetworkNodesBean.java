@@ -28,7 +28,6 @@ import javax.faces.bean.SessionScoped;
 import org.primefaces.context.RequestContext;
 
 import si.matjazcerkvenik.dtools.io.DAO;
-import si.matjazcerkvenik.dtools.tools.ping.PingStatus;
 import si.matjazcerkvenik.dtools.xml.Node;
 import si.matjazcerkvenik.dtools.xml.Service;
 
@@ -138,39 +137,6 @@ public class NetworkNodesBean implements Serializable {
 		node.setFavorite(!node.isFavorite());
 		DAO.getInstance().saveNetworkNodes();
 	}
-	
-	
-	/**
-	 * Convert IcmpPingStatus to appropriate icon.
-	 * @param status
-	 * @return icon
-	 */
-//	public String getStatusIcon(PingStatus status) {
-//		
-//		switch (status.getErrorCode()) {
-//		case 0:
-//			return "bullet_black";
-//		case 1:
-//			return "bullet_green";
-//		default:
-////			return "bullet_red";
-//			break;
-//		}
-//		
-//		return "bullet_red";
-//		
-//	}
-	
-	
-	
-	
-	/**
-	 * Send ping on selected node.
-	 * @param node
-	 */
-//	public void testConnection(Node node) {
-//		node.testConnection();
-//	}
 	
 
 }

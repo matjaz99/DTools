@@ -54,8 +54,11 @@ public class SshClientBean {
 	
 	@PostConstruct
 	public void init() {
-		Map<String, Object> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-		client = (SshClient) requestParameterMap.get("client");
+		Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		if (requestParameterMap.containsKey("clientUrl")) {
+			String name = requestParameterMap.get("clientUrl");
+			client = DAO.getInstance().findSshClient(name);
+		}
 	}
 
 	public SshClient getSshClient() {

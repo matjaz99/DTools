@@ -34,8 +34,6 @@ import org.primefaces.context.RequestContext;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.io.DAO;
-import si.matjazcerkvenik.dtools.tools.snmp.SnmpClient;
-import si.matjazcerkvenik.dtools.tools.snmp.SnmpClients;
 import si.matjazcerkvenik.dtools.xml.FtpClient;
 import si.matjazcerkvenik.dtools.xml.FtpClients;
 import si.matjazcerkvenik.dtools.xml.Node;
@@ -142,11 +140,6 @@ public class NodeBean implements Serializable {
 		return tempList;
 	}
 	
-	public List<SnmpClient> getListOfSnmpClients() {
-		SnmpClients allMngs = DAO.getInstance().loadSnmpClients();
-		List<SnmpClient> tempList = allMngs.getCustomSnmpClientsList(node.getHostname());
-		return tempList;
-	}
 	
 	
 	/**

@@ -33,9 +33,8 @@
 			
 				<h:outputText value="FTP Clients" styleClass="title" />
 				
-				<h:form>
+				<h:form id="addFtpClientDialogForm">
 					<p:commandButton value="Add new FTP client" onclick="PF('addFtpDlg').show();" icon="ui-icon-plus" />
-				 				 
 				    <p:dialog header="Add new FTP client" widgetVar="addFtpDlg" resizable="false">
 						<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
 							<h:outputLabel value="Hostname: " />
@@ -45,7 +44,6 @@
 								<f:attribute name="port" value="#{ftpPort}" />
 								<f:attribute name="user" value="#{ftpUser}" />
 							</p:inputText>
-							
 							<h:outputLabel value="Protocol" />
 							<h:selectOneRadio value="#{ftpClientsBean.protocol}" onchange="submit()"
 								valueChangeListener="#{ftpClientsBean.protocolValueChanged}">
@@ -53,78 +51,63 @@
 								<f:selectItem itemLabel="FTP" itemValue="FTP" />
 								<f:selectItem itemLabel="SFTP" itemValue="SFTP" />
 							</h:selectOneRadio>
-							
 							<h:outputLabel value="Port " />
 							<p:inputText id="ftpPort" value="#{ftpClientsBean.port}" binding="#{ftpPort}"
 								required="true" requiredMessage="Missing value" />
-							
 							<h:outputLabel value="Username: " />
 							<p:inputText id="ftpUser" value="#{ftpClientsBean.username}" binding="#{ftpUser}"
 								required="true" requiredMessage="Missing value" />
-							
 							<h:outputLabel value="Password: " />
 							<p:inputText id="ftpPass" value="#{ftpClientsBean.password}" />
-							
 							<f:facet name="footer">
 				                <p:commandButton value="Add" action="#{ftpClientsBean.addClientAction}" 
-									update="growl ftpHost ftpPort ftpUser ftpPass ftpClientsTable"
+									update="growl ftpHost ftpPort ftpUser ftpPass ftpClientsTableForm"
 									oncomplete="handleDialogRequest('addFtpDlg', xhr, status, args)" />
 				                <p:commandButton value="Cancel" onclick="PF('addFtpDlg').hide();" />
 				            </f:facet>
 						</h:panelGrid>
 					</p:dialog>
-				
 				</h:form>
 				
 				
-				
-				<h:panelGrid columns="1" cellspacing="5" width="100%">
-					<h:dataTable id="ftpClientsTable" value="#{ftpClientsBean.ftpClientsList}" var="client" 
-						styleClass="table"
-						rowClasses="tableOddRow,tableEvenRow"
-						cellpadding="0" cellspacing="0" width="100%">
-						
-						<h:column headerClass="col0 col1">
-							<f:facet name="header">Console</f:facet>
-							<h:form>
-								<h:commandLink action="#{navigationBean.openFtpClient(client)}">
-									<dt:icon img="terminal"/>
-								</h:commandLink>
-							</h:form>
-						</h:column>
-						
-						<h:column headerClass="col0 col3">
-							<f:facet name="header">FTP Client</f:facet>
-							<h:form>
-								<h:commandLink action="#{navigationBean.openFtpClient(client)}">
-									<h:outputText value="#{client.toUrlString()}" />
-								</h:commandLink>
-							</h:form>
-						</h:column>
-						
-						<h:column headerClass="col0">
-							<f:facet name="header">Favorite</f:facet>
-							<h:form>
+				<h:form id="ftpClientsTableForm" styleClass="myForm">
+					<h:panelGrid columns="1" cellspacing="5" width="100%">
+						<h:dataTable id="ftpClientsTable" value="#{ftpClientsBean.ftpClientsList}" var="client" 
+							styleClass="table" rowClasses="tableOddRow,tableEvenRow"
+							cellpadding="0" cellspacing="0" width="100%">
+							<h:column headerClass="col0 col1">
+								<f:facet name="header">Console</f:facet>
+								<p:link outcome="ftpClient" >
+									<f:param name="clientUrl" value="#{client.toUrlString()}" />
+									<p:graphicImage library="#{userBean.cssTheme}" name="img/terminal.png" />
+								</p:link>
+							</h:column>
+							<h:column headerClass="col0">
+								<f:facet name="header">FTP Client</f:facet>
+								<p:link outcome="ftpClient" value="#{client.toUrlString()}" >
+									<f:param name="clientUrl" value="#{client.toUrlString()}" />
+								</p:link>
+							</h:column>
+							<h:column headerClass="col0 col1">
+								<f:facet name="header">Favorite</f:facet>
 								<h:commandLink id="favoriteStar" action="#{ftpClientsBean.toggleFavorite(client)}">
-									<dt:icon img="#{client.favorite == true ? 'star-full' : 'star-empty'}"/>
+									<p:graphicImage library="#{userBean.cssTheme}" name="#{client.favorite == true ? 'img/star-full.png' : 'img/star-empty.png'}" />
 									<f:ajax render="favoriteStar" />
 								</h:commandLink>
-							</h:form>
-						</h:column>
-						
-						<h:column headerClass="col0">
-							<f:facet name="header">Delete</f:facet>
-							<h:form>
+							</h:column>
+							<h:column headerClass="col0 col1">
+								<f:facet name="header">Delete</f:facet>
 								<h:commandLink action="#{ftpClientsBean.deleteFtpClientAction(client)}">
-									<dt:icon img="remove"/>
+									<p:graphicImage library="#{userBean.cssTheme}" name="img/remove.png" />
+									<f:ajax render="ftpClientsTableForm" />
 								</h:commandLink>
-							</h:form>
-						</h:column>
-						
-					</h:dataTable>
-				</h:panelGrid>
+							</h:column>
+						</h:dataTable>
+					</h:panelGrid>
+				</h:form>
+				
+				
 			</h:panelGrid>
-			
         
         </h:panelGrid>
         

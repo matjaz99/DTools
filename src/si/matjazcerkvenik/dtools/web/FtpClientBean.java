@@ -45,8 +45,11 @@ public class FtpClientBean {
 	
 	@PostConstruct
 	public void init() {
-		Map<String, Object> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-		ftpClient = (FtpClient) requestParameterMap.get("client");
+		Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		if (requestParameterMap.containsKey("clientUrl")) {
+			String name = requestParameterMap.get("clientUrl");
+			ftpClient = DAO.getInstance().findFtpClient(name);
+		}
 	}
 
 	public FtpClient getFtpClient() {
