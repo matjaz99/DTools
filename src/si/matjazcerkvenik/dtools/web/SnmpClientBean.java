@@ -25,6 +25,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpClient;
 import si.matjazcerkvenik.dtools.tools.snmp.impl.SimpleSnmpClient;
 
@@ -37,10 +38,19 @@ public class SnmpClientBean {
 	private String oid = ".1.3.6.1.2.1.1.1.0";
 	private String result;
 	
+//	@PostConstruct
+//	public void init() {
+//		Map<String, Object> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+//		snmpClient = (SnmpClient) requestParameterMap.get("snmpClient");
+//	}
+	
 	@PostConstruct
 	public void init() {
-		Map<String, Object> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-		snmpClient = (SnmpClient) requestParameterMap.get("snmpClient");
+		Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		if (requestParameterMap.containsKey("clientUrl")) {
+			String name = requestParameterMap.get("clientUrl");
+			snmpClient = DAO.getInstance().findSnmpClient(name);
+		}
 	}
 	
 	public SnmpClient getSnmpClient() {

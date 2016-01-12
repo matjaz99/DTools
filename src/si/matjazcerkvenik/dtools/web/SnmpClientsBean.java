@@ -28,7 +28,7 @@ import si.matjazcerkvenik.dtools.tools.snmp.SnmpClient;
 
 @ManagedBean
 @SessionScoped
-public class SnmpBean {
+public class SnmpClientsBean {
 
 	private String name;
 	private String hostname;

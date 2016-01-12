@@ -830,6 +830,17 @@ public class DAO {
 		return snmpClients;
 
 	}
+	
+	public SnmpClient findSnmpClient(String sshUrl) {
+		
+		for (SnmpClient	 snmp : snmpClients.getSnmpClientsList()) {
+			if (snmp.toUrlString().equals(sshUrl)) {
+				return snmp;
+			}
+		}
+		return null;
+		
+	}
 
 	public void saveSnmpClients() {
 

@@ -30,7 +30,7 @@ Commons-logging is required by commons-vfs
 -----------------------------------------------------------
 ### 0.5.0-alpha.01
 
-xx. january 2016
+12. january 2016
 
 - url navigation (raw traps, trap monitor)
 - severities in separate css file
@@ -46,6 +46,8 @@ xx. january 2016
 - replaced EPingStatus enum with PingStatus class
 - ssh client as url parameter
 - ftp client as url parameter
+- snmp client as url parameter
+- removed NavigationBean
 
 -----------------------------------------------------------
 ### 0.4.1
