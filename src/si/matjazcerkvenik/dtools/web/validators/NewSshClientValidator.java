@@ -27,8 +27,8 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 import si.matjazcerkvenik.dtools.io.DAO;
-import si.matjazcerkvenik.dtools.xml.SshClients;
-import si.matjazcerkvenik.dtools.xml.SshClient;
+import si.matjazcerkvenik.dtools.tools.ssh.SshClient;
+import si.matjazcerkvenik.dtools.tools.ssh.SshClients;
 
 // http://www.mkyong.com/jsf2/multi-components-validator-in-jsf-2-0/
 @FacesValidator(value="newSshClientValidator")

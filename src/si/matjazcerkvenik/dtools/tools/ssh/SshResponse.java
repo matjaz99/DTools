@@ -16,7 +16,7 @@
  * 
  */
 
-package si.matjazcerkvenik.dtools.xml;
+package si.matjazcerkvenik.dtools.tools.ssh;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

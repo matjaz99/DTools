@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 import si.matjazcerkvenik.dtools.tools.ping.PingStatus;
 
-public class Node implements Serializable {
+public class Node implements Serializable, Runnable {
 	
 	private static final long serialVersionUID = 69849387589275333L;
 	
@@ -175,6 +175,18 @@ public class Node implements Serializable {
 			}
 		}
 		
+	}
+	
+	
+	@Override
+	public void run() {
+//		System.out.println(Thread.currentThread().getName() + " started [" + new Date() + "] node=" + name);
+		
+		for (Service s : nodeServices.getServices()) {
+			s.pingService();
+		}
+		
+//		System.out.println(Thread.currentThread().getName() + " stopped [" + new Date() + "]");
 	}
 
 }

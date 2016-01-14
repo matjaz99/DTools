@@ -18,8 +18,12 @@
 
 package si.matjazcerkvenik.dtools.tools.ping;
 
+import java.io.Serializable;
 
-public class PingStatus {
+
+public class PingStatus implements Serializable {
+	
+	private static final long serialVersionUID = 687649876064378446L;
 	
 	public final static int EC_UNKN 			= 0;
 	public final static String EM_UNKN 			= "Unknown";

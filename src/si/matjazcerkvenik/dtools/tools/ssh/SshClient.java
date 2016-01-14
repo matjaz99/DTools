@@ -16,17 +16,16 @@
  * 
  */
 
-package si.matjazcerkvenik.dtools.xml;
+package si.matjazcerkvenik.dtools.tools.ssh;
 
 import javax.xml.bind.annotation.XmlElement;
 
-public class FtpClient {
+public class SshClient {
 
 	private String username;
 	private String password;
 	private String hostname;
 	private int port;
-	private String protocol;
 	private boolean favorite = false;
 
 	public String getUsername() {
@@ -64,15 +63,6 @@ public class FtpClient {
 	public void setPort(int port) {
 		this.port = port;
 	}
-
-	public String getProtocol() {
-		return protocol;
-	}
-
-	@XmlElement
-	public void setProtocol(String protocol) {
-		this.protocol = protocol;
-	}
 	
 	public boolean isFavorite() {
 		return favorite;
@@ -83,12 +73,8 @@ public class FtpClient {
 		this.favorite = favorite;
 	}
 	
-	public String getProtocolLowercase() {
-		return protocol.toLowerCase();
-	}
-	
 	public String toUrlString() {
-		return protocol.toLowerCase() + "://" + username + "@" + hostname + ":" + port;
+		return "ssh://" + username + "@" + hostname + ":" + port;
 	}
 
 }

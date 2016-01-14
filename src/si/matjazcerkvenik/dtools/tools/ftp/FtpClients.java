@@ -16,7 +16,7 @@
  * 
  */
 
-package si.matjazcerkvenik.dtools.xml;
+package si.matjazcerkvenik.dtools.tools.ftp;
 
 import java.util.ArrayList;
 import java.util.List;

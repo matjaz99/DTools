@@ -25,7 +25,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import si.matjazcerkvenik.dtools.io.DAO;
-import si.matjazcerkvenik.dtools.xml.SshResponse;
+import si.matjazcerkvenik.dtools.tools.ssh.SshResponse;
 
 @ManagedBean
 @SessionScoped

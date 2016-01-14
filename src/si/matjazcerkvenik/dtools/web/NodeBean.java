@@ -34,12 +34,12 @@ import org.primefaces.context.RequestContext;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.io.DAO;
-import si.matjazcerkvenik.dtools.xml.FtpClient;
-import si.matjazcerkvenik.dtools.xml.FtpClients;
+import si.matjazcerkvenik.dtools.tools.ftp.FtpClient;
+import si.matjazcerkvenik.dtools.tools.ftp.FtpClients;
+import si.matjazcerkvenik.dtools.tools.ssh.SshClient;
+import si.matjazcerkvenik.dtools.tools.ssh.SshClients;
 import si.matjazcerkvenik.dtools.xml.Node;
 import si.matjazcerkvenik.dtools.xml.Service;
-import si.matjazcerkvenik.dtools.xml.SshClient;
-import si.matjazcerkvenik.dtools.xml.SshClients;
 
 @ManagedBean
 @ViewScoped

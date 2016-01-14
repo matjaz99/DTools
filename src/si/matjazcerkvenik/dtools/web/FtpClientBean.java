@@ -27,9 +27,9 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import si.matjazcerkvenik.dtools.io.DAO;
+import si.matjazcerkvenik.dtools.tools.ftp.FtpClient;
+import si.matjazcerkvenik.dtools.tools.ftp.FtpTransfer;
 import si.matjazcerkvenik.dtools.tools.ftp.VfsFtpSftpClient;
-import si.matjazcerkvenik.dtools.xml.FtpClient;
-import si.matjazcerkvenik.dtools.xml.FtpTransfer;
 
 @ManagedBean
 @ViewScoped

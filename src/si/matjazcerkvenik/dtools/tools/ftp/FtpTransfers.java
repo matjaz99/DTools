@@ -16,7 +16,7 @@
  * 
  */
 
-package si.matjazcerkvenik.dtools.xml;
+package si.matjazcerkvenik.dtools.tools.ftp;
 
 import java.util.List;
 
@@ -24,26 +24,25 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Commands {
+public class FtpTransfers {
 	
-	private List<String> commands;
+	private List<FtpTransfer> transfersList;
 
-	public List<String> getCommands() {
-		return commands;
+	public List<FtpTransfer> getTransfersList() {
+		return transfersList;
 	}
 
-	@XmlElement(name="command")
-	public void setCommands(List<String> commands) {
-		this.commands = commands;
+	@XmlElement(name="transfer")
+	public void setTransfersList(List<FtpTransfer> transfersList) {
+		this.transfersList = transfersList;
 	}
 	
-	public void addCommand(String cmd) {
-		commands.add(cmd);
+	public void addFtpTransfer(FtpTransfer t) {
+		transfersList.add(t);
 	}
 	
-	public void deleteCommand(String cmd) {
-		commands.remove(cmd);
+	public void deleteFtpTransfer(FtpTransfer t) {
+		transfersList.remove(t);
 	}
-	
 	
 }

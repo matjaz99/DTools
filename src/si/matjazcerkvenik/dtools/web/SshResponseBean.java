@@ -25,7 +25,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import si.matjazcerkvenik.dtools.xml.SshResponse;
+import si.matjazcerkvenik.dtools.tools.ssh.SshResponse;
 
 @ManagedBean
 @ViewScoped

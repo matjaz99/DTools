@@ -29,24 +29,19 @@
 				<h:form>
 					<p:commandButton value="Add new agent" onclick="PF('addAgDlg').show();" icon="ui-icon-plus" />
 					<p:dialog header="Add new agent" widgetVar="addAgDlg" resizable="false" dynamic="true" closable="false">
-				    	
 				    	<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
-							
 							<h:outputLabel for="agName" value="Name: " />
 							<p:inputText id="agName" value="#{snmpSimulatorBean.newAgentName}" required="true" 
 								requiredMessage="Missing name">
 								<f:validator validatorId="newSnmpAgentValidator"/>
 							</p:inputText>
-							
 							<f:facet name="footer">
 				                <p:commandButton value="Add" update="growl agName simForm" 
 				                	actionListener="#{snmpSimulatorBean.addNewSnmpAgent}"
 				                	oncomplete="handleDialogRequest('addAgDlg', xhr, status, args)" />
 				                <p:commandButton value="Cancel" onclick="PF('addAgDlg').hide();" />
 				            </f:facet>
-							
 						</h:panelGrid>
-				    	
 				    </p:dialog>
 				</h:form>
 				

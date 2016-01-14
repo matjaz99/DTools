@@ -2,6 +2,7 @@ package si.matjazcerkvenik.dtools.xml;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -103,7 +104,7 @@ public class Service implements Serializable {
 		if (ping == null) {
 			initPing();
 		}
-		
+		System.out.println(Thread.currentThread().getName() + " ping " + node.getName() + " [" + new Date() + "] " + ping.getClass().getName());
 		ping.ping();
 		
 	}

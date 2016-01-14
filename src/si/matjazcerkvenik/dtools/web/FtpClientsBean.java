@@ -28,7 +28,7 @@ import javax.faces.event.ValueChangeEvent;
 import org.primefaces.context.RequestContext;
 
 import si.matjazcerkvenik.dtools.io.DAO;
-import si.matjazcerkvenik.dtools.xml.FtpClient;
+import si.matjazcerkvenik.dtools.tools.ftp.FtpClient;
 
 @ManagedBean
 @SessionScoped

@@ -16,33 +16,47 @@
  * 
  */
 
-package si.matjazcerkvenik.dtools.xml;
+package si.matjazcerkvenik.dtools.tools.ssh;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class FtpTransfers {
+public class SshClients {
 	
-	private List<FtpTransfer> transfersList;
+	private List<SshClient> sshClientList;
 
-	public List<FtpTransfer> getTransfersList() {
-		return transfersList;
+	public List<SshClient> getSshClientList() {
+		return sshClientList;
 	}
 
-	@XmlElement(name="transfer")
-	public void setTransfersList(List<FtpTransfer> transfersList) {
-		this.transfersList = transfersList;
+	@XmlElement(name="sshClient")
+	public void setSshClientList(List<SshClient> sshClient) {
+		this.sshClientList = sshClient;
 	}
 	
-	public void addFtpTransfer(FtpTransfer t) {
-		transfersList.add(t);
+	public void addSshClientAction(SshClient c) {
+		sshClientList.add(c);
 	}
 	
-	public void deleteFtpTransfer(FtpTransfer t) {
-		transfersList.remove(t);
+	public void deleteSshClient(SshClient c) {
+		sshClientList.remove(c);
 	}
 	
+	public List<SshClient> getCustomSshClientsList(String hostname) {
+		
+		List<SshClient> list = new ArrayList<SshClient>();
+		
+		for (int i = 0; i < getSshClientList().size(); i++) {
+			if (getSshClientList().get(i).getHostname().equals(hostname)) {
+				list.add(getSshClientList().get(i));
+			}
+		}
+		
+		return list;
+		
+	}
 }

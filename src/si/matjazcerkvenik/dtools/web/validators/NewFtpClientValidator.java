@@ -27,8 +27,8 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 import si.matjazcerkvenik.dtools.io.DAO;
-import si.matjazcerkvenik.dtools.xml.FtpClient;
-import si.matjazcerkvenik.dtools.xml.FtpClients;
+import si.matjazcerkvenik.dtools.tools.ftp.FtpClient;
+import si.matjazcerkvenik.dtools.tools.ftp.FtpClients;
 
 // http://www.mkyong.com/jsf2/multi-components-validator-in-jsf-2-0/
 @FacesValidator(value="newFtpClientValidator")

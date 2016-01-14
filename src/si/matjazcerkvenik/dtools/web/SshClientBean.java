@@ -33,9 +33,9 @@ import javax.faces.event.ValueChangeEvent;
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.AuthenticationException;
+import si.matjazcerkvenik.dtools.tools.ssh.SshClient;
 import si.matjazcerkvenik.dtools.tools.ssh.SshClientAdvanced;
-import si.matjazcerkvenik.dtools.xml.SshClient;
-import si.matjazcerkvenik.dtools.xml.SshResponse;
+import si.matjazcerkvenik.dtools.tools.ssh.SshResponse;
 
 @ManagedBean
 @ViewScoped

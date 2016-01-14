@@ -29,6 +29,9 @@
 			
 				<h:form id="addNodeDialogForm">
 				    <p:commandButton value="Add new node" onclick="PF('addDevDlg').show();" icon="ui-icon-plus" />
+				    <p:inputSwitch id="actBtn" value="#{pingSchedulerBean.active}">
+						<p:ajax update="growl actBtn" listener="#{pingSchedulerBean.togglePingScheduler()}" />
+					</p:inputSwitch>
 				    <p:dialog header="Add new node" widgetVar="addDevDlg" resizable="false" dynamic="true" closable="false">
 				    	<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
 							<h:outputLabel for="nodeName" value="Name: " />
