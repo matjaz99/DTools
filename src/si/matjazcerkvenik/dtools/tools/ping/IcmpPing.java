@@ -28,12 +28,14 @@ public class IcmpPing implements IPing, Serializable {
 	
 	private static final long serialVersionUID = -725608817177247957L;
 	
-	private String hostname;
+//	private String hostname;
+	private Service service;
 	private PingStatus status = new PingStatus();
 
 	@Override
 	public void configure(Service service) {
-		hostname = service.getNode().getHostname();
+//		hostname = service.getNode().getHostname();
+		this.service = service;
 	}
 
 	@Override
@@ -42,7 +44,7 @@ public class IcmpPing implements IPing, Serializable {
 		status.started();
 
 		try {
-			InetAddress address = InetAddress.getByName(hostname);
+			InetAddress address = InetAddress.getByName(service.getNode().getHostname());
 			if (address.isReachable(3000)) {
 				status.setErrorCode(PingStatus.EC_OK);
 				status.setErrorMessage(PingStatus.EM_OK);

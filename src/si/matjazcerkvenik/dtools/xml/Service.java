@@ -104,7 +104,7 @@ public class Service implements Serializable {
 		if (ping == null) {
 			initPing();
 		}
-		System.out.println(Thread.currentThread().getName() + " ping " + node.getName() + " [" + new Date() + "] " + ping.getClass().getName());
+		System.out.println(Thread.currentThread().getName() + " ping " + node.getName() + "(" + node.getHostname() + ")\t" + " [" + new Date() + "] " + ping.getClass().getName());
 		ping.ping();
 		
 	}

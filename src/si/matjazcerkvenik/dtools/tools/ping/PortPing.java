@@ -19,12 +19,15 @@
 package si.matjazcerkvenik.dtools.tools.ping;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
 import si.matjazcerkvenik.dtools.xml.Service;
 
-public class PortPing implements IPing {
+public class PortPing implements IPing, Serializable {
+	
+	private static final long serialVersionUID = -4560770564153981136L;
 	
 	private String hostname;
 	private int port;

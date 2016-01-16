@@ -28,6 +28,13 @@ Commons-logging is required by commons-vfs
 ## Version history
 
 -----------------------------------------------------------
+### 0.5.0-alpha.03
+
+xx. january 2016
+
+- fixed bug - hostname changed when monitoring is active
+
+-----------------------------------------------------------
 ### 0.5.0-alpha.02
 
 14. january 2016

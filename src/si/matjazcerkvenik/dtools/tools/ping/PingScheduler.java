@@ -3,6 +3,7 @@ package si.matjazcerkvenik.dtools.tools.ping;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import si.matjazcerkvenik.dtools.io.DAO;
@@ -23,7 +24,7 @@ public class PingScheduler {
 		List<Node> nodesList = DAO.getInstance().loadNetworkNodes().getNodesList();
 		
 		for (int i = 0; i < nodesList.size(); i++) {
-			scheduledThreadPool.scheduleWithFixedDelay(nodesList.get(i), 0, 60, TimeUnit.SECONDS);
+			ScheduledFuture<?> fut = scheduledThreadPool.scheduleWithFixedDelay(nodesList.get(i), 0, 60, TimeUnit.SECONDS);
 		}
 		
 	}

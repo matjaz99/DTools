@@ -40,16 +40,22 @@ public class ShutdownListener implements ServletContextListener {
 		System.out.println("DTools:ShutdownListener:contextDestroyed()");
 		
 		// close snmp trap sender
-		SnmpSimulatorBean snmpTS = (SnmpSimulatorBean) FacesContext.getCurrentInstance().
-				getExternalContext().getApplicationMap().get("snmpSimulatorBean");
-		for (SnmpAgent ag : snmpTS.getSnmpAgents()) {
-			ag.stop();
+		try {
+			SnmpSimulatorBean snmpTS = (SnmpSimulatorBean) FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().get("snmpSimulatorBean");
+			for (SnmpAgent ag : snmpTS.getSnmpAgents()) {
+				ag.stop();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		// close snmp trap receiver
-		SnmpManagerBean snmpMng = (SnmpManagerBean) FacesContext.getCurrentInstance().
-				getExternalContext().getApplicationMap().get("snmpManagerBean");
-		snmpMng.stopAllReceivers();
+		try {
+			SnmpManagerBean snmpMng = (SnmpManagerBean) FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().get("snmpManagerBean");
+			snmpMng.stopAllReceivers();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		// close logger
 		DToolsContext.getInstance().getLogger().close();

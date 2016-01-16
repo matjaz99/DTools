@@ -1,9 +1,13 @@
 package si.matjazcerkvenik.dtools.xml;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAttribute;
 
-public class Param {
-
+public class Param implements Serializable {
+	
+	private static final long serialVersionUID = 5426976150747460799L;
+	
 	private String key;
 	private String value;
 	
