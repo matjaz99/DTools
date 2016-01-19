@@ -1,3 +1,21 @@
+/* 
+ * Copyright (C) 2015 Matjaz Cerkvenik
+ * 
+ * DTools is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * DTools is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with DTools. If not, see <http://www.gnu.org/licenses/>.
+ * 
+ */
+
 package si.matjazcerkvenik.dtools.xml;
 
 import java.io.Serializable;
@@ -5,10 +23,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.event.ValueChangeEvent;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.ping.DummyPing;
 import si.matjazcerkvenik.dtools.tools.ping.HttpPing;
 import si.matjazcerkvenik.dtools.tools.ping.IPing;
@@ -22,10 +42,10 @@ public class Service implements Serializable {
 	
 	private String name;
 	private String monitoringClass;
+	private boolean monitoringActive = true;
 	private List<Param> params;
 	private Node node;  // just a reference to node object
 	private IPing ping;
-//	private PingStatus status = new PingStatus();
 	
 	public void init(Node node) {
 		this.node = node;
@@ -48,6 +68,15 @@ public class Service implements Serializable {
 	@XmlAttribute
 	public void setMonitoringClass(String monitoringClass) {
 		this.monitoringClass = monitoringClass;
+	}
+
+	public boolean isMonitoringActive() {
+		return monitoringActive;
+	}
+
+	@XmlAttribute
+	public void setMonitoringActive(boolean monitoringActive) {
+		this.monitoringActive = monitoringActive;
 	}
 
 	public List<Param> getParams() {
@@ -126,6 +155,17 @@ public class Service implements Serializable {
 		}
 		ping.configure(this);
 		
+	}
+	
+	public void changedMonitoringActive(ValueChangeEvent e) {
+		if (e.getOldValue().toString().equalsIgnoreCase(e.getNewValue().toString())) {
+			return;
+		}
+		monitoringActive = (Boolean) e.getNewValue();
+		DAO.getInstance().saveNetworkNodes();
+		if (!monitoringActive) {
+			ping.resetStatus();
+		}
 	}
 	
 	

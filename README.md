@@ -28,10 +28,12 @@ Commons-logging is required by commons-vfs
 ## Version history
 
 -----------------------------------------------------------
-### 0.5.0-alpha.03
+### 0.5.0
 
-xx. january 2016
+19. january 2016
 
+- added properties: ping pool size and interval
+- monitoring active flag for each service
 - fixed bug - hostname changed when monitoring is active
 
 -----------------------------------------------------------

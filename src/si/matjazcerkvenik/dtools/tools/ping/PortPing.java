@@ -29,15 +29,12 @@ public class PortPing implements IPing, Serializable {
 	
 	private static final long serialVersionUID = -4560770564153981136L;
 	
-	private String hostname;
-	private int port;
+	private Service service;
 	private PingStatus status = new PingStatus();
 	
 	@Override
 	public void configure(Service service) {
-		hostname = service.getNode().getHostname();
-		String portStr = service.getParam("monitoring.port");
-		port = Integer.parseInt(portStr);
+		this.service = service;
 	}
 	
 	@Override
@@ -48,7 +45,8 @@ public class PortPing implements IPing, Serializable {
 		
 		try {
             Socket socket = new Socket();
-            socket.connect(new InetSocketAddress(hostname, port), 10000);
+            socket.connect(new InetSocketAddress(service.getNode().getHostname(), 
+            		Integer.parseInt(service.getParam("monitoring.port"))), 10000);
             socket.close();
             status.setErrorCode(PingStatus.EC_OK);
             status.setErrorMessage(PingStatus.EM_OK);
@@ -86,6 +84,11 @@ public class PortPing implements IPing, Serializable {
 	@Override
 	public PingStatus getStatus() {
 		return status;
+	}
+	
+	@Override
+	public void resetStatus() {
+		status = new PingStatus();
 	}
 	
 	@Deprecated

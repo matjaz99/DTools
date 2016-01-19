@@ -19,6 +19,7 @@
 package si.matjazcerkvenik.dtools.tools.ping;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -27,14 +28,16 @@ import java.net.UnknownHostException;
 
 import si.matjazcerkvenik.dtools.xml.Service;
 
-public class HttpPing implements IPing {
+public class HttpPing implements IPing, Serializable {
 	
-	private String urlString;
+	private static final long serialVersionUID = 592229742297135552L;
+	
+	private Service service;
 	private PingStatus status = new PingStatus();
 
 	@Override
 	public void configure(Service service) {
-		urlString = service.getParam("monitoring.url");
+		this.service = service;
 	}
 	
 	@Override
@@ -44,7 +47,7 @@ public class HttpPing implements IPing {
 		status.started();
 
 		try {
-			URL url = new URL(urlString);
+			URL url = new URL(service.getParam("monitoring.url"));
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
 			connection.connect();
@@ -104,6 +107,11 @@ public class HttpPing implements IPing {
 	@Override
 	public PingStatus getStatus() {
 		return status;
+	}
+	
+	@Override
+	public void resetStatus() {
+		status = new PingStatus();
 	}
 	
 	@Deprecated

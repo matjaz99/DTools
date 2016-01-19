@@ -30,4 +30,6 @@ public interface IPing {
 	
 	public PingStatus getStatus();
 	
+	public void resetStatus();
+	
 }

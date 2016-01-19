@@ -46,7 +46,6 @@ public class ShutdownListener implements ServletContextListener {
 				ag.stop();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		
 		// close snmp trap receiver
@@ -54,7 +53,6 @@ public class ShutdownListener implements ServletContextListener {
 			SnmpManagerBean snmpMng = (SnmpManagerBean) FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().get("snmpManagerBean");
 			snmpMng.stopAllReceivers();
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		
 		// close logger

@@ -28,13 +28,11 @@ public class IcmpPing implements IPing, Serializable {
 	
 	private static final long serialVersionUID = -725608817177247957L;
 	
-//	private String hostname;
 	private Service service;
 	private PingStatus status = new PingStatus();
 
 	@Override
 	public void configure(Service service) {
-//		hostname = service.getNode().getHostname();
 		this.service = service;
 	}
 
@@ -84,6 +82,11 @@ public class IcmpPing implements IPing, Serializable {
 	@Override
 	public PingStatus getStatus() {
 		return status;
+	}
+	
+	@Override
+	public void resetStatus() {
+		status = new PingStatus();
 	}
 
 	@Deprecated

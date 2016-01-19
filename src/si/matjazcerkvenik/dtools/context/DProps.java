@@ -40,6 +40,8 @@ public class DProps {
 	public static final String SNMP_RECEIVER_QUEUE_SIZE = "snmp.receiver.queue.size";
 	public static final String SNMP_RECEIVER_RULES_FILE = "snmp.rules.file";
 	public static final String DTOOLS_GUI_CSS_THEME = "dtools.gui.css.theme";
+	public static final String NETWORK_MONITORING_PING_POOL_SIZE = "network.monitoring.ping.pool.size";
+	public static final String NETWORK_MONITORING_PING_INTERVAL = "network.monitoring.ping.interval";
 	
 	private static Map<String, String> defaultValues = new HashMap<String, String>();
 	
@@ -54,6 +56,8 @@ public class DProps {
 		defaultValues.put(SNMP_RECEIVER_QUEUE_SIZE, "100");
 		defaultValues.put(SNMP_RECEIVER_RULES_FILE, "/config/users/default/snmp/manager/rules/trap-rules-default.js");
 		defaultValues.put(DTOOLS_GUI_CSS_THEME, "default");
+		defaultValues.put(NETWORK_MONITORING_PING_POOL_SIZE, "5");
+		defaultValues.put(NETWORK_MONITORING_PING_INTERVAL, "60");
 	}
 	
 	/**

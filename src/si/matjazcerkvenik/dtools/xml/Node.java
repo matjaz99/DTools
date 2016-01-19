@@ -180,13 +180,11 @@ public class Node implements Serializable, Runnable {
 	
 	@Override
 	public void run() {
-//		System.out.println(Thread.currentThread().getName() + " started [" + new Date() + "] node=" + name);
-		
 		for (Service s : nodeServices.getServices()) {
-			s.pingService();
+			if (s.isMonitoringActive()) {
+				s.pingService();
+			}
 		}
-		
-//		System.out.println(Thread.currentThread().getName() + " stopped [" + new Date() + "]");
 	}
 
 }

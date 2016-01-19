@@ -18,9 +18,13 @@
 
 package si.matjazcerkvenik.dtools.tools.ping;
 
+import java.io.Serializable;
+
 import si.matjazcerkvenik.dtools.xml.Service;
 
-public class DummyPing implements IPing {
+public class DummyPing implements IPing, Serializable {
+	
+	private static final long serialVersionUID = 8838986224704641300L;
 	
 	private PingStatus status = new PingStatus();
 	
@@ -42,6 +46,11 @@ public class DummyPing implements IPing {
 	@Override
 	public String getStatusIcon() {
 		return "bullet_disabled.png";
+	}
+	
+	@Override
+	public void resetStatus() {
+		status = new PingStatus();
 	}
 	
 }
