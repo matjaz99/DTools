@@ -28,9 +28,16 @@ Commons-logging is required by commons-vfs
 ## Version history
 
 -----------------------------------------------------------
+### 0.5.1-alpha.02
+
+xx. february 2016
+
+- 
+
+-----------------------------------------------------------
 ### 0.5.1-alpha.01
 
-xx. january 2016
+10. february 2016
 
 - auto discovery
 
