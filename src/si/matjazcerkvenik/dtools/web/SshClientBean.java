@@ -19,6 +19,7 @@
 package si.matjazcerkvenik.dtools.web;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +40,9 @@ import si.matjazcerkvenik.dtools.tools.ssh.SshResponse;
 
 @ManagedBean
 @ViewScoped
-public class SshClientBean {
+public class SshClientBean implements Serializable {
+	
+	private static final long serialVersionUID = -5044656422250893827L;
 	
 	private SshClient client;
 	private SshClientAdvanced sshClientImpl;

@@ -18,6 +18,7 @@
 
 package si.matjazcerkvenik.dtools.web;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -31,8 +32,10 @@ import si.matjazcerkvenik.dtools.tools.ssh.SshClient;
 
 @ManagedBean
 @SessionScoped
-public class SshClientsBean {
-
+public class SshClientsBean implements Serializable {
+	
+	private static final long serialVersionUID = -1511672829559602579L;
+	
 	private String username;
 	private String password;
 	private String hostname;

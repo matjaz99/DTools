@@ -42,9 +42,11 @@ public class DProps {
 	public static final String DTOOLS_GUI_CSS_THEME = "dtools.gui.css.theme";
 	public static final String NETWORK_MONITORING_PING_POOL_SIZE = "network.monitoring.ping.pool.size";
 	public static final String NETWORK_MONITORING_PING_INTERVAL = "network.monitoring.ping.interval";
+	public static final String AUTO_DISCOVERY_THREAD_POOL_SIZE = "network.autodiscovery.thread.pool.size";
 	
 	private static Map<String, String> defaultValues = new HashMap<String, String>();
 	
+	// Default values
 	static {
 		defaultValues.put(SIMPLELOGGER_FILENAME, "dtools.log");
 		defaultValues.put(SIMPLELOGGER_LEVEL, "INFO");
@@ -58,6 +60,7 @@ public class DProps {
 		defaultValues.put(DTOOLS_GUI_CSS_THEME, "default");
 		defaultValues.put(NETWORK_MONITORING_PING_POOL_SIZE, "5");
 		defaultValues.put(NETWORK_MONITORING_PING_INTERVAL, "60");
+		defaultValues.put(AUTO_DISCOVERY_THREAD_POOL_SIZE, "10");
 	}
 	
 	/**
@@ -120,6 +123,11 @@ public class DProps {
 		return props.getProperty(key);
 	}
 	
+	/**
+	 * Set new property value and immediately save to file
+	 * @param key
+	 * @param value
+	 */
 	public static void setProperty(String key, String value) {
 		props.put(key, value);
 		writeProperties();

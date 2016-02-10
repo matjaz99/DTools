@@ -41,6 +41,9 @@ public class PingSchedulerBean {
 		this.active = active;
 	}
 
+	/**
+	 * Start or stop ping scheduler
+	 */
 	public void togglePingScheduler() {
 		
 		if (active) {
@@ -48,11 +51,11 @@ public class PingSchedulerBean {
 				pingScheduler = new PingScheduler();
 			}
 			pingScheduler.startPingScheduler();
-			Growl.addGrowlMessage("Ping scheduler started", FacesMessage.SEVERITY_INFO);
+			Growl.addGrowlMessage("Monitoring started", FacesMessage.SEVERITY_INFO);
 		} else {
 			// already listening
 			pingScheduler.stopPingScheduler();
-			Growl.addGrowlMessage("Ping scheduler stopped", FacesMessage.SEVERITY_INFO);
+			Growl.addGrowlMessage("Monitoring stopped", FacesMessage.SEVERITY_INFO);
 		}
 	}
 	

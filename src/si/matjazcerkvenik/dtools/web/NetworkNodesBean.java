@@ -48,6 +48,9 @@ public class NetworkNodesBean implements Serializable {
 	private String hostname;
 	private String description;
 	private String type;
+	
+	private String fromIp = "192.168.1.0";
+	private String toIp = "192.168.2.0";
 
 	public String getName() {
 		return name;
@@ -81,6 +84,22 @@ public class NetworkNodesBean implements Serializable {
 		this.type = type;
 	}
 
+	public String getFromIp() {
+		return fromIp;
+	}
+
+	public void setFromIp(String fromIp) {
+		this.fromIp = fromIp;
+	}
+
+	public String getToIp() {
+		return toIp;
+	}
+
+	public void setToIp(String toIp) {
+		this.toIp = toIp;
+	}
+
 	/**
 	 * Add new node
 	 */
@@ -93,6 +112,7 @@ public class NetworkNodesBean implements Serializable {
 		n.setType(type);
 		
 		// create ICMP ping as default service
+		// TODO move this to new method in Node
 		Service s = new Service();
 		s.setName("ICMP");
 		s.setMonitoringClass("ICMP_PING");
@@ -137,6 +157,8 @@ public class NetworkNodesBean implements Serializable {
 		node.setFavorite(!node.isFavorite());
 		DAO.getInstance().saveNetworkNodes();
 	}
+	
+	
 	
 
 }

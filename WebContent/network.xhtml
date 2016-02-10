@@ -28,8 +28,9 @@
 				<h:outputText value="Network" styleClass="title" />
 			
 				<h:form id="addNodeDialogForm">
-					<h:panelGrid columns="3" cellpadding="5" cellspacing="0" >
+					<h:panelGrid columns="4" cellpadding="5" cellspacing="0" >
 					    <p:commandButton value="Add new node" onclick="PF('addDevDlg').show();" icon="ui-icon-plus" />
+					    <p:commandButton value="Auto discovery" onclick="PF('autoDiscDlg').show();" icon="ui-icon-plus" />
 					    <h:outputLabel value="Monitoring: " />
 					    <p:inputSwitch id="actBtn" value="#{pingSchedulerBean.active}">
 							<p:ajax update="growl actBtn" listener="#{pingSchedulerBean.togglePingScheduler()}" />
@@ -61,6 +62,22 @@
 				                <p:commandButton value="Cancel" onclick="PF('addDevDlg').hide();" />
 				            </f:facet>
 						</h:panelGrid>
+				    </p:dialog>
+				    <p:dialog header="Auto discovery" widgetVar="autoDiscDlg" resizable="false" dynamic="true" closable="false">
+				    	<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+				    		<h:outputLabel for="fromIp" value="From IP: " />
+							<p:inputText id="fromIp" value="#{appBean.fromIp}" required="true" 
+								requiredMessage="Missing IP address" />
+							<h:outputLabel for="toIp" value="From IP: " />
+							<p:inputText id="toIp" value="#{appBean.toIp}" required="true" 
+								requiredMessage="Missing IP address" />
+				    	</h:panelGrid>
+				    	<f:facet name="footer">
+				                <p:commandButton value="Scan" update="growl" 
+				                	actionListener="#{appBean.startAutoDiscover}"
+				                	oncomplete="handleDialogRequest('autoDiscDlg', xhr, status, args)" />
+				                <p:commandButton value="Cancel" onclick="PF('autoDiscDlg').hide();" />
+				            </f:facet>
 				    </p:dialog>
 				</h:form>
 				
