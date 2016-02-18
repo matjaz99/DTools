@@ -5,7 +5,7 @@ import javax.faces.bean.ManagedBean;
 
 import org.primefaces.context.RequestContext;
 
-import si.matjazcerkvenik.dtools.tools.AutoDiscoverThread;
+import si.matjazcerkvenik.dtools.tools.ping.AutoDiscoverThread;
 
 @ManagedBean
 @ApplicationScoped

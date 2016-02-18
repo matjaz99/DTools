@@ -16,7 +16,7 @@
 	<action type="download">
 		<source>http://www.matjazcerkvenik.si/projects/download/DTools/$VERSION$/DTools.war</source>
 		<dest>$DTOOLS_HOME$/server/apache-tomcat-7.0.57/webapps/DTools.war</dest>
-		<md5>2761e0a1f6d3691bcea85e2b0219bee3</md5>
+		<md5>01d62258a1ea17897c82b151026265bd</md5>
 	</action>
 	<!-- delete doc directory in repository before moving -->
 	<action type="delete">
@@ -30,7 +30,7 @@
 	<action type="download">
 		<source>http://www.matjazcerkvenik.si/projects/download/DTools/$VERSION$/DTools%20User%20Manual.odt</source>
 		<dest>$DTOOLS_HOME$/doc/DTools User Manual.odt</dest>
-		<md5>cdcd783cb557a46ed3d8f74cb31f2fa7</md5>
+		<md5>d587c30c6d0597fd62965f984b5f3d42</md5>
 	</action>
 	<!-- backup config directory to repository -->
 	<action type="delete">

@@ -1,7 +1,23 @@
-package si.matjazcerkvenik.dtools.tools;
+/* 
+ * Copyright (C) 2015 Matjaz Cerkvenik
+ * 
+ * DTools is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * DTools is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with DTools. If not, see <http://www.gnu.org/licenses/>.
+ * 
+ */
 
-import java.util.ArrayList;
-import java.util.List;
+package si.matjazcerkvenik.dtools.tools.ping;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -30,14 +46,16 @@ public class AutoDiscoverThread extends Thread {
 	public void run() {
 		
 		threadIsFinished = false;
+		int id = 0;
 		
 		while (!(fromIpArray[0] == toIpArray[0] && fromIpArray[1] == toIpArray[1] 
 				&& fromIpArray[2] == toIpArray[2] && fromIpArray[3] == toIpArray[3])) {
 			
-			Runnable worker = new AutoDiscoverWorker(count, fromIpArray[0] + "." + fromIpArray[1] + "."
+			Runnable worker = new AutoDiscoverWorker(id, fromIpArray[0] + "." + fromIpArray[1] + "."
 					+ fromIpArray[2] + "." + fromIpArray[3], this);
 			executor.execute(worker);
 			count++;
+			id++;
 			
 			fromIpArray[3]++;
 			if (fromIpArray[3] == 256) {
@@ -169,10 +187,6 @@ public class AutoDiscoverThread extends Thread {
 	
 	public synchronized void storeNode(Node n) {
 		DAO.getInstance().addNode(n);
-//		if (nodes == null) {
-//			nodes = new ArrayList<Node>();
-//		}
-//		nodes.add(n);
 		System.out.println("==> Node added: " + n.getHostname());
 	}
 	
@@ -182,7 +196,7 @@ public class AutoDiscoverThread extends Thread {
 	
 	public int determineDelay() {
 		int delay = 30;
-		delay = 4 * count;
+		delay = 5 * count;
 		System.out.println("delay " + delay);
 		return delay;
 	}
