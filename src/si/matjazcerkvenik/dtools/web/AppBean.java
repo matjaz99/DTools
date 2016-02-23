@@ -12,11 +12,9 @@ import si.matjazcerkvenik.dtools.tools.ping.AutoDiscoverThread;
 public class AppBean {
 	
 	private String fromIp = "192.168.1.0";
-	private String toIp = "192.168.2.0";
+	private String toIp = "192.168.30.0";
 	
 	private AutoDiscoverThread adThread;
-	
-	
 	
 	
 	public String getFromIp() {

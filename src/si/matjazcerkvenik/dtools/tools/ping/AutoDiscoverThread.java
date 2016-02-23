@@ -51,11 +51,15 @@ public class AutoDiscoverThread extends Thread {
 		while (!(fromIpArray[0] == toIpArray[0] && fromIpArray[1] == toIpArray[1] 
 				&& fromIpArray[2] == toIpArray[2] && fromIpArray[3] == toIpArray[3])) {
 			
-			Runnable worker = new AutoDiscoverWorker(id, fromIpArray[0] + "." + fromIpArray[1] + "."
-					+ fromIpArray[2] + "." + fromIpArray[3], this);
-			executor.execute(worker);
-			count++;
-			id++;
+			String ipAddr = fromIpArray[0] + "." + fromIpArray[1] + "."
+					+ fromIpArray[2] + "." + fromIpArray[3];
+			
+			if (!ipExists(ipAddr)) {
+				Runnable worker = new AutoDiscoverWorker(id, ipAddr, this);
+				executor.execute(worker);
+				count++;
+				id++;
+			}
 			
 			fromIpArray[3]++;
 			if (fromIpArray[3] == 256) {
@@ -183,6 +187,15 @@ public class AutoDiscoverThread extends Thread {
 		}
 		
 		return Long.parseLong(temp[0] + temp[1] + temp[2] + temp[3]);
+	}
+	
+	public boolean ipExists(String ip) {
+		for (int i = 0; i < DAO.getInstance().loadNetworkNodes().getNodesList().size(); i++) {
+			if (DAO.getInstance().loadNetworkNodes().getNodesList().get(i).getHostname().equals(ip)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public synchronized void storeNode(Node n) {
