@@ -35,8 +35,8 @@ public class PingScheduler {
 	
 	public void startPingScheduler() {
 		
-		int threadPoolSize = Integer.parseInt(DProps.getProperty(DProps.NETWORK_MONITORING_PING_POOL_SIZE));
-		int interval = Integer.parseInt(DProps.getProperty(DProps.NETWORK_MONITORING_PING_INTERVAL));
+		int threadPoolSize = DProps.getPropertyInt(DProps.NETWORK_MONITORING_PING_POOL_SIZE);
+		int interval = DProps.getPropertyInt(DProps.NETWORK_MONITORING_PING_INTERVAL);
 		
 		if (scheduledThreadPool == null) {
 			scheduledThreadPool = Executors.newScheduledThreadPool(threadPoolSize);

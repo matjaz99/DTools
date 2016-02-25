@@ -97,10 +97,8 @@ public class TrapReceiver implements Serializable, CommandResponder {
 	 */
 	public void init() {
 		logger = DToolsContext.getInstance().getLogger();
-		String size = DProps.getProperty(DProps.SNMP_RECEIVER_QUEUE_SIZE);
-		try {
-			queueSize = Integer.parseInt(size);
-		} catch (NumberFormatException e) {
+		queueSize = DProps.getPropertyInt(DProps.SNMP_RECEIVER_QUEUE_SIZE);
+		if (queueSize == 0) {
 			queueSize = 100;
 		}
 		trapsLogger = new SimpleLogger(DToolsContext.HOME_DIR+ "/log/snmp-traps-" + name + ".log");

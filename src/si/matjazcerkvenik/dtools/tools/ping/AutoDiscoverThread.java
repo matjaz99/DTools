@@ -38,7 +38,7 @@ public class AutoDiscoverThread extends Thread {
 	
 	public AutoDiscoverThread() {
 		
-		int poolSize = Integer.parseInt(DProps.getProperty(DProps.AUTO_DISCOVERY_THREAD_POOL_SIZE));
+		int poolSize = DProps.getPropertyInt(DProps.AUTO_DISCOVERY_THREAD_POOL_SIZE);
 		executor = Executors.newFixedThreadPool(poolSize);
 	}
 	

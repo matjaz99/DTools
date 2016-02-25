@@ -42,6 +42,7 @@ public class DProps {
 	public static final String DTOOLS_GUI_CSS_THEME = "dtools.gui.css.theme";
 	public static final String NETWORK_MONITORING_PING_POOL_SIZE = "network.monitoring.ping.pool.size";
 	public static final String NETWORK_MONITORING_PING_INTERVAL = "network.monitoring.ping.interval";
+	public static final String NETWORK_MONITORING_PING_TIMEOUT = "network.monitoring.ping.timeout";
 	public static final String AUTO_DISCOVERY_THREAD_POOL_SIZE = "network.autodiscovery.thread.pool.size";
 	
 	private static Map<String, String> defaultValues = new HashMap<String, String>();
@@ -60,6 +61,7 @@ public class DProps {
 		defaultValues.put(DTOOLS_GUI_CSS_THEME, "default");
 		defaultValues.put(NETWORK_MONITORING_PING_POOL_SIZE, "5");
 		defaultValues.put(NETWORK_MONITORING_PING_INTERVAL, "60");
+		defaultValues.put(NETWORK_MONITORING_PING_TIMEOUT, "5000");
 		defaultValues.put(AUTO_DISCOVERY_THREAD_POOL_SIZE, "10");
 	}
 	
@@ -124,9 +126,27 @@ public class DProps {
 	}
 	
 	/**
+	 * Return property form dtools.properties as integer
+	 * @param key
+	 * @return int value
+	 */
+	public static int getPropertyInt(String key) {
+		if (props == null) {
+			loadProperties();
+		}
+		int x = 0;
+		try {
+			x = Integer.parseInt(props.getProperty(key));
+		} catch (NumberFormatException e) {
+			x = 0;
+		}
+		return x;
+	}
+	
+	/**
 	 * Set new property value and immediately save to file
 	 * @param key
-	 * @param value
+	 * @param string value
 	 */
 	public static void setProperty(String key, String value) {
 		props.put(key, value);
