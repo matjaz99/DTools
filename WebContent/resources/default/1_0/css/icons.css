@@ -96,3 +96,8 @@
 	width: 32px;
 }
 
+.ui-menuitem-icon.ui-icon.view-file-icon {
+	background: url("#{resource['default:img/view-file.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}

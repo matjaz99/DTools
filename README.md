@@ -18,6 +18,7 @@ For a developer it should help to simplify common tasks.
 - snmp simulator
 - quick notes
 - todo list
+- find duplicate files
 - external links, favorites
 
 
@@ -30,9 +31,9 @@ Commons-logging is required by commons-vfs
 -----------------------------------------------------------
 ### 0.5.1-alpha.02
 
-xx. february 2016
+26. february 2016
 
-- 
+- duplicate files finder
 
 -----------------------------------------------------------
 ### 0.5.1-alpha.01

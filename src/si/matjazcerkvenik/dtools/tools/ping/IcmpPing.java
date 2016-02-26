@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import si.matjazcerkvenik.dtools.context.DProps;
 import si.matjazcerkvenik.dtools.xml.Service;
 
 public class IcmpPing implements IPing, Serializable {
@@ -43,7 +44,7 @@ public class IcmpPing implements IPing, Serializable {
 
 		try {
 			InetAddress address = InetAddress.getByName(service.getNode().getHostname());
-			if (address.isReachable(3000)) {
+			if (address.isReachable(DProps.getPropertyInt(DProps.NETWORK_MONITORING_PING_TIMEOUT))) {
 				status.setErrorCode(PingStatus.EC_OK);
 				status.setErrorMessage(PingStatus.EM_OK);
 			} else {
@@ -89,7 +90,7 @@ public class IcmpPing implements IPing, Serializable {
 		status = new PingStatus();
 	}
 
-	@Deprecated
+	
 	public PingStatus ping(String hostname) {
 
 		PingStatus ps = new PingStatus();
@@ -97,7 +98,7 @@ public class IcmpPing implements IPing, Serializable {
 
 		try {
 			InetAddress address = InetAddress.getByName(hostname);
-			if (address.isReachable(3000)) {
+			if (address.isReachable(DProps.getPropertyInt(DProps.NETWORK_MONITORING_PING_TIMEOUT))) {
 				ps.setErrorCode(PingStatus.EC_OK);
 				ps.setErrorMessage(PingStatus.EM_OK);
 			} else {

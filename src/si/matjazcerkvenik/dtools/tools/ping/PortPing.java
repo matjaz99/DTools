@@ -23,6 +23,7 @@ import java.io.Serializable;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
+import si.matjazcerkvenik.dtools.context.DProps;
 import si.matjazcerkvenik.dtools.xml.Service;
 
 public class PortPing implements IPing, Serializable {
@@ -46,7 +47,8 @@ public class PortPing implements IPing, Serializable {
 		try {
             Socket socket = new Socket();
             socket.connect(new InetSocketAddress(service.getNode().getHostname(), 
-            		Integer.parseInt(service.getParam("monitoring.port"))), 10000);
+            		Integer.parseInt(service.getParam("monitoring.port"))), 
+            		DProps.getPropertyInt(DProps.NETWORK_MONITORING_PING_TIMEOUT));
             socket.close();
             status.setErrorCode(PingStatus.EC_OK);
             status.setErrorMessage(PingStatus.EM_OK);

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:dt="http://dtools.com/ui">
+    <h:head>
+        <title>DTools</title>
+    </h:head>
+    <h:body>
+    
+    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/dstyles.css"/>
+    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/icons.css"/>
+    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/fonts.css"/>
+    	<h:outputScript library="default" name="js/dtools.js" />
+    	
+    	<p:growl id="growl" life="2000"/>
+    	
+    	<h:panelGrid columns="1" cellpadding="0" cellspacing="0" width="100%">
+    	
+	        <ui:include src="/include/ptoolbar.xhtml"/>
+			
+			
+			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
+				
+				<h:outputText value="File Inspector" styleClass="title" />
+			
+				<h:form id="scanDirForm">
+					<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%" >
+						<h:outputLabel value="Search directory for duplicate files: " />
+						<p:inputText value="#{fileInspectorBean.directory}" size="100" />
+					    <p:commandButton value="Scan" action="#{fileInspectorBean.searchDirectoryForDuplicates}" 
+							update="result" ajax="true" />
+					    <h:inputTextarea id="result" value="#{fileInspectorBean.result}" 
+							rows="50" styleClass="codeStyle" style="width: 100%;" />
+					</h:panelGrid>
+				    
+				</h:form>
+				
+				
+			</h:panelGrid>
+			
+        
+        </h:panelGrid>
+        
+    </h:body>
+</html>
+
+
