@@ -21,12 +21,17 @@
     	<h:panelGrid columns="1" cellpadding="0" cellspacing="0" width="100%">
     	
 	        <ui:include src="/include/ptoolbar.xhtml"/>
+	        
+	        <h:form id="breadCrumb">
+    		<p:breadCrumb>
+			    <p:menuitem value="Home" url="home.xhtml" />
+			    <p:menuitem value="FileInspector" url="fileInspector.xhtml" />
+			</p:breadCrumb>
+			</h:form>
 			
 			
 			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
-				
-				<h:outputText value="File Inspector" styleClass="title" />
-			
+							
 				<h:form id="scanDirForm">
 					<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%" >
 						<h:outputLabel value="Search directory for duplicate files: " />
@@ -34,7 +39,7 @@
 					    <p:commandButton value="Scan" action="#{fileInspectorBean.searchDirectoryForDuplicates}" 
 							update="result" ajax="true" />
 					    <h:inputTextarea id="result" value="#{fileInspectorBean.result}" 
-							rows="50" styleClass="codeStyle" style="width: 100%;" />
+							rows="30" styleClass="codeStyle" style="width: 100%;" />
 					</h:panelGrid>
 				    
 				</h:form>

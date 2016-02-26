@@ -21,12 +21,17 @@
     	<h:panelGrid columns="1" cellpadding="0" cellspacing="0" width="100%">
     	
 	        <ui:include src="/include/ptoolbar.xhtml"/>
-			
+	        
+			<h:form id="breadCrumb">
+    		<p:breadCrumb>
+			    <p:menuitem value="Home" url="home.xhtml" />
+			    <p:menuitem value="Network" url="network.xhtml" />
+			</p:breadCrumb>
+    		</h:form>
+    		
 			
 			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
 				
-				<h:outputText value="Network" styleClass="title" />
-			
 				<h:form id="addNodeDialogForm">
 					<h:panelGrid columns="4" cellpadding="5" cellspacing="0" >
 					    <p:commandButton value="Add new node" onclick="PF('addDevDlg').show();" icon="ui-icon-plus" />
@@ -106,14 +111,14 @@
 							
 							<h:column headerClass="col0 col2">
 								<f:facet name="header">Name</f:facet>
-								<p:link outcome="node" value="#{node.name}" style="color: #FAFAFA;">
+								<p:link outcome="node" value="#{node.name}" >
 								    <f:param name="nodeName" value="#{node.name}" />
 								</p:link>
 							</h:column>
 							
 							<h:column headerClass="col0 col2">
 								<f:facet name="header">Hostname</f:facet>
-								<p:link outcome="node" value="#{node.hostname}" style="color: #FAFAFA;">
+								<p:link outcome="node" value="#{node.hostname}">
 									<f:param name="nodeName" value="#{node.name}" />
 								</p:link>
 							</h:column>

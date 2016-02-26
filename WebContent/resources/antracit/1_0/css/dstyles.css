@@ -107,7 +107,9 @@ a.ui-link.ui-widget {
 /** links inside my table */
 /** someday .myForm class should be removed */
 /** in some places myForm is replaced by style="color: #FAFAFA;\ */
-.myForm a.ui-link.ui-widget {
+.myForm a.ui-link.ui-widget, a.ui-link.ui-widget {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
 	color: #FAFAFA;
 }
 

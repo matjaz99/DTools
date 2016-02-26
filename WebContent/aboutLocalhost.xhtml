@@ -19,18 +19,28 @@
     		
     		<ui:include src="/include/ptoolbar.xhtml"/>
     		
+    		<h:form id="breadCrumb">
+    		<p:breadCrumb>
+			    <p:menuitem value="Home" url="home.xhtml" />
+			    <p:menuitem value="Localhost" url="aboutLocalhost.xhtml" />
+			</p:breadCrumb>
+			</h:form>
 	        
 			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
 			
-				<h:outputText value="About" styleClass="title" />
+				
 				
 				<h:panelGrid columns="1" cellpadding="1" cellspacing="1" width="100%">
+					
+					<h:outputText value="Network Interfaces" styleClass="title" />
 					
 					<p:outputPanel deferred="true">
 						<pre>#{utilsBean.getNetworkInterfaces()}</pre>
 					</p:outputPanel>
 					
 					<hr/>
+					
+					<h:outputText value="Runtime info" styleClass="title" />
 					
 					<h:dataTable value="#{utilsBean.localhostInfo}" var="item"
 						styleClass="table"
@@ -44,7 +54,7 @@
 					
 					<hr/>
 					
-					<h:outputText value="Licencing"/>
+					<h:outputText value="Licencing" styleClass="title" />
 					<h:outputText value="Copyright (C) 2015 Matjaz Cerkvenik"/>
 					<h:outputText value="DTools is free software: you can redistribute it and/or modify
 					    it under the terms of the GNU General Public License as published by

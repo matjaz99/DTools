@@ -24,7 +24,7 @@
 			</h:column>
 			<h:column headerClass="col0">
 				<f:facet name="header">Name</f:facet>
-				<h:form rendered="#{node.favorite}" styleClass="myForm">
+				<h:form rendered="#{node.favorite}">
 					<p:link outcome="node" value="#{node.name}">
 					    <f:param name="nodeName" value="#{node.name}" />
 					</p:link>
@@ -32,7 +32,7 @@
 			</h:column>
 			<h:column headerClass="col0">
 				<f:facet name="header">Hostname</f:facet>
-				<h:form rendered="#{node.favorite}" styleClass="myForm">
+				<h:form rendered="#{node.favorite}">
 					<p:link outcome="node" value="#{node.hostname}">
 					    <f:param name="nodeName" value="#{node.name}" />
 					</p:link>
@@ -57,7 +57,7 @@
 			</h:column>
 			<h:column headerClass="col0">
 				<f:facet name="header">SSH Clients</f:facet>
-				<h:form rendered="#{client.favorite}" styleClass="myForm">
+				<h:form rendered="#{client.favorite}" >
 					<p:link outcome="sshClient" value="#{client.toUrlString()}" >
 						<f:param name="clientUrl" value="#{client.toUrlString()}" />
 					</p:link>
@@ -79,7 +79,7 @@
 			</h:column>
 			<h:column headerClass="col0">
 				<f:facet name="header">FTP Clients</f:facet>
-				<h:form rendered="#{client.favorite}" styleClass="myForm">
+				<h:form rendered="#{client.favorite}" >
 					<p:link outcome="ftpClient" value="#{client.toUrlString()}" >
 						<f:param name="clientUrl" value="#{client.toUrlString()}" />
 					</p:link>
