@@ -34,7 +34,7 @@
 				<h:form>
 				<p:panelGrid columns="2">
 					
-					<p:outputLabel value="Reload data" />
+					<p:outputLabel value="Reload all data" />
 					<p:commandButton action="#{utilsBean.reloadAllData()}" value="Reload" icon="ui-icon-refresh" />
 					
 					<p:outputLabel value="Select style" />
@@ -44,10 +44,29 @@
 			            <f:selectItem itemLabel="Antracit" itemValue="antracit" />
 			        </p:selectOneMenu>
 			        
+			        <p:outputLabel value="Ping interval (seconds)" />
+			        <p:inputText value="#{utilsBean.pingInterval}" />
+			        
+			        <p:outputLabel value="Ping timeout (miliseconds)" />
+			        <p:inputText value="#{utilsBean.pingTimeout}" />
+			        
+			        <p:outputLabel value="Ping pool size" />
+			        <p:inputText value="#{utilsBean.pingPoolSize}" />
+			        
+			        <p:outputLabel value="Ping autodiscovery pool size" />
+			        <p:inputText value="#{utilsBean.autodiscoveryPoolSize}" />
+			        
+			        <p:outputLabel value="Trap receiver queue size" />
+			        <p:inputText value="#{utilsBean.trapReceiverQueueSize}" />
+			        
+			        <p:commandButton action="#{utilsBean.saveSettings()}" value="Save settings" icon="ui-icon-disk" />
+			        
 				</p:panelGrid>
 				</h:form>
 			
 			</h:panelGrid>
+			
+			<ui:include src="/include/footer.xhtml"/>
         
         </h:panelGrid>
         

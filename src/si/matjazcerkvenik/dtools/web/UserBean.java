@@ -54,7 +54,7 @@ public class UserBean implements Serializable {
 		return DProps.getProperty(DProps.DTOOLS_GUI_CSS_THEME);
 	}
 	public void cssThemeChanged(ValueChangeEvent e) {
-		DProps.setProperty(DProps.DTOOLS_GUI_CSS_THEME, e.getNewValue().toString());
+		DProps.setProperty(DProps.DTOOLS_GUI_CSS_THEME, e.getNewValue().toString(), true);
 	}
 	
 }

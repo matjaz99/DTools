@@ -147,10 +147,13 @@ public class DProps {
 	 * Set new property value and immediately save to file
 	 * @param key
 	 * @param string value
+	 * @param true to write properties file
 	 */
-	public static void setProperty(String key, String value) {
+	public static void setProperty(String key, String value, boolean writeToFile) {
 		props.put(key, value);
-		writeProperties();
+		if (writeToFile) {
+			writeProperties();
+		}
 	}
 	
 }

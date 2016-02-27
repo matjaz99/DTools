@@ -1,0 +1,18 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:dt="http://dtools.com/ui" >
+    
+    <br/><br/><br/><br/>
+    <h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
+    	
+    	<p:notificationBar position="bottom" autoDisplay="true" effect="slide" styleClass="top" widgetVar="bar">
+		    <h:outputText value="DTools v#{utilsBean.getDtoolsVersion()}" />
+		</p:notificationBar>
+    	
+    </h:panelGrid>
+    
+</ui:composition>

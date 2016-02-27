@@ -30,6 +30,8 @@ import java.util.Properties;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import si.matjazcerkvenik.dtools.context.DProps;
+import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 
@@ -139,6 +141,65 @@ public class UtilsBean {
 	
 	public void reloadAllData() {
 		DAO.getInstance().resetAllDataToNull();
+	}
+	
+	public String getDtoolsVersion() {
+		return DToolsContext.version;
+	}
+	
+	private String pingInterval;
+	private String pingTimeout;
+	private String pingPoolSize;
+	private String autodiscoveryPoolSize;
+	private String trapReceiverQueueSize;
+
+	public String getPingInterval() {
+		return DProps.getProperty(DProps.NETWORK_MONITORING_PING_INTERVAL);
+	}
+
+	public void setPingInterval(String pingInterval) {
+		this.pingInterval = pingInterval;
+	}
+	
+	public String getPingTimeout() {
+		return DProps.getProperty(DProps.NETWORK_MONITORING_PING_TIMEOUT);
+	}
+
+	public void setPingTimeout(String pingTimeout) {
+		this.pingTimeout = pingTimeout;
+	}
+
+	public String getPingPoolSize() {
+		return DProps.getProperty(DProps.NETWORK_MONITORING_PING_POOL_SIZE);
+	}
+
+	public void setPingPoolSize(String pingPoolSize) {
+		this.pingPoolSize = pingPoolSize;
+	}
+
+	public String getAutodiscoveryPoolSize() {
+		return DProps.getProperty(DProps.AUTO_DISCOVERY_THREAD_POOL_SIZE);
+	}
+
+	public void setAutodiscoveryPoolSize(String autodiscoveryPoolSize) {
+		this.autodiscoveryPoolSize = autodiscoveryPoolSize;
+	}
+
+	
+	public String getTrapReceiverQueueSize() {
+		return DProps.getProperty(DProps.SNMP_RECEIVER_QUEUE_SIZE);
+	}
+
+	public void setTrapReceiverQueueSize(String trapReceiverQueueSize) {
+		this.trapReceiverQueueSize = trapReceiverQueueSize;
+	}
+
+	public void saveSettings() {
+		DProps.setProperty(DProps.NETWORK_MONITORING_PING_INTERVAL, pingInterval, false);
+		DProps.setProperty(DProps.NETWORK_MONITORING_PING_TIMEOUT, pingTimeout, false);
+		DProps.setProperty(DProps.NETWORK_MONITORING_PING_POOL_SIZE, pingPoolSize, false);
+		DProps.setProperty(DProps.AUTO_DISCOVERY_THREAD_POOL_SIZE, autodiscoveryPoolSize, false);
+		DProps.setProperty(DProps.SNMP_RECEIVER_QUEUE_SIZE, trapReceiverQueueSize, true);
 	}
 	
 }
