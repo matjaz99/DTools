@@ -183,6 +183,27 @@ a:hover {
 
 
 
+/* FOOTER */
+
+.ui-notificationbar {
+    position: fixed;
+    width: 100%;
+    height: 10px;
+    display: none;
+    padding: 3px;
+}
+
+.ui-notificationbar.ui-widget-content {
+    border-top: 1px solid #FF4500;
+    border-right: none;
+    border-bottom: none;
+    border-left: none;
+    background: #272727;
+    color: #FF4500;
+    font-size: 8px;
+}
+
+
 
 
 

@@ -34,6 +34,7 @@ Commons-logging is required by commons-vfs
 xx. february 2016
 
 - style fixes
+- footer
 
 -----------------------------------------------------------
 ### 0.5.1-alpha.02

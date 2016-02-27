@@ -103,16 +103,25 @@ a:hover {
 
 
 
-/* fieldset {  */
-/*     display: block; */
-/*     margin: 5px; */
-/*     padding: 5px 10px; */
-/*     border: 2px groove (internal value); */
-/* } */
+/* FOOTER */
 
-/* legend { */
-/* 	font-style: italic; */
-/* } */
+.ui-notificationbar {
+    position: fixed;
+    width: 100%;
+    height: 10px;
+    display: none;
+    padding: 3px;
+}
+
+.ui-notificationbar.ui-widget-content {
+	border-top: 1px solid #AAAAAA;
+    border-right: none;
+    border-bottom: none;
+    border-left: none;
+    background: #EEEEEE;
+    color: #282828;
+    font-size: 8px;
+}
 
 
 
