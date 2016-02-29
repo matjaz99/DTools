@@ -33,8 +33,8 @@
     		<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
 							
 				<h:form>
-					<p:commandButton value="Add new agent" onclick="PF('addAgDlg').show();" icon="ui-icon-plus" />
-					<p:dialog header="Add new agent" widgetVar="addAgDlg" resizable="false" dynamic="true" closable="false">
+					<p:commandButton value="New simulator" onclick="PF('addAgDlg').show();" icon="ui-icon-plus" />
+					<p:dialog header="Add new agent simulator" widgetVar="addAgDlg" resizable="false" dynamic="true" closable="false">
 				    	<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
 							<h:outputLabel for="agName" value="Name: " />
 							<p:inputText id="agName" value="#{snmpSimulatorBean.newAgentName}" required="true" 
@@ -59,31 +59,21 @@
 							
 							<h:column>
 								
-								<h:panelGrid columns="3" styleClass="border" width="100%">
+								<h:panelGrid columns="1" styleClass="border" width="100%">
 								<h:panelGrid columns="1">
-									<h:panelGrid columns="6" cellpadding="2">
+									<h:panelGrid columns="3" cellpadding="2">
 										<dt:icon img="rocket" />
 										<p:inplace editor="true" styleClass="title" >
 									        <p:inputText value="#{agent.name}" required="true" label="name" 
 									        	valueChangeListener="#{agent.changedName}">
-									        	<p:ajax update="trapsTable tablesTable" />
+									        	<p:ajax />
 									        </p:inputText>
 									    </p:inplace>
-									    <h:outputText value=" @ " styleClass="title" />
-										<p:inplace editor="true" styleClass="title" >
-								            <p:inputText value="#{agent.localIp}" required="true" label="ip" valueChangeListener="#{agent.changedIp}" />
-								        </p:inplace>
-								        <h:outputText value=":" styleClass="title" />
-										<p:inplace editor="true" styleClass="title" >
-								            <p:inputText value="#{agent.localPort}" required="true" label="port" valueChangeListener="#{agent.changedPort}" />
-								        </p:inplace>
+									    <h:commandLink id="status">
+											<p:graphicImage library="#{userBean.cssTheme}" name="img/#{agent.getActiveStatusIcon()}" title="" />
+											<p:ajax update="growl status" />
+										</h:commandLink>
 								    </h:panelGrid>
-								    <h:panelGrid columns="2" cellpadding="2" cellspacing="5" >
-								        <h:outputText value="Active: " />
-								        <p:inputSwitch id="actBtn" value="#{agent.active}">
-								            <p:ajax update="growl actBtn" listener="#{snmpSimulatorBean.toggleSnmpAgent(agent)}" />
-								        </p:inputSwitch>
-									</h:panelGrid>
 									<h:panelGrid columns="3" cellpadding="2">
 										<p:button value="Open" outcome="snmpAgent" icon="ui-icon-folder-open" >
 											<f:param name="agent" value="#{agent.name}" />
@@ -95,30 +85,6 @@
 											action="#{snmpSimulatorBean.deleteSnmpAgent(agent)}" 
 											update="growl simForm" ajax="true" />
 									</h:panelGrid>
-								</h:panelGrid>
-								<h:panelGrid columns="1">
-									<h:outputText value="Traps scenario:" />
-									<h:dataTable id="trapsTable" value="#{agent.trapsTableList}" var="trapsTable" 
-										cellpadding="0" cellspacing="0" width="100%">
-										<h:column>
-											<p:link outcome="snmpTrapsTable" value="#{trapsTable.name}" style="color: #FAFAFA;">
-											    <f:param name="agent" value="#{agent.name}" />
-											    <f:param name="trapsTableName" value="#{trapsTable.name}" />
-											</p:link>
-										</h:column>
-									</h:dataTable>
-								</h:panelGrid>
-								<h:panelGrid columns="1">
-									<h:outputText value="Tables:" />
-									<h:dataTable id="tablesTable" value="#{agent.snmpTablesList}" var="table" 
-										cellpadding="0" cellspacing="0" width="100%">
-										<h:column>
-											<p:link outcome="snmpTable" value="#{table.name}" style="color: #FAFAFA;">
-											    <f:param name="agent" value="#{agent.name}" />
-											    <f:param name="snmpTableName" value="#{table.name}" />
-											</p:link>
-										</h:column>
-									</h:dataTable>
 								</h:panelGrid>
 								</h:panelGrid>
 								

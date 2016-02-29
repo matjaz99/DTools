@@ -1,4 +1,4 @@
-package si.matjazcerkvenik.dtools.web;
+package si.matjazcerkvenik.dtools.web.beans;
 
 import java.io.Serializable;
 

@@ -25,7 +25,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import si.matjazcerkvenik.dtools.tools.MissingValueException;
-import si.matjazcerkvenik.dtools.tools.duplicatefiles.DuplicateFilesFinder;
+import si.matjazcerkvenik.dtools.tools.fileinspector.DuplicateFilesFinder;
 
 @ManagedBean
 @SessionScoped
@@ -33,7 +33,7 @@ public class FileInspectorBean implements Serializable {
 	
 	private static final long serialVersionUID = 978539936948768708L;
 	
-	private String directory = "/Users/matjaz/Developer/git-workspace/DTools";
+	private String directory;
 	private String result;
 
 	public String getDirectory() {

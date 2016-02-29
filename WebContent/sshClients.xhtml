@@ -32,8 +32,8 @@
 			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
 							
 				<h:form id="addSshClientDialogForm">
-					<p:commandButton value="Add new SSH client" onclick="PF('addSshDlg').show();" icon="ui-icon-plus" />
-				    <p:dialog header="Add new SSH client" widgetVar="addSshDlg" resizable="false">
+					<p:commandButton value="New client" onclick="PF('addSshDlg').show();" icon="ui-icon-plus" />
+				    <p:dialog header="New SSH client" widgetVar="addSshDlg" resizable="false">
 				    	<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
 							<h:outputLabel for="sshHost" value="Hostname: " />
 							<p:inputText id="sshHost" value="#{sshClientsBean.hostname}" required="true" 

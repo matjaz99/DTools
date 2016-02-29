@@ -16,7 +16,7 @@
  * 
  */
 
-package si.matjazcerkvenik.dtools.tools.duplicatefiles;
+package si.matjazcerkvenik.dtools.tools.fileinspector;
 
 import java.io.File;
 import java.io.FileNotFoundException;

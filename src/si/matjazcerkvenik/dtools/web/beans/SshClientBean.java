@@ -16,7 +16,7 @@
  * 
  */
 
-package si.matjazcerkvenik.dtools.web;
+package si.matjazcerkvenik.dtools.web.beans;
 
 import java.io.IOException;
 import java.io.Serializable;

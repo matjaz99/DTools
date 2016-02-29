@@ -16,50 +16,33 @@
  * 
  */
 
-package si.matjazcerkvenik.dtools.web;
+package si.matjazcerkvenik.dtools.web.beans;
 
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
-import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.io.DAO;
-import si.matjazcerkvenik.dtools.xml.Note;
+import si.matjazcerkvenik.dtools.tools.ssh.SshResponse;
 
 @ManagedBean
 @SessionScoped
-public class NotesBean {
+public class HistoryBean {
 	
-	private String message;
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
+	public List<SshResponse> getSshResponsesList() {
+		return DAO.getInstance().loadAllSshResponses();
 	}
 	
-	public List<Note> getNotes() {
-		return DAO.getInstance().loadNotes().getNotesList();
+	
+	public String openSshResponse(SshResponse response) {
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sshResponse", response);
+		return "viewSshResponse";
 	}
 	
-	public void addNoteAction() {
-		
-		Note n = new Note();
-		n.setTimestamp(DToolsContext.getCurrentDate());
-		n.setMessage(message);
-		// TODO color
-		
-		DAO.getInstance().addNote(n);
-		
-		message = null;
-		
-	}
-	
-	public void deleteNote(Note n) {
-		DAO.getInstance().deleteNote(n);
+	public void deleteSshResponse(SshResponse response) {
+		DAO.getInstance().deleteSshResponse(response);
 	}
 	
 }

@@ -24,8 +24,8 @@ import javax.servlet.ServletContextListener;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
-import si.matjazcerkvenik.dtools.web.SnmpManagerBean;
-import si.matjazcerkvenik.dtools.web.SnmpSimulatorBean;
+import si.matjazcerkvenik.dtools.web.beans.SnmpManagerBean;
+import si.matjazcerkvenik.dtools.web.beans.SnmpSimulatorBean;
 
 public class ShutdownListener implements ServletContextListener {
 	

@@ -16,7 +16,7 @@
  * 
  */
 
-package si.matjazcerkvenik.dtools.web;
+package si.matjazcerkvenik.dtools.web.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -40,20 +40,13 @@ import si.matjazcerkvenik.dtools.xml.VarBind;
 
 @ManagedBean
 @ViewScoped
-public class SnmpTrapV1Composer implements Serializable {
+public class SnmpTrapV2CComposer implements Serializable {
 	
-	private static final long serialVersionUID = -8599537776408970013L;
+	private static final long serialVersionUID = 533428296431557631L;
 	
 	private String trapName;
 	private String community = "public";
 	private String sourceIp = LocalhostInfo.getLocalIpAddress();
-	// Generic trap types: coldStart trap (0), warmStart trap (1),
-	// linkDown trap(2), linkUp trap (3), authenticationFailure trap (4),
-	// egpNeighborLoss trap (5), enterpriseSpecific trap (6)
-	private int genericTrap = 6;
-	private int specificTrap = 0;
-	private String enterpriseOid = "1.";
-	private String timestamp = "0";
 	private List<VarBind> varbinds;
 	private boolean modifyMode = false;
 	
@@ -102,16 +95,13 @@ public class SnmpTrapV1Composer implements Serializable {
 				}
 			}
 		}
+		
 		if (trap != null) {
 			modifyMode = true;
 			originalTrap = trap;
 			trapName = trap.getTrapName();
 			community = trap.getCommunity();
-			genericTrap = trap.getGenericTrap();
-			specificTrap = trap.getSpecificTrap();
-			enterpriseOid = trap.getEnterpriseOid();
 			sourceIp = trap.getSourceIp();
-			timestamp = trap.getTimestamp();
 			varbinds = trap.cloneVarbinds(); // always use copy of varbinds (in case they are changed)
 		}
 	}
@@ -139,43 +129,34 @@ public class SnmpTrapV1Composer implements Serializable {
 	public void setSourceIp(String sourceIp) {
 		this.sourceIp = sourceIp;
 	}
+	
+	
 
-	public int getGenericTrap() {
-		return genericTrap;
+	public SnmpAgent getAgent() {
+		return agent;
 	}
 
-	public void setGenericTrap(int genericTrap) {
-		this.genericTrap = genericTrap;
+	public void setAgent(SnmpAgent agent) {
+		this.agent = agent;
+	}
+	
+	public TrapsTable getTrapsTable() {
+		return trapsTable;
 	}
 
-	public int getSpecificTrap() {
-		return specificTrap;
+	public void setTrapsTable(TrapsTable trapsTable) {
+		this.trapsTable = trapsTable;
 	}
-
-	public void setSpecificTrap(int specificTrap) {
-		this.specificTrap = specificTrap;
-	}
-
-	public String getEnterpriseOid() {
-		return enterpriseOid;
-	}
-
-	public void setEnterpriseOid(String enterpriseOid) {
-		this.enterpriseOid = enterpriseOid;
-	}
-
-	public String getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(String timestamp) {
-		this.timestamp = timestamp;
-	}
+	
+	
+	
 
 	public List<VarBind> getVarbinds() {
 		if (varbinds == null) {
 			varbinds = new ArrayList<VarBind>();
-			varbinds.add(new VarBind("customVarBind", "1.2.3.4", VarBind.TYPE_OCTET_STRING, "abcd"));
+			varbinds.add(new VarBind("sysUpTime", "1.3.6.1.2.1.1.3.0", VarBind.TYPE_TIMETICKS, "" + DToolsContext.getSysUpTime()/10));
+			varbinds.add(new VarBind("snmpTrapOid", "1.3.6.1.6.3.1.1.4.1.0", VarBind.TYPE_OCTET_STRING, "9.9.9"));
+			varbinds.add(new VarBind("sourceIp", "1.3.6.1.6.3.18.1.3.0", VarBind.TYPE_IP_ADDRESS, LocalhostInfo.getLocalIpAddress()));
 		}
 		return varbinds;
 	}
@@ -192,26 +173,6 @@ public class SnmpTrapV1Composer implements Serializable {
 		varbinds.remove(vb);
 	}
 	
-	public SnmpAgent getAgent() {
-		return agent;
-	}
-
-	public void setAgent(SnmpAgent agent) {
-		this.agent = agent;
-	}
-
-	public TrapsTable getTrapsTable() {
-		return trapsTable;
-	}
-
-	public void setTrapsTable(TrapsTable trapsTable) {
-		this.trapsTable = trapsTable;
-	}
-
-	/**
-	 * Save trap data.
-	 * @return url to snmpAgent.xhtml
-	 */
 	public String saveTrap() {
 		
 		if (modifyMode) {
@@ -235,7 +196,7 @@ public class SnmpTrapV1Composer implements Serializable {
 			trap = populateTrap(trap);
 			trapsTable.addTrap(trap);
 			DAO.getInstance().saveSnmpTraps(trapsTable);
-			Growl.addGrowlMessage("Trap " + trapName + " saved", FacesMessage.SEVERITY_INFO);
+			Growl.addGrowlMessage("Trap saved", FacesMessage.SEVERITY_INFO);
 		}
 		
 		resetTrap();
@@ -250,7 +211,8 @@ public class SnmpTrapV1Composer implements Serializable {
 	 * @return trap
 	 */
 	private SnmpTrap findTrap(String trapName) {
-		List<SnmpTrap> list = trapsTable.getTrapsList(); //DAO.getInstance().loadSnmpTraps().getTrapsList();
+//		List<SnmpTrap> list = DAO.getInstance().loadSnmpTraps().getTrapsList();
+		List<SnmpTrap> list = trapsTable.getTrapsList();
 		for (SnmpTrap trap : list) {
 			if (trap.getTrapName().equals(trapName)) {
 				return trap;
@@ -265,13 +227,9 @@ public class SnmpTrapV1Composer implements Serializable {
 	 * @return trap
 	 */
 	private SnmpTrap populateTrap(SnmpTrap trap) {
-		trap.setVersion("v1");
+		trap.setVersion("v2c");
 		trap.setCommunity(community);
-		trap.setGenericTrap(genericTrap);
-		trap.setSpecificTrap(specificTrap);
-		trap.setEnterpriseOid(enterpriseOid);
 		trap.setSourceIp(sourceIp);
-		trap.setTimestamp(timestamp);
 		trap.setVarbind(varbinds);
 		return trap;
 	}
@@ -283,13 +241,10 @@ public class SnmpTrapV1Composer implements Serializable {
 		trapName = null;
 		community = "public";
 		sourceIp = LocalhostInfo.getLocalIpAddress();
-		genericTrap = 6;
-		specificTrap = 0;
-		enterpriseOid = "1.";
-		timestamp = "" + DToolsContext.getSysUpTime()/1000;
 		varbinds = null;
 		originalTrap = null;
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("trap");
 	}
+	
 
 }

@@ -35,6 +35,7 @@ xx. february 2016
 
 - style fixes
 - footer
+- moved all beans to beans package
 
 -----------------------------------------------------------
 ### 0.5.1-alpha.02
@@ -55,7 +56,7 @@ xx. february 2016
 
 19. january 2016
 
-- added properties: ping pool size and interval
+- added new properties: ping pool size and interval
 - monitoring active flag for each service
 - fixed bug - hostname changed when monitoring is active
 

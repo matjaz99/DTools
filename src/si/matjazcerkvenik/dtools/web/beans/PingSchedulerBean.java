@@ -16,7 +16,7 @@
  * 
  */
 
-package si.matjazcerkvenik.dtools.web;
+package si.matjazcerkvenik.dtools.web.beans;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;

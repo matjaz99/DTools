@@ -112,6 +112,11 @@ a.ui-link.ui-widget {
 	font-size: 10px;
 	color: #FAFAFA;
 }
+.pfmyForm a.ui-link.ui-widget, a.ui-link.ui-widget {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #272727;
+}
 
 
 

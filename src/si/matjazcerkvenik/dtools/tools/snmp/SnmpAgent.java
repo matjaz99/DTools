@@ -271,6 +271,18 @@ public class SnmpAgent implements Serializable {
 	}
 	
 	
+	/**
+	 * Return active status icon (.png)
+	 * @return icon
+	 */
+	public String getActiveStatusIcon() {
+		if (active) {
+			return "bullet_green.png";
+		}
+		return "bullet_black.png";
+	}
+	
+	
 	
 	
 	public void changedName(ValueChangeEvent e) {
