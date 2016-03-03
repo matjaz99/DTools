@@ -141,6 +141,10 @@ a:hover {
 
 
 
+table td {
+	vertical-align: top;
+}
+
 .table {   
    border-collapse: collapse;
    border: 1px solid #AAAAAA;

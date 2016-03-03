@@ -26,6 +26,7 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import si.matjazcerkvenik.simplelogger.LEVEL;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
 public class DToolsContext {
@@ -36,6 +37,7 @@ public class DToolsContext {
 	public static String version;
 	
 	private SimpleLogger logger;
+	private SimpleLogger pingLogger;
 	private long startTime;
 	
 	
@@ -44,6 +46,7 @@ public class DToolsContext {
 		DProps.loadProperties();
 		readVersion();
 		initLogger();
+		initPingLogger();
 	}
 	
 	public static DToolsContext getInstance() {
@@ -56,9 +59,6 @@ public class DToolsContext {
 		
 	}
 	
-	public SimpleLogger getLogger() {
-		return logger;
-	}
 	
 	private void setHomeDir() {
 		
@@ -101,7 +101,9 @@ public class DToolsContext {
 	}
 	
 	
-	
+	/**
+	 * Initialize general logger (dtools.log)
+	 */
 	private void initLogger() {
 		
 		logger = new SimpleLogger(DProps.getProperties());
@@ -119,6 +121,34 @@ public class DToolsContext {
 		logger.info("LOG_FILE=" + logger.getFilename());		
 		
 	}
+	
+	public SimpleLogger getLogger() {
+		return logger;
+	}
+	
+	
+	/**
+	 * Initialize ping logger (ping.log)
+	 */
+	private void initPingLogger() {
+		
+		pingLogger = new SimpleLogger();
+		// overwrite logger file location
+		pingLogger.setFilename(HOME_DIR + "/log/ping.log");
+		pingLogger.setLogLevel(LEVEL.INFO);
+		pingLogger.setAppend(true);
+		pingLogger.setBackup(3);
+		pingLogger.setMaxSizeMb(10);
+		pingLogger.setVerbose(true); // TODO remove this someday
+		pingLogger.info("PING_LOG_FILE=" + pingLogger.getFilename());		
+		
+	}
+	
+	public SimpleLogger getPingLogger() {
+		return pingLogger;
+	}
+	
+	
 	
 	/**
 	 * Return type of operating system: WINDOWS, OSX, LINUX

@@ -28,10 +28,18 @@ import si.matjazcerkvenik.dtools.context.DProps;
 import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.xml.Node;
 
-
+/**
+ * This class schedules periodic ping requests.
+ * 
+ * @author matjaz
+ *
+ */
 public class PingScheduler {
 	
 	private ScheduledExecutorService scheduledThreadPool = null;
+	
+	public PingScheduler() {
+	}
 	
 	public void startPingScheduler() {
 		
@@ -56,7 +64,7 @@ public class PingScheduler {
 			
 		}
 		scheduledThreadPool = null;
-		System.out.println("Finished");
+		System.out.println("PingScheduler finished");
 	}
 	
 }

@@ -36,6 +36,8 @@ xx. february 2016
 - style fixes
 - footer
 - moved all beans to beans package
+- ping logger
+- bug fixes
 
 -----------------------------------------------------------
 ### 0.5.1-alpha.02
@@ -290,8 +292,8 @@ xx. february 2016
 07. september 2015
 
 - sender thread - send traps in specified interval
-- trap info (trap monitor)
-- changed format of snmpTraps.xml (varbinds contain attributes rather than elements) - to convert use xmlConverter.jar
+- trap monitor
+- changed format of snmpTraps.xml (varbinds contain attributes rather than elements)
 
 -----------------------------------------------------------
 

@@ -20,8 +20,11 @@ package si.matjazcerkvenik.dtools.web.beans;
 
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+
+import org.primefaces.context.RequestContext;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.io.DAO;
@@ -53,8 +56,12 @@ public class NotesBean {
 		// TODO color
 		
 		DAO.getInstance().addNote(n);
+		Growl.addGrowlMessage("Note created", FacesMessage.SEVERITY_INFO);
 		
 		message = null;
+		
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.addCallbackParam("success", true);
 		
 	}
 	

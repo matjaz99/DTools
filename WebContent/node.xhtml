@@ -127,9 +127,9 @@
 								<h:outputText value="#{service.paramsString}" />
 							</h:column>
 							<h:column headerClass="col0 col2">
-								<f:facet name="header">Monitoring active</f:facet>
-								<h:selectBooleanCheckbox value="#{service.monitoringActive}" 
-									valueChangeListener="#{service.changedMonitoringActive}" >
+								<f:facet name="header">Monitoring enabled</f:facet>
+								<h:selectBooleanCheckbox value="#{service.monitoringEnabled}" 
+									valueChangeListener="#{service.changedMonitoringEnabled}" >
 									<f:ajax event="change" render="@this" />
 								</h:selectBooleanCheckbox>
 							</h:column>

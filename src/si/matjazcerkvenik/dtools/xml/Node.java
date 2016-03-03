@@ -142,24 +142,35 @@ public class Node implements Serializable, Runnable {
 	 * @return icon
 	 */
 	public String getIcmpServiceStatusIcon() {
+		// no services
 		if (nodeServices.getServices().isEmpty()) {
 			return "bullet_disabled.png";
 		}
+		// all services disabled
+		boolean allDisabled = true;
 		for (Service s : nodeServices.getServices()) {
-			if (s.getMonitoringClass().equals("ICMP_PING")) {
-				return s.getStatusIcon();
+			if (s.isMonitoringEnabled()) {
+				allDisabled = false;
+				break;
 			}
+		}
+		if (allDisabled) return "bullet_disabled.png";
+		// get ICMP status
+		Service s = nodeServices.findService("ICMP_PING");
+		if (s != null) {
+			return s.getStatusIcon();
 		}
 		return "bullet_black.png";
 	}
 	
 	public PingStatus getIcmpServiceStatus() {
-		for (Service s : nodeServices.getServices()) {
-			if (s.getMonitoringClass().equals("ICMP_PING")) {
-				return s.getStatus();
-			}
+		
+		Service s = nodeServices.findService("ICMP_PING");
+		if (s != null) {
+			return s.getStatus();
 		}
 		return new PingStatus();
+		
 	}
 	
 	
@@ -169,10 +180,9 @@ public class Node implements Serializable, Runnable {
 	 */
 	public void testConnection() {
 		
-		for (Service s : nodeServices.getServices()) {
-			if (s.getMonitoringClass().equals("ICMP_PING")) {
-				s.pingService();
-			}
+		Service s = nodeServices.findService("ICMP_PING");
+		if (s != null && s.isMonitoringEnabled()) {
+			s.pingService();
 		}
 		
 	}
@@ -181,7 +191,7 @@ public class Node implements Serializable, Runnable {
 	@Override
 	public void run() {
 		for (Service s : nodeServices.getServices()) {
-			if (s.isMonitoringActive()) {
+			if (s.isMonitoringEnabled()) {
 				s.pingService();
 			}
 		}

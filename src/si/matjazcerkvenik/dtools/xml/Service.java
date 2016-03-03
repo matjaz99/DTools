@@ -20,7 +20,6 @@ package si.matjazcerkvenik.dtools.xml;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.faces.event.ValueChangeEvent;
@@ -28,6 +27,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.ping.DummyPing;
 import si.matjazcerkvenik.dtools.tools.ping.HttpPing;
@@ -42,7 +42,7 @@ public class Service implements Serializable {
 	
 	private String name;
 	private String monitoringClass;
-	private boolean monitoringActive = true;
+	private boolean monitoringEnabled = true;
 	private List<Param> params;
 	private Node node;  // just a reference to node object
 	private IPing ping;
@@ -70,13 +70,13 @@ public class Service implements Serializable {
 		this.monitoringClass = monitoringClass;
 	}
 
-	public boolean isMonitoringActive() {
-		return monitoringActive;
+	public boolean isMonitoringEnabled() {
+		return monitoringEnabled;
 	}
 
-	@XmlAttribute
-	public void setMonitoringActive(boolean monitoringActive) {
-		this.monitoringActive = monitoringActive;
+	@XmlAttribute(name="monitoringActive")
+	public void setMonitoringEnabled(boolean monitoringEnabled) {
+		this.monitoringEnabled = monitoringEnabled;
 	}
 
 	public List<Param> getParams() {
@@ -114,7 +114,7 @@ public class Service implements Serializable {
 	}
 	
 	/**
-	 * Return param value according to selected key. If null is returned 
+	 * Return service parameters according to selected key. If null is returned 
 	 * no key is found.
 	 * @param key
 	 * @return value
@@ -133,9 +133,14 @@ public class Service implements Serializable {
 		if (ping == null) {
 			initPing();
 		}
-		System.out.println(Thread.currentThread().getName() + " ping " + node.getName() + "(" + node.getHostname() + ")\t" + " [" + new Date() + "] " + ping.getClass().getName());
+		
+//		System.out.println(Thread.currentThread().getName() + " ping " + node.getName() + "(" + node.getHostname() + ")\t");
 		ping.ping();
 		
+		// format: thread, ping class, node, ping status
+		String s = Thread.currentThread().getName() + " " + ping.getClass().getSimpleName() + " " + node.getName()
+				+ " " + ping.getStatus().toString();
+		DToolsContext.getInstance().getPingLogger().info(s);
 	}
 	
 	private void initPing() {
@@ -157,13 +162,13 @@ public class Service implements Serializable {
 		
 	}
 	
-	public void changedMonitoringActive(ValueChangeEvent e) {
+	public void changedMonitoringEnabled(ValueChangeEvent e) {
 		if (e.getOldValue().toString().equalsIgnoreCase(e.getNewValue().toString())) {
 			return;
 		}
-		monitoringActive = (Boolean) e.getNewValue();
+		monitoringEnabled = (Boolean) e.getNewValue();
 		DAO.getInstance().saveNetworkNodes();
-		if (!monitoringActive) {
+		if (!monitoringEnabled) {
 			ping.resetStatus();
 		}
 	}

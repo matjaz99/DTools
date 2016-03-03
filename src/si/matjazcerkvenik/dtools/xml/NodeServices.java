@@ -34,4 +34,13 @@ public class NodeServices implements Serializable {
 		services.add(service);
 	}
 	
+	public Service findService(String arg) {
+		for (Service s : services) {
+			if (s.getMonitoringClass().equals(arg)) {
+				return s;
+			}
+		}
+		return null;
+	}
+	
 }
