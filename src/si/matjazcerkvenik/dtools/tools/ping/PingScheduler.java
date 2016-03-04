@@ -25,6 +25,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import si.matjazcerkvenik.dtools.context.DProps;
+import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.xml.Node;
 
@@ -42,6 +43,8 @@ public class PingScheduler {
 	}
 	
 	public void startPingScheduler() {
+		
+		DToolsContext.getInstance().getLogger().info("PingScheduler:: started");
 		
 		int threadPoolSize = DProps.getPropertyInt(DProps.NETWORK_MONITORING_PING_POOL_SIZE);
 		int interval = DProps.getPropertyInt(DProps.NETWORK_MONITORING_PING_INTERVAL);
@@ -64,7 +67,7 @@ public class PingScheduler {
 			
 		}
 		scheduledThreadPool = null;
-		System.out.println("PingScheduler finished");
+		DToolsContext.getInstance().getLogger().info("PingScheduler:: stopped");
 	}
 	
 }

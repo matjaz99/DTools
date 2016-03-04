@@ -22,6 +22,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import si.matjazcerkvenik.dtools.context.DProps;
+import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.xml.Node;
 
@@ -44,6 +45,8 @@ public class AutoDiscoverThread extends Thread {
 	
 	@Override
 	public void run() {
+		
+		DToolsContext.getInstance().getLogger().info("AutoDiscoverThread:: started");
 		
 		threadIsFinished = false;
 		int id = 0;
@@ -86,7 +89,7 @@ public class AutoDiscoverThread extends Thread {
 		}
 				
 		while (count > 0) {
-			System.out.println("count: " + count);
+//			System.out.println("count: " + count);
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e) {
@@ -96,7 +99,7 @@ public class AutoDiscoverThread extends Thread {
 		}
 		
 		executor.shutdown();
-		System.out.println("AD thread finished");
+		DToolsContext.getInstance().getLogger().info("AutoDiscoverThread:: finished");
 		
 		executor = null;
 		threadIsFinished = true;
@@ -135,7 +138,7 @@ public class AutoDiscoverThread extends Thread {
 		while (!executor.isTerminated()) {
 			// wait
 		}
-		System.out.println("Finished");
+		DToolsContext.getInstance().getLogger().info("AutoDiscoverThread:: stopped");
 	}
 	
 //	public boolean isTerminated() {
@@ -200,7 +203,7 @@ public class AutoDiscoverThread extends Thread {
 	
 	public synchronized void storeNode(Node n) {
 		DAO.getInstance().addNode(n);
-		System.out.println("==> Node added: " + n.getHostname());
+		DToolsContext.getInstance().getLogger().info("AutoDiscoverThread:addNode(): " + n.getHostname());
 	}
 	
 	public synchronized void decreaseCount() {
@@ -210,7 +213,7 @@ public class AutoDiscoverThread extends Thread {
 	public int determineDelay() {
 		int delay = 30;
 		delay = 5 * count;
-		System.out.println("delay " + delay);
+//		System.out.println("delay " + delay);
 		return delay;
 	}
 	

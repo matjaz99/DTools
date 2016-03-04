@@ -26,27 +26,27 @@ import si.matjazcerkvenik.dtools.xml.Service;
 public class AutoDiscoverWorker implements Runnable {
 	
 	private long id;
-	private String command;
+	private String ip;
 	private AutoDiscoverThread adtp;
 
-	public AutoDiscoverWorker(long id, String command, AutoDiscoverThread adtp) {
+	public AutoDiscoverWorker(long id, String ip, AutoDiscoverThread adtp) {
 		this.id = id;
-		this.command = command;
+		this.ip = ip;
 		this.adtp = adtp;
 	}
 	
 	@Override
 	public void run() {
-		System.out.println("Ping: " + command);
+//		System.out.println("Ping: " + ip);
 		
 		IcmpPing p = new IcmpPing();
-		PingStatus status = p.ping(command);
+		PingStatus status = p.ping(ip);
 		
 		if (status.getErrorCode() == PingStatus.EC_OK) {
 			Node n = new Node();
-			n.setHostname(command);
-			n.setName("AD-Node #" + id);
-			n.setDescription("AutoDiscovered node @ " + new Date());
+			n.setHostname(ip);
+			n.setName("Node #" + id);
+			n.setDescription("AutoDiscovered @ " + new Date());
 			
 			Service s = new Service();
 			s.setName("ICMP");
@@ -62,7 +62,7 @@ public class AutoDiscoverWorker implements Runnable {
 	
 	@Override
 	public String toString() {
-		return this.command;
+		return this.ip;
 	}
 	
 }
