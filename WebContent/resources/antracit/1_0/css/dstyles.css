@@ -10,6 +10,13 @@ body {
 	margin: 0px;
 }
 
+hr {
+    border: 0;
+    height: 1px;
+    background: #FF4500;
+/*     background-image: linear-gradient(to right, #ccc, #333, #ccc); */
+}
+
 .ui-message-info, .ui-message-error, .ui-message-warn, .ui-message-fatal, .ui-messages-error, .ui-messages-warn {
 	border: 1px solid;
 	margin: 0px 5px;
@@ -93,6 +100,23 @@ body {
 }
 
 
+
+
+.ui-overlaypanel.ui-widget-content {
+	border: 1px solid rgba(220,220,220,0.7);
+    background: #272727;
+    color: #FAFAFA;
+}
+
+.ui-overlaypanel.ui-shadow {
+    -moz-box-shadow: 0px 5px 10px rgba(31,31,31,0.7);
+    -webkit-box-shadow: 0px 5px 10px rgba(31,31,31,0.7);
+    box-shadow: 0px 5px 10px rgba(31,31,31,0.7);
+}
+
+
+
+
 /** dialog title color */
 .ui-dialog-titlebar {
 	color: #FF4500;
@@ -141,7 +165,7 @@ a:hover {
 
 
 
-table td {
+.vAlignTable td {
 	vertical-align: top;
 }
 

@@ -20,6 +20,7 @@ package si.matjazcerkvenik.dtools.tools.ping;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
 
 import si.matjazcerkvenik.dtools.context.DProps;
 import si.matjazcerkvenik.dtools.context.DToolsContext;
@@ -32,13 +33,20 @@ public class AutoDiscoverThread extends Thread {
 	
 	private int[] fromIpArray;
 	private int[] toIpArray;
-		
-	private int count = 0;
 	
-	private boolean threadIsFinished = false;
+	/** Number of currently active workers */
+	private int activeWorkersCount = 0;
+	
+	/** Total counter */
+	private int totalCount = 0;
+	
+	/** Number of discovered nodes */
+	private int discoveredNodesCount = 0;
+	
+	private boolean running = false;
 	
 	public AutoDiscoverThread() {
-		
+				
 		int poolSize = DProps.getPropertyInt(DProps.AUTO_DISCOVERY_THREAD_POOL_SIZE);
 		executor = Executors.newFixedThreadPool(poolSize);
 	}
@@ -48,8 +56,10 @@ public class AutoDiscoverThread extends Thread {
 		
 		DToolsContext.getInstance().getLogger().info("AutoDiscoverThread:: started");
 		
-		threadIsFinished = false;
-		int id = 0;
+		running = true;
+		activeWorkersCount = 0;
+		totalCount = 0;
+		discoveredNodesCount = 0;
 		
 		while (!(fromIpArray[0] == toIpArray[0] && fromIpArray[1] == toIpArray[1] 
 				&& fromIpArray[2] == toIpArray[2] && fromIpArray[3] == toIpArray[3])) {
@@ -58,11 +68,17 @@ public class AutoDiscoverThread extends Thread {
 					+ fromIpArray[2] + "." + fromIpArray[3];
 			
 			if (!ipExists(ipAddr)) {
-				Runnable worker = new AutoDiscoverWorker(id, ipAddr, this);
-				executor.execute(worker);
-				count++;
-				id++;
+				Runnable worker = new AutoDiscoverWorker(totalCount, ipAddr, this);
+				try {
+					executor.execute(worker);
+					activeWorkersCount++;
+					DToolsContext.getInstance().getLogger().info("AutoDiscoverThread:: ping " + ipAddr);
+				} catch (RejectedExecutionException e) {
+					DToolsContext.getInstance().getLogger().warn("AutoDiscoverThread:: terminated");
+					return;
+				}
 			}
+			totalCount++;
 			
 			fromIpArray[3]++;
 			if (fromIpArray[3] == 256) {
@@ -88,21 +104,21 @@ public class AutoDiscoverThread extends Thread {
 			
 		}
 				
-		while (count > 0) {
+		while (activeWorkersCount > 0) {
 //			System.out.println("count: " + count);
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
 			}
 			
 		}
 		
 		executor.shutdown();
+		executor = null;
+		running = false;
+		
 		DToolsContext.getInstance().getLogger().info("AutoDiscoverThread:: finished");
 		
-		executor = null;
-		threadIsFinished = true;
 	}
 	
 	public void startAutoDiscover(String startIp, String endIp) {
@@ -139,14 +155,15 @@ public class AutoDiscoverThread extends Thread {
 			// wait
 		}
 		DToolsContext.getInstance().getLogger().info("AutoDiscoverThread:: stopped");
+		running = false;
 	}
 	
 //	public boolean isTerminated() {
 //		return executor.isShutdown();
 //	}
 	
-	public boolean isThreadFinished() {
-		return threadIsFinished;
+	public boolean isRunning() {
+		return running;
 	}
 
 	/**
@@ -203,18 +220,33 @@ public class AutoDiscoverThread extends Thread {
 	
 	public synchronized void storeNode(Node n) {
 		DAO.getInstance().addNode(n);
+		discoveredNodesCount++;
 		DToolsContext.getInstance().getLogger().info("AutoDiscoverThread:addNode(): " + n.getHostname());
 	}
 	
 	public synchronized void decreaseCount() {
-		count--;
+		activeWorkersCount--;
 	}
 	
 	public int determineDelay() {
 		int delay = 30;
-		delay = 5 * count;
+		delay = 5 * activeWorkersCount;
 //		System.out.println("delay " + delay);
 		return delay;
 	}
+
+	public int getActiveWorkersCount() {
+		return activeWorkersCount;
+	}
+
+	public int getTotalCount() {
+		return totalCount;
+	}
+
+	public int getDiscoveredNodesCount() {
+		return discoveredNodesCount;
+	}
+	
+	
 	
 }

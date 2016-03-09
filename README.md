@@ -29,12 +29,13 @@ Commons-logging is required by commons-vfs
 ## Version history
 
 -----------------------------------------------------------
-### 0.5.1-alpha.03
+### 0.5.1-beta.01
 
-xx. february 2016
+9. march 2016
 
 - style fixes
 - footer
+- autodiscovery overlay panel
 - moved all beans to beans package
 - ping logger
 - bug fixes
@@ -51,7 +52,7 @@ xx. february 2016
 
 10. february 2016
 
-- auto discovery
+- autodiscovery
 
 -----------------------------------------------------------
 ### 0.5.0

@@ -1,3 +1,21 @@
+/* 
+ * Copyright (C) 2015 Matjaz Cerkvenik
+ * 
+ * DTools is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * DTools is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with DTools. If not, see <http://www.gnu.org/licenses/>.
+ * 
+ */
+
 package si.matjazcerkvenik.dtools.web.beans;
 
 import javax.faces.application.FacesMessage;
@@ -17,7 +35,7 @@ public class AppBean {
 	/* AUTO DISCOVERY */
 	
 	private String fromIp = "192.168.1.0";
-	private String toIp = "192.168.30.0";
+	private String toIp = "192.168.1.100";
 	
 	private AutoDiscoverThread adThread;
 	
@@ -42,11 +60,14 @@ public class AppBean {
 		if (adThread == null) {
 			adThread = new AutoDiscoverThread();
 		}
-		if (adThread.isThreadFinished()) {
+		if (adThread.isRunning()) {
+			return;
+		} else {
 			adThread = null;
 			adThread = new AutoDiscoverThread();
 		}
 		adThread.startAutoDiscover(fromIp, toIp);
+		Growl.addGrowlMessage("AutoDiscover started", FacesMessage.SEVERITY_INFO);
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.addCallbackParam("success", true);
 	}
@@ -54,10 +75,40 @@ public class AppBean {
 	public void stopAutoDiscover() {
 		adThread.stopAutoDiscover();
 		adThread = null;
+		Growl.addGrowlMessage("AutoDiscover terminated", FacesMessage.SEVERITY_INFO);
 	}
 	
+	public void toggleAutodiscovery() {
+		
+	}
 	
+	public boolean isAutoDiscoveryActive() {
+		if (adThread != null && adThread.isRunning()) {
+			return true;
+		}
+		return false;
+	}
 	
+	public int getActiveWorkersCount() {
+		if (adThread == null) {
+			return 0;
+		}
+		return adThread.getActiveWorkersCount();
+	}
+
+	public int getTotalCount() {
+		if (adThread == null) {
+			return 0;
+		}
+		return adThread.getTotalCount();
+	}
+
+	public int getDiscoveredNodesCount() {
+		if (adThread == null) {
+			return 0;
+		}
+		return adThread.getDiscoveredNodesCount();
+	}
 	
 	
 	
