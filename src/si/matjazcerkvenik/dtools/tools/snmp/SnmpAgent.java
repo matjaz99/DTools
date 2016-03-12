@@ -214,7 +214,7 @@ public class SnmpAgent implements Serializable {
 	
 
 	/**
-	 * Return true if trapSender is running
+	 * Return true if trapSender and agentImpl are running
 	 * @return active
 	 */
 	public boolean isActive() {

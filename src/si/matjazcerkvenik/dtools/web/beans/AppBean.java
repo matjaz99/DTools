@@ -18,12 +18,17 @@
 
 package si.matjazcerkvenik.dtools.web.beans;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 
 import org.primefaces.context.RequestContext;
 
+import si.matjazcerkvenik.dtools.context.DProps;
 import si.matjazcerkvenik.dtools.tools.ping.AutoDiscoverThread;
 import si.matjazcerkvenik.dtools.tools.ping.PingScheduler;
 
@@ -89,6 +94,13 @@ public class AppBean {
 		return false;
 	}
 	
+	public String getAutoDiscoveryCurrentIp() {
+		if (adThread == null) {
+			return "-";
+		}
+		return adThread.getNextIp();
+	}
+	
 	public int getActiveWorkersCount() {
 		if (adThread == null) {
 			return 0;
@@ -108,6 +120,17 @@ public class AppBean {
 			return 0;
 		}
 		return adThread.getDiscoveredNodesCount();
+	}
+	
+	public String getAutoDiscoveryPoolSize() {
+		return DProps.getProperty(DProps.AUTO_DISCOVERY_THREAD_POOL_SIZE);
+	}
+	
+	public int getAutoDiscoveryDelay() {
+		if (adThread == null) {
+			return 0;
+		}
+		return adThread.determineDelay();
 	}
 	
 	
@@ -148,6 +171,94 @@ public class AppBean {
 	}
 	
 	
+	
+	
+	
+	
+	/* ACTIVE CONNECTIONS */
+	
+	
+	
+	List<ActiveConnection> activeConnectionsList = new ArrayList<ActiveConnection>();
+	
+	@ManagedProperty(value="#{snmpSimulatorBean}")
+	private SnmpSimulatorBean snmpSimulatorBean;
+
+
+	public void setSnmpSimulatorBean(SnmpSimulatorBean snmpSimulatorBean) {
+		this.snmpSimulatorBean = snmpSimulatorBean;
+	}
+	
+	
+	public List<ActiveConnection> getActiveConnectionsList() {
+		
+		activeConnectionsList.clear();
+		
+		if (isAutoDiscoveryActive()) {
+			ActiveConnection ac = new ActiveConnection();
+			ac.name = "Autodiscovery";
+			ac.outcome = "network";
+			activeConnectionsList.add(ac);
+		}
+		
+		if (isMonitoringActive()) {
+			ActiveConnection ac = new ActiveConnection();
+			ac.name = "Network Monitoring";
+			ac.outcome = "network";
+			activeConnectionsList.add(ac);
+		}
+		
+		// get active SNMP agents
+		if (snmpSimulatorBean != null) {
+			for (int i = 0; i < snmpSimulatorBean.getSnmpAgents().size(); i++) {
+				if (snmpSimulatorBean.getSnmpAgents().get(i).isActive()) {
+					ActiveConnection ac = new ActiveConnection();
+					ac.name = snmpSimulatorBean.getSnmpAgents().get(i).getName();
+					ac.outcome = "snmpSimulator";
+					String args[] = {snmpSimulatorBean.getSnmpAgents().get(i).getName()};
+					ac.args = args;
+					activeConnectionsList.add(ac);
+				}
+			}
+			
+		} else {
+			System.out.println("simBean is null!!!!");
+		}
+		
+		
+		return activeConnectionsList;
+	}
+	
+	
+	
+	
+	
+	public class ActiveConnection {
+		
+		private String name;
+		private String outcome;
+		private String[] args;
+		
+		public String getName() {
+			return name;
+		}
+		public void setName(String name) {
+			this.name = name;
+		}
+		public String getOutcome() {
+			return outcome;
+		}
+		public void setOutcome(String outcome) {
+			this.outcome = outcome;
+		}
+		public String[] getArgs() {
+			return args;
+		}
+		public void setArgs(String[] args) {
+			this.args = args;
+		}
+		
+	}
 	
 	
 	

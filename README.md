@@ -10,6 +10,7 @@ For a developer it should help to simplify common tasks.
 - create a network of servers
 - monitor network
 - monitor services
+- autodiscovery
 - execute ssh commands
 - save common ssh commands
 - upload/download files using ftp/sftp
@@ -27,6 +28,14 @@ Commons-logging is required by commons-vfs
 
 
 ## Version history
+
+-----------------------------------------------------------
+### 0.5.1
+
+12. march 2016
+
+- active items in home view
+- yellow status icon if http ping returns error response
 
 -----------------------------------------------------------
 ### 0.5.1-beta.01

@@ -38,21 +38,22 @@
 					    <p:commandButton id="adMenuBtn" value="Auto discovery" type="button" icon="ui-icon-triangle-1-s" onclick="PF('adPanelWidget').loadContents();" />
 					    <p:overlayPanel id="adPanel" for="adMenuBtn" hideEffect="fade" style="width:300px" widgetVar="adPanelWidget">
 					        <h:panelGrid columns="1" cellpadding="0" cellspacing="0" width="100%">
-					        	<p:commandButton id="startAdBtn" value="Search..." onclick="PF('autoDiscDlg').show();" icon="ui-icon-search" rendered="#{!appBean.autoDiscoveryActive}" />
-					        	<p:commandButton id="stopAdBtn" value="Stop" actionListener="#{appBean.stopAutoDiscover}" icon="ui-icon-circle-close" rendered="#{appBean.autoDiscoveryActive}" />
+					        	<h:panelGroup id="startStopAdBtn">
+					        		<p:commandButton value="Search..." onclick="PF('autoDiscDlg').show();" icon="ui-icon-search" rendered="#{!appBean.autoDiscoveryActive}" />
+					        		<p:commandButton value="Stop" actionListener="#{appBean.stopAutoDiscover}" icon="ui-icon-circle-close" rendered="#{appBean.autoDiscoveryActive}" />
+					        	</h:panelGroup>
 					        	<hr/>
-					        	<p:outputLabel value="Status" />
-					        	<h:panelGrid id="adStatus" columns="4" cellpadding="0" cellspacing="0">
-					        		<h:outputText value="Idle" rendered="#{!appBean.autoDiscoveryActive}" />
-					        		<h:outputText value="Searching..." rendered="#{appBean.autoDiscoveryActive}" />
-					        	</h:panelGrid>
+					        	<p:outputLabel id="adStatus" value="Status: #{appBean.autoDiscoveryActive == true ? 'Searching...' : 'Idle'}" />
 					        	<p:outputLabel value="From IP: #{appBean.fromIp}" />
 					        	<p:outputLabel value="To IP: #{appBean.toIp}" />
-					        	<p:outputLabel id="adActiveWorkersCount" value="Concurrent threads: #{appBean.activeWorkersCount}" />
+					        	<p:outputLabel id="adCurrIp" value="Currently (approx.): #{appBean.autoDiscoveryCurrentIp}" />
+					        	<p:outputLabel id="adActiveWorkersCount" value="Queued threads: #{appBean.activeWorkersCount}" />
+					        	<p:outputLabel value="Pool size: #{appBean.autoDiscoveryPoolSize}" />
+					        	<p:outputLabel id="adDelay" value="Delay: #{appBean.autoDiscoveryDelay}" />
 					        	<p:outputLabel id="adDiscoveredCount" value="Discovered: #{appBean.discoveredNodesCount}" />
 					        	<p:outputLabel id="adTotalCount" value="Number of scanned IP addresses: #{appBean.totalCount}" />
 					        </h:panelGrid>
-					        <p:poll interval="3" update="startAdBtn stopAdBtn adStatus adActiveWorkersCount adDiscoveredCount adTotalCount" />
+					        <p:poll interval="3" update="startStopAdBtn adStatus adCurrIp adActiveWorkersCount adDelay adDiscoveredCount adTotalCount" />
 					    </p:overlayPanel>
 					    <h:outputLabel value="Monitoring: " />
 					    <p:inputSwitch id="actBtn" value="#{appBean.monitoringActive}">

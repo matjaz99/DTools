@@ -25,20 +25,22 @@ public class PingStatus implements Serializable {
 	
 	private static final long serialVersionUID = 687649876064378446L;
 	
-	public final static int EC_UNKN 			= 0;
-	public final static String EM_UNKN 			= "Unknown";
-	public final static int EC_OK 				= 1;
-	public final static String EM_OK 			= "OK";
-	public final static int EC_UNKN_HOST 		= 10;
-	public final static String EM_UNKN_HOST 	= "Unknown host";
-	public final static int EC_CONN_ERROR 		= 11;
-	public final static String EM_CONN_ERROR 	= "Connection error";
-	public final static int EC_IO_ERROR 		= 12;
-	public final static String EM_IO_ERROR 		= "IO error";
-	public final static int EC_PROT_ERROR 		= 13;
-	public final static String EM_PROT_ERROR 	= "Protocol error";
-	public final static int EC_MALF_URL 		= 14;
-	public final static String EM_MALF_URL 		= "Malformed URL error";
+	public final static int EC_UNKN 				= 0;
+	public final static String EM_UNKN 				= "Unknown";
+	public final static int EC_OK 					= 1;
+	public final static String EM_OK 				= "OK";
+	public final static int EC_ERROR_RESPONSE		= 2;
+	public final static String EM_ERROR_RESPONSE	= "Error response";
+	public final static int EC_UNKN_HOST 			= 10;
+	public final static String EM_UNKN_HOST 		= "Unknown host";
+	public final static int EC_CONN_ERROR 			= 11;
+	public final static String EM_CONN_ERROR 		= "Connection error";
+	public final static int EC_IO_ERROR 			= 12;
+	public final static String EM_IO_ERROR 			= "IO error";
+	public final static int EC_PROT_ERROR 			= 13;
+	public final static String EM_PROT_ERROR 		= "Protocol error";
+	public final static int EC_MALF_URL 			= 14;
+	public final static String EM_MALF_URL 			= "Malformed URL error";
 	
 	
 	private int errorCode = 0;

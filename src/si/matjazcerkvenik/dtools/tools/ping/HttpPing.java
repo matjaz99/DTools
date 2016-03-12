@@ -52,8 +52,13 @@ public class HttpPing implements IPing, Serializable {
 			connection.setRequestMethod("GET");
 			connection.connect();
 			int code = connection.getResponseCode();
-			status.setErrorCode(PingStatus.EC_OK);
-			status.setErrorMessage(PingStatus.EM_OK);
+			if (("" + code).startsWith("2")) {
+				status.setErrorCode(PingStatus.EC_OK);
+				status.setErrorMessage(PingStatus.EM_OK);
+			} else {
+				status.setErrorCode(PingStatus.EC_ERROR_RESPONSE);
+				status.setErrorMessage(PingStatus.EM_ERROR_RESPONSE);
+			}
 			status.setErrorDescription("HTTP code: " + code);
 		} catch (UnknownHostException e) {
 			status.setErrorCode(PingStatus.EC_UNKN_HOST);
@@ -87,6 +92,8 @@ public class HttpPing implements IPing, Serializable {
 		switch (status.getErrorCode()) {
 		case PingStatus.EC_OK:
 			return "bullet_green.png";
+		case PingStatus.EC_ERROR_RESPONSE:
+			return "bullet_yellow.png";
 		case PingStatus.EC_UNKN_HOST:
 			return "bullet_red_question.png";
 		case PingStatus.EC_MALF_URL:

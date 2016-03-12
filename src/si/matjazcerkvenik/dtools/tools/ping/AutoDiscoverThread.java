@@ -64,8 +64,7 @@ public class AutoDiscoverThread extends Thread {
 		while (!(fromIpArray[0] == toIpArray[0] && fromIpArray[1] == toIpArray[1] 
 				&& fromIpArray[2] == toIpArray[2] && fromIpArray[3] == toIpArray[3])) {
 			
-			String ipAddr = fromIpArray[0] + "." + fromIpArray[1] + "."
-					+ fromIpArray[2] + "." + fromIpArray[3];
+			String ipAddr = getNextIp();
 			
 			if (!ipExists(ipAddr)) {
 				Runnable worker = new AutoDiscoverWorker(totalCount, ipAddr, this);
@@ -119,6 +118,11 @@ public class AutoDiscoverThread extends Thread {
 		
 		DToolsContext.getInstance().getLogger().info("AutoDiscoverThread:: finished");
 		
+	}
+	
+	public String getNextIp() {
+		return fromIpArray[0] + "." + fromIpArray[1] + "."
+				+ fromIpArray[2] + "." + fromIpArray[3];
 	}
 	
 	public void startAutoDiscover(String startIp, String endIp) {
