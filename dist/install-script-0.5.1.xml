@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script>
+	<!-- delete DTools work directory on tomcat -->
+	<action type="delete">
+		<source>$DTOOLS_HOME$/server/apache-tomcat-7.0.57/work/Catalina/localhost/DTools</source>
+	</action>
+	<action type="delete">
+		<source>$DTOOLS_HOME$/server/apache-tomcat-7.0.57/webapps/DTools</source>
+	</action>
+	<!-- move war to repository -->
+	<action type="move">
+		<source>$DTOOLS_HOME$/server/apache-tomcat-7.0.57/webapps/DTools.war</source>
+		<dest>$DTOOLS_HOME$/repository/$CURR_VER$/DTools.war</dest>
+	</action>
+	<!-- download new war -->
+	<action type="download">
+		<source>http://www.matjazcerkvenik.si/projects/download/DTools/$VERSION$/DTools.war</source>
+		<dest>$DTOOLS_HOME$/server/apache-tomcat-7.0.57/webapps/DTools.war</dest>
+		<md5>8262dd852e79458278ddabe5a0a8dbe4</md5>
+	</action>
+	<!-- delete doc directory in repository before moving -->
+	<action type="delete">
+		<source>$DTOOLS_HOME$/repository/$CURR_VER$/doc</source>
+	</action>
+	<action type="move">
+		<source>$DTOOLS_HOME$/doc</source>
+		<dest>$DTOOLS_HOME$/repository/$CURR_VER$/doc</dest>
+	</action>
+	<!-- download new user manual -->
+	<action type="download">
+		<source>http://www.matjazcerkvenik.si/projects/download/DTools/$VERSION$/DTools%20User%20Manual.odt</source>
+		<dest>$DTOOLS_HOME$/doc/DTools User Manual.odt</dest>
+		<md5>f05690af415b465208707fbb54d8c707</md5>
+	</action>
+	<!-- backup config directory to repository -->
+	<action type="delete">
+		<source>$DTOOLS_HOME$/repository/$CURR_VER$/config</source>
+	</action>
+	<action type="copy">
+		<source>$DTOOLS_HOME$/config</source>
+		<dest>$DTOOLS_HOME$/repository/$CURR_VER$/config</dest>
+	</action>
+</script>

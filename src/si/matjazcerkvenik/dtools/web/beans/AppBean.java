@@ -101,6 +101,10 @@ public class AppBean {
 		return adThread.getNextIp();
 	}
 	
+	/**
+	 * Get number of workers in queue
+	 * @return number of workers in queue
+	 */
 	public int getActiveWorkersCount() {
 		if (adThread == null) {
 			return 0;
@@ -108,13 +112,21 @@ public class AppBean {
 		return adThread.getActiveWorkersCount();
 	}
 
-	public int getTotalCount() {
+	/**
+	 * Get total number of created workers
+	 * @return number of created workers
+	 */
+	public int getLoopCount() {
 		if (adThread == null) {
 			return 0;
 		}
-		return adThread.getTotalCount();
+		return adThread.getLoopCount() - adThread.getActiveWorkersCount();
 	}
 
+	/**
+	 * Get number of autodiscovered nodes
+	 * @returnnumber of autodiscovered nodes
+	 */
 	public int getDiscoveredNodesCount() {
 		if (adThread == null) {
 			return 0;
@@ -122,16 +134,51 @@ public class AppBean {
 		return adThread.getDiscoveredNodesCount();
 	}
 	
+	/**
+	 * Get pool size
+	 * @return pool size
+	 */
 	public String getAutoDiscoveryPoolSize() {
 		return DProps.getProperty(DProps.AUTO_DISCOVERY_THREAD_POOL_SIZE);
 	}
 	
+	/**
+	 * Get queue delay (delay between creating new worker) 
+	 * @return queue delay
+	 */
 	public int getAutoDiscoveryDelay() {
 		if (adThread == null) {
 			return 0;
 		}
 		return adThread.determineDelay();
 	}
+	
+	/**
+	 * Get total number of IP addresses to scan
+	 * @return total number of IP addresses to scan
+	 */
+	public int getTotalCount() {
+		if (adThread == null) {
+			return 0;
+		}
+		return adThread.getTotalCount();
+	}
+	
+	/**
+	 * Get progress in percentage
+	 * @return progress
+	 */
+	public Integer getAdProgress() {
+		if (adThread == null) {
+			return 0;
+		}
+		
+		Integer progress = (int)(getLoopCount() / (float)getTotalCount() * 100);
+		
+        if (progress > 100) progress = 100;
+        
+        return progress;
+    }
 	
 	
 	

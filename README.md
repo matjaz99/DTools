@@ -30,6 +30,16 @@ Commons-logging is required by commons-vfs
 ## Version history
 
 -----------------------------------------------------------
+### 0.5.2-alpha.01
+
+xx. march 2016
+
+- autodiscovery - show total number of IP addresses to scan
+- autodiscovery - progress bar
+- show number of nodes in the list (network view)
+- fixed bug in updater - if running with -d argument, it doesn't show 'Do you want to upgrade'
+
+-----------------------------------------------------------
 ### 0.5.1
 
 12. march 2016

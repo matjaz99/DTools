@@ -59,7 +59,7 @@ public class DProps {
 		defaultValues.put(SNMP_RECEIVER_QUEUE_SIZE, "100");
 		defaultValues.put(SNMP_RECEIVER_RULES_FILE, "/config/users/default/snmp/manager/rules/trap-rules-default.js");
 		defaultValues.put(DTOOLS_GUI_CSS_THEME, "default");
-		defaultValues.put(NETWORK_MONITORING_PING_POOL_SIZE, "5");
+		defaultValues.put(NETWORK_MONITORING_PING_POOL_SIZE, "10");
 		defaultValues.put(NETWORK_MONITORING_PING_INTERVAL, "60");
 		defaultValues.put(NETWORK_MONITORING_PING_TIMEOUT, "5000");
 		defaultValues.put(AUTO_DISCOVERY_THREAD_POOL_SIZE, "10");

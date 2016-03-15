@@ -41,7 +41,7 @@ import java.net.URL;
 public class Update {
 	
 	public static String lastVersionUrl = "http://www.matjazcerkvenik.si/projects/dtools/getLastVersion.php";
-	public static String installScriptUrl = "http://www.matjazcerkvenik.si/projects/download/DTools/@version/install-script.xml";
+	public static String installScriptUrl = "http://www.matjazcerkvenik.si/projects/download/DTools/$VERSION$/install-script.xml";
 	public static String DTOOLS_HOME;
 	public static String webappsDir = "/server/apache-tomcat-7.0.57/webapps";
 	public static String warFile = "/server/apache-tomcat-7.0.57/webapps/DTools.war";
@@ -73,7 +73,7 @@ public class Update {
 		repositoryDir = DTOOLS_HOME + repositoryDir; // used only for restore and show repo
 		
 		// check input arguments if any
-		if (args.length > 2) {
+		if (args.length > 1) {
 			
 			if (args[1].equalsIgnoreCase("-h") 
 					|| args[0].equalsIgnoreCase("--help") 
@@ -114,7 +114,7 @@ public class Update {
 		// get versions
 		currentVersion = u.getCurrentVersionFromTxt();
 		lastVersion = u.getLastVersionFromTheServer();
-		installScriptUrl = installScriptUrl.replace("@version", lastVersion);
+		installScriptUrl = installScriptUrl.replace("$VERSION$", lastVersion);
 		
 		// check versions
 		boolean proceed = u.isUpdateRequired(currentVersion, lastVersion);
@@ -127,7 +127,7 @@ public class Update {
 		while (proceed) {
 			
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	        print("Do you want to upgrade now? [y/n]: ");
+			System.out.print("Do you want to upgrade now? [y/n]: ");
 	        try {
 				String s = br.readLine();
 				if (s.equalsIgnoreCase("n") || s.equalsIgnoreCase("no")) {

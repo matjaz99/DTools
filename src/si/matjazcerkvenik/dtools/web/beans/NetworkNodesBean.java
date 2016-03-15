@@ -150,6 +150,14 @@ public class NetworkNodesBean implements Serializable {
 	}
 	
 	/**
+	 * Let number of nodes in the list
+	 * @return number of nodes
+	 */
+	public int getNodesListSize() {
+		return DAO.getInstance().loadNetworkNodes().getNodesList().size();
+	}
+	
+	/**
 	 * Toggle favorite flag on selected node
 	 * @param node
 	 */

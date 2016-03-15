@@ -37,11 +37,13 @@ public class AutoDiscoverThread extends Thread {
 	/** Number of currently active workers */
 	private int activeWorkersCount = 0;
 	
-	/** Total counter */
-	private int totalCount = 0;
+	/** Counter of loops; also ID of new node */
+	private int loopCount = 0;
 	
 	/** Number of discovered nodes */
 	private int discoveredNodesCount = 0;
+	
+	private int totalNumberOfIps = 0;
 	
 	private boolean running = false;
 	
@@ -49,6 +51,7 @@ public class AutoDiscoverThread extends Thread {
 				
 		int poolSize = DProps.getPropertyInt(DProps.AUTO_DISCOVERY_THREAD_POOL_SIZE);
 		executor = Executors.newFixedThreadPool(poolSize);
+		
 	}
 	
 	@Override
@@ -58,8 +61,9 @@ public class AutoDiscoverThread extends Thread {
 		
 		running = true;
 		activeWorkersCount = 0;
-		totalCount = 0;
+		loopCount = 0;
 		discoveredNodesCount = 0;
+		totalNumberOfIps = countNumberOfIpsToScan();
 		
 		while (!(fromIpArray[0] == toIpArray[0] && fromIpArray[1] == toIpArray[1] 
 				&& fromIpArray[2] == toIpArray[2] && fromIpArray[3] == toIpArray[3])) {
@@ -67,7 +71,7 @@ public class AutoDiscoverThread extends Thread {
 			String ipAddr = getNextIp();
 			
 			if (!ipExists(ipAddr)) {
-				Runnable worker = new AutoDiscoverWorker(totalCount, ipAddr, this);
+				Runnable worker = new AutoDiscoverWorker(loopCount, ipAddr, this);
 				try {
 					executor.execute(worker);
 					activeWorkersCount++;
@@ -77,7 +81,7 @@ public class AutoDiscoverThread extends Thread {
 					return;
 				}
 			}
-			totalCount++;
+			loopCount++;
 			
 			fromIpArray[3]++;
 			if (fromIpArray[3] == 256) {
@@ -136,7 +140,7 @@ public class AutoDiscoverThread extends Thread {
 	
 	public static void main(String[] args) {
 		String sip = "192.168.0.15";
-		String eip = "192.168.5.20";
+		String eip = "192.168.0.20";
 		
 		AutoDiscoverThread adtp = new AutoDiscoverThread();
 		
@@ -148,9 +152,9 @@ public class AutoDiscoverThread extends Thread {
 			return;
 		}
 		
-//		System.out.println("Number of IPs to scan: " + adtp.getNumberOfIpsInRange());
+		System.out.println("Number of IPs to scan: " + adtp.countNumberOfIpsToScan());
 		
-		adtp.startAutoDiscover(sip, eip);
+//		adtp.startAutoDiscover(sip, eip);
 	}
 	
 	public void stopAutoDiscover() {
@@ -188,6 +192,41 @@ public class AutoDiscoverThread extends Thread {
 		
 	}
 	
+	
+	private int countNumberOfIpsToScan() {
+		// TODO optimize this calculation
+		int i = 0;
+		
+		int from[] = convertIpAddressToIntArray(fromIpArray[0] + "." + fromIpArray[1] + "."
+				+ fromIpArray[2] + "." + fromIpArray[3]);
+		int to[] = convertIpAddressToIntArray(toIpArray[0] + "." + toIpArray[1] + "."
+				+ toIpArray[2] + "." + toIpArray[3]);
+		
+		while (!(from[0] == to[0] && from[1] == to[1] 
+				&& from[2] == to[2] && from[3] == to[3])) {
+			
+			i++;
+			
+			from[3]++;
+			if (from[3] == 256) {
+				from[3] = 0;
+				from[2]++;
+			}
+			
+			if (from[2] == 256) {
+				from[2] = 0;
+				from[1]++;
+			}
+			
+			if (from[1] == 256) {
+				from[1] = 0;
+				from[0]++;
+			}
+			
+		}
+		
+		return i;
+	}
 	
 	
 	private long getIpAsInt(String ip) {
@@ -243,14 +282,17 @@ public class AutoDiscoverThread extends Thread {
 		return activeWorkersCount;
 	}
 
-	public int getTotalCount() {
-		return totalCount;
+	public int getLoopCount() {
+		return loopCount;
 	}
 
 	public int getDiscoveredNodesCount() {
 		return discoveredNodesCount;
 	}
 	
+	public int getTotalCount() {
+		return totalNumberOfIps;
+	}
 	
 	
 }
