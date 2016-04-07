@@ -6,10 +6,25 @@ import javax.faces.validator.ValidatorException;
 public class ValidatorUtils {
 	
 	/**
-	 * Throw ValidatorException if name contains invalid characters: /?<>\:*|
+	 * If string is empty (or null) ValidatorException is thrown.
+	 * @param s
+	 * @throws ValidatorException
+	 */
+	public static void validateIfEmpty(String s) throws ValidatorException {
+		if (s == null || s.isEmpty()) {
+			FacesMessage message = new FacesMessage();
+			message.setSummary("Missing value");
+			message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			throw new ValidatorException(message);
+		}
+	}
+	
+	/**
+	 * Throw ValidatorException if name contains invalid characters: /?<>\:*|<br>
+	 * Eg. not allowed characters for file name
 	 * @param name
 	 */
-	public static void validateFileName(String name) throws ValidatorException {
+	public static void validateSpecialCharacters(String name) throws ValidatorException {
 		
 		if (name.contains("/") || name.contains("?") || name.contains("<")
 				|| name.contains(">") || name.contains("\\") || name.contains(":")

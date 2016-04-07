@@ -30,10 +30,11 @@ Commons-logging is required by commons-vfs
 ## Version history
 
 -----------------------------------------------------------
-### 0.5.2-alpha.01
+### 0.5.2-beta.01
 
-xx. march 2016
+7. april 2016
 
+- network locations
 - autodiscovery - show total number of IP addresses to scan
 - autodiscovery - progress bar
 - show number of nodes in the list (network view)

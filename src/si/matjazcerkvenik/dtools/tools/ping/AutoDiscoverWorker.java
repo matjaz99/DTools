@@ -37,7 +37,6 @@ public class AutoDiscoverWorker implements Runnable {
 	
 	@Override
 	public void run() {
-//		System.out.println("Ping: " + ip);
 		
 		IcmpPing p = new IcmpPing();
 		PingStatus status = p.ping(ip);

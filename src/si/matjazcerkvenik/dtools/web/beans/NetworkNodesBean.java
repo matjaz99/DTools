@@ -19,15 +19,21 @@
 package si.matjazcerkvenik.dtools.web.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 
 import org.primefaces.context.RequestContext;
 
 import si.matjazcerkvenik.dtools.io.DAO;
+import si.matjazcerkvenik.dtools.tools.NetworkLocation;
 import si.matjazcerkvenik.dtools.xml.Node;
 import si.matjazcerkvenik.dtools.xml.Service;
 
@@ -51,6 +57,20 @@ public class NetworkNodesBean implements Serializable {
 	
 	private String fromIp = "192.168.1.0";
 	private String toIp = "192.168.2.0";
+	
+	private NetworkLocation selectedNetworkLocation;
+	
+	@PostConstruct
+	public void init() {
+		System.out.println("NetworkNodesBean:init");
+		Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		if (requestParameterMap.containsKey("location")) {
+			selectedNetworkLocation = DAO.getInstance().findNetworkLocation(requestParameterMap.get("location"));
+		}
+		if (selectedNetworkLocation == null) {
+			selectedNetworkLocation = DAO.getInstance().loadNetworkLocations().get(0);
+		}
+	}
 
 	public String getName() {
 		return name;
@@ -100,6 +120,18 @@ public class NetworkNodesBean implements Serializable {
 		this.toIp = toIp;
 	}
 
+	public NetworkLocation getSelectedNetworkLocation() {
+		return selectedNetworkLocation;
+	}
+
+	public void setSelectedNetworkLocation(String selectedNetworkLocation) {
+		this.selectedNetworkLocation = DAO.getInstance().findNetworkLocation(selectedNetworkLocation);
+	}
+	
+	public void changedNetworkLocation(ValueChangeEvent e) {
+		selectedNetworkLocation = DAO.getInstance().findNetworkLocation(e.getNewValue().toString());
+	}
+
 	/**
 	 * Add new node
 	 */
@@ -119,7 +151,7 @@ public class NetworkNodesBean implements Serializable {
 		n.addService(s);
 		n.init();
 		
-		DAO.getInstance().addNode(n);
+		DAO.getInstance().addNode(selectedNetworkLocation, n);
 		Growl.addGrowlMessage("Created: " + n.getName(), FacesMessage.SEVERITY_INFO);
 		
 		name = null;
@@ -137,16 +169,16 @@ public class NetworkNodesBean implements Serializable {
 	 * @param n
 	 */
 	public void deleteNodeAction(Node n) {
-		DAO.getInstance().deleteNode(n);
+		DAO.getInstance().deleteNode(selectedNetworkLocation, n);
 		Growl.addGrowlMessage("Deleted: " + n.getHostname(), FacesMessage.SEVERITY_INFO);
 	}
 	
 	/**
-	 * Let list of nodes
+	 * Get list of nodes in selected network location
 	 * @return list
 	 */
 	public List<Node> getNodesList() {
-		return DAO.getInstance().loadNetworkNodes().getNodesList();
+		return selectedNetworkLocation.getNetworkNodes().getNodesList();
 	}
 	
 	/**
@@ -154,7 +186,7 @@ public class NetworkNodesBean implements Serializable {
 	 * @return number of nodes
 	 */
 	public int getNodesListSize() {
-		return DAO.getInstance().loadNetworkNodes().getNodesList().size();
+		return selectedNetworkLocation.getNetworkNodes().getNodesList().size();
 	}
 	
 	/**
@@ -163,10 +195,20 @@ public class NetworkNodesBean implements Serializable {
 	 */
 	public void toggleFavorite(Node node) {
 		node.setFavorite(!node.isFavorite());
-		DAO.getInstance().saveNetworkNodes();
+		DAO.getInstance().saveNetworkLocation(selectedNetworkLocation); // saveNetworkNodes();
 	}
 	
-	
+	/**
+	 * Get list of network location names for dropdown
+	 * @return list
+	 */
+	public List<String> getNetworkLocations() {
+		List<String> list = new ArrayList<String>();
+		for (int i = 0; i < DAO.getInstance().loadNetworkLocations().size(); i++) {
+			list.add(DAO.getInstance().loadNetworkLocations().get(i).getLocationName());
+		}
+		return list;
+	}
 	
 
 }

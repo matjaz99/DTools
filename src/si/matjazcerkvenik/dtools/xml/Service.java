@@ -77,6 +77,9 @@ public class Service implements Serializable {
 	@XmlAttribute(name="monitoringActive")
 	public void setMonitoringEnabled(boolean monitoringEnabled) {
 		this.monitoringEnabled = monitoringEnabled;
+		if (!monitoringEnabled && ping != null) {
+			ping.resetStatus(); // when disabling service set status to unknown (grey)
+		}
 	}
 
 	public List<Param> getParams() {
@@ -162,16 +165,16 @@ public class Service implements Serializable {
 		
 	}
 	
-	public void changedMonitoringEnabled(ValueChangeEvent e) {
-		if (e.getOldValue().toString().equalsIgnoreCase(e.getNewValue().toString())) {
-			return;
-		}
-		monitoringEnabled = (Boolean) e.getNewValue();
-		DAO.getInstance().saveNetworkNodes();
-		if (!monitoringEnabled) {
-			ping.resetStatus();
-		}
-	}
+//	public void changedMonitoringEnabled(ValueChangeEvent e) {
+//		if (e.getOldValue().toString().equalsIgnoreCase(e.getNewValue().toString())) {
+//			return;
+//		}
+//		monitoringEnabled = (Boolean) e.getNewValue();
+//		DAO.getInstance().saveNetworkNodes();
+//		if (!monitoringEnabled) {
+//			ping.resetStatus();
+//		}
+//	}
 	
 	
 	/**

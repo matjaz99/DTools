@@ -25,11 +25,14 @@ import java.util.concurrent.RejectedExecutionException;
 import si.matjazcerkvenik.dtools.context.DProps;
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.io.DAO;
+import si.matjazcerkvenik.dtools.tools.NetworkLocation;
 import si.matjazcerkvenik.dtools.xml.Node;
 
 public class AutoDiscoverThread extends Thread {
 	
 	private ExecutorService executor;
+	
+	private NetworkLocation networkLocation;
 	
 	private int[] fromIpArray;
 	private int[] toIpArray;
@@ -47,7 +50,9 @@ public class AutoDiscoverThread extends Thread {
 	
 	private boolean running = false;
 	
-	public AutoDiscoverThread() {
+	public AutoDiscoverThread(NetworkLocation location) {
+		
+		this.networkLocation = location;
 				
 		int poolSize = DProps.getPropertyInt(DProps.AUTO_DISCOVERY_THREAD_POOL_SIZE);
 		executor = Executors.newFixedThreadPool(poolSize);
@@ -142,7 +147,7 @@ public class AutoDiscoverThread extends Thread {
 		String sip = "192.168.0.15";
 		String eip = "192.168.0.20";
 		
-		AutoDiscoverThread adtp = new AutoDiscoverThread();
+		AutoDiscoverThread adtp = new AutoDiscoverThread(null);
 		
 		long sipInt = adtp.getIpAsInt(sip);
 		long eipInt = adtp.getIpAsInt(eip);
@@ -252,9 +257,16 @@ public class AutoDiscoverThread extends Thread {
 		return Long.parseLong(temp[0] + temp[1] + temp[2] + temp[3]);
 	}
 	
+	
+	/**
+	 * Check if IP already exists in network location. If yes (true), than there is no 
+	 * need to send ping.
+	 * @param ip
+	 * @return true if exists
+	 */
 	public boolean ipExists(String ip) {
-		for (int i = 0; i < DAO.getInstance().loadNetworkNodes().getNodesList().size(); i++) {
-			if (DAO.getInstance().loadNetworkNodes().getNodesList().get(i).getHostname().equals(ip)) {
+		for (int i = 0; i < networkLocation.getNetworkNodes().getNodesList().size(); i++) {
+			if (networkLocation.getNetworkNodes().getNodesList().get(i).getHostname().equals(ip)) {
 				return true;
 			}
 		}
@@ -262,7 +274,7 @@ public class AutoDiscoverThread extends Thread {
 	}
 	
 	public synchronized void storeNode(Node n) {
-		DAO.getInstance().addNode(n);
+		DAO.getInstance().addNode(networkLocation, n);
 		discoveredNodesCount++;
 		DToolsContext.getInstance().getLogger().info("AutoDiscoverThread:addNode(): " + n.getHostname());
 	}

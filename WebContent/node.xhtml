@@ -26,6 +26,7 @@
 			<p:breadCrumb>
 			    <p:menuitem value="Home" url="home.xhtml" />
 			    <p:menuitem value="Network" url="network.xhtml" />
+			    <p:menuitem value="#{nodeBean.networkLocation.locationName}" url="network.xhtml?location=#{nodeBean.networkLocation.locationName}" />
 			    <p:menuitem value="#{nodeBean.node.name}" url="#" />
 			</p:breadCrumb>
 			</h:form>
@@ -115,7 +116,7 @@
 								<f:facet name="header">Status</f:facet>
 								<h:commandLink id="status" action="#{service.pingService()}">
 									<p:graphicImage library="#{userBean.cssTheme}" name="img/#{service.statusIcon}" title="#{service.status}" />
-									<f:ajax render="status" />
+									<f:ajax render="status growl" />
 								</h:commandLink>
 							</h:column>
 							<h:column headerClass="col0 col2">
@@ -129,8 +130,8 @@
 							<h:column headerClass="col0 col2">
 								<f:facet name="header">Monitoring enabled</f:facet>
 								<h:selectBooleanCheckbox value="#{service.monitoringEnabled}" 
-									valueChangeListener="#{service.changedMonitoringEnabled}" >
-									<f:ajax event="change" render="@this" />
+									valueChangeListener="#{nodeBean.toggleMonitoringEnabled(service)}" >
+									<f:ajax event="change" render="@this status" />
 								</h:selectBooleanCheckbox>
 							</h:column>
 							<h:column headerClass="col0 col1">

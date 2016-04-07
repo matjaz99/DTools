@@ -38,13 +38,20 @@ import si.matjazcerkvenik.dtools.xml.Node;
 public class PingScheduler {
 	
 	private ScheduledExecutorService scheduledThreadPool = null;
+	private boolean isRunning = false;
+//	private List<Node> nodesList;
 	
 	public PingScheduler() {
+		
 	}
 	
-	public void startPingScheduler() {
+	public void startPingScheduler(List<Node> nodesList) {
+		
+//		this.nodesList = nodesList;
 		
 		DToolsContext.getInstance().getLogger().info("PingScheduler:: started");
+		
+		isRunning = true;
 		
 		int threadPoolSize = DProps.getPropertyInt(DProps.NETWORK_MONITORING_PING_POOL_SIZE);
 		int interval = DProps.getPropertyInt(DProps.NETWORK_MONITORING_PING_INTERVAL);
@@ -53,7 +60,7 @@ public class PingScheduler {
 			scheduledThreadPool = Executors.newScheduledThreadPool(threadPoolSize);
 		}
 		
-		List<Node> nodesList = DAO.getInstance().loadNetworkNodes().getNodesList();
+//		List<Node> nodesList = DAO.getInstance().loadNetworkNodes().getNodesList();
 		
 		for (int i = 0; i < nodesList.size(); i++) {
 			ScheduledFuture<?> fut = scheduledThreadPool.scheduleWithFixedDelay(nodesList.get(i), 0, interval, TimeUnit.SECONDS);
@@ -67,7 +74,17 @@ public class PingScheduler {
 			
 		}
 		scheduledThreadPool = null;
+		isRunning = false;
+//		nodesList = null;
 		DToolsContext.getInstance().getLogger().info("PingScheduler:: stopped");
+	}
+
+	public boolean isRunning() {
+		return isRunning;
+	}
+
+	public void setRunning(boolean isRunning) {
+		this.isRunning = isRunning;
 	}
 	
 }

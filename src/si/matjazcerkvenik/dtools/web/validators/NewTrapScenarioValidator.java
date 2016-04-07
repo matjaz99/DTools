@@ -37,7 +37,7 @@ public class NewTrapScenarioValidator implements Validator {
 			throws ValidatorException {
 		
 		String name = (String) value;
-		ValidatorUtils.validateFileName(name);
+		ValidatorUtils.validateSpecialCharacters(name);
 		
 		String agentName = (String) comp.getAttributes().get("agent");
         SnmpAgent agent = DAO.getInstance().findSnmpAgent(agentName);

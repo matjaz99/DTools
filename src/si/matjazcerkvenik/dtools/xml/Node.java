@@ -19,11 +19,16 @@
 package si.matjazcerkvenik.dtools.xml;
 
 import java.io.Serializable;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
+import javax.faces.application.FacesMessage;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
+import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.tools.ping.PingStatus;
+import si.matjazcerkvenik.dtools.web.beans.Growl;
 
 public class Node implements Serializable, Runnable {
 	
@@ -36,6 +41,13 @@ public class Node implements Serializable, Runnable {
 	private boolean favorite = false;
 	private NodeServices nodeServices;
 	
+	public Node() {
+//		Service s = new Service();
+//		s.setName("ICMP");
+//		s.setMonitoringClass("ICMP_PING");
+//		addService(s);
+	}
+	
 	/**
 	 * Initialize node: configure services
 	 */
@@ -47,6 +59,7 @@ public class Node implements Serializable, Runnable {
 			service.init(this);
 		}
 	}
+	
 
 	public String getName() {
 		return name;
@@ -163,6 +176,10 @@ public class Node implements Serializable, Runnable {
 		return "bullet_black.png";
 	}
 	
+	/**
+	 * Get status of ICMP ping. If no ICMP service is found, unknown ping status is returned.
+	 * @return ping status
+	 */
 	public PingStatus getIcmpServiceStatus() {
 		
 		Service s = nodeServices.findService("ICMP_PING");
@@ -174,6 +191,25 @@ public class Node implements Serializable, Runnable {
 	}
 	
 	
+	/**
+	 * Resolve hostname IP address by checking hosts table or DNS server.
+	 * @return IP address
+	 */
+	public String resolveIpAddress() {
+		String ip = "n/a";
+		try {
+			InetAddress address = InetAddress.getByName(hostname);
+			ip = address.getHostAddress();
+		} catch (UnknownHostException e) {
+			ip = "n/a";
+			DToolsContext.getInstance().getLogger().warn("Node:resolveIpAddress(): UnknownHostException: " + e.getMessage());
+		} catch (Exception e) {
+			ip = "n/a";
+			DToolsContext.getInstance().getLogger().warn("Node:resolveIpAddress(): Exception: " + e.getMessage());
+		}
+		return ip;
+	}
+	
 
 	/**
 	 * Send ICMP ping to this node
@@ -182,6 +218,7 @@ public class Node implements Serializable, Runnable {
 		
 		Service s = nodeServices.findService("ICMP_PING");
 		if (s != null && s.isMonitoringEnabled()) {
+			Growl.addGrowlMessage("Ping " + hostname, FacesMessage.SEVERITY_INFO);
 			s.pingService();
 		}
 		

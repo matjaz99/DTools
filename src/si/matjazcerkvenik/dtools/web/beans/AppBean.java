@@ -21,204 +21,13 @@ package si.matjazcerkvenik.dtools.web.beans;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 
-import org.primefaces.context.RequestContext;
-
-import si.matjazcerkvenik.dtools.context.DProps;
-import si.matjazcerkvenik.dtools.tools.ping.AutoDiscoverThread;
-import si.matjazcerkvenik.dtools.tools.ping.PingScheduler;
-
 @ManagedBean
 @ApplicationScoped
 public class AppBean {
-	
-	
-	/* AUTO DISCOVERY */
-	
-	private String fromIp = "192.168.1.0";
-	private String toIp = "192.168.1.100";
-	
-	private AutoDiscoverThread adThread;
-	
-	
-	public String getFromIp() {
-		return fromIp;
-	}
-
-	public void setFromIp(String fromIp) {
-		this.fromIp = fromIp;
-	}
-
-	public String getToIp() {
-		return toIp;
-	}
-
-	public void setToIp(String toIp) {
-		this.toIp = toIp;
-	}
-
-	public void startAutoDiscover() {
-		if (adThread == null) {
-			adThread = new AutoDiscoverThread();
-		}
-		if (adThread.isRunning()) {
-			return;
-		} else {
-			adThread = null;
-			adThread = new AutoDiscoverThread();
-		}
-		adThread.startAutoDiscover(fromIp, toIp);
-		Growl.addGrowlMessage("AutoDiscover started", FacesMessage.SEVERITY_INFO);
-		RequestContext context = RequestContext.getCurrentInstance();
-		context.addCallbackParam("success", true);
-	}
-	
-	public void stopAutoDiscover() {
-		adThread.stopAutoDiscover();
-		adThread = null;
-		Growl.addGrowlMessage("AutoDiscover terminated", FacesMessage.SEVERITY_INFO);
-	}
-	
-	public void toggleAutodiscovery() {
-		
-	}
-	
-	public boolean isAutoDiscoveryActive() {
-		if (adThread != null && adThread.isRunning()) {
-			return true;
-		}
-		return false;
-	}
-	
-	public String getAutoDiscoveryCurrentIp() {
-		if (adThread == null) {
-			return "-";
-		}
-		return adThread.getNextIp();
-	}
-	
-	/**
-	 * Get number of workers in queue
-	 * @return number of workers in queue
-	 */
-	public int getActiveWorkersCount() {
-		if (adThread == null) {
-			return 0;
-		}
-		return adThread.getActiveWorkersCount();
-	}
-
-	/**
-	 * Get total number of created workers
-	 * @return number of created workers
-	 */
-	public int getLoopCount() {
-		if (adThread == null) {
-			return 0;
-		}
-		return adThread.getLoopCount() - adThread.getActiveWorkersCount();
-	}
-
-	/**
-	 * Get number of autodiscovered nodes
-	 * @returnnumber of autodiscovered nodes
-	 */
-	public int getDiscoveredNodesCount() {
-		if (adThread == null) {
-			return 0;
-		}
-		return adThread.getDiscoveredNodesCount();
-	}
-	
-	/**
-	 * Get pool size
-	 * @return pool size
-	 */
-	public String getAutoDiscoveryPoolSize() {
-		return DProps.getProperty(DProps.AUTO_DISCOVERY_THREAD_POOL_SIZE);
-	}
-	
-	/**
-	 * Get queue delay (delay between creating new worker) 
-	 * @return queue delay
-	 */
-	public int getAutoDiscoveryDelay() {
-		if (adThread == null) {
-			return 0;
-		}
-		return adThread.determineDelay();
-	}
-	
-	/**
-	 * Get total number of IP addresses to scan
-	 * @return total number of IP addresses to scan
-	 */
-	public int getTotalCount() {
-		if (adThread == null) {
-			return 0;
-		}
-		return adThread.getTotalCount();
-	}
-	
-	/**
-	 * Get progress in percentage
-	 * @return progress
-	 */
-	public Integer getAdProgress() {
-		if (adThread == null) {
-			return 0;
-		}
-		
-		Integer progress = (int)(getLoopCount() / (float)getTotalCount() * 100);
-		
-        if (progress > 100) progress = 100;
-        
-        return progress;
-    }
-	
-	
-	
-	
-	
-	/* MONITORING - PING SCHEDULER */
-	
-	
-	
-	private PingScheduler pingScheduler = null;
-	private boolean monitoringActive;
-
-	public boolean isMonitoringActive() {
-		return monitoringActive;
-	}
-
-	public void setMonitoringActive(boolean monitoringActive) {
-		this.monitoringActive = monitoringActive;
-	}
-
-	/**
-	 * Start or stop ping scheduler
-	 */
-	public void togglePingScheduler() {
-		
-		if (monitoringActive) {
-			if (pingScheduler == null) {
-				pingScheduler = new PingScheduler();
-			}
-			pingScheduler.startPingScheduler();
-			Growl.addGrowlMessage("Monitoring started", FacesMessage.SEVERITY_INFO);
-		} else {
-			// already listening
-			pingScheduler.stopPingScheduler();
-			Growl.addGrowlMessage("Monitoring stopped", FacesMessage.SEVERITY_INFO);
-		}
-	}
-	
-	
-	
 	
 	
 	
@@ -241,19 +50,19 @@ public class AppBean {
 		
 		activeConnectionsList.clear();
 		
-		if (isAutoDiscoveryActive()) {
-			ActiveConnection ac = new ActiveConnection();
-			ac.name = "Autodiscovery";
-			ac.outcome = "network";
-			activeConnectionsList.add(ac);
-		}
+//		if (isAutoDiscoveryActive()) {
+//			ActiveConnection ac = new ActiveConnection();
+//			ac.name = "Autodiscovery";
+//			ac.outcome = "network";
+//			activeConnectionsList.add(ac);
+//		}
 		
-		if (isMonitoringActive()) {
-			ActiveConnection ac = new ActiveConnection();
-			ac.name = "Network Monitoring";
-			ac.outcome = "network";
-			activeConnectionsList.add(ac);
-		}
+//		if (isMonitoringActive()) {
+//			ActiveConnection ac = new ActiveConnection();
+//			ac.name = "Network Monitoring";
+//			ac.outcome = "network";
+//			activeConnectionsList.add(ac);
+//		}
 		
 		// get active SNMP agents
 		if (snmpSimulatorBean != null) {

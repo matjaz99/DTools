@@ -34,6 +34,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
+import si.matjazcerkvenik.dtools.tools.NetworkLocation;
 import si.matjazcerkvenik.dtools.tools.ftp.FtpClient;
 import si.matjazcerkvenik.dtools.tools.ftp.FtpClients;
 import si.matjazcerkvenik.dtools.tools.ftp.FtpTransfer;
@@ -65,7 +66,8 @@ public class DAO {
 	private static DAO instance;
 	private SimpleLogger logger;
 
-	private NetworkNodes networkNodes;
+	private List<NetworkLocation> networkLocations;
+//	private NetworkNodes networkNodes;
 	private SshClients sshClients;
 	private FtpClients ftpClients;
 	private FtpTransfers ftpTransfers;
@@ -76,7 +78,8 @@ public class DAO {
 	private Notes notes;
 	private Todos todos;
 	
-	private String XML_NETWORK_NODES = "/config/users/$DTOOLS_USER$/network/networkNodes.xml";
+//	private String XML_NETWORK_NODES = "/config/users/$DTOOLS_USER$/network/networkNodes.xml"; // TODO remove this
+	private String DIR_NETWORK = "/config/users/$DTOOLS_USER$/network";
 	
 	private String XML_SSH_CLIENTS = "/config/users/$DTOOLS_USER$/ssh/sshClients.xml";
 	private String XML_SSH_COMMANDS = "/config/users/$DTOOLS_USER$/ssh/sshCommands.xml";
@@ -100,7 +103,8 @@ public class DAO {
 		// singleton
 		logger = DToolsContext.getInstance().getLogger();
 		
-		XML_NETWORK_NODES = XML_NETWORK_NODES.replace("$DTOOLS_USER$", "default");
+//		XML_NETWORK_NODES = XML_NETWORK_NODES.replace("$DTOOLS_USER$", "default");
+		DIR_NETWORK = DIR_NETWORK.replace("$DTOOLS_USER$", "default");
 		
 		XML_SSH_CLIENTS = XML_SSH_CLIENTS.replace("$DTOOLS_USER$", "default");
 		XML_SSH_COMMANDS = XML_SSH_COMMANDS.replace("$DTOOLS_USER$", "default");
@@ -130,7 +134,8 @@ public class DAO {
 	
 	
 	public void resetAllDataToNull() {
-		networkNodes = null;
+		networkLocations = null;
+//		networkNodes = null;
 		sshClients = null;
 		ftpClients = null;
 		ftpTransfers = null;
@@ -146,41 +151,84 @@ public class DAO {
 	
 	
 	
+	/* NETWORK LOCATIONS */
 	
-
-	/* NETWORK NODES */
-
+	
 	
 	/**
-	 * Load network nodes configuration
-	 * @return networkNodes
+	 * Load all network locations (read xml files in network directory)
+	 * @return network locations
 	 */
-	public NetworkNodes loadNetworkNodes() {
-
-		if (networkNodes != null) {
-			return networkNodes;
+	public List<NetworkLocation> loadNetworkLocations() {
+		
+		if (networkLocations != null) {
+			return networkLocations;
 		}
-
-		try {
-
-			File file = new File(DToolsContext.HOME_DIR + XML_NETWORK_NODES);
-			if (!file.exists()) {
-				networkNodes = new NetworkNodes();
-				JAXBContext jaxbContext = JAXBContext
-						.newInstance(NetworkNodes.class);
-				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,
-						true);
-				jaxbMarshaller.marshal(networkNodes, file);
+		
+		networkLocations = new ArrayList<NetworkLocation>();
+		
+		File networkDir = new File(DToolsContext.HOME_DIR + DIR_NETWORK);
+		File[] networkNodesFiles = networkDir.listFiles(new FileFilter() {
+			
+			@Override
+			public boolean accept(File f) {
+				return f.getAbsolutePath().endsWith(".xml");
 			}
+		});
+		
+		if (networkNodesFiles.length == 0) {
+			// TODO create default file if none exists
+		}
+		
+		for (int i = 0; i < networkNodesFiles.length; i++) {
+			NetworkLocation nl = new NetworkLocation();
+			nl.setXmlFile(networkNodesFiles[i]);
+			String s = networkNodesFiles[i].getName().substring(0, networkNodesFiles[i].getName().length() - 4);
+			nl.setLocationName(s);
+			networkLocations.add(nl);
+			logger.info("DAO:loadNetworkLocations(): " + nl.getXmlFile().getAbsolutePath());
+		}
+		
+		return networkLocations;
+	}
+	
+	
+	/**
+	 * Find network location by name
+	 * @param name
+	 * @return network location
+	 */
+	public NetworkLocation findNetworkLocation(String name) {
+		
+		for (NetworkLocation nl : networkLocations) {
+			if (nl.getLocationName().equals(name)) {
+				return nl;
+			}
+		}
+		return null;
+		
+	}
+	
+	
+	/**
+	 * Load network nodes from file
+	 * @param file
+	 * @return nodes
+	 */
+	public NetworkNodes loadNetworkNodes(File file) {
+		
+		NetworkNodes nodes= null;
+		
+		try {
+			
 			JAXBContext jaxbContext = JAXBContext.newInstance(NetworkNodes.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			networkNodes = (NetworkNodes) jaxbUnmarshaller.unmarshal(file);
-			if (networkNodes.getNodesList() == null) {
-				networkNodes.setNodesList(new ArrayList<Node>());
+			nodes = (NetworkNodes) jaxbUnmarshaller.unmarshal(file);
+			if (nodes.getNodesList() == null) {
+				nodes.setNodesList(new ArrayList<Node>());
 			}
 			
-			for (Node n : networkNodes.getNodesList()) {
+			for (Node n : nodes.getNodesList()) {
 				n.init();
 			}
 			
@@ -190,53 +238,123 @@ public class DAO {
 			logger.error("DAO:loadNetworkNodes(): JAXBException: ", e);
 		}
 
-		return networkNodes;
-
+		return nodes;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+
+	/* NETWORK NODES */
+
+	
+	/**
+	 * Load network nodes configuration
+	 * @return networkNodes
+	 */
+//	public NetworkNodes loadNetworkNodes() {
+//
+//		if (networkNodes != null) {
+//			return networkNodes;
+//		}
+//
+//		try {
+//
+//			File file = new File(DToolsContext.HOME_DIR + XML_NETWORK_NODES);
+//			if (!file.exists()) {
+//				networkNodes = new NetworkNodes();
+//				JAXBContext jaxbContext = JAXBContext
+//						.newInstance(NetworkNodes.class);
+//				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+//				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,
+//						true);
+//				jaxbMarshaller.marshal(networkNodes, file);
+//			}
+//			JAXBContext jaxbContext = JAXBContext.newInstance(NetworkNodes.class);
+//			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+//			networkNodes = (NetworkNodes) jaxbUnmarshaller.unmarshal(file);
+//			if (networkNodes.getNodesList() == null) {
+//				networkNodes.setNodesList(new ArrayList<Node>());
+//			}
+//			
+//			for (Node n : networkNodes.getNodesList()) {
+//				n.init();
+//			}
+//			
+//			logger.info("DAO:loadNetworkNodes(): " + file.getAbsolutePath());
+//
+//		} catch (JAXBException e) {
+//			logger.error("DAO:loadNetworkNodes(): JAXBException: ", e);
+//		}
+//
+//		return networkNodes;
+//
+//	}
 	
 	/**
 	 * Find network nodes according to given name.
-	 * @param name
+	 * @param nodeName
 	 * @return node
 	 */
-	public Node findNode(String name) {
-		for (Node n : networkNodes.getNodesList()) {
-			if (n.getName().equals(name)) {
-				return n;
-			}
-		}
-		return null;
-	}
+//	public Node findNode(String locationName, String nodeName) {
+//		NetworkLocation nl = findNetworkLocation(locationName);
+//		return nl.findNode(nodeName);
+//	}
 
 	/**
 	 * Save network nodes configuration
 	 */
-	public void saveNetworkNodes() {
-
+//	@Deprecated
+//	public void saveNetworkNodes() {
+//
+//		try {
+//
+//			File file = new File(DToolsContext.HOME_DIR + XML_NETWORK_NODES);
+//			JAXBContext jaxbContext = JAXBContext.newInstance(NetworkNodes.class);
+//			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+//			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+//			jaxbMarshaller.marshal(networkNodes, file);
+//			
+//			logger.info("DAO:saveNetworkNodes(): " + file.getAbsolutePath());
+//
+//		} catch (JAXBException e) {
+//			logger.error("DAO:saveNetworkNodes(): JAXBException: ", e);
+//		}
+//
+//	}
+	
+	public void saveNetworkLocation(NetworkLocation location) {
+		
 		try {
 
-			File file = new File(DToolsContext.HOME_DIR + XML_NETWORK_NODES);
+			File file = location.getXmlFile();
 			JAXBContext jaxbContext = JAXBContext.newInstance(NetworkNodes.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			jaxbMarshaller.marshal(networkNodes, file);
+			jaxbMarshaller.marshal(location.getNetworkNodes(), file);
 			
-			logger.info("DAO:saveNetworkNodes(): " + file.getAbsolutePath());
+			logger.info("DAO:saveNetworkLocation(): " + file.getAbsolutePath());
 
 		} catch (JAXBException e) {
-			logger.error("DAO:saveNetworkNodes(): JAXBException: ", e);
+			logger.error("DAO:saveNetworkLocation(): JAXBException: ", e);
 		}
-
+		
 	}
 
 	/**
-	 * Add new node and save configuration
+	 * Add new node to location and save configuration
 	 * @param node
 	 */
-	public void addNode(Node node) {
-
-		networkNodes.addNode(node);
-		saveNetworkNodes();
+	public void addNode(NetworkLocation location, Node node) {
+		
+		location.addNode(node);
+		saveNetworkLocation(location);
+//		networkNodes.addNode(node);
+//		saveNetworkNodes();
 
 	}
 
@@ -244,11 +362,12 @@ public class DAO {
 	 * Permanently delete node and save configuration
 	 * @param node
 	 */
-	public void deleteNode(Node node) {
-
-		networkNodes.deleteNode(node);
-		saveNetworkNodes();
-
+	public void deleteNode(NetworkLocation location, Node node) {
+		
+		
+		location.deleteNode(node);
+		saveNetworkLocation(location);
+//		saveNetworkNodes();
 	}
 	
 	

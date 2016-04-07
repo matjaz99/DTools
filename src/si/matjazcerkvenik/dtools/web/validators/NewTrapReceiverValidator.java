@@ -37,7 +37,7 @@ public class NewTrapReceiverValidator implements Validator {
 			throws ValidatorException {
 		
 		String name = (String) value;
-		ValidatorUtils.validateFileName(name);
+		ValidatorUtils.validateSpecialCharacters(name);
         
         SnmpManager mng = DAO.getInstance().loadSnmpManager();
         

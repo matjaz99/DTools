@@ -39,7 +39,7 @@ public class NewFtpClientValidator implements Validator {
 			throws ValidatorException {
 		
 		String host = (String) value;
-		ValidatorUtils.validateFileName(host);
+		ValidatorUtils.validateSpecialCharacters(host);
 		
 		UIInput portComponent = (UIInput) comp.getAttributes().get("port");
         String port = (String) portComponent.getSubmittedValue();
@@ -47,7 +47,7 @@ public class NewFtpClientValidator implements Validator {
         
         UIInput userComponent = (UIInput) comp.getAttributes().get("user");
         String user = (String) userComponent.getSubmittedValue();
-        ValidatorUtils.validateFileName(user);
+        ValidatorUtils.validateSpecialCharacters(user);
         
         FtpClients clients = DAO.getInstance().loadFtpClients();
         

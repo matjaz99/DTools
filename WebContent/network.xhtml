@@ -33,30 +33,36 @@
 			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
 				
 				<h:form id="addNodeDialogForm">
-					<h:panelGrid columns="6" cellpadding="5" cellspacing="0" >
+					<h:panelGrid columns="7" cellpadding="5" cellspacing="0" >
 					    <p:commandButton value="New node" onclick="PF('addDevDlg').show();" icon="ui-icon-plus" />
 					    <p:commandButton id="adMenuBtn" value="Auto discovery" type="button" icon="ui-icon-triangle-1-s" onclick="PF('adPanelWidget').loadContents();" />
 					    <p:overlayPanel id="adOverlayPanel" for="adMenuBtn" hideEffect="fade" style="width:300px" widgetVar="adPanelWidget">
 					        <ui:include src="/include/adInfoPanel.xhtml"/>
 					    </p:overlayPanel>
 					    <h:outputLabel value="Monitoring: " />
-					    <p:inputSwitch id="actBtn" value="#{appBean.monitoringActive}">
-							<p:ajax update="growl actBtn" listener="#{appBean.togglePingScheduler()}" />
+					    <p:inputSwitch id="actBtn" value="#{networkNodesBean.selectedNetworkLocation.monitoringActive}">
+							<p:ajax update="growl actBtn" listener="#{networkNodesBean.selectedNetworkLocation.togglePingScheduler()}" />
 						</p:inputSwitch>
 						<h:outputLabel value="Number of nodes: #{networkNodesBean.nodesListSize}" />
+						<p:selectOneMenu id="networkLocationMenu" value="#{networkNodesBean.selectedNetworkLocation.locationName}"
+							onchange="submit()" valueChangeListener="#{networkNodesBean.changedNetworkLocation}" >
+							<p:ajax update="actBtn nodeName nodeHostname nodesForm" />
+							<f:selectItems value="#{networkNodesBean.networkLocations}" var="location" />
+						</p:selectOneMenu>
 					</h:panelGrid>
-				    <p:dialog header="Add new node" widgetVar="addDevDlg" resizable="false" dynamic="true" closable="false">
+				    <p:dialog id="newNodeDialog" header="Add new node" widgetVar="addDevDlg" resizable="false" dynamic="true" closable="false">
 				    	<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
 							<h:outputLabel for="nodeName" value="Name: " />
 							<p:inputText id="nodeName" value="#{networkNodesBean.name}" required="true" 
-								requiredMessage="Missing node name">
+								requiredMessage="Missing node name" > 
 								<f:validator validatorId="newNodeValidator"/>
+								<f:attribute name="networkLocation" value="#{networkNodesBean.selectedNetworkLocation}" />
 							</p:inputText>
 							<h:outputLabel for="nodeHostname" value="Hostname: " />
 							<p:inputText id="nodeHostname" value="#{networkNodesBean.hostname}" required="true" 
 								requiredMessage="Missing hostname or ip" />
-							<h:outputLabel value="Description: " />
-							<p:inputText value="#{networkNodesBean.description}" />
+							<h:outputLabel for="nodeDescr" value="Description: " />
+							<p:inputText id="nodeDescr" value="#{networkNodesBean.description}" />
 							<h:outputLabel value="Type: " />
 							<p:selectOneMenu value="#{networkNodesBean.type}" style="width:130px">
 					            <f:selectItem itemLabel="IP Node" itemValue="IP_NODE" />
@@ -65,25 +71,25 @@
 					            <f:selectItem itemLabel="Application" itemValue="APPLICATION" />
 					        </p:selectOneMenu>
 							<f:facet name="footer">
-				                <p:commandButton value="Add" update="growl nodeName nodeHostname nodesForm" 
+				                <p:commandButton value="Add" update="growl nodeName nodeHostname nodeDescr nodesForm" 
 				                	actionListener="#{networkNodesBean.addNodeAction}"
 				                	oncomplete="handleDialogRequest('addDevDlg', xhr, status, args)" />
 				                <p:commandButton value="Cancel" onclick="PF('addDevDlg').hide();" />
 				            </f:facet>
 						</h:panelGrid>
 				    </p:dialog>
-				    <p:dialog header="Auto discovery" widgetVar="autoDiscDlg" resizable="false" dynamic="true" closable="false">
+				    <p:dialog id="autoDiscoveryDialog" header="Auto discovery" widgetVar="autoDiscDlg" resizable="false" dynamic="true" closable="false">
 				    	<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
 				    		<h:outputLabel for="fromIp" value="From IP: " />
-							<p:inputText id="fromIp" value="#{appBean.fromIp}" required="true" 
+							<p:inputText id="fromIp" value="#{networkNodesBean.selectedNetworkLocation.fromIp}" required="true" 
 								requiredMessage="Missing IP address" />
 							<h:outputLabel for="toIp" value="To IP: " />
-							<p:inputText id="toIp" value="#{appBean.toIp}" required="true" 
+							<p:inputText id="toIp" value="#{networkNodesBean.selectedNetworkLocation.toIp}" required="true" 
 								requiredMessage="Missing IP address" />
 				    	</h:panelGrid>
 				    	<f:facet name="footer">
 				                <p:commandButton value="Scan" update="growl" 
-				                	actionListener="#{appBean.startAutoDiscover}"
+				                	actionListener="#{networkNodesBean.selectedNetworkLocation.startAutoDiscovery}"
 				                	oncomplete="handleDialogRequest('autoDiscDlg', xhr, status, args)" />
 				                <p:commandButton value="Cancel" onclick="PF('autoDiscDlg').hide();" />
 				            </f:facet>
@@ -107,9 +113,9 @@
 							
 							<h:column headerClass="col0 col1">
 								<f:facet name="header">Status</f:facet>
-								<h:commandLink id="status" action="#{node.testConnection}">
+								<h:commandLink id="status" action="#{node.testConnection}" >
 									<p:graphicImage library="#{userBean.cssTheme}" name="img/#{node.icmpServiceStatusIcon}" title="#{node.icmpServiceStatus}" />
-									<f:ajax render="status" />
+									<f:ajax render="status growl" />
 								</h:commandLink>
 							</h:column>
 							
@@ -117,6 +123,7 @@
 								<f:facet name="header">Name</f:facet>
 								<p:link outcome="node" value="#{node.name}" >
 								    <f:param name="nodeName" value="#{node.name}" />
+								    <f:param name="location" value="#{networkNodesBean.selectedNetworkLocation.locationName}" />
 								</p:link>
 							</h:column>
 							
@@ -124,6 +131,7 @@
 								<f:facet name="header">Hostname</f:facet>
 								<p:link outcome="node" value="#{node.hostname}">
 									<f:param name="nodeName" value="#{node.name}" />
+									<f:param name="location" value="#{networkNodesBean.selectedNetworkLocation.locationName}" />
 								</p:link>
 							</h:column>
 							

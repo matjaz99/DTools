@@ -25,9 +25,8 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-import si.matjazcerkvenik.dtools.io.DAO;
+import si.matjazcerkvenik.dtools.tools.NetworkLocation;
 import si.matjazcerkvenik.dtools.xml.Node;
-import si.matjazcerkvenik.dtools.xml.NetworkNodes;
 
 @FacesValidator(value="newNodeValidator")
 public class NewNodeValidator implements Validator {
@@ -37,11 +36,12 @@ public class NewNodeValidator implements Validator {
 			throws ValidatorException {
 		
 		String newNodeName = ((String) value).trim();
-		ValidatorUtils.validateFileName(newNodeName);
+		ValidatorUtils.validateIfEmpty(newNodeName);
+		ValidatorUtils.validateSpecialCharacters(newNodeName);
+        
+		NetworkLocation location = (NetworkLocation) comp.getAttributes().get("networkLocation");
 		
-		NetworkNodes networkNodes = DAO.getInstance().loadNetworkNodes();
-		
-		for (Node node : networkNodes.getNodesList()) {
+		for (Node node : location.getNetworkNodes().getNodesList()) {
 			if (node.getName().equalsIgnoreCase(newNodeName)) {
 				FacesMessage message = new FacesMessage();
 				message.setSummary(newNodeName + " already exists");

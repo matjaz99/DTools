@@ -19,8 +19,6 @@
 package si.matjazcerkvenik.dtools.web.beans;
 
 import java.io.Serializable;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
 
@@ -32,8 +30,8 @@ import javax.faces.event.ValueChangeEvent;
 
 import org.primefaces.context.RequestContext;
 
-import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.io.DAO;
+import si.matjazcerkvenik.dtools.tools.NetworkLocation;
 import si.matjazcerkvenik.dtools.tools.ftp.FtpClient;
 import si.matjazcerkvenik.dtools.tools.ftp.FtpClients;
 import si.matjazcerkvenik.dtools.tools.ssh.SshClient;
@@ -48,6 +46,7 @@ public class NodeBean implements Serializable {
 	private static final long serialVersionUID = 8600188798586688068L;
 	
 	private Node node;
+	private NetworkLocation networkLocation;
 	
 	private String newServiceName;
 	private String monitoringClass = "DISABLED";
@@ -60,9 +59,11 @@ public class NodeBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		if (requestParameterMap.containsKey("location")) {
+			networkLocation = DAO.getInstance().findNetworkLocation(requestParameterMap.get("location"));
+		}
 		if (requestParameterMap.containsKey("nodeName")) {
-			String name = requestParameterMap.get("nodeName");
-			node = DAO.getInstance().findNode(name);
+			node = networkLocation.findNode(requestParameterMap.get("nodeName"));
 		}
 	}
 
@@ -74,6 +75,14 @@ public class NodeBean implements Serializable {
 		this.node = node;
 	}
 	
+	public NetworkLocation getNetworkLocation() {
+		return networkLocation;
+	}
+
+	public void setNetworkLocation(NetworkLocation networkLocation) {
+		this.networkLocation = networkLocation;
+	}
+
 	public String getNewServiceName() {
 		return newServiceName;
 	}
@@ -158,7 +167,7 @@ public class NodeBean implements Serializable {
 		node.addService(s);
 		node.init(); // is this needed, maybe just init service
 		
-		DAO.getInstance().saveNetworkNodes();
+		DAO.getInstance().saveNetworkLocation(networkLocation); // saveNetworkNodes();
 		
 		newServiceName = null;
 		monitoringClass = "DISABLED";
@@ -171,24 +180,22 @@ public class NodeBean implements Serializable {
 		context.addCallbackParam("success", true);
 	}
 	
+	/**
+	 * Delete selected service
+	 * @param service
+	 */
 	public void deleteServiceAction(Service service) {
 		node.deleteService(service);
-		DAO.getInstance().saveNetworkNodes();
+		DAO.getInstance().saveNetworkLocation(networkLocation);
 	}
 	
 	
-	
-	// FIXME: move to node class
+	/**
+	 * Return node's resolved IP address
+	 * @return IP address
+	 */
 	public String getResolvedIpAddress() {
-		String ip = "n/a";
-		try {
-			InetAddress address = InetAddress.getByName(node.getHostname());
-			ip = address.getHostAddress();
-		} catch (UnknownHostException e) {
-			ip = "n/a";
-			DToolsContext.getInstance().getLogger().warn("NodeBean:getResolvedIpAddress(): UnknownHostException: " + e.getMessage());
-		} 
-		return ip;
+		return node.resolveIpAddress();
 	}
 	
 	
@@ -201,7 +208,7 @@ public class NodeBean implements Serializable {
 			return;
 		}
 		node.setName(e.getNewValue().toString());
-		DAO.getInstance().saveNetworkNodes();
+		DAO.getInstance().saveNetworkLocation(networkLocation);
 	}
 	
 	/**
@@ -213,7 +220,7 @@ public class NodeBean implements Serializable {
 			return;
 		}
 		node.setHostname(e.getNewValue().toString());
-		DAO.getInstance().saveNetworkNodes();
+		DAO.getInstance().saveNetworkLocation(networkLocation);
 	}
 	
 	/**
@@ -225,9 +232,13 @@ public class NodeBean implements Serializable {
 			return;
 		}
 		node.setDescription(e.getNewValue().toString());
-		DAO.getInstance().saveNetworkNodes();
+		DAO.getInstance().saveNetworkLocation(networkLocation);
 	}
 	
+	/**
+	 * Prepare components to be rendered in 'Add service' dialog when new type of 
+	 * monitoring class is selected from dropdown menu.
+	 */
 	public void monitoringClassChanged() {
 		
 		if (monitoringClass.equals("ICMP_PING") || monitoringClass.equals("DISABLED")) {
@@ -241,6 +252,12 @@ public class NodeBean implements Serializable {
 			monitoringUrlRendered = true;
 		}
 		
+	}
+	
+	
+	public void toggleMonitoringEnabled(Service service) {
+		service.setMonitoringEnabled(!service.isMonitoringEnabled());
+		DAO.getInstance().saveNetworkLocation(networkLocation);
 	}
 	
 }
