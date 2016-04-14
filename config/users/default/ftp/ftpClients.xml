@@ -2,7 +2,7 @@
 <ftpClients>
     <ftpClient>
         <favorite>true</favorite>
-        <hostname>centos6</hostname>
+        <hostname>localhost</hostname>
         <password>ftpuser</password>
         <port>21</port>
         <protocol>FTP</protocol>
@@ -10,7 +10,7 @@
     </ftpClient>
     <ftpClient>
         <favorite>false</favorite>
-        <hostname>centos6</hostname>
+        <hostname>localhost</hostname>
         <password>ftpuser</password>
         <port>22</port>
         <protocol>SFTP</protocol>

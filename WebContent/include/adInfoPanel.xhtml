@@ -9,24 +9,24 @@
     <h:panelGrid columns="1" cellpadding="0" cellspacing="0" width="100%">
 		<h:panelGroup id="startStopAdBtn">
 			<p:commandButton value="Search..." onclick="PF('autoDiscDlg').show();" 
-				icon="ui-icon-search" rendered="#{!networkNodesBean.selectedNetworkLocation.autoDiscoveryActive}" />
-			<p:commandButton value="Stop" actionListener="#{networkNodesBean.selectedNetworkLocation.stopAutoDiscovery}" 
-				icon="ui-icon-circle-close" rendered="#{networkNodesBean.selectedNetworkLocation.autoDiscoveryActive}" />
+				icon="ui-icon-search" rendered="#{!networkBean.selectedNetworkLocation.autoDiscoveryActive}" />
+			<p:commandButton value="Stop" actionListener="#{networkBean.selectedNetworkLocation.stopAutoDiscovery}" 
+				icon="ui-icon-circle-close" rendered="#{networkBean.selectedNetworkLocation.autoDiscoveryActive}" />
 		</h:panelGroup>
 		<hr/>
-		<p:outputLabel id="adStatus" value="Status: #{networkNodesBean.selectedNetworkLocation.autoDiscoveryActive == true ? 'Searching...' : 'Idle'}" />
-		<p:outputLabel value="From IP: #{networkNodesBean.selectedNetworkLocation.fromIp}" />
-		<p:outputLabel value="To IP: #{networkNodesBean.selectedNetworkLocation.toIp}" />
+		<p:outputLabel id="adStatus" value="Status: #{networkBean.selectedNetworkLocation.autoDiscoveryActive == true ? 'Searching...' : 'Idle'}" />
+		<p:outputLabel value="From IP: #{networkBean.selectedNetworkLocation.fromIp}" />
+		<p:outputLabel value="To IP: #{networkBean.selectedNetworkLocation.toIp}" />
 		<h:panelGroup id="adProgBar">
-			<p:progressBar value="#{networkNodesBean.selectedNetworkLocation.adProgress}" labelTemplate="{value}%" displayOnly="true" />
+			<p:progressBar value="#{networkBean.selectedNetworkLocation.adProgress}" labelTemplate="{value}%" displayOnly="true" />
 		</h:panelGroup>
-		<p:outputLabel id="adCurrIp" value="Last queued: #{networkNodesBean.selectedNetworkLocation.autoDiscoveryCurrentIp}" />
-		<p:outputLabel id="adActiveWorkersCount" value="Queued threads: #{networkNodesBean.selectedNetworkLocation.activeWorkersCount}" />
-		<p:outputLabel value="Pool size: #{networkNodesBean.selectedNetworkLocation.autoDiscoveryPoolSize}" />
-		<p:outputLabel id="adDelay" value="Queue delay: #{networkNodesBean.selectedNetworkLocation.autoDiscoveryDelay}" />
-		<p:outputLabel id="adDiscoveredCount" value="Discovered nodes: #{networkNodesBean.selectedNetworkLocation.discoveredNodesCount}" />
-		<p:outputLabel id="adTotalCount" value="Scanned IP addresses: #{networkNodesBean.selectedNetworkLocation.scannedAddressesCount}" />
-		<p:outputLabel value="Total number of IP addresses: #{networkNodesBean.selectedNetworkLocation.totalAddressesCount}" />
+		<p:outputLabel id="adCurrIp" value="Last queued: #{networkBean.selectedNetworkLocation.autoDiscoveryCurrentIp}" />
+		<p:outputLabel id="adActiveWorkersCount" value="Queued threads: #{networkBean.selectedNetworkLocation.activeWorkersCount}" />
+		<p:outputLabel value="Pool size: #{networkBean.selectedNetworkLocation.autoDiscoveryPoolSize}" />
+		<p:outputLabel id="adDelay" value="Queue delay: #{networkBean.selectedNetworkLocation.autoDiscoveryDelay}" />
+		<p:outputLabel id="adDiscoveredCount" value="Discovered nodes: #{networkBean.selectedNetworkLocation.discoveredNodesCount}" />
+		<p:outputLabel id="adTotalCount" value="Scanned IP addresses: #{networkBean.selectedNetworkLocation.scannedAddressesCount}" />
+		<p:outputLabel value="Total number of IP addresses: #{networkBean.selectedNetworkLocation.totalAddressesCount}" />
 	</h:panelGrid>
 	<p:poll interval="3" update="startStopAdBtn adStatus adCurrIp adActiveWorkersCount adDelay adDiscoveredCount adTotalCount adProgBar" />
 

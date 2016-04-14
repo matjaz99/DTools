@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<networkNodes>
+    <node type="IP_NODE">
+        <description>localhost</description>
+        <favorite>true</favorite>
+        <hostname>localhost</hostname>
+        <name>MyServer</name>
+        <services>
+            <service monitoringClass="ICMP_PING" monitoringActive="true" name="ICMP"/>
+            <service monitoringClass="PORT_PING" monitoringActive="true" name="FTP">
+                <param key="monitoring.port" value="21"/>
+            </service><service monitoringClass="PORT_PING" monitoringActive="true" name="SSH">
+                <param key="monitoring.port" value="22"/>
+            </service>
+            <service monitoringClass="HTTP_PING" monitoringActive="true" name="WebApp">
+                <param key="monitoring.url" value="http://192.168.1.100:8080/App"/>
+            </service>
+            <service monitoringClass="DISABLED" monitoringActive="true" name="Nothing"/>
+        </services>
+    </node>
+</networkNodes>

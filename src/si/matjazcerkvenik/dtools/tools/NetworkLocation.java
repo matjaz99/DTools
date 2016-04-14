@@ -41,12 +41,13 @@ public class NetworkLocation implements Serializable {
 	private String locationName;
 	private NetworkNodes networkNodes;
 	
-	private AutoDiscoverThread adThread;
+	private AutoDiscoverThread autoDiscovery;
 	private String fromIp = "192.168.1.0";
 	private String toIp = "192.168.1.100";
 	
 	private PingScheduler pingScheduler;
 	private boolean monitoringActive;
+	
 	
 	
 	public File getXmlFile() {
@@ -72,6 +73,9 @@ public class NetworkLocation implements Serializable {
 	}
 	
 	public void addNode(Node node) {
+		if (networkNodes == null) {
+			networkNodes = new NetworkNodes();
+		}
 		networkNodes.addNode(node);
 	}
 	
@@ -109,24 +113,24 @@ public class NetworkLocation implements Serializable {
 	}
 
 	public void startAutoDiscovery() {
-		if (adThread == null) {
-			adThread = new AutoDiscoverThread(this);
+		if (autoDiscovery == null) {
+			autoDiscovery = new AutoDiscoverThread(this);
 		}
-		if (adThread.isRunning()) {
+		if (autoDiscovery.isRunning()) {
 			return;
 		} else {
-			adThread = null;
-			adThread = new AutoDiscoverThread(this);
+			autoDiscovery = null;
+			autoDiscovery = new AutoDiscoverThread(this);
 		}
-		adThread.startAutoDiscover(fromIp, toIp);
+		autoDiscovery.startAutoDiscover(fromIp, toIp);
 		Growl.addGrowlMessage("AutoDiscover started", FacesMessage.SEVERITY_INFO);
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.addCallbackParam("success", true);
 	}
 	
 	public void stopAutoDiscovery() {
-		adThread.stopAutoDiscover();
-		adThread = null;
+		autoDiscovery.stopAutoDiscover();
+		autoDiscovery = null;
 		Growl.addGrowlMessage("AutoDiscover terminated", FacesMessage.SEVERITY_INFO);
 	}
 	
@@ -134,18 +138,22 @@ public class NetworkLocation implements Serializable {
 		
 	}
 	
+	public AutoDiscoverThread getAutoDiscovery() {
+		return autoDiscovery;
+	}
+	
 	public boolean isAutoDiscoveryActive() {
-		if (adThread != null && adThread.isRunning()) {
+		if (autoDiscovery != null && autoDiscovery.isRunning()) {
 			return true;
 		}
 		return false;
 	}
 	
 	public String getAutoDiscoveryCurrentIp() {
-		if (adThread == null) {
+		if (autoDiscovery == null) {
 			return "-";
 		}
-		return adThread.getNextIp();
+		return autoDiscovery.getNextIp();
 	}
 	
 	/**
@@ -153,10 +161,10 @@ public class NetworkLocation implements Serializable {
 	 * @return number of workers in queue
 	 */
 	public int getActiveWorkersCount() {
-		if (adThread == null) {
+		if (autoDiscovery == null) {
 			return 0;
 		}
-		return adThread.getActiveWorkersCount();
+		return autoDiscovery.getActiveWorkersCount();
 	}
 
 	/**
@@ -164,10 +172,10 @@ public class NetworkLocation implements Serializable {
 	 * @return number of created workers
 	 */
 	public int getScannedAddressesCount() {
-		if (adThread == null) {
+		if (autoDiscovery == null) {
 			return 0;
 		}
-		return adThread.getLoopCount() - adThread.getActiveWorkersCount();
+		return autoDiscovery.getLoopCount() - autoDiscovery.getActiveWorkersCount();
 	}
 
 	/**
@@ -175,10 +183,10 @@ public class NetworkLocation implements Serializable {
 	 * @returnnumber of autodiscovered nodes
 	 */
 	public int getDiscoveredNodesCount() {
-		if (adThread == null) {
+		if (autoDiscovery == null) {
 			return 0;
 		}
-		return adThread.getDiscoveredNodesCount();
+		return autoDiscovery.getDiscoveredNodesCount();
 	}
 	
 	/**
@@ -194,10 +202,10 @@ public class NetworkLocation implements Serializable {
 	 * @return queue delay
 	 */
 	public int getAutoDiscoveryDelay() {
-		if (adThread == null) {
+		if (autoDiscovery == null) {
 			return 0;
 		}
-		return adThread.determineDelay();
+		return autoDiscovery.determineDelay();
 	}
 	
 	/**
@@ -205,10 +213,10 @@ public class NetworkLocation implements Serializable {
 	 * @return total number of IP addresses to scan
 	 */
 	public int getTotalAddressesCount() {
-		if (adThread == null) {
+		if (autoDiscovery == null) {
 			return 0;
 		}
-		return adThread.getTotalCount();
+		return autoDiscovery.getTotalCount();
 	}
 	
 	/**
@@ -216,7 +224,7 @@ public class NetworkLocation implements Serializable {
 	 * @return progress
 	 */
 	public Integer getAdProgress() {
-		if (adThread == null) {
+		if (autoDiscovery == null) {
 			return 0;
 		}
 		
@@ -229,6 +237,12 @@ public class NetworkLocation implements Serializable {
 	
 	
 	
+	
+	
+	
+	public PingScheduler getPingScheduler() {
+		return pingScheduler;
+	}
 	
 	/**
 	 * Return true if ping scheduler is running

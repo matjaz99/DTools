@@ -57,6 +57,7 @@ import si.matjazcerkvenik.dtools.xml.NetworkNodes;
 import si.matjazcerkvenik.dtools.xml.Node;
 import si.matjazcerkvenik.dtools.xml.Note;
 import si.matjazcerkvenik.dtools.xml.Notes;
+import si.matjazcerkvenik.dtools.xml.Service;
 import si.matjazcerkvenik.dtools.xml.Todo;
 import si.matjazcerkvenik.dtools.xml.Todos;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
@@ -67,7 +68,6 @@ public class DAO {
 	private SimpleLogger logger;
 
 	private List<NetworkLocation> networkLocations;
-//	private NetworkNodes networkNodes;
 	private SshClients sshClients;
 	private FtpClients ftpClients;
 	private FtpTransfers ftpTransfers;
@@ -78,7 +78,6 @@ public class DAO {
 	private Notes notes;
 	private Todos todos;
 	
-//	private String XML_NETWORK_NODES = "/config/users/$DTOOLS_USER$/network/networkNodes.xml"; // TODO remove this
 	private String DIR_NETWORK = "/config/users/$DTOOLS_USER$/network";
 	
 	private String XML_SSH_CLIENTS = "/config/users/$DTOOLS_USER$/ssh/sshClients.xml";
@@ -103,7 +102,6 @@ public class DAO {
 		// singleton
 		logger = DToolsContext.getInstance().getLogger();
 		
-//		XML_NETWORK_NODES = XML_NETWORK_NODES.replace("$DTOOLS_USER$", "default");
 		DIR_NETWORK = DIR_NETWORK.replace("$DTOOLS_USER$", "default");
 		
 		XML_SSH_CLIENTS = XML_SSH_CLIENTS.replace("$DTOOLS_USER$", "default");
@@ -135,7 +133,6 @@ public class DAO {
 	
 	public void resetAllDataToNull() {
 		networkLocations = null;
-//		networkNodes = null;
 		sshClients = null;
 		ftpClients = null;
 		ftpTransfers = null;
@@ -177,7 +174,53 @@ public class DAO {
 		});
 		
 		if (networkNodesFiles.length == 0) {
-			// TODO create default file if none exists
+			// create default location if none exists
+			Node n = new Node();
+			n.setName("MyServer");
+			n.setHostname("localhost");
+			n.setDescription("localhost");
+			n.setType("IP_NODE");
+			n.setFavorite(true);
+			
+			// create ICMP ping as default service
+			// TODO move this to new method in Node
+			Service s = new Service();
+			s.setName("ICMP");
+			s.setMonitoringClass("ICMP_PING");
+			n.addService(s);
+			
+			Service s1 = new Service();
+			s1.setName("FTP");
+			s1.setMonitoringClass("PORT_PING");
+			s1.addParam("monitoring.port", "21");
+			n.addService(s1);
+			
+			Service s2 = new Service();
+			s2.setName("SSH");
+			s2.setMonitoringClass("PORT_PING");
+			s2.addParam("monitoring.port", "22");
+			n.addService(s2);
+			
+			Service s3 = new Service();
+			s3.setName("WebApp");
+			s3.setMonitoringClass("HTTP_PING");
+			s3.addParam("monitoring.url", "http://192.168.1.100:8080/App");
+			n.addService(s3);
+			
+			Service s4 = new Service();
+			s4.setName("Nothing");
+			s4.setMonitoringClass("DISABLED");
+			n.addService(s4);
+			
+			n.init();
+			
+			NetworkLocation loc = new NetworkLocation();
+			loc.setXmlFile(new File(DToolsContext.HOME_DIR + DIR_NETWORK + "/MyNetwork.xml"));
+			loc.addNode(n);
+			saveNetworkLocation(loc);
+			
+			networkLocations = null;
+			loadNetworkLocations(); //reload
 		}
 		
 		for (int i = 0; i < networkNodesFiles.length; i++) {
@@ -217,6 +260,10 @@ public class DAO {
 	 */
 	public NetworkNodes loadNetworkNodes(File file) {
 		
+		if (file == null) {
+			return null;
+		}
+		
 		NetworkNodes nodes= null;
 		
 		try {
@@ -244,90 +291,28 @@ public class DAO {
 	
 	
 	
+	public void addNetworkLocation(NetworkLocation location) {
+		networkLocations.add(location);
+		saveNetworkLocation(location);
+	}
 	
-	
-	
-	
-
-	/* NETWORK NODES */
-
-	
-	/**
-	 * Load network nodes configuration
-	 * @return networkNodes
-	 */
-//	public NetworkNodes loadNetworkNodes() {
-//
-//		if (networkNodes != null) {
-//			return networkNodes;
-//		}
-//
-//		try {
-//
-//			File file = new File(DToolsContext.HOME_DIR + XML_NETWORK_NODES);
-//			if (!file.exists()) {
-//				networkNodes = new NetworkNodes();
-//				JAXBContext jaxbContext = JAXBContext
-//						.newInstance(NetworkNodes.class);
-//				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-//				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,
-//						true);
-//				jaxbMarshaller.marshal(networkNodes, file);
-//			}
-//			JAXBContext jaxbContext = JAXBContext.newInstance(NetworkNodes.class);
-//			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-//			networkNodes = (NetworkNodes) jaxbUnmarshaller.unmarshal(file);
-//			if (networkNodes.getNodesList() == null) {
-//				networkNodes.setNodesList(new ArrayList<Node>());
-//			}
-//			
-//			for (Node n : networkNodes.getNodesList()) {
-//				n.init();
-//			}
-//			
-//			logger.info("DAO:loadNetworkNodes(): " + file.getAbsolutePath());
-//
-//		} catch (JAXBException e) {
-//			logger.error("DAO:loadNetworkNodes(): JAXBException: ", e);
-//		}
-//
-//		return networkNodes;
-//
-//	}
-	
-	/**
-	 * Find network nodes according to given name.
-	 * @param nodeName
-	 * @return node
-	 */
-//	public Node findNode(String locationName, String nodeName) {
-//		NetworkLocation nl = findNetworkLocation(locationName);
-//		return nl.findNode(nodeName);
-//	}
-
-	/**
-	 * Save network nodes configuration
-	 */
-//	@Deprecated
-//	public void saveNetworkNodes() {
-//
-//		try {
-//
-//			File file = new File(DToolsContext.HOME_DIR + XML_NETWORK_NODES);
-//			JAXBContext jaxbContext = JAXBContext.newInstance(NetworkNodes.class);
-//			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-//			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-//			jaxbMarshaller.marshal(networkNodes, file);
-//			
-//			logger.info("DAO:saveNetworkNodes(): " + file.getAbsolutePath());
-//
-//		} catch (JAXBException e) {
-//			logger.error("DAO:saveNetworkNodes(): JAXBException: ", e);
-//		}
-//
-//	}
+	public void deleteNetworkLocation(NetworkLocation location) {
+		if (location.isAutoDiscoveryActive()) {
+			location.stopAutoDiscovery();
+		}
+		if (location.isMonitoringActive()) {
+			location.getPingScheduler().stopPingScheduler();
+		}
+		location.getXmlFile().delete();
+		networkLocations.remove(location);
+	}
 	
 	public void saveNetworkLocation(NetworkLocation location) {
+		
+		// check data before saving
+		if (location.getXmlFile() == null) {
+			location.setXmlFile(new File(DToolsContext.HOME_DIR + DIR_NETWORK + "/" + location.getLocationName() + ".xml"));
+		}
 		
 		try {
 
@@ -350,25 +335,22 @@ public class DAO {
 	 * @param node
 	 */
 	public void addNode(NetworkLocation location, Node node) {
-		
 		location.addNode(node);
 		saveNetworkLocation(location);
-//		networkNodes.addNode(node);
-//		saveNetworkNodes();
-
 	}
 
 	/**
-	 * Permanently delete node and save configuration
+	 * Permanently delete node and save location file
 	 * @param node
 	 */
 	public void deleteNode(NetworkLocation location, Node node) {
-		
-		
 		location.deleteNode(node);
 		saveNetworkLocation(location);
-//		saveNetworkNodes();
 	}
+	
+	
+	
+	
 	
 	
 	

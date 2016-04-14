@@ -34,6 +34,7 @@ import org.primefaces.context.RequestContext;
 
 import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.NetworkLocation;
+import si.matjazcerkvenik.dtools.xml.NetworkNodes;
 import si.matjazcerkvenik.dtools.xml.Node;
 import si.matjazcerkvenik.dtools.xml.Service;
 
@@ -46,7 +47,7 @@ import si.matjazcerkvenik.dtools.xml.Service;
  */
 @ManagedBean
 @SessionScoped
-public class NetworkNodesBean implements Serializable {
+public class NetworkBean implements Serializable {
 	
 	private static final long serialVersionUID = -7361094739598080594L;
 	
@@ -59,10 +60,11 @@ public class NetworkNodesBean implements Serializable {
 	private String toIp = "192.168.2.0";
 	
 	private NetworkLocation selectedNetworkLocation;
+	private String newLocationName;
 	
 	@PostConstruct
 	public void init() {
-		System.out.println("NetworkNodesBean:init");
+		System.out.println("NetworkBean:init");
 		Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		if (requestParameterMap.containsKey("location")) {
 			selectedNetworkLocation = DAO.getInstance().findNetworkLocation(requestParameterMap.get("location"));
@@ -132,6 +134,14 @@ public class NetworkNodesBean implements Serializable {
 		selectedNetworkLocation = DAO.getInstance().findNetworkLocation(e.getNewValue().toString());
 	}
 
+	public String getNewLocationName() {
+		return newLocationName;
+	}
+
+	public void setNewLocationName(String newLocationName) {
+		this.newLocationName = newLocationName;
+	}
+
 	/**
 	 * Add new node
 	 */
@@ -186,6 +196,9 @@ public class NetworkNodesBean implements Serializable {
 	 * @return number of nodes
 	 */
 	public int getNodesListSize() {
+		if (selectedNetworkLocation.getNetworkNodes().getNodesList() == null) {
+			return 0;
+		}
 		return selectedNetworkLocation.getNetworkNodes().getNodesList().size();
 	}
 	
@@ -210,5 +223,28 @@ public class NetworkNodesBean implements Serializable {
 		return list;
 	}
 	
+	/**
+	 * Add new location
+	 */
+	public void addLocationAction() {
+		
+		NetworkLocation loc = new NetworkLocation();
+		loc.setLocationName(newLocationName);
+		loc.setNetworkNodes(new NetworkNodes());
+		
+		DAO.getInstance().addNetworkLocation(loc);
+		Growl.addGrowlMessage("Created: " + loc.getLocationName(), FacesMessage.SEVERITY_INFO);
+		
+		newLocationName = null;
+		
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.addCallbackParam("success", true);
+		
+	}
+	
+	public String deleteLocation() {
+		DAO.getInstance().deleteNetworkLocation(selectedNetworkLocation);
+		return "network?faces-redirect=true";
+	}
 
 }

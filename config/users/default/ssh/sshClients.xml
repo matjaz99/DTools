@@ -2,7 +2,7 @@
 <sshClients>
     <sshClient>
         <favorite>true</favorite>
-        <hostname>192.168.1.100</hostname>
+        <hostname>localhost</hostname>
         <password>root</password>
         <port>22</port>
         <username>root</username>

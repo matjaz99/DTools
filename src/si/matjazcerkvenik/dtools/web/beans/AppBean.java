@@ -25,6 +25,9 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 
+import si.matjazcerkvenik.dtools.io.DAO;
+import si.matjazcerkvenik.dtools.tools.NetworkLocation;
+
 @ManagedBean
 @ApplicationScoped
 public class AppBean {
@@ -50,26 +53,30 @@ public class AppBean {
 		
 		activeConnectionsList.clear();
 		
-//		if (isAutoDiscoveryActive()) {
-//			ActiveConnection ac = new ActiveConnection();
-//			ac.name = "Autodiscovery";
-//			ac.outcome = "network";
-//			activeConnectionsList.add(ac);
-//		}
+		List<NetworkLocation> locations = DAO.getInstance().loadNetworkLocations();
 		
-//		if (isMonitoringActive()) {
-//			ActiveConnection ac = new ActiveConnection();
-//			ac.name = "Network Monitoring";
-//			ac.outcome = "network";
-//			activeConnectionsList.add(ac);
-//		}
+		for (int i = 0; i < locations.size(); i++) {
+			if (locations.get(i).isAutoDiscoveryActive()) {
+				ActiveConnection ac = new ActiveConnection();
+				ac.name = "Autodiscovery; location: " + locations.get(i).getLocationName();
+				ac.outcome = "network";
+				activeConnectionsList.add(ac);
+			}
+			if (locations.get(i).isMonitoringActive()) {
+				ActiveConnection ac = new ActiveConnection();
+				ac.name = "Network Monitoring; location: " + locations.get(i).getLocationName();
+				ac.outcome = "network.xhtml?location="+locations.get(i).getLocationName();
+				activeConnectionsList.add(ac);
+			}
+		}
+
 		
 		// get active SNMP agents
 		if (snmpSimulatorBean != null) {
 			for (int i = 0; i < snmpSimulatorBean.getSnmpAgents().size(); i++) {
 				if (snmpSimulatorBean.getSnmpAgents().get(i).isActive()) {
 					ActiveConnection ac = new ActiveConnection();
-					ac.name = snmpSimulatorBean.getSnmpAgents().get(i).getName();
+					ac.name = "SNMP agent simulator: " + snmpSimulatorBean.getSnmpAgents().get(i).getName();
 					ac.outcome = "snmpSimulator";
 					String args[] = {snmpSimulatorBean.getSnmpAgents().get(i).getName()};
 					ac.args = args;
@@ -77,8 +84,6 @@ public class AppBean {
 				}
 			}
 			
-		} else {
-			System.out.println("simBean is null!!!!");
 		}
 		
 		

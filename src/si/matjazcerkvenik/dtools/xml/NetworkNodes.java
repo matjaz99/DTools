@@ -18,6 +18,7 @@
 
 package si.matjazcerkvenik.dtools.xml;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -38,6 +39,9 @@ public class NetworkNodes {
 	}
 	
 	public void addNode(Node n) {
+		if (nodesList == null) {
+			nodesList = new ArrayList<Node>();
+		}
 		nodesList.add(n);
 	}
 	
