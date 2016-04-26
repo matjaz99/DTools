@@ -20,7 +20,7 @@ public class ValidatorUtils {
 	}
 	
 	/**
-	 * Throw ValidatorException if name contains invalid characters: /?<>\:*|<br>
+	 * Throw ValidatorException if name contains invalid characters: /?<>\:*|,;<br>
 	 * Eg. not allowed characters for file name
 	 * @param name
 	 */
@@ -28,9 +28,10 @@ public class ValidatorUtils {
 		
 		if (name.contains("/") || name.contains("?") || name.contains("<")
 				|| name.contains(">") || name.contains("\\") || name.contains(":")
-				|| name.contains("*") || name.contains("|") || name.contains("\"")) {
+				|| name.contains("*") || name.contains("|") || name.contains("\"")
+				|| name.contains(",") || name.contains(";")) {
 			FacesMessage message = new FacesMessage();
-			message.setSummary("Invalid characters [/?<>\\:*|]");
+			message.setSummary("Invalid characters [/?<>\\:*|,;]");
 			message.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(message);
 		}

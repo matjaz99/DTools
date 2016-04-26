@@ -43,7 +43,7 @@ public class NetworkLocation implements Serializable {
 	
 	private AutoDiscoverThread autoDiscovery;
 	private String fromIp = "192.168.1.0";
-	private String toIp = "192.168.1.100";
+	private String toIp = "192.168.2.100";
 	
 	private PingScheduler pingScheduler;
 	private boolean monitoringActive;
@@ -274,7 +274,7 @@ public class NetworkLocation implements Serializable {
 			if (pingScheduler == null) {
 				pingScheduler = new PingScheduler();
 			}
-			pingScheduler.startPingScheduler(networkNodes.getNodesList());
+			pingScheduler.startPingScheduler(this);
 			Growl.addGrowlMessage("Monitoring started", FacesMessage.SEVERITY_INFO);
 		} else {
 			// already listening

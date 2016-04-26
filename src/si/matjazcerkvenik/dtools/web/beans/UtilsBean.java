@@ -27,6 +27,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -200,6 +201,7 @@ public class UtilsBean {
 		DProps.setProperty(DProps.NETWORK_MONITORING_PING_POOL_SIZE, pingPoolSize, false);
 		DProps.setProperty(DProps.AUTO_DISCOVERY_THREAD_POOL_SIZE, autodiscoveryPoolSize, false);
 		DProps.setProperty(DProps.SNMP_RECEIVER_QUEUE_SIZE, trapReceiverQueueSize, true);
+		Growl.addGrowlMessage("Settings saved", FacesMessage.SEVERITY_INFO);
 	}
 	
 }

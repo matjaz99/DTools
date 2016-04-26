@@ -181,6 +181,7 @@ public class DAO {
 			n.setDescription("localhost");
 			n.setType("IP_NODE");
 			n.setFavorite(true);
+			n.setLocationName("MyNetwork");
 			
 			// create ICMP ping as default service
 			// TODO move this to new method in Node
@@ -271,11 +272,10 @@ public class DAO {
 			JAXBContext jaxbContext = JAXBContext.newInstance(NetworkNodes.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			nodes = (NetworkNodes) jaxbUnmarshaller.unmarshal(file);
-			if (nodes.getNodesList() == null) {
-				nodes.setNodesList(new ArrayList<Node>());
-			}
 			
 			for (Node n : nodes.getNodesList()) {
+				String s = file.getName().substring(0, file.getName().length() - 4);
+				n.setLocationName(s);
 				n.init();
 			}
 			

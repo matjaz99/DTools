@@ -33,41 +33,27 @@
 			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
 				
 				<h:form id="addNodeDialogForm">
-					<h:panelGrid columns="1" cellpadding="0" cellspacing="0" >
-						<p:ribbon style="width: 100%">
-							<p:tab title="File">
-								<p:ribbonGroup label="Nodes">
-									<p:commandButton value="New node" onclick="PF('addDevDlg').show();" icon="ui-icon-plus" />
-									<p:commandButton id="adMenuBtn" value="Auto discovery" type="button" icon="ui-icon-triangle-1-s" onclick="PF('adPanelWidget').loadContents();" />
-								    <p:overlayPanel id="adOverlayPanel" for="adMenuBtn" hideEffect="fade" style="width:300px" widgetVar="adPanelWidget">
-								        <ui:include src="/include/adInfoPanel.xhtml"/>
-								    </p:overlayPanel>
-								</p:ribbonGroup>
-								<p:ribbonGroup label="Location">
-									<h:panelGrid columns="2" cellpadding="2" cellspacing="0" >
-										<h:outputLabel value="Select location:" />
-										<p:selectOneMenu id="networkLocationMenu" value="#{networkBean.selectedNetworkLocation.locationName}"
-											onchange="submit()" valueChangeListener="#{networkBean.changedNetworkLocation}" >
-											<p:ajax update="actBtn nodeName nodeHostname nodesForm" />
-											<f:selectItems value="#{networkBean.networkLocations}" var="location" />
-										</p:selectOneMenu>
-										<p:commandButton value="New location" onclick="PF('newLocDlg').show();" icon="ui-icon-plus" />
-										<p:commandButton value="Delete location" action="#{networkBean.deleteLocation}" icon="ui-icon-trash" update="networkLocationMenu nodesForm" ajax="true" />
-									</h:panelGrid>
-									
-								</p:ribbonGroup>
-								<p:ribbonGroup label="Monitoring">
-									<p:inputSwitch id="actBtn" value="#{networkBean.selectedNetworkLocation.monitoringActive}">
-										<p:ajax update="growl actBtn" listener="#{networkBean.selectedNetworkLocation.togglePingScheduler()}" />
-									</p:inputSwitch>
-								</p:ribbonGroup>
-							</p:tab>
-							<p:tab title="View">
-								<p:ribbonGroup label="Filter">
-									<h:outputLabel value="Number of nodes: #{networkBean.nodesListSize}" />
-								</p:ribbonGroup>
-							</p:tab>
-						</p:ribbon>
+					<h:panelGrid columns="1" cellpadding="0" cellspacing="0" width="100%" >
+						<h:panelGrid columns="9" cellpadding="0" cellspacing="0" >
+							<p:commandButton value="New node" onclick="PF('addDevDlg').show();" icon="ui-icon-plus" />
+							<p:commandButton id="adMenuBtn" value="Auto discovery" type="button" icon="ui-icon-triangle-1-s" onclick="PF('adPanelWidget').loadContents();" />
+							<p:overlayPanel id="adOverlayPanel" for="adMenuBtn" hideEffect="fade" style="width:300px" widgetVar="adPanelWidget">
+								<ui:include src="/include/adInfoPanel.xhtml"/>
+							</p:overlayPanel>
+							<h:outputLabel value="Select location:" />
+							<p:selectOneMenu id="networkLocationMenu" value="#{networkBean.selectedNetworkLocation.locationName}"
+								onchange="submit()" valueChangeListener="#{networkBean.changedNetworkLocation}" >
+								<p:ajax update="actBtn nodeName nodeHostname nodesForm" />
+								<f:selectItems value="#{networkBean.networkLocations}" var="location" />
+							</p:selectOneMenu>
+							<p:commandButton value="New location" onclick="PF('newLocDlg').show();" icon="ui-icon-plus" />
+							<p:commandButton value="Delete location" action="#{networkBean.deleteLocation}" icon="ui-icon-trash" update="networkLocationMenu nodesForm" ajax="true" />
+							<h:outputLabel value="Monitoring:" />
+							<p:inputSwitch id="actBtn" value="#{networkBean.selectedNetworkLocation.monitoringActive}">
+								<p:ajax update="growl actBtn" listener="#{networkBean.selectedNetworkLocation.togglePingScheduler()}" />
+							</p:inputSwitch>
+							<h:outputLabel value="Number of nodes: #{networkBean.nodesListSize}" />
+						</h:panelGrid>
 					</h:panelGrid>
 				    <p:dialog id="newNodeDialog" header="Add new node" widgetVar="addDevDlg" resizable="false" dynamic="true" closable="false">
 				    	<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
@@ -120,7 +106,7 @@
 								requiredMessage="Missing name" />
 				    	</h:panelGrid>
 				    	<f:facet name="footer">
-				                <p:commandButton value="Add" update="growl addNodeDialogForm" 
+				                <p:commandButton value="Add" update="growl addNodeDialogForm nodesForm" 
 				                	actionListener="#{networkBean.addLocationAction}"
 				                	oncomplete="handleDialogRequest('newLocDlg', xhr, status, args)" />
 				                <p:commandButton value="Cancel" onclick="PF('newLocDlg').hide();" />

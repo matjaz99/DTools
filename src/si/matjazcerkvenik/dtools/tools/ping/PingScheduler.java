@@ -18,7 +18,6 @@
 
 package si.matjazcerkvenik.dtools.tools.ping;
 
-import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -26,11 +25,10 @@ import java.util.concurrent.TimeUnit;
 
 import si.matjazcerkvenik.dtools.context.DProps;
 import si.matjazcerkvenik.dtools.context.DToolsContext;
-import si.matjazcerkvenik.dtools.io.DAO;
-import si.matjazcerkvenik.dtools.xml.Node;
+import si.matjazcerkvenik.dtools.tools.NetworkLocation;
 
 /**
- * This class schedules periodic ping requests.
+ * This class schedules periodic ping requests (monitoring featue).
  * 
  * @author matjaz
  *
@@ -39,16 +37,13 @@ public class PingScheduler {
 	
 	private ScheduledExecutorService scheduledThreadPool = null;
 	private boolean isRunning = false;
-//	private List<Node> nodesList;
 	
 	public PingScheduler() {
 		
 	}
 	
-	public void startPingScheduler(List<Node> nodesList) {
-		
-//		this.nodesList = nodesList;
-		
+	public void startPingScheduler(NetworkLocation location) {
+				
 		DToolsContext.getInstance().getLogger().info("PingScheduler:: started");
 		
 		isRunning = true;
@@ -59,11 +54,9 @@ public class PingScheduler {
 		if (scheduledThreadPool == null) {
 			scheduledThreadPool = Executors.newScheduledThreadPool(threadPoolSize);
 		}
-		
-//		List<Node> nodesList = DAO.getInstance().loadNetworkNodes().getNodesList();
-		
-		for (int i = 0; i < nodesList.size(); i++) {
-			ScheduledFuture<?> fut = scheduledThreadPool.scheduleWithFixedDelay(nodesList.get(i), 0, interval, TimeUnit.SECONDS);
+				
+		for (int i = 0; i < location.getNetworkNodes().getNodesList().size(); i++) {
+			ScheduledFuture<?> fut = scheduledThreadPool.scheduleWithFixedDelay(location.getNetworkNodes().getNodesList().get(i), 0, interval, TimeUnit.SECONDS);
 		}
 		
 	}
@@ -75,7 +68,6 @@ public class PingScheduler {
 		}
 		scheduledThreadPool = null;
 		isRunning = false;
-//		nodesList = null;
 		DToolsContext.getInstance().getLogger().info("PingScheduler:: stopped");
 	}
 

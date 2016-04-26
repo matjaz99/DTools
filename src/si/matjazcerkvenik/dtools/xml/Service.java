@@ -22,13 +22,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.event.ValueChangeEvent;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import si.matjazcerkvenik.dtools.context.DToolsContext;
-import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.ping.DummyPing;
 import si.matjazcerkvenik.dtools.tools.ping.HttpPing;
 import si.matjazcerkvenik.dtools.tools.ping.IPing;
@@ -131,19 +128,18 @@ public class Service implements Serializable {
 		return null;
 	}
 	
-	public void pingService() {
+	/**
+	 * Ping selected service.
+	 */
+	public PingStatus pingService() {
 		
 		if (ping == null) {
 			initPing();
 		}
 		
-//		System.out.println(Thread.currentThread().getName() + " ping " + node.getName() + "(" + node.getHostname() + ")\t");
 		ping.ping();
+		return ping.getStatus();
 		
-		// format: thread, ping class, node, ping status
-		String s = Thread.currentThread().getName() + " " + ping.getClass().getSimpleName() + " " + node.getName()
-				+ " " + ping.getStatus().toString();
-		DToolsContext.getInstance().getPingLogger().info(s);
 	}
 	
 	private void initPing() {

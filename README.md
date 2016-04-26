@@ -30,15 +30,16 @@ Commons-logging is required by commons-vfs
 ## Version history
 
 -----------------------------------------------------------
-### 0.5.2-beta.02
+### 0.5.2
 
-xx. april 2016
+26. april 2016
 
 - add/delete network location button
 - fixed template files for configuration
 - fixed active items to show properly for each location
 - fixed bug if no location files exist - create default one
 - renamed NetworkNodesBean to NetworkBean
+- fixed bug with refreshing after create/delete location
 
 -----------------------------------------------------------
 ### 0.5.2-beta.01

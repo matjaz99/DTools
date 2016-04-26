@@ -25,6 +25,7 @@ import java.net.UnknownHostException;
 import javax.faces.application.FacesMessage;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.tools.ping.PingStatus;
@@ -40,6 +41,7 @@ public class Node implements Serializable, Runnable {
 	private String type = "IP_NODE";
 	private boolean favorite = false;
 	private NodeServices nodeServices;
+	private String locationName; // reference to location
 	
 	public Node() {
 //		Service s = new Service();
@@ -116,6 +118,15 @@ public class Node implements Serializable, Runnable {
 	}
 	
 	
+	public String getLocationName() {
+		return locationName;
+	}
+
+	@XmlTransient
+	public void setLocationName(String locationName) {
+		this.locationName = locationName;
+	}
+
 	/**
 	 * Add new service
 	 * @param service
@@ -219,7 +230,14 @@ public class Node implements Serializable, Runnable {
 		Service s = nodeServices.findService("ICMP_PING");
 		if (s != null && s.isMonitoringEnabled()) {
 			Growl.addGrowlMessage("Ping " + hostname, FacesMessage.SEVERITY_INFO);
-			s.pingService();
+			PingStatus ps = s.pingService();
+			// format: |thread|class|location|node|ping status
+			String result = "|" + Thread.currentThread().getName()
+					+ "|" + s.getMonitoringClass()
+					+ "|" + locationName
+					+ "|" + name
+					+ "|||||" + ps.toString();
+			DToolsContext.getInstance().getPingLogger().info(result);
 		}
 		
 	}
@@ -229,7 +247,14 @@ public class Node implements Serializable, Runnable {
 	public void run() {
 		for (Service s : nodeServices.getServices()) {
 			if (s.isMonitoringEnabled()) {
-				s.pingService();
+				PingStatus ps = s.pingService();
+				// format: |thread|class|location|node|ping status
+				String result = "|" + Thread.currentThread().getName()
+						+ "|" + s.getMonitoringClass()
+						+ "|" + locationName
+						+ "|" + name
+						+ "|||||" + ps.toString();
+				DToolsContext.getInstance().getPingLogger().info(result);
 			}
 		}
 	}

@@ -64,7 +64,6 @@ public class NetworkBean implements Serializable {
 	
 	@PostConstruct
 	public void init() {
-		System.out.println("NetworkBean:init");
 		Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		if (requestParameterMap.containsKey("location")) {
 			selectedNetworkLocation = DAO.getInstance().findNetworkLocation(requestParameterMap.get("location"));
@@ -152,6 +151,7 @@ public class NetworkBean implements Serializable {
 		n.setHostname(hostname);
 		n.setDescription(description);
 		n.setType(type);
+		n.setLocationName(selectedNetworkLocation.getLocationName());
 		
 		// create ICMP ping as default service
 		// TODO move this to new method in Node
@@ -196,9 +196,6 @@ public class NetworkBean implements Serializable {
 	 * @return number of nodes
 	 */
 	public int getNodesListSize() {
-		if (selectedNetworkLocation.getNetworkNodes().getNodesList() == null) {
-			return 0;
-		}
 		return selectedNetworkLocation.getNetworkNodes().getNodesList().size();
 	}
 	
@@ -212,7 +209,7 @@ public class NetworkBean implements Serializable {
 	}
 	
 	/**
-	 * Get list of network location names for dropdown
+	 * Get list of network location names (for dropdown menu)
 	 * @return list
 	 */
 	public List<String> getNetworkLocations() {
@@ -224,7 +221,7 @@ public class NetworkBean implements Serializable {
 	}
 	
 	/**
-	 * Add new location
+	 * Add new location and set focus on this location
 	 */
 	public void addLocationAction() {
 		
@@ -235,6 +232,7 @@ public class NetworkBean implements Serializable {
 		DAO.getInstance().addNetworkLocation(loc);
 		Growl.addGrowlMessage("Created: " + loc.getLocationName(), FacesMessage.SEVERITY_INFO);
 		
+		selectedNetworkLocation = DAO.getInstance().findNetworkLocation(newLocationName);
 		newLocationName = null;
 		
 		RequestContext context = RequestContext.getCurrentInstance();
@@ -242,8 +240,14 @@ public class NetworkBean implements Serializable {
 		
 	}
 	
+	/**
+	 * Delete location. Set the first location in the list as active location.
+	 * @return redirect to network page
+	 */
 	public String deleteLocation() {
+		// TODO stop monitoring and autodiscovery before deleting
 		DAO.getInstance().deleteNetworkLocation(selectedNetworkLocation);
+		selectedNetworkLocation = DAO.getInstance().loadNetworkLocations().get(0);
 		return "network?faces-redirect=true";
 	}
 

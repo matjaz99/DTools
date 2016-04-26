@@ -138,7 +138,7 @@ public class DToolsContext {
 		pingLogger.setLogLevel(LEVEL.INFO);
 		pingLogger.setAppend(true);
 		pingLogger.setBackup(3);
-		pingLogger.setMaxSizeMb(10);
+		pingLogger.setMaxSizeMb(20);
 		pingLogger.setVerbose(true); // TODO remove this someday
 		pingLogger.info("PING_LOG_FILE=" + pingLogger.getFilename());		
 		

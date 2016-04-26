@@ -30,6 +30,9 @@ public class NetworkNodes {
 	private List<Node> nodesList;
 
 	public List<Node> getNodesList() {
+		if (nodesList == null) {
+			nodesList = new ArrayList<Node>();
+		}
 		return nodesList;
 	}
 

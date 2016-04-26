@@ -53,13 +53,13 @@
 			        <p:outputLabel value="Ping pool size" />
 			        <p:inputText value="#{utilsBean.pingPoolSize}" />
 			        
-			        <p:outputLabel value="Ping autodiscovery pool size" />
+			        <p:outputLabel value="Autodiscovery ping pool size" />
 			        <p:inputText value="#{utilsBean.autodiscoveryPoolSize}" />
 			        
 			        <p:outputLabel value="Trap receiver queue size" />
 			        <p:inputText value="#{utilsBean.trapReceiverQueueSize}" />
 			        
-			        <p:commandButton action="#{utilsBean.saveSettings()}" value="Save settings" icon="ui-icon-disk" />
+			        <p:commandButton action="#{utilsBean.saveSettings()}" value="Save settings" icon="ui-icon-disk" ajax="true" update="growl" />
 			        
 				</p:panelGrid>
 				</h:form>

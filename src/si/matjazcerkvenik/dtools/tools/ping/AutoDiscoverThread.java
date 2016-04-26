@@ -274,6 +274,7 @@ public class AutoDiscoverThread extends Thread {
 	}
 	
 	public synchronized void storeNode(Node n) {
+		n.setLocationName(networkLocation.getLocationName());
 		DAO.getInstance().addNode(networkLocation, n);
 		discoveredNodesCount++;
 		DToolsContext.getInstance().getLogger().info("AutoDiscoverThread:addNode(): " + n.getHostname());
