@@ -18,6 +18,7 @@
 
 package si.matjazcerkvenik.dtools.xml;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name="networkNodes")
-public class NetworkNodes {
+public class NetworkNodes implements Serializable {
+	
+	private static final long serialVersionUID = 302166688466948874L;
 	
 	private List<Node> nodesList;
 

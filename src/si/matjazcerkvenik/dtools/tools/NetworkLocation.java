@@ -84,6 +84,9 @@ public class NetworkLocation implements Serializable {
 	}
 	
 	public Node findNode(String name) {
+		if (networkNodes == null) {
+			networkNodes = DAO.getInstance().loadNetworkNodes(xmlFile);
+		}
 		for (Node n : networkNodes.getNodesList()) {
 			if (n.getName().equals(name)) {
 				return n;

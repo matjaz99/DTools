@@ -231,12 +231,13 @@ public class Node implements Serializable, Runnable {
 		if (s != null && s.isMonitoringEnabled()) {
 			Growl.addGrowlMessage("Ping " + hostname, FacesMessage.SEVERITY_INFO);
 			PingStatus ps = s.pingService();
-			// format: |thread|class|location|node|ping status
+			// format: timestamp - level|thread|class|location|node|ping status
 			String result = "|" + Thread.currentThread().getName()
 					+ "|" + s.getMonitoringClass()
 					+ "|" + locationName
 					+ "|" + name
-					+ "|||||" + ps.toString();
+					+ "|" + hostname
+					+ "||||" + ps.toString();
 			DToolsContext.getInstance().getPingLogger().info(result);
 		}
 		
@@ -253,7 +254,8 @@ public class Node implements Serializable, Runnable {
 						+ "|" + s.getMonitoringClass()
 						+ "|" + locationName
 						+ "|" + name
-						+ "|||||" + ps.toString();
+						+ "|" + hostname
+						+ "||||" + ps.toString();
 				DToolsContext.getInstance().getPingLogger().info(result);
 			}
 		}

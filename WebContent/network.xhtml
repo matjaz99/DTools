@@ -34,7 +34,7 @@
 				
 				<h:form id="addNodeDialogForm">
 					<h:panelGrid columns="1" cellpadding="0" cellspacing="0" width="100%" >
-						<h:panelGrid columns="9" cellpadding="0" cellspacing="0" >
+						<h:panelGrid columns="9" cellpadding="3" cellspacing="0" >
 							<p:commandButton value="New node" onclick="PF('addDevDlg').show();" icon="ui-icon-plus" />
 							<p:commandButton id="adMenuBtn" value="Auto discovery" type="button" icon="ui-icon-triangle-1-s" onclick="PF('adPanelWidget').loadContents();" />
 							<p:overlayPanel id="adOverlayPanel" for="adMenuBtn" hideEffect="fade" style="width:300px" widgetVar="adPanelWidget">
@@ -156,6 +156,15 @@
 							<h:column headerClass="col0">
 								<f:facet name="header">Description</f:facet>
 								<h:outputText value="#{node.description}" />
+							</h:column>
+							
+							<h:column headerClass="col0 col1">
+								<f:facet name="header">Stat</f:facet>
+								<p:link outcome="nodeStat">
+									<p:graphicImage library="#{userBean.cssTheme}" name="img/bar-chart-icon.png" />
+									<f:param name="nodeName" value="#{node.name}" />
+									<f:param name="location" value="#{networkBean.selectedNetworkLocation.locationName}" />
+								</p:link>
 							</h:column>
 							
 							<h:column headerClass="col0 col1">

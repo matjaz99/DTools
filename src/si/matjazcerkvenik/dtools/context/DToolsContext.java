@@ -26,6 +26,7 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import si.matjazcerkvenik.dtools.io.CleanThread;
 import si.matjazcerkvenik.simplelogger.LEVEL;
 import si.matjazcerkvenik.simplelogger.SimpleLogger;
 
@@ -40,6 +41,8 @@ public class DToolsContext {
 	private SimpleLogger pingLogger;
 	private long startTime;
 	
+	private static CleanThread cleanThread;
+	
 	
 	private DToolsContext() {
 		setHomeDir();
@@ -47,6 +50,7 @@ public class DToolsContext {
 		readVersion();
 		initLogger();
 		initPingLogger();
+		startCleanThread();
 	}
 	
 	public static DToolsContext getInstance() {
@@ -179,6 +183,15 @@ public class DToolsContext {
 	
 	public static long getSysUpTime() {
 		return System.currentTimeMillis() - instance.startTime;
+	}
+	
+	
+	public static void startCleanThread() {
+		if (cleanThread == null) {
+			cleanThread = new CleanThread();
+			cleanThread.start();
+		}
+		// TODO stop thread on shutdown
 	}
 	
 }

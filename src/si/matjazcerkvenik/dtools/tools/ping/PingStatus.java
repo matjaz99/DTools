@@ -49,7 +49,40 @@ public class PingStatus implements Serializable {
 	private long startTime;
 	private long endTime;
 	
+	/**
+	 * Default constructor
+	 */
 	public PingStatus() {
+		
+	}
+	
+	/**
+	 * Construct PingStatus object by parsing status string
+	 * @param s
+	 */
+	public PingStatus(String s) {
+		
+		s = s.replace("[", "").replace("]", "");
+		
+		String[] array = s.split(",");
+		
+		for (int i = 0; i < array.length; i++) {
+			String[] temp = array[i].trim().split("=");
+			
+			if (temp[0].equals("eC")) {
+				errorCode = Integer.parseInt(temp[1]);
+			} else if (temp[0].equals("eM")) {
+				errorMessage = temp[1];
+			} else if (temp[0].equals("eD")) {
+				errorDescription = temp[1];
+			} else if (temp[0].equals("sT")) {
+				startTime = Long.parseLong(temp[1]);
+			} else if (temp[0].equals("eT")) {
+				endTime = Long.parseLong(temp[1]);
+			} else if (temp[0].equals("dT")) {
+				// deltaTime = endTime - startTime
+			}
+		}
 		
 	}
 

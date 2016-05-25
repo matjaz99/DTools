@@ -30,6 +30,15 @@ Commons-logging is required by commons-vfs
 ## Version history
 
 -----------------------------------------------------------
+### 5.2.1-alpha.01
+
+25. may 2016
+
+- it's time to move the versions upwards, from 0.5.2 to 5.2.1
+- statistics support and drawing charts
+- clean thread to periodically clean temp dir
+
+-----------------------------------------------------------
 ### 0.5.2
 
 26. april 2016

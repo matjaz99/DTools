@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:dt="http://dtools.com/ui">
+    <h:head>
+        <title>DTools</title>
+    </h:head>
+    <h:body>
+    
+    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/dstyles.css"/>
+    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/icons.css"/>
+    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/fonts.css"/>
+    	<h:outputScript library="default" name="js/dtools.js" />
+    	    	
+    	<p:growl id="growl" life="2000"/>
+    	
+    	<h:panelGrid columns="1" cellpadding="0" cellspacing="0" width="100%">
+    	
+	        <ui:include src="/include/ptoolbar.xhtml"/>
+			
+			<h:form id="breadCrumb">
+			<p:breadCrumb>
+			    <p:menuitem value="Home" url="home.xhtml" />
+			    <p:menuitem value="Network" url="network.xhtml" />
+			    <p:menuitem value="#{nodeStatBean.networkLocation.locationName}" url="network.xhtml?location=#{nodeStatBean.networkLocation.locationName}" />
+			    <p:menuitem value="#{nodeStatBean.node.name}" url="node.xhtml?nodeName=#{nodeStatBean.node.name}&amp;location=#{nodeStatBean.networkLocation.locationName}" />
+			    <p:menuitem value="Statistics" url="#" />
+			</p:breadCrumb>
+			</h:form>
+			
+			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
+				
+				
+				<h:form id="statForm">
+				
+					<h:panelGrid columns="2">
+						<h:outputLabel value="Select chart: " />
+						<p:selectOneMenu value="#{nodeStatBean.chartType}" style="width:130px" >
+							<p:ajax update="panGrp1" listener="#{nodeStatBean.chartTypeChanged}" />
+							<f:selectItem itemLabel="Availability" itemValue="Availability" />
+					        <f:selectItem itemLabel="Response Time" itemValue="Response Time" />
+					    </p:selectOneMenu>
+					    <h:panelGroup id="panGrp1">
+					    </h:panelGroup>
+					    <h:panelGroup id="panGrp2">
+					    </h:panelGroup>
+						<h:outputText value="Show history (hours): " />
+						<p:inputText value="#{nodeStatBean.showLastHours}" />
+						<p:commandButton value="Render" actionListener="#{nodeStatBean.doRenderAction}" ajax="true" update="statImg" />
+					</h:panelGrid>
+					
+					<p:graphicImage id="statImg" value="#{imageBean.image}" cache="false" stream="false" >
+						<f:param name="imgId" value="#{nodeStatBean.imageId}" />
+					</p:graphicImage>
+				</h:form>
+
+        	
+        	</h:panelGrid>
+        	
+        	<ui:include src="/include/footer.xhtml"/>
+        	
+        </h:panelGrid>
+        
+    </h:body>
+</html>
+
+

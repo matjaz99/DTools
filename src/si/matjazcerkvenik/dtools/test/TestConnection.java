@@ -16,7 +16,7 @@
  * 
  */
 
-package si.matjazcerkvenik.dtools.tools.ping;
+package si.matjazcerkvenik.dtools.test;
 
 import java.io.IOException;
 import java.net.DatagramSocket;

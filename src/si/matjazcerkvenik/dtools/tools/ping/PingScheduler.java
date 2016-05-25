@@ -18,6 +18,7 @@
 
 package si.matjazcerkvenik.dtools.tools.ping;
 
+import java.io.Serializable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -33,7 +34,9 @@ import si.matjazcerkvenik.dtools.tools.NetworkLocation;
  * @author matjaz
  *
  */
-public class PingScheduler {
+public class PingScheduler implements Serializable {
+	
+	private static final long serialVersionUID = 2461535231866502644L;
 	
 	private ScheduledExecutorService scheduledThreadPool = null;
 	private boolean isRunning = false;

@@ -179,6 +179,7 @@ public class NetworkBean implements Serializable {
 	 * @param n
 	 */
 	public void deleteNodeAction(Node n) {
+		// TODO stop monitoring on node if active
 		DAO.getInstance().deleteNode(selectedNetworkLocation, n);
 		Growl.addGrowlMessage("Deleted: " + n.getHostname(), FacesMessage.SEVERITY_INFO);
 	}
