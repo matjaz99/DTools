@@ -50,7 +50,7 @@
 							<p:commandButton value="Delete location" action="#{networkBean.deleteLocation}" icon="ui-icon-trash" update="networkLocationMenu nodesForm" ajax="true" />
 							<h:outputLabel value="Monitoring:" />
 							<p:inputSwitch id="actBtn" value="#{networkBean.selectedNetworkLocation.monitoringActive}">
-								<p:ajax update="growl actBtn" listener="#{networkBean.selectedNetworkLocation.togglePingScheduler()}" />
+								<p:ajax update="growl actBtn" listener="#{networkBean.selectedNetworkLocation.toggleMonitoring()}" />
 							</p:inputSwitch>
 							<h:outputLabel value="Number of nodes: #{networkBean.nodesListSize}" />
 						</h:panelGrid>

@@ -1,28 +1,50 @@
-package si.matjazcerkvenik.dtools.io;
+package si.matjazcerkvenik.dtools.io.statistics;
 
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.knowm.xchart.BitmapEncoder;
 import org.knowm.xchart.PieChart;
 import org.knowm.xchart.PieChartBuilder;
+import org.knowm.xchart.BitmapEncoder.BitmapFormat;
 
+import si.matjazcerkvenik.dtools.context.DProps;
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.tools.ping.PingStatus;
 
-public class NodeAvailabilityStatistics {
+/**
+ * This class calculates node availability in the past N hours and generates a pie chart.
+ * 
+ * @author matjaz
+ *
+ */
+public class NodeAvailability {
 	
-	private List<DataBox> aa = new ArrayList<DataBox>();
+	private List<Box> boxList = new ArrayList<Box>();
+	
+	private int samplingInterval = 60;
+	
 
-	public PieChart getChart(String node, String location, int history) {
+	/**
+	 * Calculate ICMP availability of node and generate pie chart.
+	 * @param imageId
+	 * @param node
+	 * @param location
+	 * @param history
+	 */
+	public void generateChart(String imageId, String node, String location, int history) {
 		
-		aa.clear();
+		boxList.clear();
 		
 		// Create empty boxes
 		createEmptyBoxes(history);
+		
+		// parse log files
 		parseLog(DToolsContext.HOME_DIR + "/log/ping.log.1", node, location);
 		parseLog(DToolsContext.HOME_DIR + "/log/ping.log", node, location);
 		
@@ -41,42 +63,53 @@ public class NodeAvailabilityStatistics {
 		chart.addSeries("Up", upTime);
 		chart.addSeries("Down", downTime);
 
-		return chart;
+		String tempFileName = DToolsContext.HOME_DIR + "/temp/" + imageId;
+		try {
+			BitmapEncoder.saveBitmap(chart, tempFileName, BitmapFormat.PNG);
+		} catch (IOException e) {
+			DToolsContext.getInstance().getLogger().error("NodeAvailability:generateChart(): error generating chart: " + e.getMessage());
+		}
 	}
 	
 	
+	/**
+	 * Create intervals with time frame of ping interval (sampling interval), called boxes.<br>
+	 * Each box has an id (counter), start time (end time of the box is startTime + samplingInterval),
+	 * and status (UP=true or DOWN=false).
+	 * Later when parsing log file, each box will be filled with either UP or DOWN status.
+	 * @param history (hours)
+	 */
 	private void createEmptyBoxes(int history) {
 		
-		int numOfBoxes = history * 60;
+		samplingInterval = DProps.getPropertyInt(DProps.NETWORK_MONITORING_PING_INTERVAL);
+		int numOfBoxes = history * 3600 / samplingInterval;
 		long now = System.currentTimeMillis();
-		long before = now - (history * 3600 * 1000);
+		long start = now - (history * 3600 * 1000);
 		
 		for (int i = 0; i < numOfBoxes; i++) {
 			
-			DataBox box = new DataBox();
-			box.boxId = i;
-			box.time = before;
+			Box box = new Box();
+			box.id = i;
+			box.time = start;
 			box.available = false;
-			aa.add(box);
+			boxList.add(box);
 			
-			before = before + (60 * 1000);
+			start = start + (samplingInterval * 1000);
 			
 		}
-		
-		
 		
 	}
 	
 	public static void main(String[] args) {
-		NodeAvailabilityStatistics n = new NodeAvailabilityStatistics();
+		NodeAvailability n = new NodeAvailability();
 		n.createEmptyBoxes(1);
 		n.parseLog("/Users/matjaz/Developer/Projekti/DTools/log/ping.log", "Node #105", "aaa");
 		
-		int size = n.aa.size();
+		int size = n.boxList.size();
 		int numberOfUps = 0;
 		for (int i = 0; i < size; i++) {
-			System.out.println(n.aa.get(i).toString());
-			if (n.aa.get(i).available) {
+			System.out.println(n.boxList.get(i).toString());
+			if (n.boxList.get(i).available) {
 				numberOfUps++;
 			}
 		}
@@ -87,12 +120,16 @@ public class NodeAvailabilityStatistics {
 	}
 	
 	
+	/**
+	 * Parse ping.log file and fill the corresponding boxes with UP/DOWN statuses.
+	 * @param logfile
+	 * @param node
+	 * @param location
+	 */
 	private void parseLog(String logfile, String node, String location) {
 		
 		File f = new File(logfile);
-		if (!f.exists()) {
-			return;
-		}
+		if (!f.exists()) return;
 		
 		try {
 			FileReader fr = new FileReader(f);
@@ -123,23 +160,27 @@ public class NodeAvailabilityStatistics {
 			}
 			br.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			DToolsContext.getInstance().getLogger().error("NodeAvailability:parseLog(): error parsing log: " + e.getMessage());
 		}
 		
 	}
 	
+	/**
+	 * Find a corresponding interval (box) and set its status to UP or DOWN.
+	 * Only statuses with errorCode=OK are marked as UP.
+	 * @param status
+	 */
 	private void findBox(PingStatus status) {
 		
-		for (int i = 0; i < aa.size(); i++) {
+		for (int i = 0; i < boxList.size(); i++) {
 			
-			DataBox db = aa.get(i);
-			long start = db.time;
-			long end = start + (60 * 1000);
+			Box box = boxList.get(i);
+			long start = box.time;
+			long end = start + (samplingInterval * 1000);
 			if (status.getErrorCode() == PingStatus.EC_OK) {
 				
-				if (status.getStartTime() >= start && status.getStartTime() <= end) {
-					db.available = true;
-					System.out.println("set UP for box " + db.boxId);
+				if (status.getStartTime() >= start && status.getStartTime() < end) {
+					box.available = true;
 				}
 				
 			}
@@ -148,13 +189,17 @@ public class NodeAvailabilityStatistics {
 		
 	}
 	
+	
+	/**
+	 * Calculate percentage of UP time.
+	 * @return up time in %
+	 */
 	private int calculateUpTime() {
 		
-		int size = aa.size();
+		int size = boxList.size();
 		int numberOfUps = 0;
 		for (int i = 0; i < size; i++) {
-			System.out.println(aa.get(i).toString());
-			if (aa.get(i).available) {
+			if (boxList.get(i).available) {
 				numberOfUps++;
 			}
 		}
@@ -168,15 +213,15 @@ public class NodeAvailabilityStatistics {
 	}
 	
 	
-	class DataBox {
+	private class Box {
 		
-		private int boxId;
+		private int id;
 		private long time;
 		private boolean available = false;
 		
 		@Override
 		public String toString() {
-			return "Box[" + boxId + "]: time=" + time + ", status=" + available;
+			return "Box[" + id + "]: time=" + time + ", status=" + available;
 		}
 		
 	}

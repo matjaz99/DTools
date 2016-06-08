@@ -18,11 +18,15 @@
 
 package si.matjazcerkvenik.dtools.web.listeners;
 
+import java.util.List;
+
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
+import si.matjazcerkvenik.dtools.io.DAO;
+import si.matjazcerkvenik.dtools.tools.NetworkLocation;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpAgent;
 import si.matjazcerkvenik.dtools.web.beans.SnmpManagerBean;
 import si.matjazcerkvenik.dtools.web.beans.SnmpSimulatorBean;
@@ -38,6 +42,17 @@ public class ShutdownListener implements ServletContextListener {
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
 		System.out.println("DTools:ShutdownListener:contextDestroyed()");
+		
+		// stop clean thread
+		DToolsContext.getInstance().stopCleanThread();
+		
+		// stop monitoring
+		List<NetworkLocation> locations = DAO.getInstance().loadNetworkLocations();
+		for (int i = 0; i < locations.size(); i++) {
+			if (locations.get(i).isMonitoringActive()) {
+				locations.get(i).getPingScheduler().stopPingScheduler();
+			}
+		}
 		
 		// close snmp trap sender
 		try {

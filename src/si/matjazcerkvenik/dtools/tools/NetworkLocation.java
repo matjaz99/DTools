@@ -242,7 +242,10 @@ public class NetworkLocation implements Serializable {
 	
 	
 	
-	
+	/**
+	 * Return ping scheduler instance
+	 * @return pingScheduler
+	 */
 	public PingScheduler getPingScheduler() {
 		return pingScheduler;
 	}
@@ -252,7 +255,6 @@ public class NetworkLocation implements Serializable {
 	 * @return true if active
 	 */
 	public boolean isMonitoringActive() {
-//		return monitoringActive;
 		if (pingScheduler != null && pingScheduler.isRunning()) {
 			return true;
 		}
@@ -261,7 +263,7 @@ public class NetworkLocation implements Serializable {
 
 	/**
 	 * MonitoringActive flag is changed when monitoring switch is pressed. 
-	 * This method is called before {@link #togglePingScheduler() togglePingScheduler} method.
+	 * This method is called before {@link #toggleMonitoring() toggleMonitoring} method.
 	 * @param monitoringActive
 	 */
 	public void setMonitoringActive(boolean monitoringActive) {
@@ -269,15 +271,15 @@ public class NetworkLocation implements Serializable {
 	}
 	
 	/**
-	 * Start or stop ping scheduler
+	 * Start or stop ping scheduler - monitoring
 	 */
-	public void togglePingScheduler() {
+	public void toggleMonitoring() {
 		
 		if (monitoringActive) {
 			if (pingScheduler == null) {
-				pingScheduler = new PingScheduler();
+				pingScheduler = new PingScheduler(this);
 			}
-			pingScheduler.startPingScheduler(this);
+			pingScheduler.startPingScheduler();
 			Growl.addGrowlMessage("Monitoring started", FacesMessage.SEVERITY_INFO);
 		} else {
 			// already listening

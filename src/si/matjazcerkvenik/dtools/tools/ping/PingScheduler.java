@@ -21,7 +21,6 @@ package si.matjazcerkvenik.dtools.tools.ping;
 import java.io.Serializable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import si.matjazcerkvenik.dtools.context.DProps;
@@ -29,7 +28,7 @@ import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.tools.NetworkLocation;
 
 /**
- * This class schedules periodic ping requests (monitoring featue).
+ * This class schedules periodic ping requests (monitoring).
  * 
  * @author matjaz
  *
@@ -41,25 +40,29 @@ public class PingScheduler implements Serializable {
 	private ScheduledExecutorService scheduledThreadPool = null;
 	private boolean isRunning = false;
 	
-	public PingScheduler() {
-		
+	private NetworkLocation location;
+	
+	public PingScheduler(NetworkLocation location) {
+		this.location = location;
 	}
 	
-	public void startPingScheduler(NetworkLocation location) {
-				
-		DToolsContext.getInstance().getLogger().info("PingScheduler:: started");
+	public void startPingScheduler() {
 		
 		isRunning = true;
 		
 		int threadPoolSize = DProps.getPropertyInt(DProps.NETWORK_MONITORING_PING_POOL_SIZE);
 		int interval = DProps.getPropertyInt(DProps.NETWORK_MONITORING_PING_INTERVAL);
 		
+		DToolsContext.getInstance().getLogger().info("PingScheduler:: monitoring started loc=" 
+				+ location.getLocationName() + ", p=" + threadPoolSize + ", i=" + interval
+				+ ", t=" + System.currentTimeMillis());
+		
 		if (scheduledThreadPool == null) {
 			scheduledThreadPool = Executors.newScheduledThreadPool(threadPoolSize);
 		}
 				
 		for (int i = 0; i < location.getNetworkNodes().getNodesList().size(); i++) {
-			ScheduledFuture<?> fut = scheduledThreadPool.scheduleWithFixedDelay(location.getNetworkNodes().getNodesList().get(i), 0, interval, TimeUnit.SECONDS);
+			scheduledThreadPool.scheduleWithFixedDelay(location.getNetworkNodes().getNodesList().get(i), 0, interval, TimeUnit.SECONDS);
 		}
 		
 	}
@@ -71,15 +74,12 @@ public class PingScheduler implements Serializable {
 		}
 		scheduledThreadPool = null;
 		isRunning = false;
-		DToolsContext.getInstance().getLogger().info("PingScheduler:: stopped");
+		DToolsContext.getInstance().getLogger().info("PingScheduler:: monitoring stopped loc=" 
+				+ location.getLocationName() + ", t=" + System.currentTimeMillis());
 	}
 
 	public boolean isRunning() {
 		return isRunning;
-	}
-
-	public void setRunning(boolean isRunning) {
-		this.isRunning = isRunning;
 	}
 	
 }

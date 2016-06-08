@@ -1,6 +1,6 @@
 package si.matjazcerkvenik.dtools.web.beans;
 
-import java.io.IOException;
+import java.io.Serializable;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -9,21 +9,20 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
-import org.knowm.xchart.BitmapEncoder;
-import org.knowm.xchart.BitmapEncoder.BitmapFormat;
-import org.knowm.xchart.internal.chartpart.Chart;
-
-import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.io.DAO;
-import si.matjazcerkvenik.dtools.io.NodeAvailabilityStatistics;
-import si.matjazcerkvenik.dtools.io.PingResponseTimeStatistics;
-import si.matjazcerkvenik.dtools.io.StatFilter;
+import si.matjazcerkvenik.dtools.io.statistics.AverageResponseTime;
+import si.matjazcerkvenik.dtools.io.statistics.NodeAvailability;
+import si.matjazcerkvenik.dtools.io.statistics.PingResponseTime;
+import si.matjazcerkvenik.dtools.io.statistics.PingResponseTime2;
+import si.matjazcerkvenik.dtools.io.statistics.PingResponseTime4;
 import si.matjazcerkvenik.dtools.tools.NetworkLocation;
 import si.matjazcerkvenik.dtools.xml.Node;
 
 @ManagedBean
 @ViewScoped
-public class NodeStatBean {
+public class NodeStatBean implements Serializable {
+	
+	private static final long serialVersionUID = -6814048466553906755L;
 	
 	private Node node;
 	private NetworkLocation networkLocation;
@@ -31,7 +30,7 @@ public class NodeStatBean {
 	private String imageId = "0";
 	
 	private String chartType = "Availability";
-	private int showLastHours = 3;
+	private int showLastHours = 24;
 	
 	@PostConstruct
 	public void init() {
@@ -42,7 +41,6 @@ public class NodeStatBean {
 		if (requestParameterMap.containsKey("nodeName")) {
 			node = networkLocation.findNode(requestParameterMap.get("nodeName"));
 		}
-		System.out.println("init NodeStatBean: node=" + node.getName() + ", loc=" + networkLocation.getLocationName());
 	}
 
 	public Node getNode() {
@@ -102,38 +100,37 @@ public class NodeStatBean {
 	public void doRenderAction(ActionEvent actionEvent) {
 		
 		imageId = "" + System.currentTimeMillis();
-		String tempFileName = DToolsContext.HOME_DIR + "/temp/" + imageId;
-		
-		StatFilter filter = new StatFilter();
-		filter.setNodeName(node.getName());
-		filter.setLocationName(networkLocation.getLocationName());
-		filter.setHistoryHours(showLastHours);
-		
-		
-		Chart<?, ?> chart = null;
 		
 		if (chartType.equals("Availability")) {
 			
-			NodeAvailabilityStatistics nas = new NodeAvailabilityStatistics();
-			chart = nas.getChart(node.getName(), networkLocation.getLocationName(), showLastHours);
+			NodeAvailability nas = new NodeAvailability();
+			nas.generateChart(imageId, node.getName(), networkLocation.getLocationName(), showLastHours);
 			
 		} else if (chartType.equals("Response Time")) {
 			
-			filter.setTitle("ICMP Ping response time");
-			filter.setxAxisTitle("Time (sec)");
-			filter.setyAxisTitle("Response Time (ms)");
+//			PingResponseTime stat = new PingResponseTime();
+//			stat.generateChart(imageId, node.getName(), networkLocation.getLocationName(), showLastHours);
+			PingResponseTime2 stat = new PingResponseTime2();
+			stat.generateChart(imageId, node.getName(), networkLocation.getLocationName(), showLastHours);
 			
-			PingResponseTimeStatistics stat = new PingResponseTimeStatistics(filter);
-			chart = stat.generateXYChart();
+		} else if (chartType.equals("Response Time 2")) {
 			
-		}
-
-		try {
-			BitmapEncoder.saveBitmap(chart, tempFileName, BitmapFormat.PNG);
-		} catch (IOException e) {
-			e.printStackTrace();
+			PingResponseTime2 stat = new PingResponseTime2();
+			stat.generateChart(imageId, node.getName(), networkLocation.getLocationName(), showLastHours);
+			
+		} else if (chartType.equals("Response Time 4")) {
+			
+			PingResponseTime4 stat = new PingResponseTime4();
+			stat.generateChart(imageId, node.getName(), networkLocation.getLocationName(), showLastHours);
+			
+		} else if (chartType.equals("Average Response Time")) {
+			
+			AverageResponseTime stat = new AverageResponseTime();
+			stat.generateChart(imageId, node.getName(), networkLocation.getLocationName(), showLastHours);
+			
 		}
 		
 	}
+	
 	
 }

@@ -46,8 +46,8 @@ public class PingStatus implements Serializable {
 	private int errorCode = 0;
 	private String errorMessage;
 	private String errorDescription;
-	private long startTime;
-	private long endTime;
+	private long startTime = 0;
+	private long endTime = 0;
 	
 	/**
 	 * Default constructor
@@ -118,6 +118,10 @@ public class PingStatus implements Serializable {
 		return endTime;
 	}
 	
+	public int getDeltaTime() {
+		return (int) (endTime - startTime);
+	}
+	
 	public void started() {
 		startTime = System.currentTimeMillis();
 	}
@@ -128,10 +132,9 @@ public class PingStatus implements Serializable {
 	
 	@Override
 	public String toString() {
-		int delta = (int) (endTime - startTime);
 		return "[eC=" + errorCode + ", eM=" + errorMessage
 				+ ", eD=" + errorDescription + ", sT=" + startTime 
-				+ ", eT=" + endTime + ", dT=" + delta + "]";
+				+ ", eT=" + endTime + ", dT=" + getDeltaTime() + "]";
 	}
 	
 }

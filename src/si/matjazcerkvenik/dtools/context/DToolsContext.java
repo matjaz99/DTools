@@ -186,12 +186,15 @@ public class DToolsContext {
 	}
 	
 	
-	public static void startCleanThread() {
+	public void startCleanThread() {
 		if (cleanThread == null) {
 			cleanThread = new CleanThread();
 			cleanThread.start();
 		}
-		// TODO stop thread on shutdown
+	}
+	
+	public void stopCleanThread() {
+		cleanThread.stopCleanThread();
 	}
 	
 }

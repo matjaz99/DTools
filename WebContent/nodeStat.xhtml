@@ -39,19 +39,26 @@
 				
 					<h:panelGrid columns="2">
 						<h:outputLabel value="Select chart: " />
-						<p:selectOneMenu value="#{nodeStatBean.chartType}" style="width:130px" >
+						<p:selectOneMenu value="#{nodeStatBean.chartType}" style="width:140px" >
 							<p:ajax update="panGrp1" listener="#{nodeStatBean.chartTypeChanged}" />
 							<f:selectItem itemLabel="Availability" itemValue="Availability" />
 					        <f:selectItem itemLabel="Response Time" itemValue="Response Time" />
+					        <f:selectItem itemLabel="Average Response Time" itemValue="Average Response Time" />
 					    </p:selectOneMenu>
-					    <h:panelGroup id="panGrp1">
-					    </h:panelGroup>
-					    <h:panelGroup id="panGrp2">
-					    </h:panelGroup>
+					    <h:panelGroup id="panGrp1"></h:panelGroup>
+					    <h:panelGroup id="panGrp2"></h:panelGroup>
 						<h:outputText value="Show history (hours): " />
 						<p:inputText value="#{nodeStatBean.showLastHours}" />
 						<p:commandButton value="Render" actionListener="#{nodeStatBean.doRenderAction}" ajax="true" update="statImg" />
 					</h:panelGrid>
+					
+					<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+					<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+					    <h:panelGrid columns="1">
+						    <h:outputLabel value=" Generating chart" />
+						    <p:graphicImage library="default" name="img/ajax-loader.gif" />
+					    </h:panelGrid>
+					</p:dialog>
 					
 					<p:graphicImage id="statImg" value="#{imageBean.image}" cache="false" stream="false" >
 						<f:param name="imgId" value="#{nodeStatBean.imageId}" />

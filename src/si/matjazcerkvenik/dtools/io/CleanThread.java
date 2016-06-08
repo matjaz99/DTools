@@ -5,12 +5,20 @@ import java.io.FileFilter;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 
+/**
+ * This thread periodically checks $DTOOLS_HOME$/temp directory and deletes files older than 1 hour.
+ * 
+ * @author matjaz
+ *
+ */
 public class CleanThread extends Thread {
+	
+	private boolean running = true;
 	
 	@Override
 	public void run() {
 		
-		while (true) {
+		while (running) {
 			
 			DToolsContext.getInstance().getLogger().info("CleanThread: started");
 			
@@ -38,7 +46,7 @@ public class CleanThread extends Thread {
 			
 			if (files != null) {
 				for (int i = 0; i < files.length; i++) {
-					DToolsContext.getInstance().getLogger().info("CleanThread: deleted: " + files[i].getAbsolutePath());
+					DToolsContext.getInstance().getLogger().debug("CleanThread: deleted: " + files[i].getAbsolutePath());
 					files[i].delete();
 				}
 			}
@@ -46,11 +54,16 @@ public class CleanThread extends Thread {
 			try {
 				sleep(60 * 60 * 1000);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				DToolsContext.getInstance().getLogger().debug("CleanThread: interrupted");
 			}
 			
 		}
 		
+	}
+	
+	public void stopCleanThread() {
+		running = false;
+		this.interrupt();
 	}
 	
 	public static void test() {
