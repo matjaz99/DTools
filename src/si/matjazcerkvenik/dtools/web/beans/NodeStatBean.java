@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
+import si.matjazcerkvenik.dtools.context.DProps;
 import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.io.statistics.AverageResponseTime;
 import si.matjazcerkvenik.dtools.io.statistics.NodeAvailability;
@@ -41,6 +42,7 @@ public class NodeStatBean implements Serializable {
 		if (requestParameterMap.containsKey("nodeName")) {
 			node = networkLocation.findNode(requestParameterMap.get("nodeName"));
 		}
+		showLastHours = DProps.getPropertyInt(DProps.NETWORK_STATISTICS_HISTORY_HOURS);
 	}
 
 	public Node getNode() {

@@ -3,7 +3,7 @@
 	
 	<description>Ant buildfile</description>
 
-	<property name="project.version" value="5.2.1-alpha.02" />
+	<property name="project.version" value="5.2.1-beta.01" />
 	<property name="bin.dir" value="bin" />
 	<property name="src.dir" value="src" />
 	<property name="web.dir" value="WebContent" />

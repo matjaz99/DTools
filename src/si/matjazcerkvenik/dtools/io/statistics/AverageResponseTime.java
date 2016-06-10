@@ -12,6 +12,7 @@ import org.knowm.xchart.BitmapEncoder.BitmapFormat;
 import org.knowm.xchart.CategoryChart;
 import org.knowm.xchart.CategoryChartBuilder;
 
+import si.matjazcerkvenik.dtools.context.DProps;
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.tools.ping.PingStatus;
 
@@ -52,15 +53,18 @@ public class AverageResponseTime {
 			xData.add((int) histogramBoxList.get(i).time);
 			yData.add(histogramBoxList.get(i).count);
 		}
+		
+		int width = DProps.getPropertyInt(DProps.NETWORK_STATISTICS_CHART_WIDTH);
+		int height = DProps.getPropertyInt(DProps.NETWORK_STATISTICS_CHART_HEIGHT);
 
 		// Create Chart
-		CategoryChart chart = new CategoryChartBuilder().width(700).height(400).title("Response Time Histogram").xAxisTitle("Mean Response Time (ms)").yAxisTitle("Number").build();
+		CategoryChart chart = new CategoryChartBuilder().width(width).height(height).title("Response Time Histogram: " + node).xAxisTitle("Mean Response Time (ms)").yAxisTitle("Number of pings").build();
 
 		// Customize Chart
 //		chart.getStyler().setSeriesColors(sliceColors);
 
 		// Series
-		chart.addSeries("Time", xData, yData);
+		chart.addSeries("Pings", xData, yData);
 
 		String tempFileName = DToolsContext.HOME_DIR + "/temp/" + imageId;
 		try {

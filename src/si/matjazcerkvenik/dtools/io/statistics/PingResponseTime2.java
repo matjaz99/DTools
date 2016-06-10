@@ -139,9 +139,11 @@ public class PingResponseTime2 {
 			yUpData.add(upData.get(i).y);
 		}
 		
+		int width = DProps.getPropertyInt(DProps.NETWORK_STATISTICS_CHART_WIDTH);
+		int height = DProps.getPropertyInt(DProps.NETWORK_STATISTICS_CHART_HEIGHT);
 
 		// Create Chart
-		XYChart xychart = new XYChart(700, 400);
+		XYChart xychart = new XYChart(width, height);
 		xychart.setTitle("ICMP Ping Response Time: " + node);
 		xychart.setXAxisTitle("Time (s)");
 		xychart.setYAxisTitle("Response time (ms)");

@@ -60,9 +60,11 @@
 					    </h:panelGrid>
 					</p:dialog>
 					
-					<p:graphicImage id="statImg" value="#{imageBean.image}" cache="false" stream="false" >
-						<f:param name="imgId" value="#{nodeStatBean.imageId}" />
-					</p:graphicImage>
+					<h:panelGrid columns="1" cellpadding="5" cellspacing="0">
+						<p:graphicImage id="statImg" value="#{imageBean.image}" cache="false" stream="false" >
+							<f:param name="imgId" value="#{nodeStatBean.imageId}" />
+						</p:graphicImage>
+					</h:panelGrid>
 				</h:form>
 
         	

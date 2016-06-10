@@ -51,9 +51,11 @@ public class NodeAvailability {
 		int upTime = calculateUpTime();
 		int downTime = 100 - upTime;
 		
+		int width = DProps.getPropertyInt(DProps.NETWORK_STATISTICS_CHART_WIDTH);
+		int height = DProps.getPropertyInt(DProps.NETWORK_STATISTICS_CHART_HEIGHT);
 
 		// Create Chart
-		PieChart chart = new PieChartBuilder().width(700).height(400).title("Node availability: " + node).build();
+		PieChart chart = new PieChartBuilder().width(width).height(height).title("Node availability: " + node).build();
 
 		// Customize Chart
 		Color[] sliceColors = new Color[] { new Color(68, 224, 14), new Color(224, 68, 14) };

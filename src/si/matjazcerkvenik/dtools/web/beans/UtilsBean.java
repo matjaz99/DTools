@@ -153,6 +153,9 @@ public class UtilsBean {
 	private String pingPoolSize;
 	private String autodiscoveryPoolSize;
 	private String trapReceiverQueueSize;
+	private String chartsWidth;
+	private String chartsHeight;
+	private String statisticsHistoryHours;
 
 	public String getPingInterval() {
 		return DProps.getProperty(DProps.NETWORK_MONITORING_PING_INTERVAL);
@@ -195,12 +198,39 @@ public class UtilsBean {
 		this.trapReceiverQueueSize = trapReceiverQueueSize;
 	}
 
+	public String getChartsWidth() {
+		return DProps.getProperty(DProps.NETWORK_STATISTICS_CHART_WIDTH);
+	}
+
+	public void setChartsWidth(String chartsWidth) {
+		this.chartsWidth = chartsWidth;
+	}
+
+	public String getChartsHeight() {
+		return DProps.getProperty(DProps.NETWORK_STATISTICS_CHART_HEIGHT);
+	}
+
+	public void setChartsHeight(String chartsHeight) {
+		this.chartsHeight = chartsHeight;
+	}
+
+	public String getStatisticsHistoryHours() {
+		return DProps.getProperty(DProps.NETWORK_STATISTICS_HISTORY_HOURS);
+	}
+
+	public void setStatisticsHistoryHours(String statisticsHistoryHours) {
+		this.statisticsHistoryHours = statisticsHistoryHours;
+	}
+
 	public void saveSettings() {
 		DProps.setProperty(DProps.NETWORK_MONITORING_PING_INTERVAL, pingInterval, false);
 		DProps.setProperty(DProps.NETWORK_MONITORING_PING_TIMEOUT, pingTimeout, false);
 		DProps.setProperty(DProps.NETWORK_MONITORING_PING_POOL_SIZE, pingPoolSize, false);
 		DProps.setProperty(DProps.AUTO_DISCOVERY_THREAD_POOL_SIZE, autodiscoveryPoolSize, false);
-		DProps.setProperty(DProps.SNMP_RECEIVER_QUEUE_SIZE, trapReceiverQueueSize, true);
+		DProps.setProperty(DProps.SNMP_RECEIVER_QUEUE_SIZE, trapReceiverQueueSize, false);
+		DProps.setProperty(DProps.NETWORK_STATISTICS_CHART_WIDTH, chartsWidth, false);
+		DProps.setProperty(DProps.NETWORK_STATISTICS_CHART_HEIGHT, chartsHeight, false);
+		DProps.setProperty(DProps.NETWORK_STATISTICS_HISTORY_HOURS, statisticsHistoryHours, true);
 		Growl.addGrowlMessage("Settings saved", FacesMessage.SEVERITY_INFO);
 	}
 	

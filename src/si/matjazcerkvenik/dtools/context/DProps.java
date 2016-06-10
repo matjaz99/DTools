@@ -44,6 +44,9 @@ public class DProps {
 	public static final String NETWORK_MONITORING_PING_INTERVAL = "network.monitoring.ping.interval";
 	public static final String NETWORK_MONITORING_PING_TIMEOUT = "network.monitoring.ping.timeout";
 	public static final String AUTO_DISCOVERY_THREAD_POOL_SIZE = "network.autodiscovery.thread.pool.size";
+	public static final String NETWORK_STATISTICS_CHART_WIDTH = "network.statistics.chart.width";
+	public static final String NETWORK_STATISTICS_CHART_HEIGHT = "network.statistics.chart.height";
+	public static final String NETWORK_STATISTICS_HISTORY_HOURS = "network.statistics.history.hours";
 	
 	private static Map<String, String> defaultValues = new HashMap<String, String>();
 	
@@ -63,6 +66,9 @@ public class DProps {
 		defaultValues.put(NETWORK_MONITORING_PING_INTERVAL, "60");
 		defaultValues.put(NETWORK_MONITORING_PING_TIMEOUT, "5000");
 		defaultValues.put(AUTO_DISCOVERY_THREAD_POOL_SIZE, "10");
+		defaultValues.put(NETWORK_STATISTICS_CHART_WIDTH, "700");
+		defaultValues.put(NETWORK_STATISTICS_CHART_HEIGHT, "400");
+		defaultValues.put(NETWORK_STATISTICS_HISTORY_HOURS, "24");
 	}
 	
 	/**
