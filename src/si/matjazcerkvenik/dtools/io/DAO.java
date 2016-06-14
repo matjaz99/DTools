@@ -1355,7 +1355,7 @@ public class DAO {
 	public String saveReceivedTrapsAsTxt(String filename, String trapsString) {
 		
 		String file = filename + "-" + System.currentTimeMillis();
-		file = DToolsContext.HOME_DIR + TXT_SAVE_RECEIVED_TRAPS.replaceFirst("$FILENAME$", file);
+		file = DToolsContext.HOME_DIR + TXT_SAVE_RECEIVED_TRAPS.replace("$FILENAME$", file);
 		writePlainTextFile(file, trapsString);
 		return file;
 		

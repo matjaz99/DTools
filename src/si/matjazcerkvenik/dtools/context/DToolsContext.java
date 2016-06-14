@@ -35,6 +35,7 @@ public class DToolsContext {
 	private static DToolsContext instance;
 
 	public static String HOME_DIR;
+	public static String CATALINA_DIR;
 	public static String version;
 	
 	private SimpleLogger logger;
@@ -68,9 +69,11 @@ public class DToolsContext {
 		
 		String homeDir = System.getProperty("dtools.home");
 		
+		CATALINA_DIR = System.getProperty("catalina.home");
+		
 		// if -Ddtools.home VM arg is not set, use ../server/apache-tomcat directory as default
 		if (homeDir == null || homeDir.length() == 0) {
-			String[] temp = System.getProperty("catalina.home").split("server\\" + File.separator + "+apache-tomcat");
+			String[] temp = CATALINA_DIR.split("server\\" + File.separator + "+apache-tomcat");
 			homeDir = temp[0];
 		}
 		if (homeDir.endsWith("/") || homeDir.endsWith("\\")) {
@@ -120,6 +123,7 @@ public class DToolsContext {
 		logger.info("\t+---------------------------------+");
 		logger.info("");
 		logger.info("HOME_DIR=" + HOME_DIR);
+		logger.info("CATALINA_DIR=" + CATALINA_DIR);
 		logger.info("VERSION=" + version);
 		logger.info("OS=" + getOsType());
 		logger.info("LOG_FILE=" + logger.getFilename());		

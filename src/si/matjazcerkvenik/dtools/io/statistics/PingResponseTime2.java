@@ -29,14 +29,14 @@ public class PingResponseTime2 {
 	private List<XY> downData = new ArrayList<XY>();
 	
 	private int samplingInterval = 60;
-	
+	private long now = System.currentTimeMillis();
 	
 	
 	private void prepareDummyData(int history) {
 		
 		samplingInterval = DProps.getPropertyInt(DProps.NETWORK_MONITORING_PING_INTERVAL);
 		int numOfIntervals = history * 3600 / samplingInterval;
-		long now = System.currentTimeMillis();
+//		long now = System.currentTimeMillis();
 		long start = now - (history * 3600 * 1000);
 		
 		for (int i = 0; i < numOfIntervals; i++) {
@@ -117,6 +117,20 @@ public class PingResponseTime2 {
 		
 	}
 	
+	private long recalculateTime(int history, long timeInMillis) {
+		
+		int time = (int) (timeInMillis - now);
+		
+		if (history < 5) {
+			// return minutes
+			time = time / 1000 / 60;
+		} else {
+			// return hours
+			time = time / 1000 / 60 / 60;
+		}
+		return time;
+	}
+	
 	public void generateChart(String imageId, String node, String location, int history) {
 		
 		prepareDummyData(history);
@@ -130,12 +144,14 @@ public class PingResponseTime2 {
 		List<Integer> yDnData = new ArrayList<Integer>();
 		
 		for (int i = 0; i < downData.size(); i++) {
-			xDnData.add(downData.get(i).x / 1000);
+//			xDnData.add(downData.get(i).x / 1000);
+			xDnData.add(recalculateTime(history, downData.get(i).x));
 			yDnData.add(downData.get(i).y);
 		}
 		
 		for (int i = 0; i < upData.size(); i++) {
-			xUpData.add(upData.get(i).x / 1000);
+//			xUpData.add(upData.get(i).x / 1000);
+			xUpData.add(recalculateTime(history, upData.get(i).x));
 			yUpData.add(upData.get(i).y);
 		}
 		
@@ -145,7 +161,9 @@ public class PingResponseTime2 {
 		// Create Chart
 		XYChart xychart = new XYChart(width, height);
 		xychart.setTitle("ICMP Ping Response Time: " + node);
-		xychart.setXAxisTitle("Time (s)");
+		String s = "hours";
+		if (history < 5) s = "minutes";
+		xychart.setXAxisTitle("History (" + s + ")");
 		xychart.setYAxisTitle("Response time (ms)");
 		XYSeries series1 = xychart.addSeries("Up", xUpData, yUpData);
 		XYSeries series2 = xychart.addSeries("Down", xDnData, yDnData);

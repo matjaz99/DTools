@@ -106,8 +106,8 @@ public class AverageResponseTime {
 		if (min < 0) min = 0;
 		
 		
-		System.out.println("min/max/w: " + min + "/" + 9999999 + "/" + boxWidth);
-		System.out.println("average: " + getAverage() + "/" + Math.round(getAverage()));
+//		System.out.println("min/max/w: " + min + "/" + 9999999 + "/" + boxWidth);
+//		System.out.println("average: " + getAverage() + "/" + Math.round(getAverage()));
 		
 		// create empty boxes
 		for (int i = 0; i < numOfBoxes; i++) {

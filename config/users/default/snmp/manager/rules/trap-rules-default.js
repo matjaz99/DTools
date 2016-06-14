@@ -67,6 +67,14 @@ function processTrap(trap) {
     		trap.severity = 5;
     		trap.trapName = "LinkUp";
     		trap.customText = trap.trapName;
+    		trap.extDat1 = "ifAdminStatus=" + getValue(trap.varbinds, "1.3.6.1.2.1.2.2.1.7");
+    		trap.extDat2 = "ifOperStatus=" + getValue(trap.varbinds, "1.3.6.1.2.1.2.2.1.8");
+    		trap.customText += " " + trap.extDat1 + " " + trap.extDat2;
+    	} else if (trap.snmpTrapOid == "1.3.6.1.6.3.1.1.5.5") {
+    		// LinkUp
+    		trap.severity = 6;
+    		trap.trapName = "AuthenticationFailure";
+    		trap.customText = trap.trapName;
     	} else if (trap.snmpTrapOid == "1.2.1.3.6.1.444.1.1") {
     		// example
     		trap.severity = 2;
