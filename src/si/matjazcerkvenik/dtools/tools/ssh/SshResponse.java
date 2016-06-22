@@ -18,9 +18,14 @@
 
 package si.matjazcerkvenik.dtools.tools.ssh;
 
+import java.io.File;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+
+import si.matjazcerkvenik.dtools.context.DToolsContext;
+import si.matjazcerkvenik.dtools.io.DAO;
 
 @XmlRootElement
 public class SshResponse {
@@ -31,6 +36,7 @@ public class SshResponse {
 	private String date;
 	private String filename;
 	private String response;
+	private boolean favorite = false;
 
 	public String getCommand() {
 		return command;
@@ -84,6 +90,30 @@ public class SshResponse {
 	@XmlTransient
 	public void setResponse(String response) {
 		this.response = response;
+	}
+
+	public boolean isFavorite() {
+		return favorite;
+	}
+
+	@XmlElement
+	public void setFavorite(boolean favorite) {
+		this.favorite = favorite;
+	}
+	
+	public void saveTxt() {
+		String fn = DToolsContext.HOME_DIR + "/config/users/default/ssh/saved/" + filename + ".txt";
+		DAO.getInstance().writePlainTextFile(fn, response);
+	}
+	
+	public void loadTxt() {
+		String fn = DToolsContext.HOME_DIR + "/config/users/default/ssh/saved/" + filename + ".txt";
+		response = DAO.getInstance().readPlainTextFile(fn);
+	}
+	
+	public void deleteTxt() {
+		File f = new File(DToolsContext.HOME_DIR + "/config/users/default/ssh/saved/" + filename + ".txt");
+		f.delete();
 	}
 
 }

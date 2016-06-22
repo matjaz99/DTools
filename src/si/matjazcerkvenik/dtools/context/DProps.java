@@ -47,6 +47,8 @@ public class DProps {
 	public static final String NETWORK_STATISTICS_CHART_WIDTH = "network.statistics.chart.width";
 	public static final String NETWORK_STATISTICS_CHART_HEIGHT = "network.statistics.chart.height";
 	public static final String NETWORK_STATISTICS_HISTORY_HOURS = "network.statistics.history.hours";
+	public static final String SSH_DISCONNECT_TIMEOUT = "ssh.disconnect.timeout";
+	public static final String SSH_HISTORY_AGING_PERIOD = "ssh.history.aging.period";
 	
 	private static Map<String, String> defaultValues = new HashMap<String, String>();
 	
@@ -69,6 +71,8 @@ public class DProps {
 		defaultValues.put(NETWORK_STATISTICS_CHART_WIDTH, "700");
 		defaultValues.put(NETWORK_STATISTICS_CHART_HEIGHT, "400");
 		defaultValues.put(NETWORK_STATISTICS_HISTORY_HOURS, "24");
+		defaultValues.put(SSH_DISCONNECT_TIMEOUT, "120");
+		defaultValues.put(SSH_HISTORY_AGING_PERIOD, "168");
 	}
 	
 	/**

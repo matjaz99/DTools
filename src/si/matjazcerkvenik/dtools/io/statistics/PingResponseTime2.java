@@ -117,7 +117,14 @@ public class PingResponseTime2 {
 		
 	}
 	
-	private long recalculateTime(int history, long timeInMillis) {
+	
+	/**
+	 * Convert time in milliseconds into hours or minutes (if less than 5 hours).
+	 * @param history
+	 * @param timeInMillis
+	 * @return time in hours or minutes
+	 */
+	private int recalculateTime(int history, long timeInMillis) {
 		
 		int time = (int) (timeInMillis - now);
 		
@@ -138,19 +145,17 @@ public class PingResponseTime2 {
 		parseLog(DToolsContext.HOME_DIR + "/log/ping.log.1", node, location, "ICMP_PING");
 		parseLog(DToolsContext.HOME_DIR + "/log/ping.log", node, location, "ICMP_PING");
 		
-		List<Long> xUpData = new ArrayList<Long>();
+		List<Integer> xUpData = new ArrayList<Integer>();
 		List<Integer> yUpData = new ArrayList<Integer>();
-		List<Long> xDnData = new ArrayList<Long>();
+		List<Integer> xDnData = new ArrayList<Integer>();
 		List<Integer> yDnData = new ArrayList<Integer>();
 		
 		for (int i = 0; i < downData.size(); i++) {
-//			xDnData.add(downData.get(i).x / 1000);
 			xDnData.add(recalculateTime(history, downData.get(i).x));
 			yDnData.add(downData.get(i).y);
 		}
 		
 		for (int i = 0; i < upData.size(); i++) {
-//			xUpData.add(upData.get(i).x / 1000);
 			xUpData.add(recalculateTime(history, upData.get(i).x));
 			yUpData.add(upData.get(i).y);
 		}

@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.Map;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
+import si.matjazcerkvenik.dtools.io.md5.MD5Checksum;
 import si.matjazcerkvenik.dtools.tools.MissingValueException;
-import si.matjazcerkvenik.dtools.tools.md5.MD5Checksum;
 
 /**
  * This class searches selected directory for files with equal MD5 checksum - duplicate files.

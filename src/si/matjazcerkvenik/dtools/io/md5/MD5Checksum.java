@@ -1,4 +1,4 @@
-package si.matjazcerkvenik.dtools.tools.md5;
+package si.matjazcerkvenik.dtools.io.md5;
 
 import java.io.File;
 import java.io.FileInputStream;

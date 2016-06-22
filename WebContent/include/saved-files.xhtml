@@ -34,50 +34,7 @@
 		</h:panelGroup>
 		<p:poll interval="25" update="activeItemsPnl" />
     
-    	<h:outputText value="Saved files" />
     	
-    	<h:dataTable value="#{historyBean.sshResponsesList}" var="sshResponse" 
-					styleClass="table"
-					rowClasses="tableOddRow,tableEvenRow"
-					cellpadding="0" cellspacing="10" width="100%">
-					
-					<h:column headerClass="col0 col1">
-						<f:facet name="header">View</f:facet>
-							<h:commandLink action="#{historyBean.openSshResponse(sshResponse)}">
-							<p:graphicImage value="resources/#{userBean.cssTheme}/1_0/img/view-file.png" />
-						</h:commandLink>
-					</h:column>
-					
-					<h:column headerClass="col0">
-						<f:facet name="header">File</f:facet>
-							<h:commandLink action="#{historyBean.openSshResponse(sshResponse)}">
-								<h:outputText value="#{sshResponse.filename}" />
-							</h:commandLink>
-					</h:column>
-					
-					<h:column headerClass="col0">
-						<f:facet name="header">Host</f:facet>
-						<h:outputText value="ssh://#{sshResponse.sshClient.username}@#{sshResponse.sshClient.hostname}:#{sshResponse.sshClient.port}" />
-					</h:column>
-					
-					<h:column headerClass="col0">
-						<f:facet name="header">Command</f:facet>
-						<h:outputText value="#{sshResponse.command}" />
-					</h:column>
-					
-					<h:column headerClass="col0">
-						<f:facet name="header">Date</f:facet>
-						<h:outputText value="#{sshResponse.date}" />
-					</h:column>
-					
-					<h:column headerClass="col0 col1">
-						<f:facet name="header">Delete</f:facet>
-							<h:commandLink action="#{historyBean.deleteSshResponse(sshResponse)}">
-							<p:graphicImage value="resources/#{userBean.cssTheme}/1_0/img/remove.png" />
-						</h:commandLink>
-					</h:column>
-					
-				</h:dataTable>
     	
     </h:panelGrid>
     </h:form>

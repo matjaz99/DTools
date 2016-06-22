@@ -4,6 +4,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
     xmlns:dt="http://dtools.com/ui">
     <h:head>
         <title>DTools</title>
@@ -18,34 +19,44 @@
     		
     		<ui:include src="/include/ptoolbar.xhtml"/>
     		
+    		<h:form id="breadCrumb">
+    		<p:breadCrumb>
+			    <p:menuitem value="Home" url="home.xhtml" />
+			    <p:menuitem value="SSH Clients" url="sshClients.xhtml" />
+			    <p:menuitem value="#{sshResponseBean.sshResponse.sshClient.toUrlString()}" url="sshClient.xhtml?clientUrl=#{sshResponseBean.sshResponse.sshClient.toUrlString()}" />
+			    <p:menuitem value="#{sshResponseBean.sshResponse.command}" url="#" />
+			</p:breadCrumb>
+			</h:form>
+    		
 	        <h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
-			
-				<h:outputText value="SSH Response details" />
 				
-				<br/>
+				<h:panelGrid columns="1" cellpadding="5" cellspacing="0" >
+					<h:outputText value="SSH Response details" styleClass="title" />
+				</h:panelGrid>
 				
 				<h:form>
-					<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
-					
-						<h:outputLabel value="Name: " />
-						<h:outputText value="#{sshResponseBean.sshResponse.filename}.txt" />
+					<h:panelGrid columns="1" cellpadding="5" cellspacing="0">
 						
-						<h:outputLabel value="Date: " />
-						<h:outputText value="#{sshResponseBean.sshResponse.date}" />
+						<h:panelGrid columns="2" cellpadding="5" cellspacing="0">
+							<h:outputLabel value="Name: " />
+							<h:outputText value="#{sshResponseBean.sshResponse.filename}.txt" />
+							
+							<h:outputLabel value="Date: " />
+							<h:outputText value="#{sshResponseBean.sshResponse.date}" />
+							
+							<h:outputLabel value="Server: " />
+							<h:outputText value="ssh://#{sshResponseBean.sshResponse.sshClient.toUrlString()}" />
+							
+							<h:outputLabel value="Command: " />
+							<h:outputText value="#{sshResponseBean.sshResponse.command}" />
+							
+						</h:panelGrid>
 						
-						<h:outputLabel value="Server: " />
-						<h:outputText value="ssh://#{sshResponseBean.sshResponse.sshClient.username}@#{sshResponseBean.sshResponse.sshClient.hostname}:#{sshResponseBean.sshResponse.sshClient.port}" />
+						<h:panelGrid columns="1" cellpadding="5" cellspacing="0">
+							<h:outputLabel value="Response: " />
+							<h:inputTextarea value="#{sshResponseBean.sshResponse.response}" cols="100" rows="30" styleClass="codeStyle" />
+						</h:panelGrid>
 						
-						<h:outputLabel value="Command: " />
-						<h:outputText value="#{sshResponseBean.sshResponse.command}" />
-						
-						<h:outputLabel value="Comment: " />
-						<h:outputText value="#{sshResponseBean.sshResponse.remark}" />
-						
-						<h:outputLabel value="Response: " />
-						<h:inputTextarea value="#{sshResponseBean.sshResponse.response}" cols="100" rows="30" styleClass="codeStyle" />
-						
-						<h:commandButton action="#" value="Repeat execution"></h:commandButton>
 						
 					</h:panelGrid>
 				

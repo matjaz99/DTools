@@ -18,9 +18,7 @@
 
 package si.matjazcerkvenik.dtools.web.beans;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
 
@@ -29,13 +27,11 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
+import javax.faces.event.ActionEvent;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.io.DAO;
-import si.matjazcerkvenik.dtools.tools.AuthenticationException;
 import si.matjazcerkvenik.dtools.tools.ssh.SshClient;
-import si.matjazcerkvenik.dtools.tools.ssh.SshClientAdvanced;
 import si.matjazcerkvenik.dtools.tools.ssh.SshResponse;
 
 @ManagedBean
@@ -45,15 +41,12 @@ public class SshClientBean implements Serializable {
 	private static final long serialVersionUID = -5044656422250893827L;
 	
 	private SshClient client;
-	private SshClientAdvanced sshClientImpl;
+	
 	private String response;
 	
-	private String selectedCommand;
-	private String newCommand;
-	private String execStatusColor;
+	private String command = "pwd";
 	
-	private String filename;
-	private String remark;
+	private List<SshResponse> sshResponsesList;
 	
 	@PostConstruct
 	public void init() {
@@ -72,8 +65,6 @@ public class SshClientBean implements Serializable {
 		this.client = sshClient;
 	}
 	
-	
-	
 	public String getSshResponse() {
 		return response;
 	}
@@ -82,110 +73,116 @@ public class SshClientBean implements Serializable {
 		this.response = sshResponse;
 	}
 	
-	public String getSelectedCommand() {
-		return selectedCommand;
-	}
-
-	public void setSelectedCommand(String selectedCommand) {
-		this.selectedCommand = selectedCommand;
-	}
-	
-	public void commandValueChanged(ValueChangeEvent e) {
-		selectedCommand = e.getNewValue().toString();
-		response = null;
-	}
-
-	public String getNewCommand() {
-		return newCommand;
-	}
-
-	public void setNewCommand(String newCommand) {
-		this.newCommand = newCommand;
-	}
-
 	public List<String> getCommands() {
 		return DAO.getInstance().loadCommands().getCommands();
 	}
 	
-	public void addCommand() {
-		DAO.getInstance().addCommand(newCommand);
-		newCommand = null;
-	}
-	
-	public void executeOne() {
-		execute(newCommand);
-	}
-	
-	public void executeSelected() {
-		execute(selectedCommand);
+	public String getCommand() {
+		return command;
 	}
 
-	private void execute(String command) {
+	public void setCommand(String newCommand) {
+		this.command = newCommand;
+	}
+	
+	public void handleKeyEvent() {
+//        System.out.println("handleKeyEvent: " + command);
+    }
+	
+	public void addCommand() {
+		DAO.getInstance().addCommand(command);
+	}
+	
+	public void switchCommand(ActionEvent actionEvent) {
+		command = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("cmd");
+//		System.out.println("switchCommand: " + command);
+    }
+	
+	public void deleteCommand(String cmd) {
+		DAO.getInstance().deleteCommand(cmd);
+	}
+	
+
+	
+	
+	public void execute() {
 		
-		try {
-			
-			sshClientImpl = new SshClientAdvanced();
-			sshClientImpl.connect(client.getHostname(), client.getPort(), client.getUsername(), client.getPassword());
-			sshClientImpl.sendCommand(command);
-			response = sshClientImpl.getResponse();
-			sshClientImpl.disconnect();
-			
-			execStatusColor = "green";
-			FacesContext.getCurrentInstance().addMessage("exec", new FacesMessage("Succes!"));
-			
-		} catch (UnknownHostException e) {
-			execStatusColor = "red";
-			FacesContext.getCurrentInstance().addMessage("exec", new FacesMessage("Unknown host!"));
-		} catch (AuthenticationException e) {
-			execStatusColor = "red";
-			FacesContext.getCurrentInstance().addMessage("exec", new FacesMessage("Authentication failed!"));
-		} catch (IOException e) {
-			execStatusColor = "red";
-			FacesContext.getCurrentInstance().addMessage("exec", new FacesMessage("Connection failed!"));
-		} catch (Exception e) {
-			execStatusColor = "red";
-			FacesContext.getCurrentInstance().addMessage("exec", new FacesMessage(e.getMessage()));
-		}
+		Growl.addGrowlMessage("Command sent", FacesMessage.SEVERITY_INFO);
+		response = client.execute(command);
+		saveResponse();
 		
 	}
 	
-	public String getExecStatusColor() {
-		return execStatusColor;
+
+	
+	
+	public String getStatusColor() {
+		return client.getStatusColor();
 	}
+	
+	public String getClientIcon() {
+		return "bullet_" + client.getStatusColor() + "-mini.png";
+	}
+	
+	public String getStatusText() {
+		return client.getStatusText();
+	}
+	
+	
+	public void disconnect() {
+		client.disconnect();
+	}
+	
+	
+	public void clearResponse() {
+		response = null;
+	}
+	
 	
 	
 	public void saveResponse() {
 		
 		SshResponse r = new SshResponse();
 		r.setDate(DToolsContext.getCurrentDate());
-		r.setFilename(filename);
-		r.setRemark(remark);
+		r.setFilename(System.currentTimeMillis() + "@" + client.getHostname());
+		r.setRemark(null);
 		r.setSshClient(client);
-		r.setCommand(selectedCommand);
+		r.setCommand(command);
 		r.setResponse(response);
 		
-		DAO.getInstance().saveSshResponse(filename, r);
+		DAO.getInstance().saveSshResponse(r);
+		r.saveTxt();
 		
-		filename = null;
-		remark = null;
+		sshResponsesList.add(r);
 		
-	}
-
-	public String getFilename() {
-		return filename;
-	}
-
-	public void setFilename(String filename) {
-		this.filename = filename;
-	}
-
-	public String getRemark() {
-		return remark;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
+		Growl.addGrowlMessage("Saved", FacesMessage.SEVERITY_INFO);
+		
 	}
 	
+	
+	
+	
+	public List<SshResponse> getSshResponsesList() {
+		if (sshResponsesList == null) {
+			sshResponsesList = DAO.getInstance().loadAllSshResponses(client.getHostname());
+		}
+		return sshResponsesList;
+	}
+	
+	public String openSshResponse(SshResponse response) {
+		// FIXME
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sshResponse", response);
+		return "viewSshResponse";
+	}
+	
+	public void toggleFavoriteResponse(SshResponse response) {
+		response.setFavorite(!response.isFavorite());
+		DAO.getInstance().saveSshResponse(response);
+	}
+	
+	public void deleteSshResponse(SshResponse response) {
+		sshResponsesList.remove(response);
+		DAO.getInstance().deleteSshResponse(response);
+	}
 	
 }

@@ -84,7 +84,7 @@ public class DAO {
 	private String XML_SSH_COMMANDS = "/config/users/$DTOOLS_USER$/ssh/sshCommands.xml";
 	private String DIR_SAVE_SSH_RESPONSE = "/config/users/$DTOOLS_USER$/ssh/saved";
 	private String XML_SAVE_SSH_RESPONSE = "/config/users/$DTOOLS_USER$/ssh/saved/$FILENAME$.xml";
-	private String TXT_SAVE_SSH_RESPONSE = "/config/users/$DTOOLS_USER$/ssh/saved/$FILENAME$.txt";
+	public static String TXT_SAVE_SSH_RESPONSE = "/config/users/$DTOOLS_USER$/ssh/saved/$FILENAME$.txt";
 	
 	private String XML_FTP_CLIENTS = "/config/users/$DTOOLS_USER$/ftp/ftpClients.xml";
 	private String XML_FTP_TRANSFERS = "/config/users/$DTOOLS_USER$/ftp/ftpTransfers.xml";
@@ -355,6 +355,15 @@ public class DAO {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/* SSH CLIENTS */
 
@@ -435,6 +444,276 @@ public class DAO {
 		saveSshClients();
 
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/* SSH COMMANDS */
+	
+
+	public Commands loadCommands() {
+
+		if (commands != null) {
+			return commands;
+		}
+
+		try {
+
+			File file = new File(DToolsContext.HOME_DIR + XML_SSH_COMMANDS);
+			if (!file.exists()) {
+				commands = new Commands();
+				JAXBContext jaxbContext = JAXBContext
+						.newInstance(Commands.class);
+				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,
+						true);
+				jaxbMarshaller.marshal(commands, file);
+			}
+			JAXBContext jaxbContext = JAXBContext.newInstance(Commands.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			commands = (Commands) jaxbUnmarshaller.unmarshal(file);
+			if (commands.getCommands() == null) {
+				commands.setCommands(new ArrayList<String>());
+			}
+			
+			logger.info("DAO:loadCommands(): " + file.getAbsolutePath());
+
+		} catch (JAXBException e) {
+			logger.error("DAO:loadCommands(): JAXBException: ", e);
+		}
+
+		return commands;
+
+	}
+
+	public void saveCommands() {
+
+		try {
+
+			File file = new File(DToolsContext.HOME_DIR + XML_SSH_COMMANDS);
+			JAXBContext jaxbContext = JAXBContext.newInstance(Commands.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.marshal(commands, file);
+			
+			logger.info("DAO:saveCommands(): " + file.getAbsolutePath());
+
+		} catch (JAXBException e) {
+			logger.error("DAO:saveCommands(): JAXBException: ", e);
+		}
+
+	}
+
+	public void addCommand(String cmd) {
+
+		commands.addCommand(cmd);
+		saveCommands();
+
+	}
+
+	public void deleteCommand(String cmd) {
+
+		commands.deleteCommand(cmd);
+		saveCommands();
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/* SSH RESPONSE */
+	
+	
+	
+	/**
+	 * Load all SshResponses for given hostname
+	 * @param hostname
+	 * @return
+	 */
+	public List<SshResponse> loadAllSshResponses(final String hostname) {
+		
+		String fn = DToolsContext.HOME_DIR + DIR_SAVE_SSH_RESPONSE;
+		File dir = new File(fn);
+		File[] files = dir.listFiles(new FileFilter() {
+			
+			@Override
+			public boolean accept(File pathname) {
+				return pathname.isFile() && pathname.getAbsolutePath().endsWith("@" + hostname + ".xml");
+			}
+		});
+		
+		List<SshResponse> sshResponses = new ArrayList<SshResponse>();
+		
+		for (int i = 0; i < files.length; i++) {
+			SshResponse r = loadSshResponse2(files[i].getAbsolutePath());
+			sshResponses.add(r);
+		}
+		
+		return sshResponses;
+	}
+	
+	
+	/**
+	 * Load single xml
+	 * @param filename - absolute path of xml
+	 * @return sshResponse (xml)
+	 */
+	public SshResponse loadSshResponse2(String filename) {
+		
+		SshResponse sshResponse = null;
+		
+		try {
+			File file = new File(filename);
+			JAXBContext jaxbContext = JAXBContext.newInstance(SshResponse.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			sshResponse = (SshResponse) jaxbUnmarshaller.unmarshal(file);
+			
+			logger.info("DAO:loadSshResponse(): " + file.getAbsolutePath());
+
+		} catch (JAXBException e) {
+			logger.error("DAO:loadSshResponse(): JAXBException: ", e);
+		}
+				
+		return sshResponse;
+
+	}
+	
+
+	/**
+	 * Save xml file
+	 * @param sshResponse
+	 */
+	public void saveSshResponse(SshResponse sshResponse) {
+
+		try {
+			String fn = DToolsContext.HOME_DIR + XML_SAVE_SSH_RESPONSE.replace("$FILENAME$", sshResponse.getFilename());
+			File file = new File(fn);
+			JAXBContext jaxbContext = JAXBContext.newInstance(SshResponse.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.marshal(sshResponse, file);
+			
+			logger.info("DAO:saveSshResponse(): " + file.getAbsolutePath());
+
+		} catch (JAXBException e) {
+			logger.error("DAO:saveSshResponse(): JAXBException: ", e);
+		}
+
+	}
+
+//	public SshResponse loadSshResponse(String filename) {
+//
+//		String resp = "";
+//
+//		try {
+//			String fn = DToolsContext.HOME_DIR + TXT_SAVE_SSH_RESPONSE.replace("$FILENAME$", filename);
+//			File txtFile = new File(fn);
+//			FileReader fr = new FileReader(txtFile);
+//			BufferedReader br = new BufferedReader(fr);
+//			String line;
+//			while ((line = br.readLine()) != null) {
+//				resp += line + "\n";
+//			}
+//			br.close();
+//			logger.info("DAO:loadSshResponse(): " + txtFile.getAbsolutePath());
+//		} catch (Exception e) {
+//			logger.error("DAO:loadSshResponse(): Exception: ", e);
+//		}
+//		
+//		SshResponse sshResponse = new SshResponse();
+//		
+//		try {
+//			String fn = DToolsContext.HOME_DIR + XML_SAVE_SSH_RESPONSE.replace("$FILENAME$", filename);
+//			File file = new File(fn);
+//			JAXBContext jaxbContext = JAXBContext.newInstance(SshResponse.class);
+//			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+//			sshResponse = (SshResponse) jaxbUnmarshaller.unmarshal(file);
+//			
+//			logger.info("DAO:loadSshResponse(): " + file.getAbsolutePath());
+//
+//		} catch (JAXBException e) {
+//			logger.error("DAO:loadSshResponse(): JAXBException: ", e);
+//		}
+//		
+//		sshResponse.setResponse(resp);
+//		
+//		return sshResponse;
+//
+//	}
+	
+//	public List<SshResponse> loadAllSshResponses() {
+//		
+//		List<String> files = loadHistoryFilenames();
+//		
+//		List<SshResponse> sshResponses = new ArrayList<SshResponse>();
+//		
+//		for (int i = 0; i < files.size(); i++) {
+//			SshResponse r = loadSshResponse(files.get(i));
+//			sshResponses.add(r);
+//		}
+//		
+//		return sshResponses;
+//	}
+	
+//	private List<String> loadHistoryFilenames() {
+//		
+//		String fn = DToolsContext.HOME_DIR + DIR_SAVE_SSH_RESPONSE;
+//		File dir = new File(fn);
+//		File[] files = dir.listFiles(new FileFilter() {
+//			
+//			@Override
+//			public boolean accept(File pathname) {
+//				return pathname.isFile() && pathname.getAbsolutePath().endsWith(".xml");
+//			}
+//		});
+//		
+//		List<String> list = new ArrayList<String>();
+//		
+//		for (int i = 0; i < files.length; i++) {
+//			String filename = files[i].getName().substring(0, files[i].getName().length() - 4);
+//			list.add(filename);
+//		}
+//		
+//		return list;
+//		
+//	}
+	
+	/**
+	 * Delete SSH response (xml and txt)
+	 * @param resp
+	 */
+	public void deleteSshResponse(SshResponse resp) {
+		// TODO response contain deleteTxt method
+		String txtFile = DToolsContext.HOME_DIR + TXT_SAVE_SSH_RESPONSE.replace("$FILENAME$", resp.getFilename());
+		String xmlFile = DToolsContext.HOME_DIR + XML_SAVE_SSH_RESPONSE.replace("$FILENAME$", resp.getFilename());
+		File txt = new File(txtFile);
+		File xml = new File(xmlFile);
+		txt.delete();
+		xml.delete();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -524,75 +803,7 @@ public class DAO {
 	
 	
 
-	/* SSH COMMANDS */
 	
-
-	public Commands loadCommands() {
-
-		if (commands != null) {
-			return commands;
-		}
-
-		try {
-
-			File file = new File(DToolsContext.HOME_DIR + XML_SSH_COMMANDS);
-			if (!file.exists()) {
-				commands = new Commands();
-				JAXBContext jaxbContext = JAXBContext
-						.newInstance(Commands.class);
-				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,
-						true);
-				jaxbMarshaller.marshal(commands, file);
-			}
-			JAXBContext jaxbContext = JAXBContext.newInstance(Commands.class);
-			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			commands = (Commands) jaxbUnmarshaller.unmarshal(file);
-			if (commands.getCommands() == null) {
-				commands.setCommands(new ArrayList<String>());
-			}
-			
-			logger.info("DAO:loadCommands(): " + file.getAbsolutePath());
-
-		} catch (JAXBException e) {
-			logger.error("DAO:loadCommands(): JAXBException: ", e);
-		}
-
-		return commands;
-
-	}
-
-	public void saveCommands() {
-
-		try {
-
-			File file = new File(DToolsContext.HOME_DIR + XML_SSH_COMMANDS);
-			JAXBContext jaxbContext = JAXBContext.newInstance(Commands.class);
-			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			jaxbMarshaller.marshal(commands, file);
-			
-			logger.info("DAO:saveCommands(): " + file.getAbsolutePath());
-
-		} catch (JAXBException e) {
-			logger.error("DAO:saveCommands(): JAXBException: ", e);
-		}
-
-	}
-
-	public void addCommand(String cmd) {
-
-		commands.addCommand(cmd);
-		saveCommands();
-
-	}
-
-	public void deleteCommand(String cmd) {
-
-		commands.deleteCommand(cmd);
-		saveCommands();
-
-	}
 	
 	
 	
@@ -669,6 +880,18 @@ public class DAO {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/* NOTES */
 	
@@ -738,6 +961,15 @@ public class DAO {
 		saveNotes();
 
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -814,7 +1046,20 @@ public class DAO {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/* SNMP MANAGER */
+	
+	
+	
 	
 	
 	public SnmpManager loadSnmpManager() {
@@ -896,7 +1141,20 @@ public class DAO {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/* SNMP CLIENTS */
+	
+	
+	
 	
 
 	public SnmpClients loadSnmpClients() {
@@ -979,7 +1237,17 @@ public class DAO {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
 	/* SNMP AGENT SIMULATOR */
+	
+	
+	
 	
 	
 	/**
@@ -1345,7 +1613,14 @@ public class DAO {
 	
 	
 	
+	
+	
+	
+	
+	
 	/* SAVE RECEIVED TRAPS */
+	
+	
 	
 	/**
 	 * Save received snmp traps in plain text file.
@@ -1438,120 +1713,7 @@ public class DAO {
 	
 	
 
-	/* SSH RESPONSE */
 	
-
-	public void saveSshResponse(String filename, SshResponse sshResponse) {
-
-		try {
-			String fn = DToolsContext.HOME_DIR + XML_SAVE_SSH_RESPONSE.replace("$FILENAME$", filename);
-			File file = new File(fn);
-			JAXBContext jaxbContext = JAXBContext
-					.newInstance(SshResponse.class);
-			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			jaxbMarshaller.marshal(sshResponse, file);
-			
-			String fn2 = DToolsContext.HOME_DIR + TXT_SAVE_SSH_RESPONSE.replace("$FILENAME$", filename);
-			writePlainTextFile(fn2, sshResponse.getResponse());
-			
-			logger.info("DAO:saveSshResponse(): " + file.getAbsolutePath());
-
-		} catch (JAXBException e) {
-			logger.error("DAO:saveSshResponse(): JAXBException: ", e);
-		}
-
-	}
-
-	public SshResponse loadSshResponse(String filename) {
-
-		String resp = "";
-
-		try {
-			String fn = DToolsContext.HOME_DIR + TXT_SAVE_SSH_RESPONSE.replace("$FILENAME$", filename);
-			File txtFile = new File(fn);
-			FileReader fr = new FileReader(txtFile);
-			BufferedReader br = new BufferedReader(fr);
-			String line;
-			while ((line = br.readLine()) != null) {
-				resp += line + "\n";
-			}
-			br.close();
-			logger.info("DAO:loadSshResponse(): " + txtFile.getAbsolutePath());
-		} catch (Exception e) {
-			logger.error("DAO:loadSshResponse(): Exception: ", e);
-		}
-		
-		SshResponse sshResponse = new SshResponse();
-		
-		try {
-			String fn = DToolsContext.HOME_DIR + XML_SAVE_SSH_RESPONSE.replace("$FILENAME$", filename);
-			File file = new File(fn);
-			JAXBContext jaxbContext = JAXBContext.newInstance(SshResponse.class);
-			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			sshResponse = (SshResponse) jaxbUnmarshaller.unmarshal(file);
-			
-			logger.info("DAO:loadSshResponse(): " + file.getAbsolutePath());
-
-		} catch (JAXBException e) {
-			logger.error("DAO:loadSshResponse(): JAXBException: ", e);
-		}
-		
-		sshResponse.setResponse(resp);
-		
-		return sshResponse;
-
-	}
-	
-	public List<SshResponse> loadAllSshResponses() {
-		
-		List<String> files = loadHistoryFilenames();
-		
-		List<SshResponse> sshResponses = new ArrayList<SshResponse>();
-		
-		for (int i = 0; i < files.size(); i++) {
-			SshResponse r = loadSshResponse(files.get(i));
-			sshResponses.add(r);
-		}
-		
-		return sshResponses;
-	}
-	
-	private List<String> loadHistoryFilenames() {
-		
-		String fn = DToolsContext.HOME_DIR + DIR_SAVE_SSH_RESPONSE;
-		File dir = new File(fn);
-		File[] files = dir.listFiles(new FileFilter() {
-			
-			@Override
-			public boolean accept(File pathname) {
-				return pathname.isFile() && pathname.getAbsolutePath().endsWith(".xml");
-			}
-		});
-		
-		List<String> list = new ArrayList<String>();
-		
-		for (int i = 0; i < files.length; i++) {
-			String filename = files[i].getName().substring(0, files[i].getName().length() - 4);
-			list.add(filename);
-		}
-		
-		return list;
-		
-	}
-	
-	/**
-	 * Delete SSH response (xml and txt)
-	 * @param resp
-	 */
-	public void deleteSshResponse(SshResponse resp) {
-		String txtFile = DToolsContext.HOME_DIR + TXT_SAVE_SSH_RESPONSE.replace("$FILENAME$", resp.getFilename());
-		String xmlFile = DToolsContext.HOME_DIR + XML_SAVE_SSH_RESPONSE.replace("$FILENAME$", resp.getFilename());
-		File txt = new File(txtFile);
-		File xml = new File(xmlFile);
-		txt.delete();
-		xml.delete();
-	}
 	
 	
 	
@@ -1579,6 +1741,33 @@ public class DAO {
 			logger.error("DAO:writePlainTextFile(): IOException: ", e);
 		}
 		
+	}
+	
+	
+	/**
+	 * Read plain text file and return data as string
+	 * @param file (absolute path)
+	 * @return data
+	 */
+	public String readPlainTextFile(String file) {
+		
+		String data = "";
+
+		try {
+			File txtFile = new File(file);
+			FileReader fr = new FileReader(txtFile);
+			BufferedReader br = new BufferedReader(fr);
+			String line;
+			while ((line = br.readLine()) != null) {
+				data += line + "\n";
+			}
+			br.close();
+			logger.info("DAO:readPlainTextFile: " + txtFile.getAbsolutePath());
+		} catch (Exception e) {
+			logger.error("DAO:readPlainTextFile: Exception: ", e);
+		}
+		
+		return data;
 	}
 	
 

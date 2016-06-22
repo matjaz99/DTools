@@ -16,7 +16,7 @@
  * 
  */
 
-package si.matjazcerkvenik.dtools.tools.aes;
+package si.matjazcerkvenik.dtools.io.aes;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;

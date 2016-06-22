@@ -25,6 +25,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import si.matjazcerkvenik.dtools.context.DToolsContext;
+import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.ssh.SshResponse;
 
 @ManagedBean
@@ -35,8 +37,13 @@ public class SshResponseBean {
 	
 	@PostConstruct
 	public void init() {
-		Map<String, Object> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-		sshResponse = (SshResponse) requestParameterMap.get("sshResponse");
+		Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		if (requestParameterMap.containsKey("filename")) {
+			String file = DToolsContext.HOME_DIR + "/config/users/default/ssh/saved/" 
+				+ requestParameterMap.get("filename") + ".xml";
+			sshResponse = DAO.getInstance().loadSshResponse2(file);
+			sshResponse.loadTxt();
+		}
 	}
 
 	public SshResponse getSshResponse() {
@@ -48,8 +55,5 @@ public class SshResponseBean {
 	}
 	
 	
-	public void repeatExecution() {
-		// TODO
-	}
 	
 }

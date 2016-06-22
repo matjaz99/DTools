@@ -156,6 +156,8 @@ public class UtilsBean {
 	private String chartsWidth;
 	private String chartsHeight;
 	private String statisticsHistoryHours;
+	private String sshDisconnectTimeout;
+	private String sshHistoryAgingPeriod;
 
 	public String getPingInterval() {
 		return DProps.getProperty(DProps.NETWORK_MONITORING_PING_INTERVAL);
@@ -222,6 +224,22 @@ public class UtilsBean {
 		this.statisticsHistoryHours = statisticsHistoryHours;
 	}
 
+	public String getSshDisconnectTimeout() {
+		return DProps.getProperty(DProps.SSH_DISCONNECT_TIMEOUT);
+	}
+
+	public void setSshDisconnectTimeout(String sshDisconnectTimeout) {
+		this.sshDisconnectTimeout = sshDisconnectTimeout;
+	}
+
+	public String getSshHistoryAgingPeriod() {
+		return DProps.getProperty(DProps.SSH_HISTORY_AGING_PERIOD);
+	}
+
+	public void setSshHistoryAgingPeriod(String sshHistoryAgingPeriod) {
+		this.sshHistoryAgingPeriod = sshHistoryAgingPeriod;
+	}
+
 	public void saveSettings() {
 		DProps.setProperty(DProps.NETWORK_MONITORING_PING_INTERVAL, pingInterval, false);
 		DProps.setProperty(DProps.NETWORK_MONITORING_PING_TIMEOUT, pingTimeout, false);
@@ -230,7 +248,9 @@ public class UtilsBean {
 		DProps.setProperty(DProps.SNMP_RECEIVER_QUEUE_SIZE, trapReceiverQueueSize, false);
 		DProps.setProperty(DProps.NETWORK_STATISTICS_CHART_WIDTH, chartsWidth, false);
 		DProps.setProperty(DProps.NETWORK_STATISTICS_CHART_HEIGHT, chartsHeight, false);
-		DProps.setProperty(DProps.NETWORK_STATISTICS_HISTORY_HOURS, statisticsHistoryHours, true);
+		DProps.setProperty(DProps.NETWORK_STATISTICS_HISTORY_HOURS, statisticsHistoryHours, false);
+		DProps.setProperty(DProps.SSH_DISCONNECT_TIMEOUT, sshDisconnectTimeout, false);
+		DProps.setProperty(DProps.SSH_HISTORY_AGING_PERIOD, sshHistoryAgingPeriod, true);
 		Growl.addGrowlMessage("Settings saved", FacesMessage.SEVERITY_INFO);
 	}
 	

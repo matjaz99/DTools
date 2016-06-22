@@ -30,68 +30,123 @@
 			</h:form>
 			
 			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
-			
-				<h:panelGrid columns="2">
-					<dt:icon img="terminal" />
-					<h:outputText value="#{sshClientBean.sshClient.toUrlString()}" styleClass="title" />
-				</h:panelGrid>
-							
 				
-				<h:form id="execOne">
-					<fieldset>
-					<legend> Enter new command </legend>
-						<h:outputLabel value="Command: " />
-						<h:inputText value="#{sshClientBean.newCommand}" size="50" />
-						<p:commandButton value="Add to list" action="#{sshClientBean.addCommand}" 
-							update="growl execSelected" ajax="true" />
-						<p:commandButton value="Execute" action="#{sshClientBean.executeOne}" 
-							update="growl exec" ajax="true" />
-					</fieldset>
+				<h:form id="clientForm" styleClass="myForm">
+				
+					<h:panelGrid columns="2" cellpadding="0" cellspacing="5" >
+						<dt:icon img="terminal" />
+						<h:outputText value="#{sshClientBean.sshClient.toUrlString()}" styleClass="title" />
+					</h:panelGrid>
+					
+					<hr/>
+					
+					<h:panelGrid columns="2" cellpadding="5" cellspacing="0" width="100%">
+						
+						<h:panelGrid id="leftPanel" columns="1" cellpadding="0" cellspacing="0" >
+							<h:panelGrid columns="1" cellpadding="0" cellspacing="0">
+								<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
+									<h:outputLabel value="Command: " />
+									<h:inputText id="cmdInput" value="#{sshClientBean.command}" size="60" styleClass="codeStyle" >
+										<p:ajax event="keyup" listener="#{sshClientBean.handleKeyEvent}" />
+									</h:inputText>
+									<p:commandButton value="Execute" action="#{sshClientBean.execute}" 
+										update="growl sshResponse execTxt clientStatusIcon responsesForm" ajax="true" />
+									<h:outputText value="Status:" />
+									<h:panelGroup id="statusGroup">
+										<p:graphicImage id="clientStatusIcon" library="#{userBean.cssTheme}" 
+											name="img/#{sshClientBean.clientIcon}" title="Status" />
+										<h:outputText id="execTxt" value="#{sshClientBean.statusText}" />
+									</h:panelGroup>
+									<p:poll interval="10" update="clientStatusIcon execTxt" />
+									<h:panelGroup />
+								</h:panelGrid>
+								<h:inputTextarea id="sshResponse" value="#{sshClientBean.sshResponse}" 
+									cols="80" rows="20" styleClass="codeStyle" />
+								<h:panelGroup />
+								<h:panelGrid columns="2" cellpadding="5" cellspacing="0">
+									<p:commandButton value="Clear" action="#{sshClientBean.clearResponse}"
+										update="sshResponse" ajax="true" />
+									<p:commandButton value="Disconnect" action="#{sshClientBean.disconnect}" 
+										update="growl execTxt clientStatusIcon" ajax="true" />
+								</h:panelGrid>
+							</h:panelGrid>
+						</h:panelGrid>
+						<h:panelGrid id="rightPanel" columns="1" cellpadding="5" cellspacing="0" >
+							<h:dataTable id="recentTable" value="#{sshClientBean.commands}" var="cmd" 
+								styleClass="table" rowClasses="tableOddRow,tableEvenRow"
+								cellpadding="0" cellspacing="0" width="100%">
+								
+								<h:column headerClass="col0">
+									<f:facet name="header">Commands</f:facet>
+									<p:commandLink update="clientForm:cmdInput" actionListener="#{sshClientBean.switchCommand}">
+								        <h:outputText value="#{cmd}" />
+								        <f:param name="cmd" value="#{cmd}" />
+								    </p:commandLink>
+								</h:column>
+								
+								<h:column headerClass="col0 col1">
+									<f:facet name="header">
+										<h:commandLink id="addBtn" action="#{sshClientBean.addCommand}">
+											<p:graphicImage library="#{userBean.cssTheme}" name="img/add-mini.png" title="Add command" />
+											<f:ajax render="recentTable" />
+										</h:commandLink>
+									</f:facet>
+									<h:commandLink id="delBtn" action="#{sshClientBean.deleteCommand(cmd)}">
+										<p:graphicImage library="#{userBean.cssTheme}" name="img/delete-mini.png" title="Delete command" />
+										<f:ajax render="clientForm" />
+									</h:commandLink>
+								</h:column>
+								
+							</h:dataTable>
+						</h:panelGrid>
+					</h:panelGrid>
+				
 				</h:form>
 				
 				<hr/>
 				
-				<h:form id="execSelected">
-					<h:outputText value="Or select command from the list" />
-					<h:panelGrid columns="2">
-						<h:selectOneListbox value="#{sshClientBean.selectedCommand}" size="10"
-							onchange="submit()" valueChangeListener="#{sshClientBean.commandValueChanged}">
-							<f:selectItems value="#{sshClientBean.commands}" />
-						</h:selectOneListbox>
-						<p:commandButton value="Execute" action="#{sshClientBean.executeSelected}" 
-							update="growl exec" ajax="true" />
+				<h:form id="responsesForm" styleClass="myForm">
+										
+					<h:panelGrid id="responsesPnl" columns="1" cellpadding="5" cellspacing="0" >
+						<h:outputText value="History" styleClass="title" />
+						<h:dataTable id="responsesTbl" value="#{sshClientBean.sshResponsesList}" var="sshResponse" 
+							styleClass="table" rowClasses="tableOddRow,tableEvenRow"
+							cellpadding="0" cellspacing="10" width="100%">
+							<h:column headerClass="col0 col1">
+								<f:facet name="header">View</f:facet>
+								<p:link outcome="viewSshResponse" >
+								    <f:param name="filename" value="#{sshResponse.filename}" />
+								    <p:graphicImage library="#{userBean.cssTheme}" name="img/view-file.png" />
+								</p:link>
+							</h:column>
+							<h:column headerClass="col0">
+								<f:facet name="header">Date</f:facet>
+								<h:outputText value="#{sshResponse.date}" />
+							</h:column>
+							<h:column headerClass="col0">
+								<f:facet name="header">Command</f:facet>
+								<h:outputText value="#{sshResponse.command}" />
+							</h:column>
+							<h:column headerClass="col0 col1">
+								<f:facet name="header">Persist</f:facet>
+								<h:commandLink id="favoriteBtn" action="#{sshClientBean.toggleFavoriteResponse(sshResponse)}">
+									<p:graphicImage library="#{userBean.cssTheme}" name="#{sshResponse.favorite == true ? 'img/star-full.png' : 'img/star-empty.png'}" />
+									<f:ajax render="favoriteBtn" />
+								</h:commandLink>
+							</h:column>
+							<h:column headerClass="col0 col1">
+								<f:facet name="header">Delete</f:facet>
+								<h:commandLink action="#{sshClientBean.deleteSshResponse(sshResponse)}">
+									<p:graphicImage id="deleteBtn" library="#{userBean.cssTheme}" name="img/remove.png" />
+									<f:ajax render="responsesForm" />
+								</h:commandLink>
+							</h:column>
+						</h:dataTable>
 					</h:panelGrid>
+					
 				</h:form>
 				
-				<hr/>
-					
-				<h:form id="exec">
-					<h:panelGrid columns="1" cellspacing="0">
-						<h:outputText value="$ #{sshClientBean.selectedCommand}" />
-						<h:message for="exec" style="color: #{sshClientBean.execStatusColor};" />
-						<h:inputTextarea id="sshResponse" value="#{sshClientBean.sshResponse}" 
-							cols="100" rows="15" styleClass="codeStyle" />
-						<h:commandButton value="Refresh">
-							<f:ajax render="sshResponse exec"/>
-						</h:commandButton>
-					</h:panelGrid>
-				</h:form>
-					
-					
-				<h:form id="save">
-					<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
-						
-						<h:outputText value="Save as filename: " />
-						<h:inputText value="#{sshClientBean.filename}" />
-						
-						<h:outputText value="Comments: " />
-						<h:inputTextarea value="#{sshClientBean.remark}" cols="30" rows="3" />
-						
-						<p:commandButton value="Save result" action="#{sshClientBean.saveResponse}" 
-							update="save" ajax="true" />
-					</h:panelGrid>
-				</h:form>
-			</h:panelGrid>
+			</h:panelGrid>	
 			
         	
         	<ui:include src="/include/footer.xhtml"/>

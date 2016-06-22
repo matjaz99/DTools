@@ -29,7 +29,7 @@ import org.snmp4j.PDU;
 import org.snmp4j.PDUv1;
 import org.snmp4j.smi.VariableBinding;
 
-import si.matjazcerkvenik.dtools.tools.md5.MD5Checksum;
+import si.matjazcerkvenik.dtools.io.md5.MD5Checksum;
 
 public class TrapNotification implements Serializable {
 	
