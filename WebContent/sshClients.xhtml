@@ -80,6 +80,10 @@
 								</p:link>
 							</h:column>
 							<h:column headerClass="col0 col1">
+								<f:facet name="header">Status</f:facet>
+								<p:graphicImage library="#{userBean.cssTheme}" name="img/bullet_#{client.getStatusColor()}.png" title="#{client.statusText}" />
+							</h:column>
+							<h:column headerClass="col0 col1">
 								<f:facet name="header">Favorite</f:facet>
 								<h:commandLink id="favoriteStar" action="#{sshClientsBean.toggleFavorite(client)}">
 									<p:graphicImage library="#{userBean.cssTheme}" name="#{client.favorite == true ? 'img/star-full.png' : 'img/star-empty.png'}" />

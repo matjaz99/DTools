@@ -62,7 +62,9 @@ public class AutoDiscoverThread extends Thread {
 	@Override
 	public void run() {
 		
-		DToolsContext.getInstance().getLogger().info("AutoDiscoverThread:: started");
+		DToolsContext.getInstance().getLogger().info("AutoDiscoverThread:: started: from="
+				+ fromIpArray[0] + "." + fromIpArray[1] + "." + fromIpArray[2] + "." + fromIpArray[3] + " to=" 
+				+ toIpArray[0] + "." + toIpArray[1] + "." + toIpArray[2] + "." + toIpArray[3] );
 		
 		running = true;
 		activeWorkersCount = 0;
@@ -80,7 +82,7 @@ public class AutoDiscoverThread extends Thread {
 				try {
 					executor.execute(worker);
 					activeWorkersCount++;
-					DToolsContext.getInstance().getLogger().info("AutoDiscoverThread:: ping " + ipAddr);
+					DToolsContext.getInstance().getLogger().debug("AutoDiscoverThread:: ping " + ipAddr);
 				} catch (RejectedExecutionException e) {
 					DToolsContext.getInstance().getLogger().warn("AutoDiscoverThread:: terminated");
 					return;

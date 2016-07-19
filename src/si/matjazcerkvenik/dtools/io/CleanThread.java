@@ -30,7 +30,7 @@ public class CleanThread extends Thread {
 			DToolsContext.getInstance().getLogger().info("CleanThread: started");
 			
 			cleanTempDir(1);
-			cleanSshResponses(DProps.getPropertyInt(DProps.SSH_HISTORY_AGING_PERIOD) * 3600 * 1000);
+			cleanSshResponses(DProps.getPropertyInt(DProps.SSH_HISTORY_AGING_PERIOD));
 			
 			try {
 				sleep(60 * 60 * 1000);
@@ -118,7 +118,7 @@ public class CleanThread extends Thread {
 		if (files != null) {
 			for (int i = 0; i < files.length; i++) {
 				// check persistance flag (favorite)
-				SshResponse r = DAO.getInstance().loadSshResponse2(files[i].getAbsolutePath());
+				SshResponse r = DAO.getInstance().loadSshResponse(files[i].getAbsolutePath());
 				if (!r.isFavorite()) {
 					DToolsContext.getInstance().getLogger().debug("CleanThread:cleanSshResponses(): delete: " + files[i].getAbsolutePath());
 					r.deleteTxt();

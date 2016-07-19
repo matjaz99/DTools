@@ -27,6 +27,7 @@ import javax.faces.bean.ManagedProperty;
 
 import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.NetworkLocation;
+import si.matjazcerkvenik.dtools.tools.ssh.SshClient;
 
 @ManagedBean
 @ApplicationScoped
@@ -55,23 +56,38 @@ public class AppBean {
 		
 		List<NetworkLocation> locations = DAO.getInstance().loadNetworkLocations();
 		
+		// active autodiscovery tasks
 		for (int i = 0; i < locations.size(); i++) {
 			if (locations.get(i).isAutoDiscoveryActive()) {
 				ActiveConnection ac = new ActiveConnection();
 				ac.name = "Autodiscovery; location: " + locations.get(i).getLocationName();
 				ac.outcome = "network";
+				ac.status = "Running";
 				activeConnectionsList.add(ac);
 			}
 			if (locations.get(i).isMonitoringActive()) {
 				ActiveConnection ac = new ActiveConnection();
 				ac.name = "Network Monitoring; location: " + locations.get(i).getLocationName();
 				ac.outcome = "network.xhtml?location="+locations.get(i).getLocationName();
+				ac.status = "Running";
+				activeConnectionsList.add(ac);
+			}
+		}
+		
+		// active ssh clients
+		List<SshClient> sshClientList = DAO.getInstance().loadSshClients().getSshClientList();
+		for (int i = 0; i < sshClientList.size(); i++) {
+			if (sshClientList.get(i).getStatusText().equals("CONNECTED")) {
+				ActiveConnection ac = new ActiveConnection();
+				ac.name = "SSH: " + sshClientList.get(i).toUrlString();
+				ac.outcome = "sshClient.xhtml?clientUrl=" + sshClientList.get(i).toUrlString();
+				ac.status = "Connected";
 				activeConnectionsList.add(ac);
 			}
 		}
 
 		
-		// get active SNMP agents
+		// active SNMP agents
 		if (snmpSimulatorBean != null) {
 			for (int i = 0; i < snmpSimulatorBean.getSnmpAgents().size(); i++) {
 				if (snmpSimulatorBean.getSnmpAgents().get(i).isActive()) {
@@ -80,6 +96,7 @@ public class AppBean {
 					ac.outcome = "snmpSimulator";
 					String args[] = {snmpSimulatorBean.getSnmpAgents().get(i).getName()};
 					ac.args = args;
+					ac.status = "Running";
 					activeConnectionsList.add(ac);
 				}
 			}
@@ -98,6 +115,7 @@ public class AppBean {
 		
 		private String name;
 		private String outcome;
+		private String status;
 		private String[] args;
 		
 		public String getName() {
@@ -111,6 +129,12 @@ public class AppBean {
 		}
 		public void setOutcome(String outcome) {
 			this.outcome = outcome;
+		}
+		public String getStatus() {
+			return status;
+		}
+		public void setStatus(String status) {
+			this.status = status;
 		}
 		public String[] getArgs() {
 			return args;

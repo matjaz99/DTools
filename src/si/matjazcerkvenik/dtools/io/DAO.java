@@ -84,7 +84,7 @@ public class DAO {
 	private String XML_SSH_COMMANDS = "/config/users/$DTOOLS_USER$/ssh/sshCommands.xml";
 	private String DIR_SAVE_SSH_RESPONSE = "/config/users/$DTOOLS_USER$/ssh/saved";
 	private String XML_SAVE_SSH_RESPONSE = "/config/users/$DTOOLS_USER$/ssh/saved/$FILENAME$.xml";
-	public static String TXT_SAVE_SSH_RESPONSE = "/config/users/$DTOOLS_USER$/ssh/saved/$FILENAME$.txt";
+	private String TXT_SAVE_SSH_RESPONSE = "/config/users/$DTOOLS_USER$/ssh/saved/$FILENAME$.txt";
 	
 	private String XML_FTP_CLIENTS = "/config/users/$DTOOLS_USER$/ftp/ftpClients.xml";
 	private String XML_FTP_TRANSFERS = "/config/users/$DTOOLS_USER$/ftp/ftpTransfers.xml";
@@ -367,6 +367,11 @@ public class DAO {
 
 	/* SSH CLIENTS */
 
+	
+	/**
+	 * Load all SSH clients
+	 * @return sshClients
+	 */
 	public SshClients loadSshClients() {
 
 		if (sshClients != null) {
@@ -402,6 +407,12 @@ public class DAO {
 
 	}
 	
+	
+	/**
+	 * Return SSH client according to given url
+	 * @param sshUrl
+	 * @return sshClient
+	 */
 	public SshClient findSshClient(String sshUrl) {
 		
 		for (SshClient ssh : sshClients.getSshClientList()) {
@@ -413,6 +424,10 @@ public class DAO {
 		
 	}
 
+	
+	/**
+	 * Save SSH clients
+	 */
 	public void saveSshClients() {
 
 		try {
@@ -431,6 +446,11 @@ public class DAO {
 
 	}
 
+	
+	/**
+	 * Add new SSH client
+	 * @param client
+	 */
 	public void addSshClient(SshClient client) {
 
 		sshClients.addSshClientAction(client);
@@ -438,6 +458,11 @@ public class DAO {
 
 	}
 
+	
+	/**
+	 * Delete SSH client
+	 * @param client
+	 */
 	public void deleteSshClient(SshClient client) {
 
 		sshClients.deleteSshClient(client);
@@ -458,6 +483,10 @@ public class DAO {
 	/* SSH COMMANDS */
 	
 
+	/**
+	 * Load SSH commands
+	 * @return commands
+	 */
 	public Commands loadCommands() {
 
 		if (commands != null) {
@@ -493,6 +522,10 @@ public class DAO {
 
 	}
 
+	
+	/**
+	 * Save SSH commands to file
+	 */
 	public void saveCommands() {
 
 		try {
@@ -511,6 +544,11 @@ public class DAO {
 
 	}
 
+	
+	/**
+	 * Add new SSH command
+	 * @param cmd
+	 */
 	public void addCommand(String cmd) {
 
 		commands.addCommand(cmd);
@@ -518,6 +556,11 @@ public class DAO {
 
 	}
 
+	
+	/**
+	 * Delete SSH command
+	 * @param cmd
+	 */
 	public void deleteCommand(String cmd) {
 
 		commands.deleteCommand(cmd);
@@ -539,7 +582,7 @@ public class DAO {
 	
 	
 	/**
-	 * Load all SshResponses for given hostname
+	 * Load all SSH Responses (history) for given hostname
 	 * @param hostname
 	 * @return
 	 */
@@ -558,7 +601,7 @@ public class DAO {
 		List<SshResponse> sshResponses = new ArrayList<SshResponse>();
 		
 		for (int i = 0; i < files.length; i++) {
-			SshResponse r = loadSshResponse2(files[i].getAbsolutePath());
+			SshResponse r = loadSshResponse(files[i].getAbsolutePath());
 			sshResponses.add(r);
 		}
 		
@@ -569,9 +612,9 @@ public class DAO {
 	/**
 	 * Load single xml
 	 * @param filename - absolute path of xml
-	 * @return sshResponse (xml)
+	 * @return SSH response
 	 */
-	public SshResponse loadSshResponse2(String filename) {
+	public SshResponse loadSshResponse(String filename) {
 		
 		SshResponse sshResponse = null;
 		
@@ -613,90 +656,13 @@ public class DAO {
 		}
 
 	}
-
-//	public SshResponse loadSshResponse(String filename) {
-//
-//		String resp = "";
-//
-//		try {
-//			String fn = DToolsContext.HOME_DIR + TXT_SAVE_SSH_RESPONSE.replace("$FILENAME$", filename);
-//			File txtFile = new File(fn);
-//			FileReader fr = new FileReader(txtFile);
-//			BufferedReader br = new BufferedReader(fr);
-//			String line;
-//			while ((line = br.readLine()) != null) {
-//				resp += line + "\n";
-//			}
-//			br.close();
-//			logger.info("DAO:loadSshResponse(): " + txtFile.getAbsolutePath());
-//		} catch (Exception e) {
-//			logger.error("DAO:loadSshResponse(): Exception: ", e);
-//		}
-//		
-//		SshResponse sshResponse = new SshResponse();
-//		
-//		try {
-//			String fn = DToolsContext.HOME_DIR + XML_SAVE_SSH_RESPONSE.replace("$FILENAME$", filename);
-//			File file = new File(fn);
-//			JAXBContext jaxbContext = JAXBContext.newInstance(SshResponse.class);
-//			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-//			sshResponse = (SshResponse) jaxbUnmarshaller.unmarshal(file);
-//			
-//			logger.info("DAO:loadSshResponse(): " + file.getAbsolutePath());
-//
-//		} catch (JAXBException e) {
-//			logger.error("DAO:loadSshResponse(): JAXBException: ", e);
-//		}
-//		
-//		sshResponse.setResponse(resp);
-//		
-//		return sshResponse;
-//
-//	}
 	
-//	public List<SshResponse> loadAllSshResponses() {
-//		
-//		List<String> files = loadHistoryFilenames();
-//		
-//		List<SshResponse> sshResponses = new ArrayList<SshResponse>();
-//		
-//		for (int i = 0; i < files.size(); i++) {
-//			SshResponse r = loadSshResponse(files.get(i));
-//			sshResponses.add(r);
-//		}
-//		
-//		return sshResponses;
-//	}
-	
-//	private List<String> loadHistoryFilenames() {
-//		
-//		String fn = DToolsContext.HOME_DIR + DIR_SAVE_SSH_RESPONSE;
-//		File dir = new File(fn);
-//		File[] files = dir.listFiles(new FileFilter() {
-//			
-//			@Override
-//			public boolean accept(File pathname) {
-//				return pathname.isFile() && pathname.getAbsolutePath().endsWith(".xml");
-//			}
-//		});
-//		
-//		List<String> list = new ArrayList<String>();
-//		
-//		for (int i = 0; i < files.length; i++) {
-//			String filename = files[i].getName().substring(0, files[i].getName().length() - 4);
-//			list.add(filename);
-//		}
-//		
-//		return list;
-//		
-//	}
 	
 	/**
 	 * Delete SSH response (xml and txt)
 	 * @param resp
 	 */
 	public void deleteSshResponse(SshResponse resp) {
-		// TODO response contain deleteTxt method
 		String txtFile = DToolsContext.HOME_DIR + TXT_SAVE_SSH_RESPONSE.replace("$FILENAME$", resp.getFilename());
 		String xmlFile = DToolsContext.HOME_DIR + XML_SAVE_SSH_RESPONSE.replace("$FILENAME$", resp.getFilename());
 		File txt = new File(txtFile);

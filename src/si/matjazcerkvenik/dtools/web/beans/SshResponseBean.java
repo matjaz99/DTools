@@ -41,7 +41,7 @@ public class SshResponseBean {
 		if (requestParameterMap.containsKey("filename")) {
 			String file = DToolsContext.HOME_DIR + "/config/users/default/ssh/saved/" 
 				+ requestParameterMap.get("filename") + ".xml";
-			sshResponse = DAO.getInstance().loadSshResponse2(file);
+			sshResponse = DAO.getInstance().loadSshResponse(file);
 			sshResponse.loadTxt();
 		}
 	}
