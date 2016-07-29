@@ -18,10 +18,13 @@
 
 package si.matjazcerkvenik.dtools.web.beans;
 
+import java.io.File;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -33,8 +36,10 @@ import si.matjazcerkvenik.dtools.tools.ftp.VfsFtpSftpClient;
 
 @ManagedBean
 @ViewScoped
-public class FtpClientBean {
+public class FtpClientBean implements Serializable {
 	
+	private static final long serialVersionUID = -4989046135858925454L;
+
 	private FtpClient ftpClient;
 	
 	private String source;
@@ -96,6 +101,24 @@ public class FtpClientBean {
 	}
 	
 	public void addTransfer() {
+		
+		String[] destArray = destination.split("/");
+		String[] srcArray = source.split("/");
+		
+		if (!destArray[destArray.length-1].equals(srcArray[srcArray.length-1])) {
+			Growl.addGrowlMessage("File names don't match", FacesMessage.SEVERITY_WARN);
+		}
+
+		if (direction.equals("Download")) {
+			File f = new File(destination);
+			if (f.isDirectory()) {
+				if (!destination.endsWith("/")) {
+					destination += "/";
+				}
+				destination += srcArray[srcArray.length-1];
+			}
+		}
+		
 		FtpTransfer t = new FtpTransfer();
 		t.setFrom(source);
 		t.setTo(destination);
@@ -119,6 +142,11 @@ public class FtpClientBean {
 				ftpClient.getProtocol().toLowerCase());
 		
 		if (t.getDirection().equals("Upload")) {
+			File upFile = new File(t.getFrom());
+			if (!upFile.exists()) {
+				Growl.addGrowlMessage("Source file does not exist", FacesMessage.SEVERITY_ERROR);
+				return;
+			}
 			c.upload(t.getFrom(), t.getTo());
 		} else {
 			c.download(t.getTo(), t.getFrom());

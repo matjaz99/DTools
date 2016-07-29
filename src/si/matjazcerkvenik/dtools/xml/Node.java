@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
+import si.matjazcerkvenik.dtools.io.influxdb.InfluxDbClient;
 import si.matjazcerkvenik.dtools.tools.ping.PingStatus;
 import si.matjazcerkvenik.dtools.web.beans.Growl;
 
@@ -239,6 +240,7 @@ public class Node implements Serializable, Runnable {
 					+ "|" + hostname
 					+ "||||" + ps.toString();
 			DToolsContext.getInstance().getPingLogger().info(result);
+			InfluxDbClient.insertPingStatus(s.getMonitoringClass(), locationName, name, hostname, s.getName(), ps);
 		}
 		
 	}
@@ -257,6 +259,7 @@ public class Node implements Serializable, Runnable {
 						+ "|" + hostname
 						+ "||||" + ps.toString();
 				DToolsContext.getInstance().getPingLogger().info(result);
+				InfluxDbClient.insertPingStatus(s.getMonitoringClass(), locationName, name, hostname, s.getName(), ps);
 			}
 		}
 	}

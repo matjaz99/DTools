@@ -45,21 +45,22 @@
 						<h:panelGroup />
 						<h:panelGroup />
 						<h:outputLabel value="Direction: " />
-						<h:selectOneRadio value="#{ftpClientBean.direction}">
+						<p:selectOneRadio value="#{ftpClientBean.direction}" >
 							<f:selectItem itemLabel="Download" itemValue="Download" />
 							<f:selectItem itemLabel="Upload" itemValue="Upload" />
-						</h:selectOneRadio>
+						</p:selectOneRadio>
 						<h:outputText value="" />
 						
-						<h:outputLabel value="Source: " />
+						<h:outputLabel value="Source file: " />
 						<p:inputText id="src" value="#{ftpClientBean.source}" required="true" 
-							requiredMessage="Missing source directory or file" size="120" >
+							requiredMessage="Missing source" size="120" >
 						</p:inputText>
 						<h:message for="src" style="color: red;" />
 						
-						<h:outputLabel value="Destination: " />
-						<p:inputText id="dest" value="#{ftpClientBean.destination}" required="true" 
-							requiredMessage="Missing destination directory" size="120" />
+						<h:outputLabel value="Destination file: " />
+						<p:inputText id="dest" value="#{ftpClientBean.destination}" binding="#{dest}"
+							required="true" 
+							requiredMessage="Missing destination" size="120" />
 						<h:message for="dest" style="color: red;" />
 						
 						<p:commandButton value="Add" action="#{ftpClientBean.addTransfer}" 
