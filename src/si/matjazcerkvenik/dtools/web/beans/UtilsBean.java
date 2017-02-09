@@ -18,6 +18,7 @@
 
 package si.matjazcerkvenik.dtools.web.beans;
 
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -38,8 +39,10 @@ import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
 
 @ManagedBean
 @SessionScoped
-public class UtilsBean {
+public class UtilsBean implements Serializable {
 	
+	private static final long serialVersionUID = 9081710802869504935L;
+
 	public String getLocalIpAddress() {
 		return LocalhostInfo.getLocalIpAddress();
 	}
@@ -151,6 +154,13 @@ public class UtilsBean {
 	private String pingInterval;
 	private String pingTimeout;
 	private String pingPoolSize;
+	private String influxdbHostname;
+	private String influxdbPort;
+	private String influxdbDbname;
+	private String influxdbUsername;
+	private String influxdbPassword;
+	private String influxdbEnabled;
+	private String influxdbUrl;
 	private String autodiscoveryPoolSize;
 	private String trapReceiverQueueSize;
 	private String chartsWidth;
@@ -181,6 +191,62 @@ public class UtilsBean {
 
 	public void setPingPoolSize(String pingPoolSize) {
 		this.pingPoolSize = pingPoolSize;
+	}
+
+	public String getInfluxdbHostname() {
+		return DProps.getProperty(DProps.DTOOLS_DB_INFLUXDB_HOSTNAME);
+	}
+
+	public void setInfluxdbHostname(String influxdbHostname) {
+		this.influxdbHostname = influxdbHostname;
+	}
+
+	public String getInfluxdbPort() {
+		return DProps.getProperty(DProps.DTOOLS_DB_INFLUXDB_PORT);
+	}
+
+	public void setInfluxdbPort(String influxdbPort) {
+		this.influxdbPort = influxdbPort;
+	}
+
+	public String getInfluxdbDbname() {
+		return DProps.getProperty(DProps.DTOOLS_DB_INFLUXDB_DBNAME);
+	}
+
+	public void setInfluxdbDbname(String influxdbDbname) {
+		this.influxdbDbname = influxdbDbname;
+	}
+
+	public String getInfluxdbUsername() {
+		return DProps.getProperty(DProps.DTOOLS_DB_INFLUXDB_USERNAME);
+	}
+
+	public void setInfluxdbUsername(String influxdbUsername) {
+		this.influxdbUsername = influxdbUsername;
+	}
+
+	public String getInfluxdbPassword() {
+		return DProps.getProperty(DProps.DTOOLS_DB_INFLUXDB_PASSWORD);
+	}
+
+	public void setInfluxdbPassword(String influxdbPassword) {
+		this.influxdbPassword = influxdbPassword;
+	}
+
+	public String getInfluxdbEnabled() {
+		return DProps.getProperty(DProps.DTOOLS_DB_INFLUXDB_ENABLED);
+	}
+
+	public void setInfluxdbEnabled(String influxdbEnabled) {
+		this.influxdbEnabled = influxdbEnabled;
+	}
+
+	public String getInfluxdbUrl() {
+		return DProps.getProperty(DProps.DTOOLS_DB_INFLUXDB_URL);
+	}
+
+	public void setInfluxdbUrl(String influxdbUrl) {
+		this.influxdbUrl = influxdbUrl;
 	}
 
 	public String getAutodiscoveryPoolSize() {
@@ -244,6 +310,13 @@ public class UtilsBean {
 		DProps.setProperty(DProps.NETWORK_MONITORING_PING_INTERVAL, pingInterval, false);
 		DProps.setProperty(DProps.NETWORK_MONITORING_PING_TIMEOUT, pingTimeout, false);
 		DProps.setProperty(DProps.NETWORK_MONITORING_PING_POOL_SIZE, pingPoolSize, false);
+		DProps.setProperty(DProps.DTOOLS_DB_INFLUXDB_HOSTNAME, influxdbHostname, false);
+		DProps.setProperty(DProps.DTOOLS_DB_INFLUXDB_PORT, influxdbPort, false);
+		DProps.setProperty(DProps.DTOOLS_DB_INFLUXDB_DBNAME, influxdbDbname, false);
+		DProps.setProperty(DProps.DTOOLS_DB_INFLUXDB_USERNAME, influxdbUsername, false);
+		DProps.setProperty(DProps.DTOOLS_DB_INFLUXDB_PASSWORD, influxdbPassword, false);
+		DProps.setProperty(DProps.DTOOLS_DB_INFLUXDB_ENABLED, influxdbEnabled, false);
+		DProps.setProperty(DProps.DTOOLS_DB_INFLUXDB_URL, influxdbUrl, false);
 		DProps.setProperty(DProps.AUTO_DISCOVERY_THREAD_POOL_SIZE, autodiscoveryPoolSize, false);
 		DProps.setProperty(DProps.SNMP_RECEIVER_QUEUE_SIZE, trapReceiverQueueSize, false);
 		DProps.setProperty(DProps.NETWORK_STATISTICS_CHART_WIDTH, chartsWidth, false);

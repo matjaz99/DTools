@@ -9,6 +9,7 @@ import org.influxdb.dto.BatchPoints;
 import org.influxdb.dto.Point;
 import org.influxdb.dto.Query;
 
+import si.matjazcerkvenik.dtools.context.DProps;
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.tools.ping.PingStatus;
 
@@ -134,14 +135,42 @@ public class InfluxDbClient {
 		
 	}
 	
-	private static InfluxDB _influxDB = null;
+	private static InfluxDbClient influxClient = null;
+	private InfluxDB _influxDB = null;
+	private String influxUrl;
+	private String username;
+	private String password;
+	private String dbname;
+	private boolean influxDbEnabled = false;
 	
-	public static synchronized void insertPingStatus(String pingType, String location, 
+	private InfluxDbClient() {
+		
+	}
+	
+	public static InfluxDbClient getInstance () {
+		if (influxClient == null) {
+			influxClient = new InfluxDbClient();
+			influxClient.influxUrl = DProps.getProperty(DProps.DTOOLS_DB_INFLUXDB_URL);
+			influxClient.username = DProps.getProperty(DProps.DTOOLS_DB_INFLUXDB_USERNAME);
+			influxClient.password = DProps.getProperty(DProps.DTOOLS_DB_INFLUXDB_PASSWORD);
+			influxClient.dbname = DProps.getProperty(DProps.DTOOLS_DB_INFLUXDB_DBNAME);
+			if (DProps.getProperty(DProps.DTOOLS_DB_INFLUXDB_ENABLED).equalsIgnoreCase("true")) {
+				influxClient.influxDbEnabled = true;
+			}
+		}
+		return influxClient;
+	}
+	
+	public synchronized void insertPingStatus(String pingType, String location, 
 			String nodeName, String hostname, String service, PingStatus status) {
+		
+		if (!influxDbEnabled) {
+			return;
+		}
 		
 		try {
 			if (_influxDB == null) {
-				_influxDB = InfluxDBFactory.connect("http://192.168.1.115:8086", "root", "root");
+				_influxDB = InfluxDBFactory.connect(influxUrl, username, password);
 				
 				// Flush every 2000 Points, at least every 100ms
 				_influxDB.enableBatch(2000, 100, TimeUnit.MILLISECONDS);
@@ -166,8 +195,7 @@ public class InfluxDbClient {
 			        .addField("dT", status.getDeltaTime())
 			        .build();
 
-			_influxDB.write("mySmartHome", "default", point1);
-			System.out.println("INFLUX insert");
+			_influxDB.write(dbname, "default", point1);
 		} catch (Exception e) {
 			DToolsContext.getInstance().getLogger().error("Exception", e);
 		}

@@ -3,7 +3,7 @@
 	
 	<description>Ant buildfile</description>
 
-	<property name="project.version" value="5.3.0-alpha.02" />
+	<property name="project.version" value="5.3.0-beta.02" />
 	<property name="bin.dir" value="bin" />
 	<property name="src.dir" value="src" />
 	<property name="web.dir" value="WebContent" />
@@ -18,7 +18,7 @@
 		</fileset>
 	</path>
 	
-	<ant antfile="build-update.xml" target="jar"/>
+	<!-- <ant antfile="build-update.xml" target="jar"/> -->
 	
 	<target name="clean">
 	    <delete dir="${dist.dir}/${ant.project.name}-${project.version}" />

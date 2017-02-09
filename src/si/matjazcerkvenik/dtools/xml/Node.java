@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.io.influxdb.InfluxDbClient;
+import si.matjazcerkvenik.dtools.io.md5.MD5Checksum;
 import si.matjazcerkvenik.dtools.tools.ping.PingStatus;
 import si.matjazcerkvenik.dtools.web.beans.Growl;
 
@@ -36,6 +37,7 @@ public class Node implements Serializable, Runnable {
 	
 	private static final long serialVersionUID = 69849387589275333L;
 	
+	private String id;
 	private String name;
 	private String hostname;
 	private String description;
@@ -55,6 +57,9 @@ public class Node implements Serializable, Runnable {
 	 * Initialize node: configure services
 	 */
 	public void init() {
+		if (id == null) {
+			id = MD5Checksum.getMd5Checksum(System.currentTimeMillis() + name + hostname + type);
+		}
 		if (nodeServices == null) {
 			nodeServices = new NodeServices();
 		}
@@ -63,6 +68,15 @@ public class Node implements Serializable, Runnable {
 		}
 	}
 	
+
+	public String getId() {
+		return id;
+	}
+
+	@XmlAttribute
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;
@@ -240,7 +254,7 @@ public class Node implements Serializable, Runnable {
 					+ "|" + hostname
 					+ "||||" + ps.toString();
 			DToolsContext.getInstance().getPingLogger().info(result);
-			InfluxDbClient.insertPingStatus(s.getMonitoringClass(), locationName, name, hostname, s.getName(), ps);
+			InfluxDbClient.getInstance().insertPingStatus(s.getMonitoringClass(), locationName, name, hostname, s.getName(), ps);
 		}
 		
 	}
@@ -259,7 +273,7 @@ public class Node implements Serializable, Runnable {
 						+ "|" + hostname
 						+ "||||" + ps.toString();
 				DToolsContext.getInstance().getPingLogger().info(result);
-				InfluxDbClient.insertPingStatus(s.getMonitoringClass(), locationName, name, hostname, s.getName(), ps);
+				InfluxDbClient.getInstance().insertPingStatus(s.getMonitoringClass(), locationName, name, hostname, s.getName(), ps);
 			}
 		}
 	}
