@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:dt="http://dtools.com/ui">
+    <h:head>
+        <title>DTools</title>
+    </h:head>
+    <h:body>
+    	
+    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/dstyles.css"/>
+    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/icons.css"/>
+    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/fonts.css"/>
+    	
+    	<p:growl id="growl" life="2000"/>
+    	
+    	<h:panelGrid columns="1" cellpadding="0" cellspacing="0" width="100%">
+    		
+    		<ui:include src="/include/ptoolbar.xhtml"/>
+			
+			<h:form id="breadCrumb">
+    		<p:breadCrumb>
+			    <p:menuitem value="Home" url="home.xhtml" />
+			    <p:menuitem value="Docker" url="docker.xhtml" />
+			</p:breadCrumb>
+			</h:form>
+			
+			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">				
+				
+				
+				<h:form>
+					<p:accordionPanel multiple="true">
+						<p:ajax event="tabChange" listener="#{dockerBean.onTabChange}" update="growl" />
+						<p:ajax event="tabClose" listener="#{dockerBean.onTabClose}" update="growl" />
+						
+						<p:tab title="Containers" >
+							<h:panelGrid columns="1" >
+								<h:outputText value="#{dockerBean.containersData}" />
+							</h:panelGrid>
+						</p:tab>
+						
+						<p:tab title="Configs" >
+							<h:panelGrid columns="1" >
+								<h:outputText value="#{dockerBean.configData}" />
+							</h:panelGrid>
+						</p:tab>
+						
+						<p:tab title="Volumes" >
+							<h:panelGrid columns="1" >
+								<h:outputText value="#{dockerBean.volumesData}" />
+							</h:panelGrid>
+						</p:tab>
+						
+						<p:tab title="Services" >
+							<h:panelGrid columns="1" >
+								<h:outputText value="#{dockerBean.serviceData}" />
+							</h:panelGrid>
+						</p:tab>
+						
+						<p:tab title="Stacks" >
+							<h:panelGrid columns="1" >
+								<h:outputText value="#{dockerBean.stackData}" />
+							</h:panelGrid>
+						</p:tab>
+						
+						<p:tab title="Sworm nodes" >
+							<h:panelGrid columns="1" >
+								<h:outputText value="#{dockerBean.nodeData}" />
+							</h:panelGrid>
+						</p:tab>
+						
+						<p:tab title="Info" >
+							<h:panelGrid columns="1" >
+								<h:outputText value="#{dockerBean.infoData}" />
+							</h:panelGrid>
+						</p:tab>
+						
+					</p:accordionPanel>
+				</h:form>
+				
+				
+			</h:panelGrid>
+			
+			<ui:include src="/include/footer.xhtml"/>
+        
+        </h:panelGrid>
+        
+    </h:body>
+</html>
+
+
