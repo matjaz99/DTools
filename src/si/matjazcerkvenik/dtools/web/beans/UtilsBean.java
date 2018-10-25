@@ -194,7 +194,7 @@ public class UtilsBean implements Serializable {
 	}
 
 	public String getInfluxdbHostname() {
-		return DProps.getProperty(DProps.DTOOLS_DB_INFLUXDB_HOSTNAME);
+		return DProps.getProperty(DProps.DB_INFLUXDB_HOSTNAME);
 	}
 
 	public void setInfluxdbHostname(String influxdbHostname) {
@@ -202,7 +202,7 @@ public class UtilsBean implements Serializable {
 	}
 
 	public String getInfluxdbPort() {
-		return DProps.getProperty(DProps.DTOOLS_DB_INFLUXDB_PORT);
+		return DProps.getProperty(DProps.DB_INFLUXDB_PORT);
 	}
 
 	public void setInfluxdbPort(String influxdbPort) {
@@ -210,7 +210,7 @@ public class UtilsBean implements Serializable {
 	}
 
 	public String getInfluxdbDbname() {
-		return DProps.getProperty(DProps.DTOOLS_DB_INFLUXDB_DBNAME);
+		return DProps.getProperty(DProps.DB_INFLUXDB_DBNAME);
 	}
 
 	public void setInfluxdbDbname(String influxdbDbname) {
@@ -218,7 +218,7 @@ public class UtilsBean implements Serializable {
 	}
 
 	public String getInfluxdbUsername() {
-		return DProps.getProperty(DProps.DTOOLS_DB_INFLUXDB_USERNAME);
+		return DProps.getProperty(DProps.DB_INFLUXDB_USERNAME);
 	}
 
 	public void setInfluxdbUsername(String influxdbUsername) {
@@ -226,7 +226,7 @@ public class UtilsBean implements Serializable {
 	}
 
 	public String getInfluxdbPassword() {
-		return DProps.getProperty(DProps.DTOOLS_DB_INFLUXDB_PASSWORD);
+		return DProps.getProperty(DProps.DB_INFLUXDB_PASSWORD);
 	}
 
 	public void setInfluxdbPassword(String influxdbPassword) {
@@ -234,7 +234,7 @@ public class UtilsBean implements Serializable {
 	}
 
 	public String getInfluxdbEnabled() {
-		return DProps.getProperty(DProps.DTOOLS_DB_INFLUXDB_ENABLED);
+		return DProps.getProperty(DProps.DB_INFLUXDB_ENABLED);
 	}
 
 	public void setInfluxdbEnabled(String influxdbEnabled) {
@@ -242,7 +242,7 @@ public class UtilsBean implements Serializable {
 	}
 
 	public String getInfluxdbUrl() {
-		return DProps.getProperty(DProps.DTOOLS_DB_INFLUXDB_URL);
+		return DProps.getProperty(DProps.DB_INFLUXDB_URL);
 	}
 
 	public void setInfluxdbUrl(String influxdbUrl) {
@@ -310,13 +310,13 @@ public class UtilsBean implements Serializable {
 		DProps.setProperty(DProps.NETWORK_MONITORING_PING_INTERVAL, pingInterval, false);
 		DProps.setProperty(DProps.NETWORK_MONITORING_PING_TIMEOUT, pingTimeout, false);
 		DProps.setProperty(DProps.NETWORK_MONITORING_PING_POOL_SIZE, pingPoolSize, false);
-		DProps.setProperty(DProps.DTOOLS_DB_INFLUXDB_HOSTNAME, influxdbHostname, false);
-		DProps.setProperty(DProps.DTOOLS_DB_INFLUXDB_PORT, influxdbPort, false);
-		DProps.setProperty(DProps.DTOOLS_DB_INFLUXDB_DBNAME, influxdbDbname, false);
-		DProps.setProperty(DProps.DTOOLS_DB_INFLUXDB_USERNAME, influxdbUsername, false);
-		DProps.setProperty(DProps.DTOOLS_DB_INFLUXDB_PASSWORD, influxdbPassword, false);
-		DProps.setProperty(DProps.DTOOLS_DB_INFLUXDB_ENABLED, influxdbEnabled, false);
-		DProps.setProperty(DProps.DTOOLS_DB_INFLUXDB_URL, influxdbUrl, false);
+		DProps.setProperty(DProps.DB_INFLUXDB_HOSTNAME, influxdbHostname, false);
+		DProps.setProperty(DProps.DB_INFLUXDB_PORT, influxdbPort, false);
+		DProps.setProperty(DProps.DB_INFLUXDB_DBNAME, influxdbDbname, false);
+		DProps.setProperty(DProps.DB_INFLUXDB_USERNAME, influxdbUsername, false);
+		DProps.setProperty(DProps.DB_INFLUXDB_PASSWORD, influxdbPassword, false);
+		DProps.setProperty(DProps.DB_INFLUXDB_ENABLED, influxdbEnabled, false);
+		DProps.setProperty(DProps.DB_INFLUXDB_URL, influxdbUrl, false);
 		DProps.setProperty(DProps.AUTO_DISCOVERY_THREAD_POOL_SIZE, autodiscoveryPoolSize, false);
 		DProps.setProperty(DProps.SNMP_RECEIVER_QUEUE_SIZE, trapReceiverQueueSize, false);
 		DProps.setProperty(DProps.NETWORK_STATISTICS_CHART_WIDTH, chartsWidth, false);

@@ -49,13 +49,13 @@ public class DProps {
 	public static final String NETWORK_STATISTICS_HISTORY_HOURS = "network.statistics.history.hours";
 	public static final String SSH_DISCONNECT_TIMEOUT = "ssh.disconnect.timeout";
 	public static final String SSH_HISTORY_AGING_PERIOD = "ssh.history.aging.period";
-	public static final String DTOOLS_DB_INFLUXDB_HOSTNAME = "dtools.db.influxdb.hostname";
-	public static final String DTOOLS_DB_INFLUXDB_PORT = "dtools.db.influxdb.port";
-	public static final String DTOOLS_DB_INFLUXDB_DBNAME = "dtools.db.influxdb.dbname";
-	public static final String DTOOLS_DB_INFLUXDB_USERNAME = "dtools.db.influxdb.username";
-	public static final String DTOOLS_DB_INFLUXDB_PASSWORD = "dtools.db.influxdb.password";
-	public static final String DTOOLS_DB_INFLUXDB_ENABLED = "dtools.db.influxdb.enabled";
-	public static final String DTOOLS_DB_INFLUXDB_URL = "dtools.db.influxdb.url";
+	public static final String DB_INFLUXDB_HOSTNAME = "db.influxdb.hostname";
+	public static final String DB_INFLUXDB_PORT = "db.influxdb.port";
+	public static final String DB_INFLUXDB_DBNAME = "db.influxdb.dbname";
+	public static final String DB_INFLUXDB_USERNAME = "db.influxdb.username";
+	public static final String DB_INFLUXDB_PASSWORD = "db.influxdb.password";
+	public static final String DB_INFLUXDB_ENABLED = "db.influxdb.enabled";
+	public static final String DB_INFLUXDB_URL = "db.influxdb.url";
 			
 	private static Map<String, String> defaultValues = new HashMap<String, String>();
 	
@@ -80,13 +80,13 @@ public class DProps {
 		defaultValues.put(NETWORK_STATISTICS_HISTORY_HOURS, "24");
 		defaultValues.put(SSH_DISCONNECT_TIMEOUT, "120");
 		defaultValues.put(SSH_HISTORY_AGING_PERIOD, "168");
-		defaultValues.put(DTOOLS_DB_INFLUXDB_HOSTNAME, "127.0.0.1");
-		defaultValues.put(DTOOLS_DB_INFLUXDB_PORT, "8086");
-		defaultValues.put(DTOOLS_DB_INFLUXDB_DBNAME, "DToolsDB");
-		defaultValues.put(DTOOLS_DB_INFLUXDB_USERNAME, "root");
-		defaultValues.put(DTOOLS_DB_INFLUXDB_PASSWORD, "root");
-		defaultValues.put(DTOOLS_DB_INFLUXDB_ENABLED, "false");
-		defaultValues.put(DTOOLS_DB_INFLUXDB_URL, "http://127.0.0.1:8086");
+		defaultValues.put(DB_INFLUXDB_HOSTNAME, "127.0.0.1");
+		defaultValues.put(DB_INFLUXDB_PORT, "8086");
+		defaultValues.put(DB_INFLUXDB_DBNAME, "DToolsDB");
+		defaultValues.put(DB_INFLUXDB_USERNAME, "root");
+		defaultValues.put(DB_INFLUXDB_PASSWORD, "root");
+		defaultValues.put(DB_INFLUXDB_ENABLED, "false");
+		defaultValues.put(DB_INFLUXDB_URL, "http://127.0.0.1:8086");
 	}
 	
 	/**

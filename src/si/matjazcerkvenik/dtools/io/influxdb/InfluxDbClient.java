@@ -150,11 +150,11 @@ public class InfluxDbClient {
 	public static InfluxDbClient getInstance () {
 		if (influxClient == null) {
 			influxClient = new InfluxDbClient();
-			influxClient.influxUrl = DProps.getProperty(DProps.DTOOLS_DB_INFLUXDB_URL);
-			influxClient.username = DProps.getProperty(DProps.DTOOLS_DB_INFLUXDB_USERNAME);
-			influxClient.password = DProps.getProperty(DProps.DTOOLS_DB_INFLUXDB_PASSWORD);
-			influxClient.dbname = DProps.getProperty(DProps.DTOOLS_DB_INFLUXDB_DBNAME);
-			if (DProps.getProperty(DProps.DTOOLS_DB_INFLUXDB_ENABLED).equalsIgnoreCase("true")) {
+			influxClient.influxUrl = DProps.getProperty(DProps.DB_INFLUXDB_URL);
+			influxClient.username = DProps.getProperty(DProps.DB_INFLUXDB_USERNAME);
+			influxClient.password = DProps.getProperty(DProps.DB_INFLUXDB_PASSWORD);
+			influxClient.dbname = DProps.getProperty(DProps.DB_INFLUXDB_DBNAME);
+			if (DProps.getProperty(DProps.DB_INFLUXDB_ENABLED).equalsIgnoreCase("true")) {
 				influxClient.influxDbEnabled = true;
 			}
 		}

@@ -32,5 +32,13 @@ Commons-logging is required by commons-vfs
 moved to functional specification
 
 
+Whois implementation in Java:
+
+https://github.com/ethauvin/Whois/blob/master/Whois.java
+
+https://stackoverflow.com/questions/2195730/check-domain-availability-java
+
+
+
 
 
