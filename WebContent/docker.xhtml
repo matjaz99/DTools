@@ -43,6 +43,24 @@
 							</h:panelGrid>
 						</p:tab>
 						
+						<p:tab title="Services" >
+							<h:panelGrid columns="1" >
+								<h:outputText id="ServicesDat" value="#{dockerBean.serviceData}" styleClass="codeStyle" />
+							</h:panelGrid>
+						</p:tab>
+						
+						<p:tab title="Sworm" >
+							<h:panelGrid columns="1" >
+								<h:outputText id="SwormDat" value="#{dockerBean.nodeData}" styleClass="codeStyle" />
+							</h:panelGrid>
+						</p:tab>
+						
+						<p:tab title="Stacks" >
+							<h:panelGrid columns="1" >
+								<h:outputText id="StacksDat" value="#{dockerBean.stackData}" styleClass="codeStyle" />
+							</h:panelGrid>
+						</p:tab>
+						
 						<p:tab title="Configs" >
 							<h:panelGrid columns="1" >
 								<h:outputText id="ConfigsDat" value="#{dockerBean.configData}" styleClass="codeStyle" />
@@ -55,21 +73,15 @@
 							</h:panelGrid>
 						</p:tab>
 						
-						<p:tab title="Services" >
+						<p:tab title="Networks" >
 							<h:panelGrid columns="1" >
-								<h:outputText id="ServicesDat" value="#{dockerBean.serviceData}" styleClass="codeStyle" />
+								<h:outputText id="NetworksDat" value="#{dockerBean.networksData}" styleClass="codeStyle" />
 							</h:panelGrid>
 						</p:tab>
 						
-						<p:tab title="Stacks" >
+						<p:tab title="Images" >
 							<h:panelGrid columns="1" >
-								<h:outputText id="StacksDat" value="#{dockerBean.stackData}" styleClass="codeStyle" />
-							</h:panelGrid>
-						</p:tab>
-						
-						<p:tab title="Sworm" >
-							<h:panelGrid columns="1" >
-								<h:outputText id="SwormDat" value="#{dockerBean.nodeData}" styleClass="codeStyle" />
+								<h:outputText id=""ImagesDat value="#{dockerBean.imagesData}" styleClass="codeStyle" />
 							</h:panelGrid>
 						</p:tab>
 						

@@ -16,10 +16,12 @@ public class DockerBean {
 	
 	private String containersData;
 	private String volumesData;
+	private String networksData;
 	private String configData;
 	private String serviceData;
 	private String stackData;
 	private String nodeData;
+	private String imagesData;
 	private String infoData;
 
 	public void onTabChange(TabChangeEvent event) {
@@ -41,6 +43,8 @@ public class DockerBean {
 			containersData = null;
 		} else if (title.equals("Volumes")) {
 			volumesData = null;
+		} else if (title.equals("Networks")) {
+			networksData = null;
 		} else if (title.equals("Configs")) {
 			configData = null;
 		} else if (title.equals("Services")) {
@@ -49,6 +53,8 @@ public class DockerBean {
 			stackData = null;
 		} else if (title.equals("Sworm")) {
 			nodeData = null;
+		} else if (title.equals("Images")) {
+			infoData = null;
 		} else if (title.equals("Info")) {
 			infoData = null;
 		}
@@ -57,7 +63,7 @@ public class DockerBean {
 
 	public String getContainersData() {
 		if (containersData == null) {
-			String[] cmd = {"docker", "ps"};
+			String[] cmd = {"docker", "ps", "-a"};
 			containersData = Console.runLinuxCommand(cmd);
 		}
 		return containersData;
@@ -77,6 +83,18 @@ public class DockerBean {
 
 	public void setVolumesData(String volumesData) {
 		this.volumesData = volumesData;
+	}
+
+	public String getNetworksData() {
+		if (networksData == null) {
+			String[] cmd = {"docker", "network", "ls"};
+			volumesData = Console.runLinuxCommand(cmd);
+		}
+		return networksData;
+	}
+
+	public void setNetworksData(String networksData) {
+		this.networksData = networksData;
 	}
 
 	public String getConfigData() {
@@ -125,6 +143,18 @@ public class DockerBean {
 
 	public void setNodeData(String nodeData) {
 		this.nodeData = nodeData;
+	}
+
+	public String getImagesData() {
+		if (imagesData == null) {
+			String[] cmd = {"docker", "image", "ls"};
+			imagesData = Console.runLinuxCommand(cmd);
+		}
+		return imagesData;
+	}
+
+	public void setImagesData(String imagesData) {
+		this.imagesData = imagesData;
 	}
 
 	public String getInfoData() {
