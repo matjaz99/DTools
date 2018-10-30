@@ -1,7 +1,25 @@
+/* 
+ * Copyright (C) 2015 Matjaz Cerkvenik
+ * 
+ * DTools is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * DTools is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with DTools. If not, see <http://www.gnu.org/licenses/>.
+ * 
+ */
+
 package si.matjazcerkvenik.dtools.web.beans;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.TabCloseEvent;
@@ -9,7 +27,7 @@ import org.primefaces.event.TabCloseEvent;
 import si.matjazcerkvenik.dtools.tools.console.Console;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class DockerBean {
 	
 	private String tabChangedName = "Containers";
@@ -26,14 +44,11 @@ public class DockerBean {
 
 	public void onTabChange(TabChangeEvent event) {
 		tabChangedName = event.getTab().getTitle();
-//		FacesMessage msg = new FacesMessage("Active Tab: " + tabChangedName, "Tab Changed");
-//		FacesContext.getCurrentInstance().addMessage(null, msg);
 		getData(tabChangedName);
 	}
 
 	public void onTabClose(TabCloseEvent event) {
-//		FacesMessage msg = new FacesMessage("Closed tab: " + event.getTab().getTitle(), "Tab Closed");
-//		FacesContext.getCurrentInstance().addMessage(null, msg);
+		// nothing to do
 	}
 	
 	
@@ -88,7 +103,7 @@ public class DockerBean {
 	public String getNetworksData() {
 		if (networksData == null) {
 			String[] cmd = {"docker", "network", "ls"};
-			volumesData = Console.runLinuxCommand(cmd);
+			networksData = Console.runLinuxCommand(cmd);
 		}
 		return networksData;
 	}
