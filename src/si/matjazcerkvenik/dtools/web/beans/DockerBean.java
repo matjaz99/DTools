@@ -1,9 +1,7 @@
 package si.matjazcerkvenik.dtools.web.beans;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.TabCloseEvent;
@@ -14,6 +12,8 @@ import si.matjazcerkvenik.dtools.tools.console.Console;
 @SessionScoped
 public class DockerBean {
 	
+	private String tabChangedName = "Containers";
+	
 	private String containersData;
 	private String volumesData;
 	private String configData;
@@ -23,48 +23,43 @@ public class DockerBean {
 	private String infoData;
 
 	public void onTabChange(TabChangeEvent event) {
-		FacesMessage msg = new FacesMessage("Active Tab: " + event.getTab().getTitle(), "Tab Changed");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-		getData(event.getTab().getTitle());
+		tabChangedName = event.getTab().getTitle();
+//		FacesMessage msg = new FacesMessage("Active Tab: " + tabChangedName, "Tab Changed");
+//		FacesContext.getCurrentInstance().addMessage(null, msg);
+		getData(tabChangedName);
 	}
 
 	public void onTabClose(TabCloseEvent event) {
-		FacesMessage msg = new FacesMessage("Closed tab: " + event.getTab().getTitle(), "Tab Closed");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
+//		FacesMessage msg = new FacesMessage("Closed tab: " + event.getTab().getTitle(), "Tab Closed");
+//		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 	
 	
 	public void getData(String title) {
 		
 		if (title.equals("Containers")) {
-			System.out.println("containers selected");
-			String[] cmd = {"docker", "ps"};
-			containersData = Console.runLinuxCommand(cmd);
+			containersData = null;
 		} else if (title.equals("Volumes")) {
-			System.out.println("Volumes selected");
-			String[] cmd = {"docker", "volume", "ls"};
-			volumesData = Console.runLinuxCommand(cmd);
+			volumesData = null;
 		} else if (title.equals("Configs")) {
-			String[] cmd = {"docker", "config", "ls"};
-			volumesData = Console.runLinuxCommand(cmd);
+			configData = null;
 		} else if (title.equals("Services")) {
-			String[] cmd = {"docker", "service", "ls"};
-			volumesData = Console.runLinuxCommand(cmd);
+			serviceData = null;
 		} else if (title.equals("Stacks")) {
-			String[] cmd = {"docker", "stack", "ls"};
-			volumesData = Console.runLinuxCommand(cmd);
-		} else if (title.equals("Sworm nodes")) {
-			String[] cmd = {"docker", "node", "ls"};
-			volumesData = Console.runLinuxCommand(cmd);
+			stackData = null;
+		} else if (title.equals("Sworm")) {
+			nodeData = null;
 		} else if (title.equals("Info")) {
-			String[] cmd = {"docker", "info"};
-			volumesData = Console.runLinuxCommand(cmd);
+			infoData = null;
 		}
-		
 		
 	}
 
 	public String getContainersData() {
+		if (containersData == null) {
+			String[] cmd = {"docker", "ps"};
+			containersData = Console.runLinuxCommand(cmd);
+		}
 		return containersData;
 	}
 
@@ -73,6 +68,10 @@ public class DockerBean {
 	}
 
 	public String getVolumesData() {
+		if (volumesData == null) {
+			String[] cmd = {"docker", "volume", "ls"};
+			volumesData = Console.runLinuxCommand(cmd);
+		}
 		return volumesData;
 	}
 
@@ -81,6 +80,10 @@ public class DockerBean {
 	}
 
 	public String getConfigData() {
+		if (configData == null) {
+			String[] cmd = {"docker", "config", "ls"};
+			configData = Console.runLinuxCommand(cmd);
+		}
 		return configData;
 	}
 
@@ -89,6 +92,10 @@ public class DockerBean {
 	}
 
 	public String getServiceData() {
+		if (serviceData == null) {
+			String[] cmd = {"docker", "service", "ls"};
+			serviceData = Console.runLinuxCommand(cmd);
+		}
 		return serviceData;
 	}
 
@@ -97,6 +104,10 @@ public class DockerBean {
 	}
 
 	public String getStackData() {
+		if (stackData == null) {
+			String[] cmd = {"docker", "stack", "ls"};
+			stackData = Console.runLinuxCommand(cmd);
+		}
 		return stackData;
 	}
 
@@ -105,6 +116,10 @@ public class DockerBean {
 	}
 
 	public String getNodeData() {
+		if (nodeData == null) {
+			String[] cmd = {"docker", "node", "ls"};
+			nodeData = Console.runLinuxCommand(cmd);
+		}
 		return nodeData;
 	}
 
@@ -113,11 +128,23 @@ public class DockerBean {
 	}
 
 	public String getInfoData() {
+		if (infoData == null) {
+			String[] cmd = {"docker", "info"};
+			infoData = Console.runLinuxCommand(cmd);
+		}
 		return infoData;
 	}
 
 	public void setInfoData(String infoData) {
 		this.infoData = infoData;
+	}
+
+	public String getTabChangedName() {
+		return tabChangedName;
+	}
+
+	public void setTabChangedName(String tabChangedName) {
+		this.tabChangedName = tabChangedName;
 	}
 	
 

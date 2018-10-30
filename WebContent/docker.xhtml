@@ -2,6 +2,7 @@
 <html lang="en"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui"
@@ -31,50 +32,50 @@
 			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">				
 				
 				
-				<h:form>
-					<p:accordionPanel multiple="true">
-						<p:ajax event="tabChange" listener="#{dockerBean.onTabChange}" update="growl" />
+				<h:form id="accordionForm">
+					<p:accordionPanel multiple="true" activeIndex="null">
+						<p:ajax event="tabChange" listener="#{dockerBean.onTabChange}" update="growl #{dockerBean.tabChangedName}Dat" />
 						<p:ajax event="tabClose" listener="#{dockerBean.onTabClose}" update="growl" />
 						
 						<p:tab title="Containers" >
 							<h:panelGrid columns="1" >
-								<h:outputText value="#{dockerBean.containersData}" />
+								<h:outputText id="ContainersDat" value="#{dockerBean.containersData}" styleClass="codeStyle" />
 							</h:panelGrid>
 						</p:tab>
 						
 						<p:tab title="Configs" >
 							<h:panelGrid columns="1" >
-								<h:outputText value="#{dockerBean.configData}" />
+								<h:outputText id="ConfigsDat" value="#{dockerBean.configData}" styleClass="codeStyle" />
 							</h:panelGrid>
 						</p:tab>
 						
 						<p:tab title="Volumes" >
 							<h:panelGrid columns="1" >
-								<h:outputText value="#{dockerBean.volumesData}" />
+								<h:outputText id="VolumesDat" value="#{dockerBean.volumesData}" styleClass="codeStyle" />
 							</h:panelGrid>
 						</p:tab>
 						
 						<p:tab title="Services" >
 							<h:panelGrid columns="1" >
-								<h:outputText value="#{dockerBean.serviceData}" />
+								<h:outputText id="ServicesDat" value="#{dockerBean.serviceData}" styleClass="codeStyle" />
 							</h:panelGrid>
 						</p:tab>
 						
 						<p:tab title="Stacks" >
 							<h:panelGrid columns="1" >
-								<h:outputText value="#{dockerBean.stackData}" />
+								<h:outputText id="StacksDat" value="#{dockerBean.stackData}" styleClass="codeStyle" />
 							</h:panelGrid>
 						</p:tab>
 						
-						<p:tab title="Sworm nodes" >
+						<p:tab title="Sworm" >
 							<h:panelGrid columns="1" >
-								<h:outputText value="#{dockerBean.nodeData}" />
+								<h:outputText id="SwormDat" value="#{dockerBean.nodeData}" styleClass="codeStyle" />
 							</h:panelGrid>
 						</p:tab>
 						
 						<p:tab title="Info" >
 							<h:panelGrid columns="1" >
-								<h:outputText value="#{dockerBean.infoData}" />
+								<h:outputText id="InfoDat" value="#{dockerBean.infoData}" styleClass="codeStyle" />
 							</h:panelGrid>
 						</p:tab>
 						

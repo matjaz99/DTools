@@ -12,6 +12,7 @@ span.title {
 
 .codeStyle {
 	font: 12px monospace;
+	white-space: pre-wrap;
 }
 
 .valign-middle {
