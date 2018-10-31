@@ -1,9 +1,8 @@
 # DTools
-Developer tools (SSH, FTP, SNMP simulator, automatization of common tasks, network status...)
+Developer tools (SSH, FTP, SNMP simulator, automatization of common tasks, network status, docker status...)
 
-This application is still in development phase.
+Current stable release: 5.3.0
 
-For a developer it should help to simplify common tasks.
 
 ## Features
 
@@ -17,6 +16,7 @@ For a developer it should help to simplify common tasks.
 - snmp manager
 - snmp agent
 - snmp simulator
+- docker status
 - quick notes
 - todo list
 - find duplicate files
