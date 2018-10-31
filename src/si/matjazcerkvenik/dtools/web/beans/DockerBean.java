@@ -19,6 +19,7 @@
 package si.matjazcerkvenik.dtools.web.beans;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
 import org.primefaces.event.TabChangeEvent;
@@ -28,9 +29,10 @@ import si.matjazcerkvenik.dtools.tools.console.Console;
 
 @ManagedBean
 @ViewScoped
+//@SessionScoped
 public class DockerBean {
 	
-	private String tabChangedName = "Containers";
+	private String tabChangedName = "Volumes";
 	
 	private String containersData;
 	private String volumesData;
@@ -41,6 +43,7 @@ public class DockerBean {
 	private String nodeData;
 	private String imagesData;
 	private String infoData;
+	private String lsData;
 
 	public void onTabChange(TabChangeEvent event) {
 		tabChangedName = event.getTab().getTitle();
@@ -53,6 +56,8 @@ public class DockerBean {
 	
 	
 	public void getData(String title) {
+		
+		System.out.println("getData: " + title);
 		
 		if (title.equals("Containers")) {
 			containersData = null;
@@ -69,14 +74,19 @@ public class DockerBean {
 		} else if (title.equals("Sworm")) {
 			nodeData = null;
 		} else if (title.equals("Images")) {
-			infoData = null;
+			imagesData = null;
 		} else if (title.equals("Info")) {
+			System.out.println("info=null");
 			infoData = null;
+		} else if (title.equalsIgnoreCase("ls")) {
+			System.out.println("ls=null");
+			lsData = null;
 		}
 		
 	}
 
 	public String getContainersData() {
+		System.out.println("getContainersData");
 		if (containersData == null) {
 			String[] cmd = {"docker", "ps", "-a"};
 			containersData = Console.runLinuxCommand(cmd);
@@ -89,6 +99,7 @@ public class DockerBean {
 	}
 
 	public String getVolumesData() {
+		System.out.println("getVolumesData");
 		if (volumesData == null) {
 			String[] cmd = {"docker", "volume", "ls"};
 			volumesData = Console.runLinuxCommand(cmd);
@@ -179,9 +190,21 @@ public class DockerBean {
 		}
 		return infoData;
 	}
-
+	
 	public void setInfoData(String infoData) {
 		this.infoData = infoData;
+	}
+
+	public String getLsData() {
+		if (lsData == null) {
+			String[] cmd = {"ls", "-la", "/Users/matjaz/Desktop"};
+			lsData = Console.runLinuxCommand(cmd);
+		}
+		return lsData;
+	}
+
+	public void setLsData(String lsData) {
+		this.lsData = lsData;
 	}
 
 	public String getTabChangedName() {
