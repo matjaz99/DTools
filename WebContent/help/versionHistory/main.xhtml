@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:dt="http://dtools.com/ui">
+    <h:head>
+        <title>DTools</title>
+    </h:head>
+    <h:body>
+    	
+    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/dstyles.css"/>
+    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/icons.css"/>
+    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/fonts.css"/>
+    	
+    	<p:growl id="growl" life="2000"/>
+    	
+    	<h:panelGrid columns="1" cellpadding="0" cellspacing="0" width="100%">
+    		
+    		<ui:include src="/include/ptoolbar.xhtml"/>
+			
+			<h:form id="breadCrumb">
+    		<p:breadCrumb>
+			    <p:menuitem value="Home" url="/home.xhtml" />
+			    <p:menuitem value="Help" url="/help" />
+			    <p:menuitem value="Versions" url="/help/versionHistory" />
+			</p:breadCrumb>
+			</h:form>
+			
+			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%" >
+				
+				<h1>Version history</h1>
+	
+				<h:panelGrid columns="2" cellpadding="5" cellspacing="0" width="100%">
+					<h:outputText value="Version" />
+					<h:outputText value="5.3.1-alpha.01" />
+					<h:outputText value="Status" />
+					<h:outputText value="In development" />
+					<h:outputText value="Features" />
+					<ul>
+						<li>changed navigation, moved xhtml files into subdirectories</li>
+						<li>docker services view</li>
+						<li>introduced help center</li>
+					</ul>
+				</h:panelGrid>
+				
+				<hr/>
+				
+				<h:panelGrid columns="2" cellpadding="5" cellspacing="0" width="100%">
+					<h:outputText value="Version" />
+					<h:outputText value="5.3.0" />
+					<h:outputText value="Status" />
+					<h:outputText value="Released" />
+					<h:outputText value="Date" />
+					<h:outputText value="31 oct 2018" />
+					<h:outputText value="Features" />
+					<ul>
+						<li>docker status (raw view)</li>
+					</ul>
+				</h:panelGrid>
+				
+			</h:panelGrid>
+			
+			<ui:include src="/templates/footer.xhtml"/>
+        
+        </h:panelGrid>
+        
+    </h:body>
+</html>
+
+

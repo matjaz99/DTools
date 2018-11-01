@@ -25,29 +25,20 @@
 			<h:form id="breadCrumb">
     		<p:breadCrumb>
 			    <p:menuitem value="Home" url="/home.xhtml" />
-			    <p:menuitem value="Docker" url="/docker/docker.xhtml" />
+			    <p:menuitem value="Help" url="/help" />
 			</p:breadCrumb>
 			</h:form>
 			
 			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%" >
 				
-				
-				<p:tabView>
-
-				    <p:tab title="Raw format">
-				        <ui:include src="/docker/_rawFormat.xhtml"/>
-				    </p:tab>
-				    <p:tab title="Services">
-				    	<h:outputText value="kr neki" />
-				        	<p:inputText></p:inputText>
-<!-- 				        <ui:include src="/docker/_rawFormat.xhtml"/> -->
-				    </p:tab>
-				</p:tabView>
-				
+				<h1>DTools Help Center</h1>
+				<h3>Work in progress. Turn around.</h3>
+				<hr/>
+				<p:link value="Version History" outcome="/help/versionHistory/main.xhtml" />
 				
 			</h:panelGrid>
 			
-			<ui:include src="/include/footer.xhtml"/>
+			<ui:include src="/templates/footer.xhtml"/>
         
         </h:panelGrid>
         

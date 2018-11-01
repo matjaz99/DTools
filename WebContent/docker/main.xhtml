@@ -1,0 +1,38 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<div id="navigationFrame">
+		<ui:define name="navigationFrame">
+			<ui:include src="/docker/_breadcrumb.xhtml" />
+		</ui:define>
+	</div>
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+		
+			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
+
+				<p:tabView effect="fade" effectDuration="fast">
+				
+					<p:tab title="Raw format">
+						<ui:include src="/docker/_rawFormat.xhtml" />
+					</p:tab>
+					
+					<p:tab title="Services">
+						<h:outputText value="kr neki" />
+						<p:inputText></p:inputText>
+					</p:tab>
+					
+				</p:tabView>
+
+
+			</h:panelGrid>
+			
+		</ui:define>
+	</div>
+
+</ui:composition>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>DTools</title>
+</h:head>
+<h:body>
+
+	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/dstyles.css"/>
+   	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/icons.css"/>
+   	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/fonts.css"/>
+
+	<div id="pageFrame">
+		
+		<p:growl id="growl" life="2000"/>
+		
+		<div id="headerFrame">
+			<ui:include src="/include/ptoolbar.xhtml"/>
+		</div>
+		
+		<div id="navigationFrame">
+			<ui:insert name="navigationFrame">
+				<h:outputText value="navigationFrame" />
+			</ui:insert>
+		</div>
+
+		<div id="contentFrame">
+			<ui:insert name="contentFrame">
+				<h:outputText value="contentFrame" />
+			</ui:insert>
+		</div>
+
+		<div id="footerFrame">
+			<ui:include src="/templates/footer.xhtml"/>
+		</div>
+		
+	</div>
+
+</h:body>
+</html>

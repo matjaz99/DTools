@@ -21,8 +21,9 @@
     		
     		<h:form id="breadCrumb">
     		<p:breadCrumb>
-			    <p:menuitem value="Home" url="home.xhtml" />
-			    <p:menuitem value="Localhost" url="aboutLocalhost.xhtml" />
+			    <p:menuitem value="Home" url="/home.xhtml" />
+			    <p:menuitem value="Help" url="/help" />
+			    <p:menuitem value="About" url="/help/about" />
 			</p:breadCrumb>
 			</h:form>
 	        
@@ -82,7 +83,7 @@
 				
 			</h:panelGrid>
 			
-        	<ui:include src="/include/footer.xhtml"/>
+        	<ui:include src="/templates/footer.xhtml"/>
         	
         </h:panelGrid>
     </h:body>
