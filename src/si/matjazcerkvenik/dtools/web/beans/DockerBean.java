@@ -28,12 +28,13 @@ import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.TabCloseEvent;
 
 import si.matjazcerkvenik.dtools.tools.console.Console;
-import si.matjazcerkvenik.dtools.xml.DockerContainer;
-import si.matjazcerkvenik.dtools.xml.DockerImage;
+import si.matjazcerkvenik.dtools.tools.docker.DockerContainer;
+import si.matjazcerkvenik.dtools.tools.docker.DockerImage;
+import si.matjazcerkvenik.dtools.tools.docker.DockerService;
+import si.matjazcerkvenik.dtools.tools.docker.DockerSwormNode;
 
 @ManagedBean
 @ViewScoped
-//@SessionScoped
 public class DockerBean {
 		
 	private String containersData;
@@ -45,11 +46,11 @@ public class DockerBean {
 	private String nodeData;
 	private String imagesData;
 	private List<DockerImage> imagesList;
+	private String statsData;
 	private String infoData;
-	private String lsData;
 
 	public void onTabChange(TabChangeEvent event) {
-		getData(event.getTab().getTitle());
+		resetData(event.getTab().getTitle());
 	}
 
 	public void onTabClose(TabCloseEvent event) {
@@ -57,7 +58,7 @@ public class DockerBean {
 	}
 	
 	
-	public void getData(String title) {
+	public void resetData(String title) {
 		
 		if (title.equals("Containers")) {
 			containersData = null;
@@ -77,8 +78,8 @@ public class DockerBean {
 			imagesData = null;
 		} else if (title.equals("Info")) {
 			infoData = null;
-		} else if (title.equalsIgnoreCase("ls")) {
-			lsData = null;
+		} else if (title.equalsIgnoreCase("Stats")) {
+			statsData = null;
 		}
 		
 	}
@@ -188,6 +189,18 @@ public class DockerBean {
 		this.imagesList = imagesList;
 	}
 
+	public String getStatsData() {
+		if (statsData == null) {
+			String[] cmd = {"docker", "stats", "--no-stream"};
+			statsData = Console.runLinuxCommand(cmd);
+		}
+		return statsData;
+	}
+
+	public void setStatsData(String statsData) {
+		this.statsData = statsData;
+	}
+
 	public String getInfoData() {
 		if (infoData == null) {
 			String[] cmd = {"docker", "info"};
@@ -199,26 +212,80 @@ public class DockerBean {
 	public void setInfoData(String infoData) {
 		this.infoData = infoData;
 	}
-
-	public String getLsData() {
-		if (lsData == null) {
-			String[] cmd = {"ls", "-la", "/Users/matjaz/Desktop"};
-			lsData = Console.runLinuxCommand(cmd);
-		}
-		return lsData;
-	}
-
-	public void setLsData(String lsData) {
-		this.lsData = lsData;
-	}
 	
 	
-	private List<DockerContainer> createContainerObjects(String data) {
+	public static List<DockerContainer> createContainerObjects(String data) {
 		
 		List<DockerContainer> list = new ArrayList<DockerContainer>();
 		
 		String[] lines = data.split("\n");
 		System.out.println("found " + lines.length + " lines");
+		
+		for (int i = 1; i < lines.length; i++) {
+			String[] strArray = lines[i].split("\\s{2,}");
+			DockerContainer di = new DockerContainer();
+			di.setId(strArray[0].trim());
+			di.setImage(strArray[1].trim());
+			di.setCommand(strArray[2].replace("…", "...").trim());
+			di.setCreated(strArray[3].trim());
+			di.setStatus(strArray[4].trim());
+			di.setPorts(strArray[5].trim()); // TODO there could be no port specified!
+			if (strArray.length > 6) {
+				di.setNames(strArray[6].trim());
+			}
+			
+			list.add(di);
+		}
+		
+		return list;
+		
+	}
+	
+	public static List<DockerService> createServiceObjects(String data) {
+		
+		List<DockerService> list = new ArrayList<DockerService>();
+		
+		String[] lines = data.split("\n");
+		System.out.println("found " + lines.length + " lines");
+		
+		for (int i = 1; i < lines.length; i++) {
+			String[] strArray = lines[i].split("\\s{2,}");
+			DockerService di = new DockerService();
+			di.setId(strArray[0].trim());
+			di.setName(strArray[1].trim());
+			di.setMode(strArray[2].replace("…", "...").trim());
+			di.setReplicas(strArray[3].trim());
+			di.setImage(strArray[4].trim());
+			if (strArray.length > 5) {
+				di.setPorts(strArray[5].trim());
+			}
+			
+			list.add(di);
+		}
+		
+		return list;
+		
+	}
+	
+	public static List<DockerSwormNode> createSwormNodeObjects(String data) {
+		
+		List<DockerSwormNode> list = new ArrayList<DockerSwormNode>();
+		
+		String[] lines = data.split("\n");
+		System.out.println("found " + lines.length + " lines");
+		
+		for (int i = 1; i < lines.length; i++) {
+			String[] strArray = lines[i].split("\\s{2,}");
+			DockerSwormNode di = new DockerSwormNode();
+			di.setId(strArray[0].trim());
+			di.setHostname(strArray[1].trim());
+			di.setStatus(strArray[2].replace("…", "...").trim());
+			di.setAvailability(strArray[3].trim());
+			di.setManagerStatus(strArray[4].trim());
+			di.setEngineVersion(strArray[5].trim());
+			
+			list.add(di);
+		}
 		
 		return list;
 		

@@ -1,4 +1,4 @@
-package si.matjazcerkvenik.dtools.xml;
+package si.matjazcerkvenik.dtools.tools.docker;
 
 public class DockerImage {
 

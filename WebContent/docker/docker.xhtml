@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:dt="http://dtools.com/ui">
+    <h:head>
+        <title>DTools</title>
+    </h:head>
+    <h:body>
+    	
+    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/dstyles.css"/>
+    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/icons.css"/>
+    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/fonts.css"/>
+    	
+    	<p:growl id="growl" life="2000"/>
+    	
+    	<h:panelGrid columns="1" cellpadding="0" cellspacing="0" width="100%">
+    		
+    		<ui:include src="/include/ptoolbar.xhtml"/>
+			
+			<h:form id="breadCrumb">
+    		<p:breadCrumb>
+			    <p:menuitem value="Home" url="/home.xhtml" />
+			    <p:menuitem value="Docker" url="/docker/docker.xhtml" />
+			</p:breadCrumb>
+			</h:form>
+			
+			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%" >
+				
+				
+				<p:tabView>
+
+				    <p:tab title="Raw format">
+				        <ui:include src="/docker/_rawFormat.xhtml"/>
+				    </p:tab>
+				    <p:tab title="Services">
+				    	<h:outputText value="kr neki" />
+				        	<p:inputText></p:inputText>
+<!-- 				        <ui:include src="/docker/_rawFormat.xhtml"/> -->
+				    </p:tab>
+				</p:tabView>
+				
+				
+			</h:panelGrid>
+			
+			<ui:include src="/include/footer.xhtml"/>
+        
+        </h:panelGrid>
+        
+    </h:body>
+</html>
+
+

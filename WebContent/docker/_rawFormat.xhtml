@@ -1,0 +1,115 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:dt="http://dtools.com/ui">
+
+	<h:form id="accordionForm">
+		<p:accordionPanel id="accPanel" multiple="true" activeIndex="-1">
+			<p:ajax event="tabChange" listener="#{dockerBean.onTabChange}"
+				update="growl accPanel" />
+			<p:ajax event="tabClose" listener="#{dockerBean.onTabClose}"
+				update="growl" />
+
+			<p:tab title="Containers">
+				<h:panelGrid columns="1">
+					<h:outputText value="#{dockerBean.containersData}"
+						styleClass="codeStyle" />
+				</h:panelGrid>
+			</p:tab>
+
+			<p:tab title="Services">
+				<h:panelGrid columns="1">
+					<h:outputText value="#{dockerBean.serviceData}"
+						styleClass="codeStyle" />
+				</h:panelGrid>
+			</p:tab>
+
+			<p:tab title="Sworm">
+				<h:panelGrid columns="1">
+					<h:outputText value="#{dockerBean.nodeData}" styleClass="codeStyle" />
+				</h:panelGrid>
+			</p:tab>
+
+			<p:tab title="Stacks">
+				<h:panelGrid columns="1">
+					<h:outputText value="#{dockerBean.stackData}"
+						styleClass="codeStyle" />
+				</h:panelGrid>
+			</p:tab>
+
+			<p:tab title="Configs">
+				<h:panelGrid columns="1">
+					<h:outputText value="#{dockerBean.configData}"
+						styleClass="codeStyle" />
+				</h:panelGrid>
+			</p:tab>
+
+			<p:tab title="Volumes">
+				<h:panelGrid columns="1">
+					<h:outputText value="#{dockerBean.volumesData}"
+						styleClass="codeStyle" />
+				</h:panelGrid>
+			</p:tab>
+
+			<p:tab title="Networks">
+				<h:panelGrid columns="1">
+					<h:outputText value="#{dockerBean.networksData}"
+						styleClass="codeStyle" />
+				</h:panelGrid>
+			</p:tab>
+
+			<p:tab title="Images">
+				<h:panelGrid columns="1" cellspacing="5" width="100%">
+					<h:dataTable id="imagesTable" value="#{dockerBean.imagesList}"
+						var="image" styleClass="table"
+						rowClasses="tableOddRow,tableEvenRow" cellpadding="0"
+						cellspacing="0" width="100%">
+						<h:column>
+							<f:facet name="header">REPOSITORY</f:facet>
+							<h:outputText value="#{image.repository}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">TAG</f:facet>
+							<h:outputText value="#{image.tag}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">IMAGE ID</f:facet>
+							<h:outputText value="#{image.imageId}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">CREATED</f:facet>
+							<h:outputText value="#{image.created}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">SIZE</f:facet>
+							<h:outputText value="#{image.size}" />
+						</h:column>
+					</h:dataTable>
+				</h:panelGrid>
+			</p:tab>
+
+			<p:tab title="Images (raw format)">
+				<h:panelGrid columns="1">
+					<h:outputText value="#{dockerBean.imagesData}"
+						styleClass="codeStyle" />
+				</h:panelGrid>
+			</p:tab>
+
+			<p:tab title="Stats">
+				<h:panelGrid columns="1">
+					<h:outputText value="#{dockerBean.statsData}"
+						styleClass="codeStyle" />
+				</h:panelGrid>
+			</p:tab>
+
+			<p:tab title="Info">
+				<h:panelGrid columns="1">
+					<h:outputText value="#{dockerBean.infoData}" styleClass="codeStyle" />
+				</h:panelGrid>
+			</p:tab>
+
+		</p:accordionPanel>
+	</h:form>
+
+</ui:composition>
