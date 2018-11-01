@@ -80,6 +80,35 @@
 						</p:tab>
 						
 						<p:tab title="Images" >
+							<h:panelGrid columns="1" cellspacing="5" width="100%" >
+								<h:dataTable id="imagesTable" value="#{dockerBean.imagesList}" var="image" 
+									styleClass="table" rowClasses="tableOddRow,tableEvenRow"
+									cellpadding="0" cellspacing="0" width="100%">
+									<h:column>
+										<f:facet name="header">REPOSITORY</f:facet>
+										<h:outputText value="#{image.repository}" />
+									</h:column>
+									<h:column>
+										<f:facet name="header">TAG</f:facet>
+										<h:outputText value="#{image.tag}" />
+									</h:column>
+									<h:column>
+										<f:facet name="header">IMAGE ID</f:facet>
+										<h:outputText value="#{image.imageId}" />
+									</h:column>
+									<h:column>
+										<f:facet name="header">CREATED</f:facet>
+										<h:outputText value="#{image.created}" />
+									</h:column>
+									<h:column>
+										<f:facet name="header">SIZE</f:facet>
+										<h:outputText value="#{image.size}" />
+									</h:column>
+								</h:dataTable>
+							</h:panelGrid>
+						</p:tab>
+						
+						<p:tab title="Images (raw format)" >
 							<h:panelGrid columns="1" >
 								<h:outputText id="ImagesTab" value="#{dockerBean.imagesData}" styleClass="codeStyle" />
 							</h:panelGrid>

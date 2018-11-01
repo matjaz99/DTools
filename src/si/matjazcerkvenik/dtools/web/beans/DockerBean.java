@@ -18,22 +18,24 @@
 
 package si.matjazcerkvenik.dtools.web.beans;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.TabCloseEvent;
 
 import si.matjazcerkvenik.dtools.tools.console.Console;
+import si.matjazcerkvenik.dtools.xml.DockerContainer;
+import si.matjazcerkvenik.dtools.xml.DockerImage;
 
 @ManagedBean
 @ViewScoped
 //@SessionScoped
 public class DockerBean {
-	
-	private String tabChangedName = "Volumes";
-	
+		
 	private String containersData;
 	private String volumesData;
 	private String networksData;
@@ -42,12 +44,12 @@ public class DockerBean {
 	private String stackData;
 	private String nodeData;
 	private String imagesData;
+	private List<DockerImage> imagesList;
 	private String infoData;
 	private String lsData;
 
 	public void onTabChange(TabChangeEvent event) {
-		tabChangedName = event.getTab().getTitle();
-		getData(tabChangedName);
+		getData(event.getTab().getTitle());
 	}
 
 	public void onTabClose(TabCloseEvent event) {
@@ -56,8 +58,6 @@ public class DockerBean {
 	
 	
 	public void getData(String title) {
-		
-		System.out.println("getData: " + title);
 		
 		if (title.equals("Containers")) {
 			containersData = null;
@@ -76,17 +76,14 @@ public class DockerBean {
 		} else if (title.equals("Images")) {
 			imagesData = null;
 		} else if (title.equals("Info")) {
-			System.out.println("info=null");
 			infoData = null;
 		} else if (title.equalsIgnoreCase("ls")) {
-			System.out.println("ls=null");
 			lsData = null;
 		}
 		
 	}
 
 	public String getContainersData() {
-		System.out.println("getContainersData");
 		if (containersData == null) {
 			String[] cmd = {"docker", "ps", "-a"};
 			containersData = Console.runLinuxCommand(cmd);
@@ -99,7 +96,6 @@ public class DockerBean {
 	}
 
 	public String getVolumesData() {
-		System.out.println("getVolumesData");
 		if (volumesData == null) {
 			String[] cmd = {"docker", "volume", "ls"};
 			volumesData = Console.runLinuxCommand(cmd);
@@ -175,12 +171,21 @@ public class DockerBean {
 		if (imagesData == null) {
 			String[] cmd = {"docker", "image", "ls"};
 			imagesData = Console.runLinuxCommand(cmd);
+			imagesList = createImageObjects(imagesData);
 		}
 		return imagesData;
 	}
 
 	public void setImagesData(String imagesData) {
 		this.imagesData = imagesData;
+	}
+
+	public List<DockerImage> getImagesList() {
+		return imagesList;
+	}
+
+	public void setImagesList(List<DockerImage> imagesList) {
+		this.imagesList = imagesList;
 	}
 
 	public String getInfoData() {
@@ -206,13 +211,40 @@ public class DockerBean {
 	public void setLsData(String lsData) {
 		this.lsData = lsData;
 	}
-
-	public String getTabChangedName() {
-		return tabChangedName;
+	
+	
+	private List<DockerContainer> createContainerObjects(String data) {
+		
+		List<DockerContainer> list = new ArrayList<DockerContainer>();
+		
+		String[] lines = data.split("\n");
+		System.out.println("found " + lines.length + " lines");
+		
+		return list;
+		
 	}
-
-	public void setTabChangedName(String tabChangedName) {
-		this.tabChangedName = tabChangedName;
+	
+	public static List<DockerImage> createImageObjects(String data) {
+		
+		List<DockerImage> list = new ArrayList<DockerImage>();
+		
+		String[] lines = data.split("\n");
+		System.out.println("found " + lines.length + " lines");
+		
+		for (int i = 1; i < lines.length; i++) {
+			String[] strArray = lines[i].split("\\s{2,}");
+			DockerImage di = new DockerImage();
+			di.setRepository(strArray[0].trim());
+			di.setTag(strArray[1].trim());
+			di.setImageId(strArray[2].trim());
+			di.setCreated(strArray[3].trim());
+			di.setSize(strArray[4].trim());
+			
+			list.add(di);
+		}
+		
+		return list;
+		
 	}
 	
 
