@@ -1,0 +1,38 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<div id="navigationFrame">
+		<ui:define name="navigationFrame">
+			<h:form id="breadCrumb">
+				<p:breadCrumb>
+					<p:menuitem value="Home" url="/" />
+					<p:menuitem value="FileInspector" url="/fileInspector" />
+				</p:breadCrumb>
+			</h:form>
+		</ui:define>
+	</div>
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+		
+			<h:form id="scanDirForm">
+				<h:panelGrid columns="1" cellpadding="5" cellspacing="0"
+					width="100%">
+					<h:outputLabel value="Search duplicate files in directory: " />
+					<p:inputText value="#{fileInspectorBean.directory}" size="100" />
+					<p:commandButton value="Scan"
+						action="#{fileInspectorBean.searchDirectoryForDuplicates}"
+						update="result" ajax="true" />
+					<h:inputTextarea id="result" value="#{fileInspectorBean.result}"
+						rows="30" styleClass="codeStyle" style="width: 100%;" />
+				</h:panelGrid>
+			</h:form>
+
+		</ui:define>
+	</div>
+
+</ui:composition>

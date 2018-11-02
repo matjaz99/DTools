@@ -1,139 +1,130 @@
-<!DOCTYPE html>
-<html lang="en"
-    xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:dt="http://dtools.com/ui">
-    <h:head>
-        <title>DTools</title>
-    </h:head>
-    <h:body>
-    	
-    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/dstyles.css"/>
-    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/icons.css"/>
-    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/fonts.css"/>
-    	
-    	<p:growl id="growl" life="2000"/>
-    	
-    	<h:panelGrid id="mainPanel" columns="1" cellpadding="0" cellspacing="0" width="100%">
-    		
-    		<ui:include src="/include/ptoolbar.xhtml"/>
-    		
-    		<h:form id="breadCrumb">
-    		<p:breadCrumb>
-			    <p:menuitem value="Home" url="/home.xhtml" />
-			    <p:menuitem value="Help" url="/help" />
-			    <p:menuitem value="Settings" url="/help/settings" />
-			</p:breadCrumb>
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<div id="navigationFrame">
+		<ui:define name="navigationFrame">
+			<h:form id="breadCrumb">
+				<p:breadCrumb>
+					<p:menuitem value="Home" url="/" />
+					<p:menuitem value="Help" url="/help" />
+					<p:menuitem value="Settings" url="/help/settings" />
+				</p:breadCrumb>
 			</h:form>
-			
-			
-			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
-							
-				<h:form styleClass="myForm">
-				
-					<h:outputText value="Reload" styleClass="title" />
-					<p:panelGrid columns="2">
-						<p:outputLabel value="Reload all data" />
-						<p:commandButton action="#{utilsBean.reloadAllData()}" value="Reload" icon="ui-icon-refresh" />
-					</p:panelGrid>
-					<hr/>
-					
-					<h:outputText value="Select GUI style" styleClass="title" />
-					<p:panelGrid columns="2">
-						<p:selectOneMenu value="#{userBean.cssTheme}" style="width:125px" onchange="submit()" 
-							valueChangeListener="#{userBean.cssThemeChanged}">
-				            <f:selectItem itemLabel="Antracit" itemValue="antracit" />
-				            <f:selectItem itemLabel="Classic" itemValue="default" />
-				        </p:selectOneMenu>
-			        </p:panelGrid>
-			        <hr/>
-					
-					<h:outputText value="Ping settings" styleClass="title" />
-					<p:panelGrid columns="2">
-			        <p:outputLabel value="Ping interval (seconds)" />
-			        <p:inputText value="#{utilsBean.pingInterval}" />
-			        
-			        <p:outputLabel value="Ping timeout (miliseconds)" />
-			        <p:inputText value="#{utilsBean.pingTimeout}" />
-			        
-			        <p:outputLabel value="Ping pool size" />
-			        <p:inputText value="#{utilsBean.pingPoolSize}" />
-			        </p:panelGrid>
-			        <hr/>
-			        
-			        <h:outputText value="InfluxDB settings (for pings)" styleClass="title" />
-					<p:panelGrid columns="2">
-			        <p:outputLabel value="InfluxDB hostname" />
-			        <p:inputText value="#{utilsBean.influxdbHostname}" />
-			        
-			        <p:outputLabel value="InfluxDB URL" />
-			        <p:inputText value="#{utilsBean.influxdbUrl}" />
-			        
-			        <p:outputLabel value="InfluxDB port" />
-			        <p:inputText value="#{utilsBean.influxdbPort}" />
-			        
-			        <p:outputLabel value="InfluxDB DB name" />
-			        <p:inputText value="#{utilsBean.influxdbDbname}" />
-			        
-			        <p:outputLabel value="InfluxDB username" />
-			        <p:inputText value="#{utilsBean.influxdbUsername}" />
-			        
-			        <p:outputLabel value="InfluxDB password" />
-			        <p:inputText value="#{utilsBean.influxdbPassword}" />
-			        
-			        <p:outputLabel value="InfluxDB enabled" />
-			        <p:inputText value="#{utilsBean.influxdbEnabled}" />
-			        </p:panelGrid>
-			        <hr/>
-					
-					<h:outputText value="Autodiscovery settings" styleClass="title" />
-					<p:panelGrid columns="2">
-			        <p:outputLabel value="Autodiscovery ping pool size" />
-			        <p:inputText value="#{utilsBean.autodiscoveryPoolSize}" />
-			        
-			        <p:outputLabel value="Charts width (px)" />
-			        <p:inputText value="#{utilsBean.chartsWidth}" />
-			        
-			        <p:outputLabel value="Charts height (px)" />
-			        <p:inputText value="#{utilsBean.chartsHeight}" />
-			        
-			        <p:outputLabel value="Statistics history hours" />
-			        <p:inputText value="#{utilsBean.statisticsHistoryHours}" />
-			        </p:panelGrid>
-			        <hr/>
-					
-					<h:outputText value="SSH client settings" styleClass="title" />
-					<p:panelGrid columns="2">
-			        <p:outputLabel value="SSH disconnect timeout (seconds)" />
-			        <p:inputText value="#{utilsBean.sshDisconnectTimeout}" />
-			        
-			        <p:outputLabel value="SSH history aging period (hours)" />
-			        <p:inputText value="#{utilsBean.sshHistoryAgingPeriod}" />
-			        </p:panelGrid>
-			        <hr/>
-					
-					<h:outputText value="SNMP settings" styleClass="title" />
-					<p:panelGrid columns="2">
-			        <p:outputLabel value="Trap receiver queue size" />
-			        <p:inputText value="#{utilsBean.trapReceiverQueueSize}" />
-			        </p:panelGrid>
-			        <hr/>
-					
-					<p:panelGrid columns="2">
-			        <p:commandButton action="#{utilsBean.saveSettings()}" value="Save settings" icon="ui-icon-disk" ajax="true" update="growl" />
-			        </p:panelGrid>
-			        
-			        
-				</h:form>
-			
-			</h:panelGrid>
-			
-			<ui:include src="/templates/footer.xhtml"/>
-        
-        </h:panelGrid>
-        
-    </h:body>
-</html>
+		</ui:define>
+	</div>
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+
+			<h:form styleClass="myForm">
+
+				<h:outputText value="Reload" styleClass="title" />
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Reload all data" />
+					<p:commandButton action="#{utilsBean.reloadAllData()}"
+						value="Reload" icon="ui-icon-refresh" />
+				</p:panelGrid>
+				<hr />
+
+				<h:outputText value="Select GUI style" styleClass="title" />
+				<p:panelGrid columns="2">
+					<p:selectOneMenu value="#{userBean.cssTheme}" style="width:125px"
+						onchange="submit()"
+						valueChangeListener="#{userBean.cssThemeChanged}">
+						<f:selectItem itemLabel="Antracit" itemValue="antracit" />
+						<f:selectItem itemLabel="Classic" itemValue="default" />
+					</p:selectOneMenu>
+				</p:panelGrid>
+				<hr />
+
+				<h:outputText value="Ping settings" styleClass="title" />
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Ping interval (seconds)" />
+					<p:inputText value="#{utilsBean.pingInterval}" />
+
+					<p:outputLabel value="Ping timeout (miliseconds)" />
+					<p:inputText value="#{utilsBean.pingTimeout}" />
+
+					<p:outputLabel value="Ping pool size" />
+					<p:inputText value="#{utilsBean.pingPoolSize}" />
+				</p:panelGrid>
+				<hr />
+
+				<h:outputText value="InfluxDB settings (for pings)"
+					styleClass="title" />
+				<p:panelGrid columns="2">
+					<p:outputLabel value="InfluxDB hostname" />
+					<p:inputText value="#{utilsBean.influxdbHostname}" />
+
+					<p:outputLabel value="InfluxDB URL" />
+					<p:inputText value="#{utilsBean.influxdbUrl}" />
+
+					<p:outputLabel value="InfluxDB port" />
+					<p:inputText value="#{utilsBean.influxdbPort}" />
+
+					<p:outputLabel value="InfluxDB DB name" />
+					<p:inputText value="#{utilsBean.influxdbDbname}" />
+
+					<p:outputLabel value="InfluxDB username" />
+					<p:inputText value="#{utilsBean.influxdbUsername}" />
+
+					<p:outputLabel value="InfluxDB password" />
+					<p:inputText value="#{utilsBean.influxdbPassword}" />
+
+					<p:outputLabel value="InfluxDB enabled" />
+					<p:inputText value="#{utilsBean.influxdbEnabled}" />
+				</p:panelGrid>
+				<hr />
+
+				<h:outputText value="Autodiscovery settings" styleClass="title" />
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Autodiscovery ping pool size" />
+					<p:inputText value="#{utilsBean.autodiscoveryPoolSize}" />
+
+					<p:outputLabel value="Charts width (px)" />
+					<p:inputText value="#{utilsBean.chartsWidth}" />
+
+					<p:outputLabel value="Charts height (px)" />
+					<p:inputText value="#{utilsBean.chartsHeight}" />
+
+					<p:outputLabel value="Statistics history hours" />
+					<p:inputText value="#{utilsBean.statisticsHistoryHours}" />
+				</p:panelGrid>
+				<hr />
+
+				<h:outputText value="SSH client settings" styleClass="title" />
+				<p:panelGrid columns="2">
+					<p:outputLabel value="SSH disconnect timeout (seconds)" />
+					<p:inputText value="#{utilsBean.sshDisconnectTimeout}" />
+
+					<p:outputLabel value="SSH history aging period (hours)" />
+					<p:inputText value="#{utilsBean.sshHistoryAgingPeriod}" />
+				</p:panelGrid>
+				<hr />
+
+				<h:outputText value="SNMP settings" styleClass="title" />
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Trap receiver queue size" />
+					<p:inputText value="#{utilsBean.trapReceiverQueueSize}" />
+				</p:panelGrid>
+				<hr />
+
+				<p:panelGrid columns="2">
+					<p:commandButton action="#{utilsBean.saveSettings()}"
+						value="Save settings" icon="ui-icon-disk" ajax="true"
+						update="growl" />
+				</p:panelGrid>
+
+
+			</h:form>
+
+
+		</ui:define>
+	</div>
+
+</ui:composition>

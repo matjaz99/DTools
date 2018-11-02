@@ -12,6 +12,7 @@
 	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/dstyles.css"/>
    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/icons.css"/>
    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/fonts.css"/>
+   	<h:outputScript library="default" name="js/dtools.js" />
 
 	<div id="pageFrame">
 		
@@ -28,9 +29,11 @@
 		</div>
 
 		<div id="contentFrame">
-			<ui:insert name="contentFrame">
-				<h:outputText value="contentFrame" />
-			</ui:insert>
+			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
+				<ui:insert name="contentFrame">
+					<h:outputText value="contentFrame" />
+				</ui:insert>
+			</h:panelGrid>
 		</div>
 
 		<div id="footerFrame">

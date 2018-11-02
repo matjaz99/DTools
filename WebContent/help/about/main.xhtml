@@ -1,71 +1,61 @@
-<!DOCTYPE html>
-<html lang="en"
-    xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:dt="http://dtools.com/ui">
-    <h:head>
-        <title>DTools</title>
-    </h:head>
-    <h:body>
-    
-    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/dstyles.css"/>
-    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/icons.css"/>
-    	<h:outputStylesheet library="#{userBean.cssTheme}" name="css/fonts.css"/>
-    	
-    	<h:panelGrid columns="1" cellpadding="0" cellspacing="0" width="100%">
-    		
-    		<ui:include src="/include/ptoolbar.xhtml"/>
-    		
-    		<h:form id="breadCrumb">
-    		<p:breadCrumb>
-			    <p:menuitem value="Home" url="/home.xhtml" />
-			    <p:menuitem value="Help" url="/help" />
-			    <p:menuitem value="About" url="/help/about" />
-			</p:breadCrumb>
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<div id="navigationFrame">
+		<ui:define name="navigationFrame">
+			<h:form id="breadCrumb">
+				<p:breadCrumb>
+					<p:menuitem value="Home" url="/" />
+					<p:menuitem value="Help" url="/help" />
+					<p:menuitem value="About" url="/help/about" />
+				</p:breadCrumb>
 			</h:form>
-	        
-			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
-			
-				
-				
-				<h:panelGrid columns="1" cellpadding="1" cellspacing="1" width="100%">
-				
-					<h:outputText value="About" styleClass="title" />
-					
-					<h:outputText value="DTools" />
-						<h:outputText value="Version: #{utilsBean.getDtoolsVersion()}" />
-						<h:outputText value="Copyright (C) 2015 Matjaz Cerkvenik" />
-					
-					<hr/>
-					
-					<h:outputText value="Network Interfaces" styleClass="title" />
-					
-					<p:outputPanel deferred="true">
-						<pre>#{utilsBean.getNetworkInterfaces()}</pre>
-					</p:outputPanel>
-					
-					<hr/>
-					
-					<h:outputText value="Runtime info" styleClass="title" />
-					
-					<h:dataTable value="#{utilsBean.localhostInfo}" var="item"
-						styleClass="table"
-						rowClasses="tableOddRow,tableEvenRow"
-						cellpadding="0" cellspacing="0" width="100%">
-						<h:column headerClass="col0">
-							<f:facet name="header">Item</f:facet>
-							<h:outputText value="#{item}" />
-						</h:column>
-					</h:dataTable>
-					
-					<hr/>
-					
-					<h:outputText value="Licencing" styleClass="title" />
-					<h:outputText value="Copyright (C) 2015 Matjaz Cerkvenik"/>
-					<h:outputText value="DTools is free software: you can redistribute it and/or modify
+		</ui:define>
+	</div>
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+
+			<h:panelGrid columns="1" cellpadding="1" cellspacing="1" width="100%">
+
+				<h:outputText value="About" styleClass="title" />
+
+				<h:outputText value="DTools" />
+				<h:outputText value="Version: #{utilsBean.getDtoolsVersion()}" />
+				<h:outputText value="Copyright (C) 2015 Matjaz Cerkvenik" />
+
+				<hr />
+
+				<h:outputText value="Network Interfaces" styleClass="title" />
+
+				<p:outputPanel deferred="true">
+					<pre>#{utilsBean.getNetworkInterfaces()}</pre>
+				</p:outputPanel>
+
+				<hr />
+
+				<h:outputText value="Runtime info" styleClass="title" />
+
+				<h:dataTable value="#{utilsBean.localhostInfo}" var="item"
+					styleClass="table" rowClasses="tableOddRow,tableEvenRow"
+					cellpadding="0" cellspacing="0" width="100%">
+					<h:column headerClass="col0">
+						<f:facet name="header">Item</f:facet>
+						<h:outputText value="#{item}" />
+					</h:column>
+				</h:dataTable>
+
+				<hr />
+
+				<h:outputText value="Licencing" styleClass="title" />
+				<h:outputText value="Copyright (C) 2015 Matjaz Cerkvenik" />
+				<h:outputText
+					value="DTools is free software: you can redistribute it and/or modify
 					    it under the terms of the GNU General Public License as published by
 					    the Free Software Foundation, either version 3 of the License, or
 					    (at your option) any later version.
@@ -76,17 +66,14 @@
 					    GNU General Public License for more details.
 					
 					    You should have received a copy of the GNU General Public License
-					    along with Foobar.  If not, see http://www.gnu.org/licenses/."/>
-					<h:graphicImage library="default" name="img/gplv3-127x51.png" />
-					
-				</h:panelGrid>
-				
+					    along with Foobar.  If not, see http://www.gnu.org/licenses/." />
+				<h:graphicImage library="default" name="img/gplv3-127x51.png" />
+
 			</h:panelGrid>
-			
-        	<ui:include src="/templates/footer.xhtml"/>
-        	
-        </h:panelGrid>
-    </h:body>
-</html>
 
 
+
+		</ui:define>
+	</div>
+
+</ui:composition>
