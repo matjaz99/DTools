@@ -107,3 +107,9 @@
 	height: 32px; 
 	width: 32px;
 }
+
+.ui-menuitem-icon.ui-icon.help-icon {
+	background: url("#{resource['default:img/help.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}

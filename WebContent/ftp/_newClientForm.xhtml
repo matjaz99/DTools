@@ -1,0 +1,52 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:dt="http://dtools.com/ui" >
+    
+    <h:form id="addFtpClientDialogForm">
+					<p:commandButton value="New client"
+						onclick="PF('addFtpDlg').show();" icon="ui-icon-plus" />
+					<p:dialog header="New FTP client" widgetVar="addFtpDlg"
+						resizable="false">
+						<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+							<h:outputLabel value="Hostname: " />
+							<p:inputText id="ftpHost" value="#{ftpClientsBean.hostname}"
+								required="true" requiredMessage="Missing value">
+								<f:validator validatorId="newFtpClientValidator" />
+								<f:attribute name="port" value="#{ftpPort}" />
+								<f:attribute name="user" value="#{ftpUser}" />
+							</p:inputText>
+							<h:outputLabel value="Protocol" />
+							<h:selectOneRadio value="#{ftpClientsBean.protocol}"
+								onchange="submit()"
+								valueChangeListener="#{ftpClientsBean.protocolValueChanged}">
+								<f:ajax render="ftpPort" />
+								<f:selectItem itemLabel="FTP" itemValue="FTP" />
+								<f:selectItem itemLabel="SFTP" itemValue="SFTP" />
+							</h:selectOneRadio>
+							<h:outputLabel value="Port " />
+							<p:inputText id="ftpPort" value="#{ftpClientsBean.port}"
+								binding="#{ftpPort}" required="true"
+								requiredMessage="Missing value" />
+							<h:outputLabel value="Username: " />
+							<p:inputText id="ftpUser" value="#{ftpClientsBean.username}"
+								binding="#{ftpUser}" required="true"
+								requiredMessage="Missing value" />
+							<h:outputLabel value="Password: " />
+							<p:inputText id="ftpPass" value="#{ftpClientsBean.password}" />
+							<f:facet name="footer">
+								<p:commandButton value="Add"
+									action="#{ftpClientsBean.addClientAction}"
+									update="growl ftpHost ftpPort ftpUser ftpPass ftpClientsTableForm"
+									oncomplete="handleDialogRequest('addFtpDlg', xhr, status, args)" />
+								<p:commandButton value="Cancel"
+									onclick="PF('addFtpDlg').hide();" />
+							</f:facet>
+						</h:panelGrid>
+					</p:dialog>
+				</h:form>
+    
+</ui:composition>

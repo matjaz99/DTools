@@ -73,7 +73,7 @@
 			<h:column headerClass="col0 col1">
 				<f:facet name="header">Icon</f:facet>
 				<h:form rendered="#{client.favorite}">
-					<p:link outcome="/ftp/ftpClient" >
+					<p:link outcome="/ftp/client/main.xhtml" >
 						<f:param name="clientUrl" value="#{client.toUrlString()}" />
 						<p:graphicImage library="#{userBean.cssTheme}" name="img/terminal.png" />
 					</p:link>
@@ -82,7 +82,7 @@
 			<h:column headerClass="col0">
 				<f:facet name="header">FTP Clients</f:facet>
 				<h:form rendered="#{client.favorite}" styleClass="myForm" >
-					<p:link outcome="/ftp/ftpClient" value="#{client.toUrlString()}" >
+					<p:link outcome="/ftp/client/main.xhtml" value="#{client.toUrlString()}" >
 						<f:param name="clientUrl" value="#{client.toUrlString()}" />
 					</p:link>
 				</h:form>
