@@ -51,7 +51,7 @@
 			<h:column headerClass="col0 col1">
 				<f:facet name="header">Icon</f:facet>
 				<h:form rendered="#{client.favorite}">
-					<p:link outcome="sshClient" >
+					<p:link outcome="/ssh/client/main.xhtml" >
 						<f:param name="clientUrl" value="#{client.toUrlString()}" />
 						<p:graphicImage library="#{userBean.cssTheme}" name="img/terminal.png" />
 					</p:link>
@@ -60,7 +60,7 @@
 			<h:column headerClass="col0">
 				<f:facet name="header">SSH Clients</f:facet>
 				<h:form rendered="#{client.favorite}" styleClass="myForm" >
-					<p:link outcome="sshClient" value="#{client.toUrlString()}" >
+					<p:link outcome="/ssh/client/main.xhtml" value="#{client.toUrlString()}" >
 						<f:param name="clientUrl" value="#{client.toUrlString()}" />
 					</p:link>
 				</h:form>

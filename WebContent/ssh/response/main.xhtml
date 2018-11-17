@@ -22,8 +22,8 @@
     		<h:form id="breadCrumb">
     		<p:breadCrumb>
 			    <p:menuitem value="Home" url="home.xhtml" />
-			    <p:menuitem value="SSH Clients" url="sshClients.xhtml" />
-			    <p:menuitem value="#{sshResponseBean.sshResponse.sshClient.toUrlString()}" url="sshClient.xhtml?clientUrl=#{sshResponseBean.sshResponse.sshClient.toUrlString()}" />
+			    <p:menuitem value="SSH Clients" url="/ssh" />
+			    <p:menuitem value="#{sshResponseBean.sshResponse.sshClient.toUrlString()}" url="/ssh/client/main.xhtml?clientUrl=#{sshResponseBean.sshResponse.sshClient.toUrlString()}" />
 			    <p:menuitem value="#{sshResponseBean.sshResponse.command}" url="#" />
 			</p:breadCrumb>
 			</h:form>
