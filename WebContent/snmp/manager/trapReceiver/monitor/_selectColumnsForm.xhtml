@@ -1,0 +1,100 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:dt="http://dtools.com/ui" >
+    
+    <h:form>
+        	<p:dialog header="Select columns" widgetVar="selectColumnsDlg" resizable="false" dynamic="true" closable="false">
+        		<h:panelGrid columns="1" width="100%">
+        			<h:panelGrid columns="3">
+        				<h:panelGrid columns="2" cellspacing="5">
+        					<h:outputText value="Number" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showNumber}" />
+        					<h:outputText value="Request ID" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showRequestId}" />
+        					<h:outputText value="Node Name" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showNodeName}" />
+        					<h:outputText value="Location" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showLocation}" />
+        					<h:outputText value="Peer Address" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showPeerAddress}" />
+        					<h:outputText value="Peer IP" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showPeerIp}" />
+        					<h:outputText value="Hostname" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showPeerHostname}" />
+        					<h:outputText value="Group" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showGroup}" />
+        					
+        				</h:panelGrid>
+        				<h:panelGrid columns="2" cellspacing="5">
+        					<h:outputText value="SNMP Version" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showSnmpVersion}" />
+        					<h:outputText value="Community" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showCommunity}" />
+        					<h:outputText value="Enterprise OID" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showEnterpriseOid}" />
+        					<h:outputText value="Generic trap" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showGenericTrap}" />
+        					<h:outputText value="Specific trap" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showSpecificTrap}" />
+        					<h:outputText value="SNMP Trap OID" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showSnmpTrapOid}" />
+        					<h:outputText value="Timestamp" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showTimestamp}" />
+        					<h:outputText value="Trap Name" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showTrapName}" />
+        				</h:panelGrid>
+        				<h:panelGrid columns="2" cellspacing="5">
+        					<h:outputText value="Name" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showName}" />
+        					<h:outputText value="UID" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showUid}" />
+        					<h:outputText value="Severity" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showSeverity}" />
+        					<h:outputText value="Custom text" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showCustomText}" />
+        					<h:outputText value="Source Info" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showSourceInfo}" />
+        					<h:outputText value="Trap Receiver" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showTrapReceiverName}" />
+        				</h:panelGrid>
+        			</h:panelGrid>
+        			<hr/>
+        			<h:panelGrid columns="3">
+        				<h:panelGrid columns="2" cellspacing="5">
+        					<h:outputText value="Ext data 1" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showExtDat1}" />
+        					<h:outputText value="Ext data 2" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showExtDat2}" />
+        					<h:outputText value="Ext data 3" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showExtDat3}" />
+        				</h:panelGrid>
+        				<h:panelGrid columns="2" cellspacing="5">
+        					<h:outputText value="Ext data 4" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showExtDat4}" />
+        					<h:outputText value="Ext data 5" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showExtDat5}" />
+        					<h:outputText value="Ext data 6" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showExtDat6}" />
+        				</h:panelGrid>
+        				<h:panelGrid columns="2" cellspacing="5">
+        					<h:outputText value="Ext data 7" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showExtDat7}" />
+        					<h:outputText value="Ext data 8" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showExtDat8}" />
+        					<h:outputText value="Ext data 9" />
+        					<p:selectBooleanCheckbox value="#{snmpSessionBean.showExtDat9}" />
+        				</h:panelGrid>
+        			</h:panelGrid>
+        		</h:panelGrid>
+				<f:facet name="footer">
+			    	<p:commandButton value="Ok" actionListener="#{snmpSessionBean.configureColumns}" 
+			    		oncomplete="PF('selectColumnsDlg').hide();" />
+			    </f:facet>
+			</p:dialog>
+        </h:form>
+    
+</ui:composition>

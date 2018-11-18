@@ -1,0 +1,33 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:dt="http://dtools.com/ui" >
+    
+    <h:form>
+					<p:commandButton value="New trap receiver" onclick="PF('addTrDlg').show();" icon="ui-icon-plus" />
+					<p:dialog header="Add new trap receiver" widgetVar="addTrDlg" resizable="false" dynamic="true" closable="false">
+				    	
+				    	<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+							
+							<h:outputLabel for="trName" value="Name: " />
+							<p:inputText id="trName" value="#{snmpManagerBean.newTrapReceiverName}" required="true" 
+								requiredMessage="Missing name">
+								<f:validator validatorId="newTrapReceiverValidator"/>
+							</p:inputText>
+							
+							<f:facet name="footer">
+				                <p:commandButton value="Add" update="growl trName trForm" 
+				                	actionListener="#{snmpManagerBean.addNewTrapReceiver}"
+				                	oncomplete="handleDialogRequest('addTrDlg', xhr, status, args)" />
+				                <p:commandButton value="Cancel" onclick="PF('addTrDlg').hide();" />
+				            </f:facet>
+							
+						</h:panelGrid>
+				    	
+				    </p:dialog>
+				</h:form>
+    
+</ui:composition>

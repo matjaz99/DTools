@@ -1,0 +1,102 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:dt="http://dtools.com/ui">
+
+	<div id="navigationFrame">
+		<ui:define name="navigationFrame">
+			<h:form id="breadCrumb">
+				<p:breadCrumb>
+					<p:menuitem value="Home" url="/" />
+					<p:menuitem value="SNMP Simulator" url="/snmp/simulator" />
+				</p:breadCrumb>
+			</h:form>
+		</ui:define>
+	</div>
+
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+			<h:form>
+				<p:commandButton value="New simulator"
+					onclick="PF('addAgDlg').show();" icon="ui-icon-plus" />
+				<p:dialog header="Add new agent simulator" widgetVar="addAgDlg"
+					resizable="false" dynamic="true" closable="false">
+					<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+						<h:outputLabel for="agName" value="Name: " />
+						<p:inputText id="agName" value="#{snmpSimulatorBean.newAgentName}"
+							required="true" requiredMessage="Missing name">
+							<f:validator validatorId="newSnmpAgentValidator" />
+						</p:inputText>
+						<f:facet name="footer">
+							<p:commandButton value="Add" update="growl agName simForm"
+								actionListener="#{snmpSimulatorBean.addNewSnmpAgent}"
+								oncomplete="handleDialogRequest('addAgDlg', xhr, status, args)" />
+							<p:commandButton value="Cancel" onclick="PF('addAgDlg').hide();" />
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+
+			<h:form id="simForm">
+				<h:panelGrid columns="1" cellspacing="5" width="100%">
+
+					<h:dataTable id="smTable" value="#{snmpSimulatorBean.snmpAgents}"
+						var="agent" cellpadding="0" cellspacing="0" width="100%">
+
+						<h:column>
+
+							<h:panelGrid columns="1" styleClass="border" width="100%">
+								<h:panelGrid columns="1">
+									<h:panelGrid columns="3" cellpadding="2">
+										<dt:icon img="rocket" />
+										<p:inplace editor="true" styleClass="title">
+											<p:inputText value="#{agent.name}" required="true"
+												label="name" valueChangeListener="#{agent.changedName}">
+												<p:ajax />
+											</p:inputText>
+										</p:inplace>
+										<h:commandLink id="status">
+											<p:graphicImage library="#{userBean.cssTheme}"
+												name="img/#{agent.getActiveStatusIcon()}" title="" />
+											<p:ajax update="growl status" />
+										</h:commandLink>
+									</h:panelGrid>
+									<h:panelGrid columns="3" cellpadding="2">
+										<p:button value="Open"
+											outcome="/snmp/simulator/snmpAgent.xhtml"
+											icon="ui-icon-folder-open">
+											<f:param name="agent" value="#{agent.name}" />
+										</p:button>
+										<p:button value="MIB Browser"
+											outcome="/snmp/simulator/snmpMibBrowser"
+											icon="ui-icon-suitcase">
+											<f:param name="agent" value="#{agent.name}" />
+										</p:button>
+										<p:commandButton id="delBtn" value="Delete"
+											icon="ui-icon-trash"
+											action="#{snmpSimulatorBean.deleteSnmpAgent(agent)}"
+											update="growl simForm" ajax="true" />
+									</h:panelGrid>
+								</h:panelGrid>
+							</h:panelGrid>
+
+						</h:column>
+
+					</h:dataTable>
+
+				</h:panelGrid>
+			</h:form>
+
+
+
+		</ui:define>
+	</div>
+
+</ui:composition>
+
+

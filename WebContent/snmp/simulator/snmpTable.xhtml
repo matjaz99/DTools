@@ -1,0 +1,100 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:dt="http://dtools.com/ui">
+
+	<div id="navigationFrame">
+		<ui:define name="navigationFrame">
+			<h:form id="breadCrumb">
+				<p:breadCrumb>
+					<p:menuitem value="Home" url="/" />
+					<p:menuitem value="SNMP Manager" url="/snmp/simulator" />
+					<p:menuitem value="#{snmpTableBean.agent.name}"
+						url="/snmp/simulator/snmpAgent.xhtml?agent=#{snmpTableBean.agent.name}" />
+					<p:menuitem value="#{snmpTableBean.table.name}" url="#" />
+				</p:breadCrumb>
+			</h:form>
+		</ui:define>
+	</div>
+
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+			<h:outputText value="Table: #{snmpTableBean.table.name}"
+				styleClass="title" />
+
+
+			<h:outputText
+				value="Table OID: #{snmpTableBean.table.metadata.tableOid}" />
+
+
+
+			<h:form id="mainForm">
+
+				<h:panelGrid columns="1" cellspacing="5" width="100%">
+					<p:dataTable id="tbl" value="#{snmpTableBean.rows}" var="row">
+						<p:columns value="#{snmpTableBean.columns}" var="col"
+							headerText="#{col}">
+							<p:inplace editor="true">
+								<p:inputText value="#{row[col]}" required="false" label="text"
+									valueChangeListener="#{snmpTableBean.tableValueChanged}">
+									<f:attribute name="row" value="#{row}" />
+									<f:attribute name="col" value="#{col}" />
+								</p:inputText>
+							</p:inplace>
+						</p:columns>
+						<p:column>
+							<f:facet name="header">Action</f:facet>
+							<p:commandButton value="Remove row"
+								action="#{snmpTableBean.deleteRow(row)}" update="mainForm"
+								ajax="true">
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+				</h:panelGrid>
+
+				<h:panelGrid columns="5" cellpadding="3" cellspacing="3">
+					<p:commandButton value="Add row" icon="ui-icon-plus"
+						action="#{snmpTableBean.addNewRow()}" update="mainForm growl"
+						ajax="true" />
+					<p:button value="Edit Table" outcome="snmpTableMetadata"
+						icon="ui-icon-pencil">
+						<f:param name="agent" value="#{snmpTableBean.agent.name}" />
+						<f:param name="snmpTableName" value="#{snmpTableBean.table.name}" />
+					</p:button>
+					<p:commandButton value="Save table" icon="ui-icon-disk"
+						action="#{snmpTableBean.saveTable()}" update="growl mainForm"
+						ajax="true">
+					</p:commandButton>
+					<p:commandButton value="Net-SNMP help"
+						oncomplete="PF('helpDlg').show();" icon="ui-icon-info" />
+					<p:button value="Cancel" outcome="snmpAgent" icon="ui-icon-close">
+						<f:param name="agent" value="#{snmpTableBean.agent.name}" />
+					</p:button>
+				</h:panelGrid>
+
+			</h:form>
+
+			<h:form id="netSnmpHelpForm">
+				<p:dialog header="Net-SNMP help" widgetVar="helpDlg"
+					resizable="false" dynamic="true" closable="true">
+					<h:panelGrid columns="1" width="100%">
+						<h:inputTextarea value="#{snmpTableBean.generateNetSnmpHelp()}"
+							cols="100" rows="5" styleClass="codeStyle" readonly="true" />
+					</h:panelGrid>
+					<f:facet name="footer">
+						<p:commandButton value="Ok" onclick="PF('trapInfoDlg').hide();" />
+					</f:facet>
+				</p:dialog>
+			</h:form>
+
+
+		</ui:define>
+	</div>
+
+</ui:composition>
+

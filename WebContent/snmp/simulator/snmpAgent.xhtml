@@ -1,0 +1,174 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:dt="http://dtools.com/ui">
+
+	<div id="navigationFrame">
+		<ui:define name="navigationFrame">
+			<h:form id="breadCrumb">
+				<p:breadCrumb>
+					<p:menuitem value="Home" url="/" />
+					<p:menuitem value="SNMP Simulator" url="/snmp/simulator" />
+					<p:menuitem value="#{snmpAgentBean.agent.name}" url="#" />
+				</p:breadCrumb>
+			</h:form>
+		</ui:define>
+	</div>
+
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+			<h:form>
+				<h:panelGrid columns="2" cellpadding="2" cellspacing="5">
+					<h:outputText value="Local IP: " />
+					<p:inplace editor="true">
+						<p:inputText value="#{snmpAgentBean.agent.localIp}"
+							required="true" label="ip"
+							valueChangeListener="#{snmpAgentBean.agent.changedIp}" />
+					</p:inplace>
+					<h:outputText value="Local port: " />
+					<p:inplace editor="true">
+						<p:inputText value="#{snmpAgentBean.agent.localPort}"
+							required="true" label="port"
+							valueChangeListener="#{snmpAgentBean.agent.changedPort}" />
+					</p:inplace>
+					<h:outputText value="Active: " />
+					<p:inputSwitch id="actBtn" value="#{snmpAgentBean.agent.active}">
+						<p:ajax update="growl actBtn"
+							listener="#{snmpSimulatorBean.toggleSnmpAgent(snmpAgentBean.agent)}" />
+					</p:inputSwitch>
+				</h:panelGrid>
+			</h:form>
+
+
+
+			<h:outputText value="Tables" styleClass="title" />
+
+			<h:form>
+				<p:commandButton value="New table"
+					onclick="PF('addTableDlg#{snmpAgentBean.agent.name}').show();"
+					icon="ui-icon-plus" />
+				<p:dialog header="Add new table"
+					widgetVar="addTableDlg#{snmpAgentBean.agent.name}"
+					resizable="false">
+					<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+						<h:outputLabel for="tblName" value="Name: " />
+						<p:inputText id="tblName" value="#{snmpAgentBean.newTableName}"
+							required="true" requiredMessage="Missing name">
+							<f:validator validatorId="newSnmpTableValidator" />
+							<f:attribute name="agent" value="#{snmpAgentBean.agent.name}" />
+						</p:inputText>
+						<h:outputLabel for="tblOid" value="Table OID: " />
+						<p:inputText id="tblOid" value="#{snmpAgentBean.newTableOID}"
+							required="true" requiredMessage="Missing value">
+						</p:inputText>
+						<f:facet name="footer">
+							<p:commandButton value="Add"
+								action="#{snmpAgentBean.addSnmpTableAction}"
+								update="growl tablesTblForm tblName tblOid"
+								oncomplete="handleDialogRequest('addTableDlg#{snmpAgentBean.agent.name}', xhr, status, args)" />
+							<p:commandButton value="Cancel"
+								onclick="PF('addTableDlg#{snmpAgentBean.agent.name}').hide();" />
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+
+
+			<h:form id="tablesTblForm">
+				<h:panelGrid columns="1" cellspacing="5" width="100%">
+					<p:dataTable id="tablesTbl" value="#{snmpAgentBean.snmpTablesList}"
+						var="table">
+						<p:column>
+							<f:facet name="header">Enabled</f:facet>
+							<p:selectBooleanCheckbox value="#{table.metadata.enabled}">
+								<p:ajax listener="#{snmpAgentBean.toggleTableEnable(table)}" />
+							</p:selectBooleanCheckbox>
+						</p:column>
+						<p:column>
+							<f:facet name="header">Table name</f:facet>
+							<p:link outcome="/snmp/simulator/snmpTable" value="#{table.name}">
+								<f:param name="agent" value="#{snmpAgentBean.agent.name}" />
+								<f:param name="snmpTableName" value="#{table.name}" />
+							</p:link>
+						</p:column>
+						<p:column>
+							<f:facet name="header">Table OID</f:facet>
+							<p:link outcome="/snmp/simulator/snmpTable"
+								value="#{table.metadata.tableOid}">
+								<f:param name="agent" value="#{snmpAgentBean.agent.name}" />
+								<f:param name="snmpTableName" value="#{table.name}" />
+							</p:link>
+						</p:column>
+						<p:column>
+							<f:facet name="header">Actions</f:facet>
+							<p:commandButton value="Delete" icon="ui-icon-trash"
+								action="#{snmpAgentBean.deleteDataTable(table)}"
+								update="growl tablesTbl" ajax="true" />
+						</p:column>
+					</p:dataTable>
+				</h:panelGrid>
+
+			</h:form>
+
+			<h:outputText value="Trap scenarios" styleClass="title" />
+
+			<h:form>
+				<p:commandButton value="New scenario"
+					onclick="PF('addScenarioDlg#{snmpAgentBean.agent.name}').show();"
+					icon="ui-icon-plus" />
+				<p:dialog header="Add new scenario"
+					widgetVar="addScenarioDlg#{snmpAgentBean.agent.name}"
+					resizable="false">
+					<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+						<h:outputLabel for="scName" value="Name: " />
+						<p:inputText id="scName"
+							value="#{snmpAgentBean.newTrapsTableName}" required="true"
+							requiredMessage="Missing name">
+							<f:validator validatorId="newTrapScenarioValidator" />
+							<f:attribute name="agent" value="#{snmpAgentBean.agent.name}" />
+						</p:inputText>
+						<f:facet name="footer">
+							<p:commandButton value="Add"
+								action="#{snmpAgentBean.addTrapScenarioAction(snmpAgentBean.agent)}"
+								update="growl trapScForm scName"
+								oncomplete="handleDialogRequest('addScenarioDlg#{snmpAgentBean.agent.name}', xhr, status, args)" />
+							<p:commandButton value="Cancel"
+								onclick="PF('addScenarioDlg#{snmpAgentBean.agent.name}').hide();" />
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+
+			<h:form id="trapScForm" styleClass="pfmyForm">
+
+				<h:panelGrid columns="1" cellspacing="5" width="100%">
+					<p:dataTable id="trapsTbl" value="#{snmpAgentBean.trapsTableList}"
+						var="table">
+						<p:column>
+							<f:facet name="header">Trap scenario name</f:facet>
+							<p:link outcome="/snmp/simulator/snmpTrapsTable"
+								value="#{table.name}">
+								<f:param name="agent" value="#{snmpAgentBean.agent.name}" />
+								<f:param name="trapsTableName" value="#{table.name}" />
+							</p:link>
+						</p:column>
+						<p:column>
+							<f:facet name="header">Actions</f:facet>
+							<p:commandButton value="Delete" icon="ui-icon-trash"
+								action="#{snmpAgentBean.deleteTrapsTable(table)}"
+								update="growl trapsTbl" ajax="true" />
+						</p:column>
+					</p:dataTable>
+				</h:panelGrid>
+
+			</h:form>
+
+		</ui:define>
+	</div>
+
+</ui:composition>

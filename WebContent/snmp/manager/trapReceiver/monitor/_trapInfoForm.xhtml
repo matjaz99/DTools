@@ -1,0 +1,94 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:dt="http://dtools.com/ui" >
+    
+    <h:form id="trapInfoForm">
+        	<p:dialog header="Trap info" widgetVar="trapInfoDlg" resizable="false" dynamic="true" 
+        		closable="false">
+        		<h:panelGrid columns="1" width="100%">
+        			<h:panelGrid columns="2">
+        				<h:panelGrid columns="2" cellspacing="5">
+        					<h:outputText value="No:" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.no}" />
+        					<h:outputText value="UID:" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.uid}" />
+        					<h:outputText value="Version:" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.snmpVersion}" />
+        					<h:outputText value="Hostname:" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.peerHostname}" />
+        					<h:outputText value="Date:" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.date}" />
+        					<h:outputText value="Community:" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.community}" />
+        					<h:outputText value="Enterprise OID:" rendered="#{snmpTrapMonitorBean.activeTrap.v1}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.enterpriseOid}" rendered="#{snmpTrapMonitorBean.activeTrap.v1}" />
+        					<h:outputText value="Generic trap:" rendered="#{snmpTrapMonitorBean.activeTrap.v1}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.genericTrap}" rendered="#{snmpTrapMonitorBean.activeTrap.v1}" />
+        					<h:outputText value="Specific trap:" rendered="#{snmpTrapMonitorBean.activeTrap.v1}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.specificTrap}" rendered="#{snmpTrapMonitorBean.activeTrap.v1}" />
+        					<h:outputText value="SNMP Trap OID:" rendered="#{snmpTrapMonitorBean.activeTrap.v2C}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.snmpTrapOid}" rendered="#{snmpTrapMonitorBean.activeTrap.v2C}" />
+        					<h:outputText value="sysUpTime:" rendered="#{snmpTrapMonitorBean.activeTrap.v2C}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.sysUpTime}" rendered="#{snmpTrapMonitorBean.activeTrap.v2C}" />
+        				</h:panelGrid>
+        				<h:panelGrid columns="2" cellspacing="5">
+        					<h:outputText value="Node name:" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.nodeName}" />
+        					<h:outputText value="Peer:" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.peerAddress}" />
+        					<h:outputText value="Location:" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.location}" />
+        					<h:outputText value="Group:" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.group}" />
+        					<h:outputText value="Trap receiver:" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.trapReceiverName}" />
+        					<h:outputText value="" />
+        					<h:outputText value="" />
+        					<h:outputText value="" />
+        					<h:outputText value="" />
+        				</h:panelGrid>
+        			</h:panelGrid>
+        			<hr/>
+        			<h:panelGrid columns="2">
+        				<h:panelGrid columns="2" cellspacing="5">
+        					<h:outputText value="ExtDat 1:" rendered="#{snmpTrapMonitorBean.activeTrap.extDat1 != null}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.extDat1}" rendered="#{snmpTrapMonitorBean.activeTrap.extDat1 != null}" />
+        					<h:outputText value="ExtDat 2:" rendered="#{snmpTrapMonitorBean.activeTrap.extDat2 != null}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.extDat2}" rendered="#{snmpTrapMonitorBean.activeTrap.extDat2 != null}" />
+        					<h:outputText value="ExtDat 3:" rendered="#{snmpTrapMonitorBean.activeTrap.extDat3 != null}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.extDat3}" rendered="#{snmpTrapMonitorBean.activeTrap.extDat3 != null}" />
+        					<h:outputText value="ExtDat 4:" rendered="#{snmpTrapMonitorBean.activeTrap.extDat4 != null}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.extDat4}" rendered="#{snmpTrapMonitorBean.activeTrap.extDat4 != null}" />
+        				</h:panelGrid>
+        				<h:panelGrid columns="2" cellspacing="5">
+        					<h:outputText value="ExtDat 5:" rendered="#{snmpTrapMonitorBean.activeTrap.extDat5 != null}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.extDat5}" rendered="#{snmpTrapMonitorBean.activeTrap.extDat5 != null}" />
+        					<h:outputText value="ExtDat 6:" rendered="#{snmpTrapMonitorBean.activeTrap.extDat6 != null}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.extDat6}" rendered="#{snmpTrapMonitorBean.activeTrap.extDat6 != null}" />
+        					<h:outputText value="ExtDat 7:" rendered="#{snmpTrapMonitorBean.activeTrap.extDat7 != null}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.extDat7}" rendered="#{snmpTrapMonitorBean.activeTrap.extDat7 != null}" />
+        					<h:outputText value="ExtDat 8:" rendered="#{snmpTrapMonitorBean.activeTrap.extDat8 != null}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.extDat8}" rendered="#{snmpTrapMonitorBean.activeTrap.extDat8 != null}" />
+        					<h:outputText value="ExtDat 9:" rendered="#{snmpTrapMonitorBean.activeTrap.extDat9 != null}" />
+        					<h:outputText value="#{snmpTrapMonitorBean.activeTrap.extDat9}" rendered="#{snmpTrapMonitorBean.activeTrap.extDat9 != null}" />
+        					<h:outputText value="" />
+        					<h:outputText value="" />
+        				</h:panelGrid>
+        			</h:panelGrid>
+        			<hr/>
+        			<h:outputText value="Variable bindings:" />
+        			<h:inputTextarea value="#{snmpTrapMonitorBean.activeTrap.toStringVbs()}" 
+						cols="100" rows="10" styleClass="codeStyle" readonly="true" />
+        		</h:panelGrid>
+				<f:facet name="footer">
+			    	<p:commandButton value="Cancel" action="#{snmpTrapMonitorBean.nullActiveTrap()}" 
+			        	onclick="PF('trapInfoDlg').hide();" update="trapInfoForm" />
+			    </f:facet>
+			</p:dialog>
+        </h:form>
+    
+</ui:composition>

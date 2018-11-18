@@ -1,0 +1,62 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:dt="http://dtools.com/ui">
+
+	<div id="navigationFrame">
+		<ui:define name="navigationFrame">
+			<h:form id="breadCrumb">
+				<p:breadCrumb>
+					<p:menuitem value="Home" url="/" />
+					<p:menuitem value="SNMP Manager" url="/snmp/simulator" />
+					<p:menuitem value="#{snmpAgentBean.agent.name}"
+						url="snmpAgent.xhtml?agent=#{snmpAgentBean.agent.name}" />
+					<p:menuitem value="MIB Browser" url="#" />
+				</p:breadCrumb>
+			</h:form>
+		</ui:define>
+	</div>
+
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+			<h:outputText value="MIB Browser" styleClass="title" />
+
+
+			<h:form id="mibsTbl">
+
+				<h:panelGrid columns="1" cellspacing="5" width="100%">
+
+					<p:outputLabel value="Select MIB files to upload" />
+					<p:fileUpload
+						fileUploadListener="#{snmpMibBrowserBean.handleFileUpload}"
+						mode="advanced" dragDropSupport="false" multiple="true"
+						update="growl mibsTbl" auto="true" />
+
+					<p:outputLabel value="Loaded MIB files" />
+					<p:dataTable value="#{snmpMibBrowserBean.mibFiles}" var="mib">
+						<p:column>
+							<f:facet name="header">Mib File</f:facet>
+							<p:outputLabel value="#{mib.name}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">Actions</f:facet>
+							<p:commandButton value="Delete"
+								action="#{snmpMibBrowserBean.deleteMibFile(mib)}"
+								update="growl mibsTbl" ajax="true" />
+						</p:column>
+					</p:dataTable>
+				</h:panelGrid>
+
+			</h:form>
+
+			<h:outputText value="// TODO show mib tree" styleClass="title" />
+
+		</ui:define>
+	</div>
+
+</ui:composition>

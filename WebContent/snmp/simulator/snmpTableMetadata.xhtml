@@ -1,0 +1,94 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:dt="http://dtools.com/ui">
+
+	<div id="navigationFrame">
+		<ui:define name="navigationFrame">
+			<h:form id="breadCrumb">
+				<p:breadCrumb>
+					<p:menuitem value="Home" url="/" />
+					<p:menuitem value="SNMP Manager" url="/snmp/simulator" />
+					<p:menuitem value="#{snmpTableBean.agent.name}"
+						url="snmpAgent.xhtml?agent=#{snmpTableBean.agent.name}" />
+					<p:menuitem value="#{snmpTableBean.table.name}"
+						url="snmpTable.xhtml?agent=#{snmpTableBean.agent.name}&amp;snmpTableName=#{snmpTableBean.table.name}" />
+					<p:menuitem value="Table metadata" url="#" />
+				</p:breadCrumb>
+			</h:form>
+		</ui:define>
+	</div>
+
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+			<h:form id="mainForm">
+
+				<h:panelGrid columns="2" cellspacing="5">
+					<h:outputText value="Table OID: " />
+					<p:inputText value="#{snmpTableBean.table.metadata.tableOid}"
+						required="true" label="tblOid" size="60" />
+				</h:panelGrid>
+
+				<h:panelGrid columns="1" cellspacing="5" width="100%">
+					<p:dataTable id="tbl"
+						value="#{snmpTableBean.table.metadata.columnsMetaList}" var="col">
+						<p:column>
+							<f:facet name="header">Column name</f:facet>
+							<p:inputText value="#{col.name}" required="true" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">Type</f:facet>
+							<h:selectOneMenu value="#{col.type}">
+								<f:selectItem itemValue="OCTET_STRING" />
+								<f:selectItem itemValue="INTEGER" />
+								<f:selectItem itemValue="OID" />
+								<f:selectItem itemValue="GAUGE" />
+								<f:selectItem itemValue="COUNTER32" />
+								<f:selectItem itemValue="IP_ADDRESS" />
+								<f:selectItem itemValue="TIMETICKS" />
+								<f:selectItem itemValue="COUNTER64" />
+								<f:selectItem itemValue="UNSIGNED_INTEGER" />
+								<f:selectItem itemValue="BITS" />
+							</h:selectOneMenu>
+						</p:column>
+						<p:column>
+							<f:facet name="header">Index</f:facet>
+							<p:selectBooleanCheckbox value="#{col.index}">
+								<p:ajax />
+							</p:selectBooleanCheckbox>
+						</p:column>
+						<p:column>
+							<f:facet name="header">Action</f:facet>
+							<p:commandButton value="Remove column"
+								action="#{snmpTableBean.deleteColumn(col)}" update="mainForm"
+								ajax="true" />
+						</p:column>
+					</p:dataTable>
+				</h:panelGrid>
+
+				<h:panelGrid columns="3" cellpadding="3" cellspacing="3">
+					<p:commandButton value="Add column" icon="ui-icon-plus"
+						action="#{snmpTableBean.addNewColumn()}" update="mainForm"
+						ajax="true" />
+					<p:commandButton value="Save" icon="ui-icon-disk"
+						action="#{snmpTableBean.saveTable()}" update="growl mainForm"
+						ajax="true">
+					</p:commandButton>
+					<p:button value="Cancel" outcome="snmpTable" icon="ui-icon-close">
+						<f:param name="agent" value="#{snmpTableBean.agent.name}" />
+						<f:param name="snmpTableName" value="#{snmpTableBean.table.name}" />
+					</p:button>
+				</h:panelGrid>
+
+			</h:form>
+
+		</ui:define>
+	</div>
+
+</ui:composition>
+

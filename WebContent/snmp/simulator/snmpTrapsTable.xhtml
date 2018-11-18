@@ -1,0 +1,141 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:dt="http://dtools.com/ui">
+
+	<div id="navigationFrame">
+		<ui:define name="navigationFrame">
+			<h:form id="breadCrumb">
+				<p:breadCrumb>
+					<p:menuitem value="Home" url="/" />
+					<p:menuitem value="SNMP Manager" url="/snmp/simulator" />
+					<p:menuitem value="#{snmpTrapsTableBean.agent.name}"
+						url="snmpAgent.xhtml?agent=#{snmpTrapsTableBean.agent.name}" />
+					<p:menuitem value="#{snmpTrapsTableBean.trapsTable.name}" url="#" />
+				</p:breadCrumb>
+			</h:form>
+		</ui:define>
+	</div>
+
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+			<h:outputText
+				value="Traps scenario: #{snmpTrapsTableBean.trapsTable.name}"
+				styleClass="title" />
+
+			<h:form id="agentForm">
+				<h:panelGrid columns="1">
+					<p:button value="Back" outcome="snmpAgent">
+						<f:param name="agent" value="#{snmpTrapsTableBean.agent.name}" />
+					</p:button>
+					<hr />
+					<h:outputText value="Trap sender" styleClass="title" />
+					<h:panelGrid columns="3" cellpadding="2" cellspacing="0">
+
+						<h:outputText value="Destination IP: " />
+						<p:inplace editor="true">
+							<p:inputText value="#{snmpTrapsTableBean.destinationIp}"
+								required="true" label="ip"
+								valueChangeListener="#{snmpTrapsTableBean.changedDestIp}" />
+						</p:inplace>
+						<h:outputText value="" />
+
+						<h:outputText value="Port: " />
+						<p:inplace editor="true">
+							<p:inputText value="#{snmpTrapsTableBean.destinationPort}"
+								required="true" label="port"
+								valueChangeListener="#{snmpTrapsTableBean.changedDestPort}" />
+						</p:inplace>
+						<h:outputText value="" />
+
+						<h:outputLabel value="Send interval (ms): " />
+						<p:inplace editor="true">
+							<p:inputText value="#{snmpTrapsTableBean.sendInterval}"
+								label="interval"
+								valueChangeListener="#{snmpTrapsTableBean.changedSendInterval}" />
+						</p:inplace>
+						<p:commandButton id="stButton"
+							value="#{snmpTrapsTableBean.getSenderThreadStatus()}"
+							action="#{snmpTrapsTableBean.toggleSendingAll()}"
+							update="growl stButton" ajax="true">
+							<f:param name="agent" value="#{snmpTrapsTableBean.agent.name}" />
+						</p:commandButton>
+
+					</h:panelGrid>
+				</h:panelGrid>
+			</h:form>
+
+			<hr />
+
+
+
+			<h:form id="mainForm">
+
+				<p:button value="New trap V1" outcome="snmpTrapV1Composer">
+					<f:param name="agent" value="#{snmpTrapsTableBean.agent.name}" />
+					<f:param name="trapsTableName"
+						value="#{snmpTrapsTableBean.trapsTable.name}" />
+				</p:button>
+				<p:button value="New trap V2C" outcome="snmpTrapV2CComposer">
+					<f:param name="agent" value="#{snmpTrapsTableBean.agent.name}" />
+					<f:param name="trapsTableName"
+						value="#{snmpTrapsTableBean.trapsTable.name}" />
+				</p:button>
+
+				<h:panelGrid columns="1" cellspacing="5" width="100%">
+					<p:dataTable id="trapsTable"
+						value="#{snmpTrapsTableBean.trapsTable.trapsList}" var="trap"
+						styleClass="table" rowClasses="tableOddRow,tableEvenRow"
+						cellpadding="0" cellspacing="0" width="100%">
+
+						<p:column>
+							<f:facet name="header">Name</f:facet>
+							<h:outputText value="#{trap.trapName}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">Version</f:facet>
+							<h:outputText value="#{trap.version}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">OIDs</f:facet>
+							<h:outputText value="#{trap.varbindsToString()}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">Actions</f:facet>
+							<p:commandButton value="Send"
+								action="#{snmpTrapsTableBean.sendTrap(trap)}" update="growl"
+								ajax="true" />
+							<p:commandButton value="Modify"
+								action="#{snmpTrapsTableBean.openTrap(trap)}" update="growl"
+								ajax="true">
+								<f:param name="agent" value="#{snmpTrapsTableBean.agent.name}" />
+								<f:param name="trapsTableName"
+									value="#{snmpTrapsTableBean.trapsTable.name}" />
+								<f:param name="trapName" value="#{trap.trapName}" />
+							</p:commandButton>
+							<p:commandButton value="Delete"
+								action="#{snmpTrapsTableBean.deleteTrap(trap)}"
+								update="growl trapsTable" ajax="true" />
+						</p:column>
+
+					</p:dataTable>
+				</h:panelGrid>
+
+				<hr />
+
+			</h:form>
+
+		</ui:define>
+	</div>
+
+</ui:composition>
+
+

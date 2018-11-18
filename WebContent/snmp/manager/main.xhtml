@@ -1,0 +1,86 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:dt="http://dtools.com/ui">
+
+	<div id="navigationFrame">
+		<ui:define name="navigationFrame">
+			<h:form id="breadCrumb">
+				<p:breadCrumb>
+					<p:menuitem value="Home" url="/" />
+					<p:menuitem value="SNMP Manager" url="/snmp/manager" />
+				</p:breadCrumb>
+			</h:form>
+		</ui:define>
+	</div>
+
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+			<ui:include src="/snmp/manager/_newTrapReceiverForm.xhtml" />
+
+
+			<h:form id="trForm">
+				<h:panelGrid columns="1" cellspacing="5" width="100%">
+					<h:dataTable id="smTable" value="#{snmpManagerBean.trapReceivers}"
+						var="recv" cellpadding="0" cellspacing="0" width="100%">
+
+						<h:column>
+							<h:panelGrid columns="1" styleClass="border" width="100%">
+								<h:panelGrid columns="2" cellpadding="2">
+									<dt:icon img="fire_truck" />
+									<p:inplace editor="true" styleClass="title">
+										<p:inputText value="#{recv.name}" required="true" label="name"
+											valueChangeListener="#{recv.changedName}" />
+									</p:inplace>
+								</h:panelGrid>
+								<h:panelGrid columns="2" cellpadding="2" cellspacing="5">
+									<h:outputText value="Listening IP: " />
+									<p:inplace editor="true">
+										<p:inputText value="#{recv.ip}" required="true" label="ip"
+											valueChangeListener="#{recv.changedIp}" />
+									</p:inplace>
+									<h:outputText value="Listening port: " />
+									<p:inplace editor="true">
+										<p:inputText value="#{recv.port}" required="true" label="port"
+											valueChangeListener="#{recv.changedPort}" />
+									</p:inplace>
+									<h:outputText value="Active: " />
+									<p:inputSwitch id="actBtn" value="#{recv.active}">
+										<p:ajax update="growl actBtn"
+											listener="#{snmpManagerBean.toggleTrapReceiver(recv)}" />
+									</p:inputSwitch>
+								</h:panelGrid>
+								<h:panelGrid columns="3" cellpadding="2">
+									<p:button value="View raw traps" outcome="/snmp/manager/trapReceiver/raw/main.xhtml"
+										icon="ui-icon-folder-open">
+										<f:param name="recv" value="#{recv.name}" />
+									</p:button>
+									<p:button value="Trap Monitor" outcome="/snmp/manager/trapReceiver/monitor/main.xhtml"
+										icon="ui-icon-bookmark">
+										<f:param name="recv" value="#{recv.name}" />
+									</p:button>
+									<p:commandButton id="delBtn" value="Delete"
+										icon="ui-icon-trash"
+										action="#{snmpManagerBean.deleteTrapReceiver(recv)}"
+										update="growl trForm" ajax="true" />
+								</h:panelGrid>
+							</h:panelGrid>
+						</h:column>
+
+					</h:dataTable>
+
+				</h:panelGrid>
+
+			</h:form>
+
+		</ui:define>
+	</div>
+
+</ui:composition>
+
+

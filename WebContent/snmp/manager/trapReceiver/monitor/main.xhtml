@@ -1,0 +1,253 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:dt="http://dtools.com/ui">
+
+	<div id="navigationFrame">
+		<ui:define name="navigationFrame">
+			<h:form id="breadCrumb">
+				<p:breadCrumb>
+					<p:menuitem value="Home" url="/" />
+					<p:menuitem value="SNMP Manager" url="/snmp/manager" />
+					<p:menuitem value="#{snmpTrapMonitorBean.trapReceiver.name}"
+						url="#" />
+				</p:breadCrumb>
+			</h:form>
+		</ui:define>
+	</div>
+
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+			<h:outputText value="SNMP Trap Monitor" styleClass="title" />
+
+			<h:form>
+				<h:panelGrid columns="1" cellspacing="5" width="100%">
+					<h:panelGrid columns="3" cellspacing="5">
+						<p:button value="Back" outcome="/snmp/manager/main.xhtml"
+							icon="ui-icon-arrowreturnthick-1-w" />
+						<p:commandButton value="Refresh" icon="ui-icon-refresh"
+							update="trapsTable" ajax="true" />
+						<p:commandButton value="Columns"
+							oncomplete="PF('selectColumnsDlg').show();" icon="ui-icon-pin-s" />
+					</h:panelGrid>
+					<h:dataTable id="trapsTable"
+						value="#{snmpTrapMonitorBean.getTrapNotifications()}" var="trap"
+						styleClass="table"
+						rowClasses="#{snmpTrapMonitorBean.backgroundColors}"
+						cellpadding="0" cellspacing="0" width="100%">
+
+						<h:column headerClass="col0 col1"
+							rendered="#{snmpSessionBean.showNumber}">
+							<f:facet name="header">No</f:facet>
+							<h:outputText value="#{trap.no}" />
+						</h:column>
+
+						<h:column headerClass="col0 col1"
+							rendered="#{snmpSessionBean.showRequestId}">
+							<f:facet name="header">Req ID</f:facet>
+							<h:outputText value="#{trap.requestId}" />
+						</h:column>
+
+						<h:column headerClass="col0" rendered="#{snmpSessionBean.showUid}">
+							<f:facet name="header">UID</f:facet>
+							<h:outputText value="#{trap.uid}" />
+						</h:column>
+
+						<h:column headerClass="col0"
+							rendered="#{snmpSessionBean.showPeerIp}">
+							<f:facet name="header">IP</f:facet>
+							<h:outputText value="#{trap.peerIp}" />
+						</h:column>
+
+						<h:column headerClass="col0"
+							rendered="#{snmpSessionBean.showPeerHostname}">
+							<f:facet name="header">Host</f:facet>
+							<h:outputText value="#{trap.peerHostname}" />
+						</h:column>
+
+						<h:column headerClass="col0"
+							rendered="#{snmpSessionBean.showNodeName}">
+							<f:facet name="header">Node name</f:facet>
+							<h:outputText value="#{trap.nodeName}" />
+						</h:column>
+
+						<h:column headerClass="col0"
+							rendered="#{snmpSessionBean.showSnmpVersion}">
+							<f:facet name="header">Version</f:facet>
+							<h:outputText value="#{trap.snmpVersion}" />
+						</h:column>
+
+						<h:column headerClass="col0"
+							rendered="#{snmpSessionBean.showTrapName}">
+							<f:facet name="header">Trap name</f:facet>
+							<h:outputText value="#{trap.trapName}" />
+						</h:column>
+
+						<h:column headerClass="col0"
+							rendered="#{snmpSessionBean.showName}">
+							<f:facet name="header">Name</f:facet>
+							<h:outputText value="#{trap.name}" />
+						</h:column>
+
+						<h:column headerClass="col0"
+							rendered="#{snmpSessionBean.showEnterpriseOid}">
+							<f:facet name="header">Enterprise OID</f:facet>
+							<h:outputText value="#{trap.enterpriseOid}" />
+						</h:column>
+
+						<h:column headerClass="col0"
+							rendered="#{snmpSessionBean.showGenericTrap}">
+							<f:facet name="header">Generic Trap</f:facet>
+							<h:outputText value="#{trap.genericTrap}" />
+						</h:column>
+
+						<h:column headerClass="col0"
+							rendered="#{snmpSessionBean.showSpecificTrap}">
+							<f:facet name="header">SpecificTrap</f:facet>
+							<h:outputText value="#{trap.specificTrap}" />
+						</h:column>
+
+						<h:column headerClass="col0"
+							rendered="#{snmpSessionBean.showSnmpTrapOid}">
+							<f:facet name="header">SNMP Trap Oid</f:facet>
+							<h:outputText value="#{trap.snmpTrapOid}" />
+						</h:column>
+
+						<h:column headerClass="col0"
+							rendered="#{snmpSessionBean.showCommunity}">
+							<f:facet name="header">Community</f:facet>
+							<h:outputText value="#{trap.community}" />
+						</h:column>
+
+						<h:column headerClass="col0"
+							rendered="#{snmpSessionBean.showSeverity}">
+							<f:facet name="header">Severity</f:facet>
+							<h:outputText value="#{trap.severity}" />
+						</h:column>
+
+						<h:column headerClass="col0 col2"
+							rendered="#{snmpSessionBean.showCustomText}">
+							<f:facet name="header">Custom text</f:facet>
+							<h:outputText value="#{trap.customText}" />
+						</h:column>
+
+						<h:column headerClass="col0 col2"
+							rendered="#{snmpSessionBean.showSourceInfo}">
+							<f:facet name="header">Source info</f:facet>
+							<h:outputText value="#{trap.sourceInfo}" />
+						</h:column>
+
+						<h:column headerClass="col0 col2"
+							rendered="#{snmpSessionBean.showGroup}">
+							<f:facet name="header">Group</f:facet>
+							<h:outputText value="#{trap.group}" />
+						</h:column>
+
+						<h:column headerClass="col0 col2"
+							rendered="#{snmpSessionBean.showLocation}">
+							<f:facet name="header">Location</f:facet>
+							<h:outputText value="#{trap.location}" />
+						</h:column>
+
+						<h:column headerClass="col0"
+							rendered="#{snmpSessionBean.showExtDat1}">
+							<f:facet name="header">ExtDat1</f:facet>
+							<h:outputText value="#{trap.extDat1}" />
+						</h:column>
+
+						<h:column headerClass="col0"
+							rendered="#{snmpSessionBean.showExtDat2}">
+							<f:facet name="header">ExtDat2</f:facet>
+							<h:outputText value="#{trap.extDat2}" />
+						</h:column>
+
+						<h:column headerClass="col0"
+							rendered="#{snmpSessionBean.showExtDat3}">
+							<f:facet name="header">ExtDat3</f:facet>
+							<h:outputText value="#{trap.extDat3}" />
+						</h:column>
+
+						<h:column headerClass="col0"
+							rendered="#{snmpSessionBean.showExtDat4}">
+							<f:facet name="header">ExtDat4</f:facet>
+							<h:outputText value="#{trap.extDat4}" />
+						</h:column>
+
+						<h:column headerClass="col0"
+							rendered="#{snmpSessionBean.showExtDat5}">
+							<f:facet name="header">ExtDat5</f:facet>
+							<h:outputText value="#{trap.extDat5}" />
+						</h:column>
+
+						<h:column headerClass="col0"
+							rendered="#{snmpSessionBean.showExtDat6}">
+							<f:facet name="header">ExtDat6</f:facet>
+							<h:outputText value="#{trap.extDat6}" />
+						</h:column>
+
+						<h:column headerClass="col0"
+							rendered="#{snmpSessionBean.showExtDat7}">
+							<f:facet name="header">ExtDat7</f:facet>
+							<h:outputText value="#{trap.extDat7}" />
+						</h:column>
+
+						<h:column headerClass="col0"
+							rendered="#{snmpSessionBean.showExtDat8}">
+							<f:facet name="header">ExtDat8</f:facet>
+							<h:outputText value="#{trap.extDat8}" />
+						</h:column>
+
+						<h:column headerClass="col0"
+							rendered="#{snmpSessionBean.showExtDat9}">
+							<f:facet name="header">ExtDat9</f:facet>
+							<h:outputText value="#{trap.extDat9}" />
+						</h:column>
+
+						<h:column headerClass="col0"
+							rendered="#{snmpSessionBean.showTrapReceiverName}">
+							<f:facet name="header">Receiver</f:facet>
+							<h:outputText value="#{trap.trapReceiverName}" />
+						</h:column>
+
+						<h:column headerClass="col0 col3"
+							rendered="#{snmpSessionBean.showTimestamp}">
+							<f:facet name="header">Time</f:facet>
+							<h:outputText value="#{trap.getDate()}" />
+						</h:column>
+
+						<h:column headerClass="col0 col3">
+							<f:facet name="header">Info</f:facet>
+							<p:commandLink
+								action="#{snmpTrapMonitorBean.setActiveTrap(trap)}" ajax="true"
+								oncomplete="PF('trapInfoDlg').show();return false;">
+								<dt:icon img="info16" />
+							</p:commandLink>
+						</h:column>
+
+					</h:dataTable>
+					<p:poll interval="10"
+						listener="#{snmpTrapMonitorBean.updateTrapNotifications()}"
+						update="trapsTable" />
+				</h:panelGrid>
+
+			</h:form>
+
+
+
+			<ui:include
+				src="/snmp/manager/trapReceiver/monitor/_selectColumnsForm.xhtml" />
+			<ui:include
+				src="/snmp/manager/trapReceiver/monitor/_trapInfoForm.xhtml" />
+
+
+		</ui:define>
+	</div>
+
+</ui:composition>
+
+

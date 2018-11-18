@@ -1,0 +1,54 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:dt="http://dtools.com/ui">
+
+	<div id="navigationFrame">
+		<ui:define name="navigationFrame">
+			<h:form id="breadCrumb">
+				<p:breadCrumb>
+					<p:menuitem value="Home" url="/" />
+					<p:menuitem value="SNMP Clients" url="/snmp/clients" />
+					<p:menuitem value="#{snmpClientBean.snmpClient.toUrlString()}"
+						url="#" />
+				</p:breadCrumb>
+			</h:form>
+		</ui:define>
+	</div>
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+			<h:outputText value="#{snmpClientBean.snmpClient.toUrlString()}"
+				styleClass="title" />
+
+			<h:form id="exec">
+				<p:fieldset legend="SNMP Query" toggleable="true" toggleSpeed="300"
+					collapsed="false">
+
+					<h:panelGrid columns="2">
+
+						<h:outputText value="OID: " />
+						<h:inputText value="#{snmpClientBean.oid}" />
+
+						<p:commandButton value="Execute"
+							action="#{snmpClientBean.execute}" update="growl snmpResult"
+							ajax="true" />
+
+					</h:panelGrid>
+				</p:fieldset>
+			</h:form>
+
+			<h:inputTextarea id="snmpResult" value="#{snmpClientBean.result}"
+				cols="100" rows="15" styleClass="codeStyle" />
+
+
+
+		</ui:define>
+	</div>
+
+</ui:composition>
+

@@ -1,0 +1,47 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:dt="http://dtools.com/ui">
+
+	<div id="navigationFrame">
+		<ui:define name="navigationFrame">
+    		<h:form id="breadCrumb">
+    		<p:breadCrumb>
+			    <p:menuitem value="Home" url="/" />
+			    <p:menuitem value="SNMP Manager" url="/snmp/manager" />
+			    <p:menuitem value="#{snmpTrapMonitorBean.trapReceiver.name}" url="#" />
+			</p:breadCrumb>
+			</h:form>
+			</ui:define>
+	</div>
+
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+							
+				<h:form>
+					<h:panelGrid columns="1" cellpadding="2" cellspacing="0">
+						<h:panelGrid columns="4" cellpadding="2" cellspacing="5">
+							<p:button value="Back" outcome="/snmp/manager/main.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
+							<p:commandButton value="Refresh" action="#" icon="ui-icon-refresh"
+								update="receivedTraps" ajax="true" />
+							<p:commandButton value="Clear" action="#{snmpTrapMonitorBean.clearData()}" 
+								update="receivedTraps" ajax="true" icon="ui-icon-circle-close" />
+							<p:commandButton value="Save as .txt" action="#{snmpTrapMonitorBean.saveData()}" 
+								update="growl" ajax="true" icon="ui-icon-disk" />
+						</h:panelGrid>
+						
+						<h:inputTextarea id="receivedTraps" value="#{snmpTrapMonitorBean.receivedTrapsAsString}" 
+							cols="100" rows="30" styleClass="codeStyle" />
+						<p:poll interval="10" update="receivedTraps" />
+						
+					</h:panelGrid>
+				</h:form>
+		</ui:define>
+	</div>
+
+</ui:composition>
+
