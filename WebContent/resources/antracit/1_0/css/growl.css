@@ -1,0 +1,27 @@
+.ui-growl-item-container {
+/*     background-color: #f7f7f7; */
+	border-radius: 3px;
+    opacity: 1.0;
+    border: 1px solid #FF4500;
+}
+
+.ui-growl-item, .ui-growl-item .ui-growl-message {
+    background-color: #eeeeee;
+    border-radius: 3px;
+    opacity: 1.0;
+}
+
+.ui-growl-item-container .ui-growl-message {
+    color: #111111;
+    text-shadow: 0px 0px 0px #eeeeee;
+}
+
+.ui-growl-message {
+    background-color: #eeeeee;
+}
+
+.ui-shadow {
+	-moz-box-shadow: 0px 3px 5px rgba(255,255,255,0.5);
+    -webkit-box-shadow: 0px 3px 5px rgba(255,255,255,0.5);
+    box-shadow: 0px 3px 5px rgba(255,255,255,0.5);
+}

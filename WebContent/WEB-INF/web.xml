@@ -34,6 +34,10 @@
 			<web-resource-name>The /templates folder</web-resource-name>
 			<url-pattern>/templates/*</url-pattern>
 		</web-resource-collection>
+		<web-resource-collection>
+			<web-resource-name>The /include folder</web-resource-name>
+			<url-pattern>/include/*</url-pattern>
+		</web-resource-collection>
 		<auth-constraint />
 	</security-constraint>
 </web-app>
