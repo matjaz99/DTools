@@ -17,6 +17,15 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>Webhook Servlet</servlet-name>
+		<servlet-class>si.matjazcerkvenik.dtools.web.WebhookServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Webhook Servlet</servlet-name>
+		<url-pattern>/webhook/*</url-pattern>
+	</servlet-mapping>
 	<listener>
 		<listener-class>si.matjazcerkvenik.dtools.web.listeners.ShutdownListener</listener-class>
 	</listener>
