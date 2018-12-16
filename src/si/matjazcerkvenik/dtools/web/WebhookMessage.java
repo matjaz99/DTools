@@ -47,7 +47,7 @@ public class WebhookMessage {
 	}
 
 	public void setMethod(String method) {
-		this.method = method;
+		this.method = method.toUpperCase();
 	}
 
 	public String getPathInfo() {

@@ -24,7 +24,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Webhook Servlet</servlet-name>
-		<url-pattern>/webhook/*</url-pattern>
+		<url-pattern>/api/webhook/*</url-pattern>
 	</servlet-mapping>
 	<listener>
 		<listener-class>si.matjazcerkvenik.dtools.web.listeners.ShutdownListener</listener-class>

@@ -51,6 +51,22 @@ public class WebhookServlet extends HttpServlet {
 		
 		DToolsContext.getInstance().getLogger().info("doGet(): parameterMap: " + getReqParams(req));
 		DToolsContext.getInstance().getLogger().info("doGet(): headers: " + getReqHeaders(req));
+		
+		WebhookMessage m = new WebhookMessage();
+		m.setTimestamp(System.currentTimeMillis());
+		m.setContentLength(req.getContentLength());
+		m.setContentType(req.getContentType());
+		m.setMethod(req.getMethod());
+		m.setPathInfo(req.getPathInfo());
+		m.setProtocol(req.getProtocol());
+		m.setRemoteHost(req.getRemoteHost());
+		m.setRemotePort(req.getRemotePort());
+		m.setRequestUri(req.getRequestURI());
+		m.setBody("");
+		m.setHeaderMap(generateHeaderMap(req));
+		m.setParameterMap(generateParamMap(req));
+		
+		messages.add(m);
 
 	}
 
