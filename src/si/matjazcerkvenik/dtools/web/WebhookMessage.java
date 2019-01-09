@@ -1,5 +1,7 @@
 package si.matjazcerkvenik.dtools.web;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -24,6 +26,13 @@ public class WebhookMessage {
 
 	public void setTimestamp(long timestamp) {
 		this.timestamp = timestamp;
+	}
+	
+	public String getFormatedTimestamp() {
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(timestamp);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd H:mm:ss");
+		return sdf.format(cal.getTime());
 	}
 
 	public int getContentLength() {
