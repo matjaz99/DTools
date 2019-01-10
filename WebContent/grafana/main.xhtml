@@ -1,0 +1,27 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<div id="navigationFrame">
+		<ui:define name="navigationFrame">
+			<h:form id="breadCrumb">
+				<p:breadCrumb>
+					<p:menuitem value="Home" url="/" />
+					<p:menuitem value="Grafana" url="/grafana" />
+				</p:breadCrumb>
+			</h:form>
+		</ui:define>
+	</div>
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+			<iframe src="http://172.29.254.66:3000/d-solo/BPlb-Sgik/docker-swarm-nodes?refresh=30s&orgId=1&panelId=11&var-node_name=All&var-interval=%24__auto_interval_interval" width="250" height="150" frameborder="0"></iframe>
+
+		</ui:define>
+	</div>
+
+</ui:composition>
