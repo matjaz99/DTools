@@ -37,8 +37,8 @@ public class GsonTest {
 		GsonBuilder builder2 = new GsonBuilder();
         builder2.registerTypeAdapter(Collection.class, new CollectionDeserializer());
         Gson gson2 = builder2.create();
-        GsonTest decoded2 = gson2.fromJson(json, GsonTest.class);
-        System.out.println(decoded2.alert.toString());
+        AmAlert decoded2 = gson2.fromJson(json, AmAlert.class);
+        System.out.println(decoded2.toString());
 		
 //		Gson gson = new Gson();
 //		AmAlert a = gson.fromJson(json, AmAlert.class);

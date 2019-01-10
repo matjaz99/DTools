@@ -8,7 +8,7 @@ public class Alert {
 	private String status;
 	//private Label[] labels;
 //	private String labels;
-	private List<Label> labels;
+//	private List<Label> labels;
 	//private Annotation[] annotations;
 	private String startsAt;
 	private String endsAt;
@@ -56,13 +56,13 @@ public class Alert {
 		return startsAt;
 	}
 
-	public List<Label> getLabels() {
-		return labels;
-	}
-
-	public void setLabels(List<Label> labels) {
-		this.labels = labels;
-	}
+//	public List<Label> getLabels() {
+//		return labels;
+//	}
+//
+//	public void setLabels(List<Label> labels) {
+//		this.labels = labels;
+//	}
 
 	public void setStartsAt(String startsAt) {
 		this.startsAt = startsAt;
@@ -86,7 +86,7 @@ public class Alert {
 
 	@Override
 	public String toString() {
-		return "Alert [status=" + status + ", labels=" + labels + ", annotations="
+		return "Alert [status=" + status + ", labels=" + /*labels +*/ ", annotations="
 				+ /*annotationsToString() +*/ ", startsAt=" + startsAt + ", endsAt=" + endsAt + ", generatorURL="
 				+ generatorURL + "]";
 	}
