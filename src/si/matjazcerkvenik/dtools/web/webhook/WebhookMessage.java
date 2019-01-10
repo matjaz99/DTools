@@ -1,4 +1,4 @@
-package si.matjazcerkvenik.dtools.web;
+package si.matjazcerkvenik.dtools.web.webhook;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

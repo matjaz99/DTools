@@ -1,4 +1,4 @@
-package si.matjazcerkvenik.dtools.web;
+package si.matjazcerkvenik.dtools.web.webhook;
 
 import java.io.IOException;
 import java.util.Enumeration;
@@ -12,6 +12,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 
@@ -67,6 +69,8 @@ public class WebhookServlet extends HttpServlet {
 		m.setParameterMap(generateParamMap(req));
 		
 		messages.add(m);
+		
+		
 
 	}
 
@@ -79,21 +83,21 @@ public class WebhookServlet extends HttpServlet {
 		DToolsContext.getInstance().getLogger().info("doPost(): getContentLength: " + req.getContentLength());
 		DToolsContext.getInstance().getLogger().info("doPost(): getContentType: " + req.getContentType());
 		DToolsContext.getInstance().getLogger().info("doPost(): getContextPath: " + req.getContextPath());
-		DToolsContext.getInstance().getLogger().info("doPost(): getAuthType: " + req.getLocalAddr());
-		DToolsContext.getInstance().getLogger().info("doPost(): getAuthType: " + req.getLocalName());
-		DToolsContext.getInstance().getLogger().info("doPost(): getAuthType: " + req.getLocalPort());
-		DToolsContext.getInstance().getLogger().info("doPost(): getAuthType: " + req.getMethod());
-		DToolsContext.getInstance().getLogger().info("doPost(): getAuthType: " + req.getParameter("aaa"));
-		DToolsContext.getInstance().getLogger().info("doPost(): getAuthType: " + req.getPathInfo());
-		DToolsContext.getInstance().getLogger().info("doPost(): getAuthType: " + req.getPathTranslated());
-		DToolsContext.getInstance().getLogger().info("doPost(): getAuthType: " + req.getProtocol());
-		DToolsContext.getInstance().getLogger().info("doPost(): getAuthType: " + req.getQueryString());
-		DToolsContext.getInstance().getLogger().info("doPost(): getAuthType: " + req.getRemoteAddr());
-		DToolsContext.getInstance().getLogger().info("doPost(): getAuthType: " + req.getRemoteHost());
-		DToolsContext.getInstance().getLogger().info("doPost(): getAuthType: " + req.getRemotePort());
-		DToolsContext.getInstance().getLogger().info("doPost(): getAuthType: " + req.getRemoteUser());
-		DToolsContext.getInstance().getLogger().info("doPost(): getAuthType: " + req.getRequestedSessionId());
-		DToolsContext.getInstance().getLogger().info("doPost(): getAuthType: " + req.getRequestURI());
+		DToolsContext.getInstance().getLogger().info("doPost(): getLocalAddr: " + req.getLocalAddr());
+		DToolsContext.getInstance().getLogger().info("doPost(): getLocalName: " + req.getLocalName());
+		DToolsContext.getInstance().getLogger().info("doPost(): getLocalPort: " + req.getLocalPort());
+		DToolsContext.getInstance().getLogger().info("doPost(): getMethod: " + req.getMethod());
+		DToolsContext.getInstance().getLogger().info("doPost(): getParameter: " + req.getParameter("aaa"));
+		DToolsContext.getInstance().getLogger().info("doPost(): getPathInfo: " + req.getPathInfo());
+		DToolsContext.getInstance().getLogger().info("doPost(): getPathTranslated: " + req.getPathTranslated());
+		DToolsContext.getInstance().getLogger().info("doPost(): getProtocol: " + req.getProtocol());
+		DToolsContext.getInstance().getLogger().info("doPost(): getQueryString: " + req.getQueryString());
+		DToolsContext.getInstance().getLogger().info("doPost(): getRemoteAddr: " + req.getRemoteAddr());
+		DToolsContext.getInstance().getLogger().info("doPost(): getRemoteHost: " + req.getRemoteHost());
+		DToolsContext.getInstance().getLogger().info("doPost(): getRemotePort: " + req.getRemotePort());
+		DToolsContext.getInstance().getLogger().info("doPost(): getRemoteUser: " + req.getRemoteUser());
+		DToolsContext.getInstance().getLogger().info("doPost(): getRequestedSessionId: " + req.getRequestedSessionId());
+		DToolsContext.getInstance().getLogger().info("doPost(): getRequestURI: " + req.getRequestURI());
 		DToolsContext.getInstance().getLogger().info("doPost(): getScheme: " + req.getScheme());
 		DToolsContext.getInstance().getLogger().info("doPost(): getServerName: " + req.getServerName());
 		DToolsContext.getInstance().getLogger().info("doPost(): getServerPort: " + req.getServerPort());
@@ -119,6 +123,10 @@ public class WebhookServlet extends HttpServlet {
 		m.setParameterMap(generateParamMap(req));
 		
 		messages.add(m);
+		
+//		Gson gson = new Gson();
+//		AmAlert a = gson.fromJson(m.getBody(), AmAlert.class);
+//		System.out.println(a.toString());
 
 	}
 	

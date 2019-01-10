@@ -23,8 +23,8 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import si.matjazcerkvenik.dtools.web.WebhookMessage;
-import si.matjazcerkvenik.dtools.web.WebhookServlet;
+import si.matjazcerkvenik.dtools.web.webhook.WebhookMessage;
+import si.matjazcerkvenik.dtools.web.webhook.WebhookServlet;
 
 @ManagedBean
 @SessionScoped
