@@ -1,15 +1,12 @@
 package si.matjazcerkvenik.dtools.web.webhook;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Map;
 
 public class Alert {
 	
 	private String status;
-	//private Label[] labels;
-//	private String labels;
-//	private List<Label> labels;
-	//private Annotation[] annotations;
+	private Map<String, String> labels;
+	private Map<String, String> annotations;
 	private String startsAt;
 	private String endsAt;
 	private String generatorURL;
@@ -23,46 +20,26 @@ public class Alert {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
-	
 
-//	public Label[] getLabels() {
-//		return labels;
-//	}
-//
-//	public void setLabels(Label[] labels) {
-//		this.labels = labels;
-//	}
+	public Map<String, String> getLabels() {
+		return labels;
+	}
 
-//	public Annotation[] getAnnotations() {
-//		return annotations;
-//	}
-//
-//	public void setAnnotations(Annotation[] annotations) {
-//		this.annotations = annotations;
-//	}
+	public void setLabels(Map<String, String> labels) {
+		this.labels = labels;
+	}
 
-//	public String getLabels() {
-//		return labels;
-//	}
-//
-//	public void setLabels(String labels) {
-//		this.labels = labels;
-//	}
-	
-	
+	public Map<String, String> getAnnotations() {
+		return annotations;
+	}
+
+	public void setAnnotations(Map<String, String> annotations) {
+		this.annotations = annotations;
+	}
 
 	public String getStartsAt() {
 		return startsAt;
 	}
-
-//	public List<Label> getLabels() {
-//		return labels;
-//	}
-//
-//	public void setLabels(List<Label> labels) {
-//		this.labels = labels;
-//	}
 
 	public void setStartsAt(String startsAt) {
 		this.startsAt = startsAt;
@@ -86,25 +63,9 @@ public class Alert {
 
 	@Override
 	public String toString() {
-		return "Alert [status=" + status + ", labels=" + /*labels +*/ ", annotations="
-				+ /*annotationsToString() +*/ ", startsAt=" + startsAt + ", endsAt=" + endsAt + ", generatorURL="
+		return "Alert [status=" + status + ", labels=" + labels + ", annotations="
+				+ annotations + ", startsAt=" + startsAt + ", endsAt=" + endsAt + ", generatorURL="
 				+ generatorURL + "]";
 	}
-	
-//	private String labelsToString() {
-//		String s = "";
-//		for (int i = 0; i < labels.length; i++) {
-//			s += "\t\t" + labels[i].toString() + "\n";
-//		}
-//		return s;
-//	}
-	
-//	private String annotationsToString() {
-//		String s = "";
-//		for (int i = 0; i < annotations.length; i++) {
-//			s += "\t\t" + annotations[i].toString() + "\n";
-//		}
-//		return s;
-//	}
 	
 }

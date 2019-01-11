@@ -23,15 +23,25 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import si.matjazcerkvenik.dtools.web.webhook.WebhookMessage;
+import si.matjazcerkvenik.dtools.web.webhook.AmAlertMessage;
+import si.matjazcerkvenik.dtools.web.webhook.DNotification;
+import si.matjazcerkvenik.dtools.web.webhook.HttpMessage;
 import si.matjazcerkvenik.dtools.web.webhook.WebhookServlet;
 
 @ManagedBean
 @SessionScoped
 public class WebhookBean {
 	
-	public List<WebhookMessage> getMessages() {
+	public List<HttpMessage> getMessages() {
 		return WebhookServlet.messages;
+	}
+	
+	public List<AmAlertMessage> getAmMessages() {
+		return WebhookServlet.amMessages;
+	}
+	
+	public List<DNotification> getDNotifs() {
+		return WebhookServlet.dNotifs;
 	}
 	
 }

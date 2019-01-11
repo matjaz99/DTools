@@ -1,6 +1,7 @@
 package si.matjazcerkvenik.dtools.web.webhook;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 
@@ -21,7 +23,9 @@ public class WebhookServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 4274913262329715396L;
 	
-	public static List<WebhookMessage> messages = new LinkedList<WebhookMessage>();
+	public static List<HttpMessage> messages = new LinkedList<HttpMessage>();
+	public static List<AmAlertMessage> amMessages = new LinkedList<AmAlertMessage>();
+	public static List<DNotification> dNotifs = new LinkedList<DNotification>();
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -54,7 +58,7 @@ public class WebhookServlet extends HttpServlet {
 		DToolsContext.getInstance().getLogger().info("doGet(): parameterMap: " + getReqParams(req));
 		DToolsContext.getInstance().getLogger().info("doGet(): headers: " + getReqHeaders(req));
 		
-		WebhookMessage m = new WebhookMessage();
+		HttpMessage m = new HttpMessage();
 		m.setTimestamp(System.currentTimeMillis());
 		m.setContentLength(req.getContentLength());
 		m.setContentType(req.getContentType());
@@ -108,7 +112,7 @@ public class WebhookServlet extends HttpServlet {
 		DToolsContext.getInstance().getLogger().info("doPost(): body: " + body);
 		DToolsContext.getInstance().getLogger().info("doPost(): headers: " + getReqHeaders(req));
 		
-		WebhookMessage m = new WebhookMessage();
+		HttpMessage m = new HttpMessage();
 		m.setTimestamp(System.currentTimeMillis());
 		m.setContentLength(req.getContentLength());
 		m.setContentType(req.getContentType());
@@ -124,9 +128,14 @@ public class WebhookServlet extends HttpServlet {
 		
 		messages.add(m);
 		
-//		Gson gson = new Gson();
-//		AmAlert a = gson.fromJson(m.getBody(), AmAlert.class);
-//		System.out.println(a.toString());
+		GsonBuilder builder = new GsonBuilder();
+		Gson gson = builder.create();
+		AmAlertMessage am = gson.fromJson(m.getBody(), AmAlertMessage.class);
+		System.out.println(am.toString());
+		System.out.println("Number of alerts: " + am.getAlerts().size());
+		amMessages.add(am);
+		
+		dNotifs.addAll(convertToDNotif(am));
 
 	}
 	
@@ -191,6 +200,31 @@ public class WebhookServlet extends HttpServlet {
 		}
 		
 		return body;
+		
+	}
+	
+	private List<DNotification> convertToDNotif(AmAlertMessage am) {
+		
+		List<DNotification> notifs = new ArrayList<DNotification>();
+		
+		for (Iterator<Alert> it = am.getAlerts().iterator(); it.hasNext();) {
+			Alert a = it.next();
+			
+			DNotification n = new DNotification();
+			n.setTimestamp(System.currentTimeMillis());
+			n.setAlertdomain(a.getLabels().get("alertdomain"));
+			n.setAlertname(a.getLabels().get("alertname"));
+			n.setAlerttype(a.getLabels().get("alerttype"));
+			n.setInstance(a.getLabels().get("instance"));
+			n.setSeverity(a.getLabels().get("severity"));
+			n.setSummary(a.getAnnotations().get("summary"));
+			n.setDescription(a.getAnnotations().get("description"));
+			
+			notifs.add(n);
+			
+		}
+		
+		return notifs;
 		
 	}
 
