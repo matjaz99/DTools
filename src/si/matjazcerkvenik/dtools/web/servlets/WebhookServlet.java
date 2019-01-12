@@ -1,4 +1,4 @@
-package si.matjazcerkvenik.dtools.web.webhook;
+package si.matjazcerkvenik.dtools.web.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,7 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import si.matjazcerkvenik.dtools.context.DMetrics;
 import si.matjazcerkvenik.dtools.context.DToolsContext;
+import si.matjazcerkvenik.dtools.web.webhook.Alert;
+import si.matjazcerkvenik.dtools.web.webhook.AmAlertMessage;
+import si.matjazcerkvenik.dtools.web.webhook.DNotification;
+import si.matjazcerkvenik.dtools.web.webhook.HttpMessage;
 
 public class WebhookServlet extends HttpServlet {
 
@@ -29,6 +34,9 @@ public class WebhookServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		// $ curl http://localhost:8080/DTools/api/webhook/blablabla
+		// $ curl 'http://localhost:8080/DTools/api/webhook/blablabla?a=1&b=2'
 
 		DToolsContext.getInstance().getLogger().info("doGet(): getAuthType: " + req.getAuthType());
 		DToolsContext.getInstance().getLogger().info("doGet(): getCharacterEncoding: " + req.getCharacterEncoding());
@@ -68,13 +76,14 @@ public class WebhookServlet extends HttpServlet {
 		m.setRemoteHost(req.getRemoteHost());
 		m.setRemotePort(req.getRemotePort());
 		m.setRequestUri(req.getRequestURI());
-		m.setBody("");
+		
+		m.setBody(req.getPathInfo() + " " + generateParamMap(req));
 		m.setHeaderMap(generateHeaderMap(req));
 		m.setParameterMap(generateParamMap(req));
 		
 		messages.add(m);
 		
-		
+		DMetrics.dtools_webhook_messages_received_total.labels(m.getRemoteHost(), "get").inc();
 
 	}
 
@@ -128,6 +137,8 @@ public class WebhookServlet extends HttpServlet {
 		
 		messages.add(m);
 		
+		// TODO how to detect a format of message of the application who send the message so it can be properly parsed?
+		
 		GsonBuilder builder = new GsonBuilder();
 		Gson gson = builder.create();
 		AmAlertMessage am = gson.fromJson(m.getBody(), AmAlertMessage.class);
@@ -136,6 +147,13 @@ public class WebhookServlet extends HttpServlet {
 		amMessages.add(am);
 		
 		dNotifs.addAll(convertToDNotif(am));
+		
+		
+		DMetrics.dtools_webhook_messages_received_total.labels(m.getRemoteHost(), "post").inc();
+		
+		for (Alert a : am.getAlerts()) {
+			DMetrics.dtools_am_alerts_received_total.labels(m.getRemoteHost(), a.getLabel("alerttype"), a.getLabel("severity")).inc();
+		}
 
 	}
 	
@@ -219,6 +237,7 @@ public class WebhookServlet extends HttpServlet {
 			n.setSeverity(a.getLabels().get("severity"));
 			n.setSummary(a.getAnnotations().get("summary"));
 			n.setDescription(a.getAnnotations().get("description"));
+			n.setStatus(a.getStatus());
 			
 			notifs.add(n);
 			

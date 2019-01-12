@@ -13,6 +13,7 @@ public class DNotification {
 	private String severity;
 	private String summary;
 	private String description;
+	private String status;
 	
 	
 	public long getTimestamp() {
@@ -84,6 +85,14 @@ public class DNotification {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 }

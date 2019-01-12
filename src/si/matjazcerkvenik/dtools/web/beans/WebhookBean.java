@@ -23,10 +23,10 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import si.matjazcerkvenik.dtools.web.servlets.WebhookServlet;
 import si.matjazcerkvenik.dtools.web.webhook.AmAlertMessage;
 import si.matjazcerkvenik.dtools.web.webhook.DNotification;
 import si.matjazcerkvenik.dtools.web.webhook.HttpMessage;
-import si.matjazcerkvenik.dtools.web.webhook.WebhookServlet;
 
 @ManagedBean
 @SessionScoped

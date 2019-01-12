@@ -11,7 +11,7 @@
 			<h:form id="breadCrumb">
 				<p:breadCrumb>
 					<p:menuitem value="Home" url="/" />
-					<p:menuitem value="Alertmanager" url="/wh" />
+					<p:menuitem value="Alertmanager" url="/alertmanager" />
 				</p:breadCrumb>
 			</h:form>
 		</ui:define>
@@ -25,12 +25,12 @@
 						styleClass="table" rowClasses="tableOddRow,tableEvenRow"
 						cellpadding="0" cellspacing="0" width="100%">
 
-						<h:column headerClass="col0 col1">
+						<h:column headerClass="col0 col2">
 							<f:facet name="header">Date</f:facet>
 							<h:outputText value="#{n.formatedTimestamp}" />
 						</h:column>
 
-						<h:column headerClass="col0">
+						<h:column headerClass="col0 col2">
 							<f:facet name="header">Alert name</f:facet>
 							<h:outputText value="#{n.alertname}" />
 						</h:column>
@@ -55,7 +55,12 @@
 							<h:outputText value="#{n.severity}" />
 						</h:column>
 						
-						<h:column headerClass="col0 col3">
+						<h:column headerClass="col0">
+							<f:facet name="header">Status</f:facet>
+							<h:outputText value="#{n.status}" />
+						</h:column>
+						
+						<h:column headerClass="col0 col2">
 							<f:facet name="header">Summary</f:facet>
 							<h:outputText value="#{n.summary}" />
 						</h:column>

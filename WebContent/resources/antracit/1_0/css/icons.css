@@ -66,6 +66,24 @@
 	width: 20px;
 }
 
+.ui-menuitem-icon.ui-icon.prometheus-icon {
+	background: url("#{resource['default:img/prometheus-icon.png']}") no-repeat;
+	height: 20px; 
+	width: 20px;
+}
+
+.ui-menuitem-icon.ui-icon.grafana-icon {
+	background: url("#{resource['default:img/grafana-icon.png']}") no-repeat;
+	height: 20px; 
+	width: 20px;
+}
+
+.ui-menuitem-icon.ui-icon.target-icon {
+	background: url("#{resource['default:img/target-icon.png']}") no-repeat;
+	height: 20px; 
+	width: 20px;
+}
+
 .ui-menuitem-icon.ui-icon.favorites-icon {
 	background: url("#{resource['antracit:img/star-full.png']}") no-repeat;
 	height: 20px; 

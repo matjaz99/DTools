@@ -29,6 +29,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
+import si.matjazcerkvenik.dtools.context.DMetrics;
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.ssh.SshClient;
@@ -110,6 +111,8 @@ public class SshClientBean implements Serializable {
 		Growl.addGrowlMessage("Command sent", FacesMessage.SEVERITY_INFO);
 		response = client.execute(command);
 		saveResponse();
+		
+		DMetrics.dtools_ssh_commands_executed_total.labels(client.getHostname(), client.getStatusText());
 		
 	}
 	

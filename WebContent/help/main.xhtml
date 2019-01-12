@@ -20,9 +20,47 @@
 		<ui:define name="contentFrame">
 
 			<h1>DTools Help Center</h1>
-			<h3>Work in progress. Turn around.</h3>
 			<hr />
-			<p:link value="Version History" href="/help/versionHistory" />
+			<a href="/DTools/help/versionHistory">Version History</a>
+			<hr />
+			<h3>Metrics</h3>
+			<p>DTools exposes Prometheus metrics at URL endpoint:</p>
+			<a href="http://localhost:8080/DTools/api/prometheus/metrics">http://localhost:8080/DTools/api/prometheus/metrics</a>
+			<p>Supported metrics:</p>
+			
+			<table style="width:100%">
+			  <tr>
+			    <th>Metric name</th>
+			    <th>Labels</th> 
+			    <th>Description</th>
+			  </tr>
+			  <tr>
+			    <td>dtools_build_info</td>
+			    <td>version, os</td> 
+			    <td>Version and operating system</td>
+			  </tr>
+			  <tr>
+			    <td>dtools_monitored_nodes_count</td>
+			    <td>networkLocation</td> 
+			    <td>Number of monitored nodes for each network location</td>
+			  </tr>
+			  <tr>
+			    <td>dtools_webhook_messages_received_total</td>
+			    <td>remoteHost, method</td> 
+			    <td>Total number of messages received on webhook</td>
+			  </tr>
+			  <tr>
+			    <td>dtools_am_alerts_received_total</td>
+			    <td>remoteHost, alerttype, severity</td> 
+			    <td>Total number of received alertmanager alerts</td>
+			  </tr>
+			  <tr>
+			    <td>dtools_ssh_commands_executed_total</td>
+			    <td>remoteHost, status</td> 
+			    <td>Number of commands executed by SSH clients</td>
+			  </tr>
+			</table>
+			
 
 		</ui:define>
 	</div>

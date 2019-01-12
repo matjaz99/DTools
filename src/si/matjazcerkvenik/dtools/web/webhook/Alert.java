@@ -68,4 +68,19 @@ public class Alert {
 				+ generatorURL + "]";
 	}
 	
+	
+	
+	/* Helper methods */
+	
+	public String getLabel(String key) {
+		if (labels.containsKey(key)) {
+			return labels.get(key);
+		} else {
+			if (key.equalsIgnoreCase("severity")) {
+				return status;
+			}
+			return "";
+		}
+	}
+	
 }
