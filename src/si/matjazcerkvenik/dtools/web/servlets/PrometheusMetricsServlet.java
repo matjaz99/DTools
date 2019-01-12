@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import io.prometheus.client.CollectorRegistry;
+import io.prometheus.client.Counter;
+import io.prometheus.client.Gauge;
 import io.prometheus.client.exporter.common.TextFormat;
 import si.matjazcerkvenik.dtools.context.DMetrics;
 import si.matjazcerkvenik.dtools.context.DToolsContext;
@@ -40,6 +43,7 @@ public class PrometheusMetricsServlet extends HttpServlet {
 		resp.setContentType(TextFormat.CONTENT_TYPE_004);
 		
 		collectMetrics();
+		simulateMetrics();
 
 		Writer writer = resp.getWriter();
 		try {
@@ -75,5 +79,146 @@ public class PrometheusMetricsServlet extends HttpServlet {
 		}
 		
 	}
+	
+	
+	
+	/* Metrics simulator */
+	
+	
+	public static final Gauge temperature = Gauge.build()
+			.name("test_temperature_current")
+			.help("Current temperature.")
+			.register();
+	
+	public static final Gauge tempCity = Gauge.build()
+			.name("test_temperature_by_city_current")
+			.help("Current temperature in city.")
+			.labelNames("city", "country")
+			.register();
+	
+	public static final Gauge customers = Gauge.build()
+			.name("test_customers_current")
+			.help("Current customers in city.")
+			.labelNames("shop", "country")
+			.register();
+	
+	public static final Counter payment = Counter.build()
+			.name("test_customers_payment_total")
+			.help("Payment.")
+			.labelNames("shop", "country")
+			.register();
+	
+	static {
+		
+		temperature.set(20);
+		
+		tempCity.labels("London", "England").set(10);
+		tempCity.labels("Bristol", "England").set(15);
+		tempCity.labels("Liverpool", "England").set(20);
+		tempCity.labels("Helsinki", "Finland").set(5);
+		tempCity.labels("Dubai", "Uae").set(35);
+		tempCity.labels("Paris", "France").set(20);
+		tempCity.labels("Toulouse", "France").set(20);
+		
+		customers.labels("Ikea", "Austria").set(10);
+		customers.labels("Ikea", "Germany").set(12);
+		customers.labels("Ikea", "France").set(7);
+		customers.labels("Hofer", "Austria").set(8);
+		customers.labels("Hofer", "Germany").set(7);
+		customers.labels("Hofer", "France").set(9);
+		customers.labels("Spar", "Austria").set(7);
+		customers.labels("Spar", "Germany").set(8);
+		customers.labels("Spar", "France").set(9);
+		
+	}
+	
+	private void simulateMetrics() {
+		
+		temperature.set(getNextValue(new Double(temperature.get()).intValue(), -10, 100, 6));
+		
+		tempCity.labels("London", "England").set(getNextValue(new Double(tempCity.labels("London", "England").get()).intValue(), 0, 35, 10));
+		tempCity.labels("Bristol", "England").set(getNextValue(new Double(tempCity.labels("London", "England").get()).intValue(), 0, 35, 10));
+		tempCity.labels("Liverpool", "England").set(getNextValue(new Double(tempCity.labels("London", "England").get()).intValue(), 0, 35, 10));
+		tempCity.labels("Helsinki", "Finland").set(getNextValue(new Double(tempCity.labels("Helsinki", "Finland").get()).intValue(), -10, 25, 5));
+		tempCity.labels("Dubai", "Uae").set(getNextValue(new Double(tempCity.labels("Dubai", "Uae").get()).intValue(), 20, 50, 5));
+		tempCity.labels("Paris", "France").set(getNextValue(new Double(tempCity.labels("Paris", "France").get()).intValue(), 10, 35, 7));
+		tempCity.labels("Toulouse", "France").set(getNextValue(new Double(tempCity.labels("Paris", "France").get()).intValue(), 10, 35, 7));
+		
+		
+		int ia = getNextValue(new Double(customers.labels("Ikea", "Austria").get()).intValue(), 0, 20, 2);
+		int ig = getNextValue(new Double(customers.labels("Ikea", "Germany").get()).intValue(), 0, 20, 2);
+		int ifr = getNextValue(new Double(customers.labels("Ikea", "France").get()).intValue(), 0, 20, 2);
+		int ha = getNextValue(new Double(customers.labels("Hofer", "Austria").get()).intValue(), 0, 20, 2);
+		int hg = getNextValue(new Double(customers.labels("Hofer", "Germany").get()).intValue(), 0, 20, 2);
+		int hf = getNextValue(new Double(customers.labels("Hofer", "France").get()).intValue(), 0, 20, 2);
+		int sa = getNextValue(new Double(customers.labels("Spar", "Austria").get()).intValue(), 0, 20, 2);
+		int sg = getNextValue(new Double(customers.labels("Spar", "Germany").get()).intValue(), 0, 20, 2);
+		int sf = getNextValue(new Double(customers.labels("Spar", "France").get()).intValue(), 0, 20, 2);
+		customers.labels("Ikea", "Austria").set(ia);
+		customers.labels("Ikea", "Germany").set(ig);
+		customers.labels("Ikea", "France").set(ifr);
+		customers.labels("Hofer", "Austria").set(ha);
+		customers.labels("Hofer", "Germany").set(hg);
+		customers.labels("Hofer", "France").set(hf);
+		customers.labels("Spar", "Austria").set(sa);
+		customers.labels("Spar", "Germany").set(sg);
+		customers.labels("Spar", "France").set(sf);
+		
+		payment.labels("Ikea", "Austria").inc(getRandom(0, 10 * ia));
+		payment.labels("Ikea", "Germany").inc(getRandom(0, 11 * ig));
+		payment.labels("Ikea", "France").inc(getRandom(0, 8 * ifr));
+		payment.labels("Hofer", "Austria").inc(getRandom(0, 4 * ha));
+		payment.labels("Hofer", "Germany").inc(getRandom(0, 4 * hg));
+		payment.labels("Hofer", "France").inc(getRandom(0, 5 * hf));
+		payment.labels("Spar", "Austria").inc(getRandom(0, 6 * sa));
+		payment.labels("Spar", "Germany").inc(getRandom(0, 5 * sg));
+		payment.labels("Spar", "France").inc(getRandom(0, 7 * sf));
+		
+	}
+	
+	private int getRandom(int inclusive, int exclusive) {
+		if (inclusive >= exclusive || exclusive < 0) {
+			return 0;
+		}
+		Random rand = new Random();
+		return rand.nextInt(exclusive - inclusive) + inclusive;
+	}
+	
+	/**
+	 * Generate next value based on current value +/- delta.
+	 * Delta is random value, but not bigger than maxDeviation.
+	 * Value cannot be bigger than maxValue and not less than 0.
+	 * @param currentValue
+	 * @param maxValue
+	 * @param maxDeviation
+	 * @return
+	 */
+	private int getNextValue(int currentValue, int minValue, int maxValue, int maxDeviation) {
+		
+		if (minValue >= maxValue) {
+			return 0;
+		}
+		
+		Random rand = new Random();
+		
+		int dev = rand.nextInt(maxDeviation);
+		
+		if (rand.nextBoolean()) {
+			currentValue = currentValue + dev;
+		} else {
+			currentValue = currentValue - dev;
+		}
+		
+		if (currentValue > maxValue) {
+			currentValue = maxValue;
+		}
+		if (currentValue < minValue) {
+			currentValue = minValue;
+		}
+		
+		return currentValue;
+		
+	}
+	
 
 }

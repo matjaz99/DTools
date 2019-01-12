@@ -27,6 +27,7 @@ import javax.faces.bean.ManagedProperty;
 
 import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.NetworkLocation;
+import si.matjazcerkvenik.dtools.tools.snmp.impl.TrapReceiver;
 import si.matjazcerkvenik.dtools.tools.ssh.SshClient;
 
 @ManagedBean
@@ -43,16 +44,29 @@ public class AppBean {
 	
 	@ManagedProperty(value="#{snmpSimulatorBean}")
 	private SnmpSimulatorBean snmpSimulatorBean;
+	
+	@ManagedProperty(value="#{snmpManagerBean}")
+	private SnmpManagerBean snmpManagerBean;
 
 
 	public void setSnmpSimulatorBean(SnmpSimulatorBean snmpSimulatorBean) {
 		this.snmpSimulatorBean = snmpSimulatorBean;
 	}
 	
-	
+	public void setSnmpManagerBean(SnmpManagerBean snmpManagerBean) {
+		this.snmpManagerBean = snmpManagerBean;
+	}
+
+
 	public List<ActiveConnection> getActiveConnectionsList() {
 		
 		activeConnectionsList.clear();
+		
+		ActiveConnection ac1 = new ActiveConnection();
+		ac1.setName("Webhook");
+		ac1.setOutcome("wh/main.xhtml");
+		ac1.setStatus("Listening");
+		activeConnectionsList.add(ac1);
 		
 		List<NetworkLocation> locations = DAO.getInstance().loadNetworkLocations();
 		
@@ -80,7 +94,7 @@ public class AppBean {
 			if (sshClientList.get(i).getStatusText().equals("CONNECTED")) {
 				ActiveConnection ac = new ActiveConnection();
 				ac.name = "SSH: " + sshClientList.get(i).toUrlString();
-				ac.outcome = "sshClient.xhtml?clientUrl=" + sshClientList.get(i).toUrlString();
+				ac.outcome = "ssh/client/main.xhtml?clientUrl=" + sshClientList.get(i).toUrlString();
 				ac.status = "Connected";
 				activeConnectionsList.add(ac);
 			}
@@ -92,8 +106,8 @@ public class AppBean {
 			for (int i = 0; i < snmpSimulatorBean.getSnmpAgents().size(); i++) {
 				if (snmpSimulatorBean.getSnmpAgents().get(i).isActive()) {
 					ActiveConnection ac = new ActiveConnection();
-					ac.name = "SNMP agent simulator: " + snmpSimulatorBean.getSnmpAgents().get(i).getName();
-					ac.outcome = "snmpSimulator";
+					ac.name = "SNMP simulator: " + snmpSimulatorBean.getSnmpAgents().get(i).getName();
+					ac.outcome = "snmp/simulator/snmpAgent.xhtml?agent=" + snmpSimulatorBean.getSnmpAgents().get(i).getName();
 					String args[] = {snmpSimulatorBean.getSnmpAgents().get(i).getName()};
 					ac.args = args;
 					ac.status = "Running";
@@ -101,6 +115,19 @@ public class AppBean {
 				}
 			}
 			
+		}
+		
+		// active trap listeners
+		if (snmpManagerBean != null) {
+			for (TrapReceiver r : snmpManagerBean.getTrapReceivers()) {
+				if (r.isActive()) {
+					ActiveConnection ac = new ActiveConnection();
+					ac.name = "SNMP trap receiver: " + r.getName();
+					ac.outcome = "snmp/manager/main.xhtml";
+					ac.status = "Listening";
+					activeConnectionsList.add(ac);
+				}
+			}
 		}
 		
 		

@@ -152,7 +152,7 @@ public class WebhookServlet extends HttpServlet {
 		DMetrics.dtools_webhook_messages_received_total.labels(m.getRemoteHost(), "post").inc();
 		
 		for (Alert a : am.getAlerts()) {
-			DMetrics.dtools_am_alerts_received_total.labels(m.getRemoteHost(), a.getLabel("alerttype"), a.getLabel("severity")).inc();
+			DMetrics.dtools_am_alerts_received_total.labels(m.getRemoteHost(), a.getLabel("alerttype"), a.getLabel("severity"), a.getStatus()).inc();
 		}
 
 	}
