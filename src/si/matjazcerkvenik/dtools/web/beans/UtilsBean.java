@@ -36,6 +36,7 @@ import si.matjazcerkvenik.dtools.context.DProps;
 import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.localhost.LocalhostInfo;
+import si.matjazcerkvenik.dtools.xml.GrafanaPanel;
 
 @ManagedBean
 @SessionScoped
@@ -325,6 +326,12 @@ public class UtilsBean implements Serializable {
 		DProps.setProperty(DProps.SSH_DISCONNECT_TIMEOUT, sshDisconnectTimeout, false);
 		DProps.setProperty(DProps.SSH_HISTORY_AGING_PERIOD, sshHistoryAgingPeriod, true);
 		Growl.addGrowlMessage("Settings saved", FacesMessage.SEVERITY_INFO);
+	}
+	
+	
+	
+	public List<GrafanaPanel> getGrafanaPanels() {
+		return DAO.getInstance().loadGrafanaPanels();
 	}
 	
 }

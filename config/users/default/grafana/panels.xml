@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<grafanaPanels>
+    <iframe src="http://192.168.1.108:3000/d-solo/7pMVh5Kmz/server-monitor?refresh=30s&amp;orgId=1&amp;var-node=10.0.1.14%3A9100&amp;var-netinterface=%2Fdev%2Fsda&amp;panelId=12" width="450" height="200" frameborder="0"></iframe>
+    <iframe src="http://192.168.1.108:3000/d-solo/BPlb-Sgik/docker-swarm-nodes?refresh=30s&amp;orgId=1&amp;panelId=11&amp;var-node_name=All&amp;var-interval=%24__auto_interval_interval" width="450" height="200" frameborder="0"></iframe>
+    <iframe src="http://192.168.1.108:3000/d-solo/BPlb-Sgik/docker-swarm-nodes?refresh=30s&amp;orgId=1&amp;panelId=8&amp;var-node_name=All&amp;var-interval=%24__auto_interval_interval" width="450" height="200" frameborder="0"></iframe>
+    <iframe src="http://192.168.1.108:3000/d-solo/BPlb-Sgik/docker-swarm-nodes?refresh=30s&amp;orgId=1&amp;panelId=13&amp;var-node_name=All&amp;var-interval=%24__auto_interval_interval" width="450" height="200" frameborder="0"></iframe>
+</grafanaPanels>

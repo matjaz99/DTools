@@ -112,7 +112,7 @@ public class SshClientBean implements Serializable {
 		response = client.execute(command);
 		saveResponse();
 		
-		DMetrics.dtools_ssh_commands_executed_total.labels(client.getHostname(), client.getStatusText());
+		DMetrics.dtools_ssh_commands_executed_total.labels(client.getHostname(), client.getStatusText()).inc();
 		
 	}
 	

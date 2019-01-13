@@ -19,7 +19,11 @@
 	<div id="contentFrame">
 		<ui:define name="contentFrame">
 		
-			<iframe src="http://172.29.254.66:3000/d-solo/BPlb-Sgik/docker-swarm-nodes?refresh=30s&orgId=1&panelId=11&var-node_name=All&var-interval=%24__auto_interval_interval" width="250" height="150" frameborder="0"></iframe>
+			<ui:repeat value="#{utilsBean.grafanaPanels}" var="p">
+	            <iframe src="#{p.src}" width="#{p.width}" height="#{p.height}"></iframe>
+	        </ui:repeat>
+		
+<!-- 			<iframe src="http://172.29.254.66:3000/d-solo/BPlb-Sgik/docker-swarm-nodes?refresh=30s&orgId=1&panelId=11&var-node_name=All&var-interval=%24__auto_interval_interval" width="250" height="150" frameborder="0"></iframe> -->
 			
 		</ui:define>
 	</div>

@@ -53,6 +53,8 @@ import si.matjazcerkvenik.dtools.tools.ssh.Commands;
 import si.matjazcerkvenik.dtools.tools.ssh.SshClient;
 import si.matjazcerkvenik.dtools.tools.ssh.SshClients;
 import si.matjazcerkvenik.dtools.tools.ssh.SshResponse;
+import si.matjazcerkvenik.dtools.xml.GrafanaPanel;
+import si.matjazcerkvenik.dtools.xml.GrafanaPanels;
 import si.matjazcerkvenik.dtools.xml.NetworkNodes;
 import si.matjazcerkvenik.dtools.xml.Node;
 import si.matjazcerkvenik.dtools.xml.Note;
@@ -97,6 +99,8 @@ public class DAO {
 	private String XML_NOTES = "/config/users/$DTOOLS_USER$/misc/notes.xml";
 	private String XML_TODOS = "/config/users/$DTOOLS_USER$/misc/todos.xml";
 	
+	private String DIR_GRAFANA = "/config/users/$DTOOLS_USER$/grafana";
+	
 
 	private DAO() {
 		// singleton
@@ -120,6 +124,8 @@ public class DAO {
 		
 		XML_NOTES = XML_NOTES.replace("$DTOOLS_USER$", "default");
 		XML_TODOS = XML_TODOS.replace("$DTOOLS_USER$", "default");
+		
+		DIR_GRAFANA = DIR_GRAFANA.replace("$DTOOLS_USER$", "default");
 		
 	}
 
@@ -1678,6 +1684,43 @@ public class DAO {
 	
 	
 	
+	
+	
+	/* GRAFANA */
+	
+	
+	public List<GrafanaPanel> loadGrafanaPanels() {
+
+		GrafanaPanels gpanels = null;
+
+		try {
+
+			File file = new File(DToolsContext.HOME_DIR + DIR_GRAFANA + "/panels.xml");
+			if (!file.exists()) {
+				GrafanaPanels panels = new GrafanaPanels();
+				panels.setPanels(new ArrayList<>());
+				JAXBContext jaxbContext = JAXBContext.newInstance(GrafanaPanels.class);
+				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+				jaxbMarshaller.marshal(panels, file);
+			}
+			JAXBContext jaxbContext = JAXBContext.newInstance(GrafanaPanels.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			gpanels = (GrafanaPanels) jaxbUnmarshaller.unmarshal(file);
+			
+			logger.info("DAO:loadGrafanaPanels(): " + file.getAbsolutePath());
+
+		} catch (JAXBException e) {
+			logger.error("DAO:loadGrafanaPanels(): JAXBException: ", e);
+		}
+		
+		if (gpanels.getPanels() == null) {
+			gpanels.setPanels(new ArrayList<>());
+		}
+		
+		return gpanels.getPanels();
+
+	}
 
 	
 	

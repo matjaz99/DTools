@@ -28,6 +28,22 @@
 			
 			<hr />
 			<hr />
+			
+			<h3>Webhook</h3>
+			<p>DTools can receive any HTTP message (GET or POST) on webhook URL:</p>
+			<a href="http://localhost:8080/DTools/api/webhook">http://localhost:8080/DTools/api/webhook</a>
+			<p>Currently only alertmanager notifications are processed. To get full information out of alerts,
+			it is recommended to add the following labels to prometheus alerts:</p>
+			<ul>
+				<li>alertdomain - functional domain of alert (eg. hardware, network, sworm)</li>
+				<li>alerttype - (alarm|event) alarms are expected to be cleared, while events are one-time informational messages</li>
+				<li>instance - hostname or IP address of node where the alert is raised</li>
+				<li>severity - (critical|major|minor|warning|clear|informational)</li>
+				<li>priority - (high|medium|low) how urgent is alert</li>
+			</ul>
+			<p>You can see them in:</p>
+			<a href="http://localhost:8080/DTools/alertmanager">http://localhost:8080/DTools/alertmanager</a>
+			
 			<hr />
 			
 			<h3>Metrics</h3>
