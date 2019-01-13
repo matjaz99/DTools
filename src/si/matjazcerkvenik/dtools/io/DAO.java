@@ -1698,7 +1698,7 @@ public class DAO {
 			File file = new File(DToolsContext.HOME_DIR + DIR_GRAFANA + "/panels.xml");
 			if (!file.exists()) {
 				GrafanaPanels panels = new GrafanaPanels();
-				panels.setPanels(new ArrayList<>());
+				panels.setPanels(new ArrayList<GrafanaPanel>());
 				JAXBContext jaxbContext = JAXBContext.newInstance(GrafanaPanels.class);
 				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -1715,7 +1715,7 @@ public class DAO {
 		}
 		
 		if (gpanels.getPanels() == null) {
-			gpanels.setPanels(new ArrayList<>());
+			gpanels.setPanels(new ArrayList<GrafanaPanel>());
 		}
 		
 		return gpanels.getPanels();
