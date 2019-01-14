@@ -234,7 +234,13 @@ public class WebhookServlet extends HttpServlet {
 			n.setAlertname(a.getLabels().get("alertname"));
 			n.setAlerttype(a.getLabels().get("alerttype"));
 			n.setInstance(a.getLabels().get("instance"));
-			n.setSeverity(a.getLabels().get("severity"));
+			
+			if (a.getLabels().containsKey("severity")) {
+				n.setSeverity(a.getLabels().get("severity"));
+			} else {
+				n.setSeverity("indeterminate");
+			}
+			
 			n.setSummary(a.getAnnotations().get("summary"));
 			n.setDescription(a.getAnnotations().get("description"));
 			n.setStatus(a.getStatus());
