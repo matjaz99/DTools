@@ -21,6 +21,7 @@
 		<ui:define name="contentFrame">
 
 			<h:panelGrid columns="1" cellspacing="5" width="100%">
+				<h:form>
 					<h:dataTable id="messagesTable" value="#{webhookBean.DNotifs}" var="n"
 						styleClass="table" rowClasses="tableOddRow,tableEvenRow"
 						cellpadding="0" cellspacing="0" width="100%">
@@ -28,6 +29,11 @@
 						<h:column headerClass="col0 col2">
 							<f:facet name="header">Date</f:facet>
 							<h:outputText value="#{n.formatedTimestamp}" />
+						</h:column>
+						
+						<h:column headerClass="col0">
+							<f:facet name="header">UID</f:facet>
+							<h:outputText value="#{n.uid}" />
 						</h:column>
 
 						<h:column headerClass="col0 col2">
@@ -71,11 +77,12 @@
 						</h:column>
 
 					</h:dataTable>
-				</h:panelGrid>
+					<p:poll interval="15" update="messagesTable" />
+				</h:form>
+			</h:panelGrid>
 				
-				<hr/>
+			<hr/>
 				
-<!-- 				<iframe src="http://172.29.254.66:3000/d-solo/BPlb-Sgik/docker-swarm-nodes?refresh=30s&orgId=1&panelId=11&var-node_name=All&var-interval=%24__auto_interval_interval" width="450" height="200" frameborder="0"></iframe> -->
 
 		</ui:define>
 	</div>

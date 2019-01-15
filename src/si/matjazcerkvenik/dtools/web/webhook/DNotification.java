@@ -5,6 +5,7 @@ import java.util.Calendar;
 
 public class DNotification {
 	
+	private String uid;
 	private long timestamp;
 	private String alertdomain;
 	private String alertname;
@@ -16,6 +17,14 @@ public class DNotification {
 	private String status;
 	
 	
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+
 	public long getTimestamp() {
 		return timestamp;
 	}
@@ -27,7 +36,13 @@ public class DNotification {
 	public String getFormatedTimestamp() {
 		Calendar cal = Calendar.getInstance();
 		cal.setTimeInMillis(timestamp);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd H:mm:ss");
+		String format = "yyyy/MM/dd H:mm:ss";
+		if (System.currentTimeMillis() - timestamp > 1 * 60 * 60 * 1000) {
+			format = "yyyy/MM/dd H:mm:ss";
+		} else {
+			format = "H:mm:ss";
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		return sdf.format(cal.getTime());
 	}
 

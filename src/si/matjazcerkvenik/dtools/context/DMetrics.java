@@ -26,7 +26,7 @@ public class DMetrics {
 	public static final Counter dtools_am_alerts_received_total = Counter.build()
 			.name("dtools_am_alerts_received_total")
 			.help("Number of received alerts from alertmanager.")
-			.labelNames("remoteHost", "alerttype", "severity", "status")
+			.labelNames("remoteHost", "alerttype", "severity")
 			.register();
 	
 	public static final Counter dtools_ssh_commands_executed_total = Counter.build()

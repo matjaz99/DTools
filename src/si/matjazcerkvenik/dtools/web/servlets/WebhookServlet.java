@@ -19,6 +19,7 @@ import com.google.gson.GsonBuilder;
 
 import si.matjazcerkvenik.dtools.context.DMetrics;
 import si.matjazcerkvenik.dtools.context.DToolsContext;
+import si.matjazcerkvenik.dtools.io.md5.MD5Checksum;
 import si.matjazcerkvenik.dtools.web.webhook.Alert;
 import si.matjazcerkvenik.dtools.web.webhook.AmAlertMessage;
 import si.matjazcerkvenik.dtools.web.webhook.DNotification;
@@ -152,7 +153,7 @@ public class WebhookServlet extends HttpServlet {
 		DMetrics.dtools_webhook_messages_received_total.labels(m.getRemoteHost(), "post").inc();
 		
 		for (Alert a : am.getAlerts()) {
-			DMetrics.dtools_am_alerts_received_total.labels(m.getRemoteHost(), a.getLabel("alerttype"), a.getLabel("severity"), a.getStatus()).inc();
+			DMetrics.dtools_am_alerts_received_total.labels(m.getRemoteHost(), a.getLabel("alerttype"), a.getLabel("severity")).inc();
 		}
 
 	}
@@ -230,10 +231,25 @@ public class WebhookServlet extends HttpServlet {
 			
 			DNotification n = new DNotification();
 			n.setTimestamp(System.currentTimeMillis());
-			n.setAlertdomain(a.getLabels().get("alertdomain"));
 			n.setAlertname(a.getLabels().get("alertname"));
-			n.setAlerttype(a.getLabels().get("alerttype"));
-			n.setInstance(a.getLabels().get("instance"));
+
+			if (a.getLabels().containsKey("alertdomain")) {
+				n.setAlertdomain(a.getLabels().get("alertdomain"));
+			} else {
+				n.setAlertdomain("unknown");
+			}
+			
+			if (a.getLabels().containsKey("alerttype")) {
+				n.setAlerttype(a.getLabels().get("alerttype"));
+			} else {
+				n.setAlerttype("unknown");
+			}
+			
+			if (a.getLabels().containsKey("instance")) {
+				n.setInstance(a.getLabels().get("instance"));
+			} else {
+				n.setInstance("unknown");
+			}
 			
 			if (a.getLabels().containsKey("severity")) {
 				n.setSeverity(a.getLabels().get("severity"));
@@ -241,10 +257,40 @@ public class WebhookServlet extends HttpServlet {
 				n.setSeverity("indeterminate");
 			}
 			
-			n.setSummary(a.getAnnotations().get("summary"));
-			n.setDescription(a.getAnnotations().get("description"));
-			n.setStatus(a.getStatus());
+			if (a.getStatus().equalsIgnoreCase("resolved")) {
+				n.setSeverity("clear");
+			}
 			
+			if (a.getAnnotations().containsKey("summary")) {
+				n.setSummary(a.getAnnotations().get("summary"));
+			} else {
+				n.setSummary("-");
+			}
+			
+			if (a.getAnnotations().containsKey("description")) {
+				n.setDescription(a.getAnnotations().get("description"));
+			} else {
+				n.setDescription("-");
+			}
+			
+			n.setStatus(a.getStatus());
+			n.setUid(MD5Checksum.getMd5Checksum(n.getAlertname() + n.getAlertdomain() 
+				+ n.getAlerttype() + n.getInstance() + n.getSummary() + n.getDescription()));
+			
+//			DNotification found = null;
+//			for (Iterator<DNotification> it1 = dNotifs.iterator(); it1.hasNext();) {
+//				DNotification dn = it1.next();
+//				if (dn.getUid().equalsIgnoreCase(n.getUid())) {
+//					found = dn;
+//					if (n.getSeverity().equalsIgnoreCase("clear")) {
+//						
+//					}
+//					break;
+//				}
+//			}
+//			if (found == null) {
+//				notifs.add(n);
+//			}
 			notifs.add(n);
 			
 		}
