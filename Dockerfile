@@ -1,0 +1,1 @@
+Tole bo fajl za buildanje image-a

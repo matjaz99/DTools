@@ -140,6 +140,8 @@ public class WebhookServlet extends HttpServlet {
 		
 		// TODO how to detect a format of message of the application who send the message so it can be properly parsed?
 		
+		// headers: host=172.30.19.6:8080, user-agent=Alertmanager/0.15.3, content-length=1889, content-type=application/json, 
+		
 		GsonBuilder builder = new GsonBuilder();
 		Gson gson = builder.create();
 		AmAlertMessage am = gson.fromJson(m.getBody(), AmAlertMessage.class);
@@ -147,7 +149,7 @@ public class WebhookServlet extends HttpServlet {
 		System.out.println("Number of alerts: " + am.getAlerts().size());
 		amMessages.add(am);
 		
-		dNotifs.addAll(convertToDNotif(am));
+		dNotifs.addAll(convertToDNotif(m, am));
 		
 		
 		DMetrics.dtools_webhook_messages_received_total.labels(m.getRemoteHost(), "post").inc();
@@ -222,7 +224,7 @@ public class WebhookServlet extends HttpServlet {
 		
 	}
 	
-	private List<DNotification> convertToDNotif(AmAlertMessage am) {
+	private List<DNotification> convertToDNotif(HttpMessage m, AmAlertMessage am) {
 		
 		List<DNotification> notifs = new ArrayList<DNotification>();
 		
@@ -231,7 +233,14 @@ public class WebhookServlet extends HttpServlet {
 			
 			DNotification n = new DNotification();
 			n.setTimestamp(System.currentTimeMillis());
+			n.setSource(m.getRemoteHost());
 			n.setAlertname(a.getLabels().get("alertname"));
+			
+			if (m.getHeaderMap().containsKey("user-agent")) {
+				n.setUserAgent(m.getHeaderMap().get("user-agent"));
+			} else {
+				n.setUserAgent("unknown");
+			}
 
 			if (a.getLabels().containsKey("alertdomain")) {
 				n.setAlertdomain(a.getLabels().get("alertdomain"));

@@ -5,8 +5,12 @@ import java.util.Calendar;
 
 public class DNotification {
 	
+	/** Unique ID of notification */
 	private String uid;
 	private long timestamp;
+	/** Source who sent the notification */
+	private String source;
+	private String userAgent;
 	private String alertdomain;
 	private String alertname;
 	private String alerttype;
@@ -44,6 +48,22 @@ public class DNotification {
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		return sdf.format(cal.getTime());
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+
+	public String getUserAgent() {
+		return userAgent;
+	}
+
+	public void setUserAgent(String userAgent) {
+		this.userAgent = userAgent;
 	}
 
 	public String getAlertdomain() {
