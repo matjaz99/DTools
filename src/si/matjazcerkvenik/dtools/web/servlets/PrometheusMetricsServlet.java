@@ -26,6 +26,8 @@ import si.matjazcerkvenik.dtools.tools.NetworkLocation;
 public class PrometheusMetricsServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -5776148450627134391L;
+	
+	private long startTimestamp = 0;
 
 	private CollectorRegistry registry;
 
@@ -34,6 +36,7 @@ public class PrometheusMetricsServlet extends HttpServlet {
 	 */
 	public PrometheusMetricsServlet() {
 		this.registry = CollectorRegistry.defaultRegistry;
+		startTimestamp = System.currentTimeMillis();
 	}
 
 	@Override
@@ -71,7 +74,7 @@ public class PrometheusMetricsServlet extends HttpServlet {
 	
 	private void collectMetrics() {
 		
-		DMetrics.dtools_build_info.labels(DToolsContext.version, System.getProperty("os.name")).set(1);
+		DMetrics.dtools_build_info.labels(DToolsContext.version, System.getProperty("os.name"), startTimestamp + "").set(1);
 		
 		List<NetworkLocation> locs = DAO.getInstance().loadNetworkLocations();
 		for (NetworkLocation nl : locs) {

@@ -266,6 +266,12 @@ public class WebhookServlet extends HttpServlet {
 				n.setSeverity("indeterminate");
 			}
 			
+			if (a.getLabels().containsKey("priority")) {
+				n.setPriority(a.getLabels().get("priority"));
+			} else {
+				n.setPriority("low");
+			}
+			
 			if (a.getStatus().equalsIgnoreCase("resolved")) {
 				n.setSeverity("clear");
 			}

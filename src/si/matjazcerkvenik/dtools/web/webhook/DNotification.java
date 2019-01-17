@@ -16,6 +16,7 @@ public class DNotification {
 	private String alerttype;
 	private String instance;
 	private String severity;
+	private String priority;
 	private String summary;
 	private String description;
 	private String status;
@@ -104,6 +105,14 @@ public class DNotification {
 
 	public void setSeverity(String severity) {
 		this.severity = severity;
+	}
+
+	public String getPriority() {
+		return priority;
+	}
+
+	public void setPriority(String priority) {
+		this.priority = priority;
 	}
 
 	public String getSummary() {
