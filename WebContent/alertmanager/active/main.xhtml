@@ -22,7 +22,7 @@
 
 			<h:panelGrid columns="1" cellspacing="5" width="100%">
 				<h:form>
-					<h:dataTable id="messagesTable" value="#{webhookBean.DNotifs}" var="n"
+					<h:dataTable id="messagesTable" value="#{webhookBean.activeAlarms}" var="n"
 						styleClass="table" rowClasses="tableOddRow,tableEvenRow"
 						cellpadding="0" cellspacing="0" width="100%">
 
@@ -68,7 +68,13 @@
 
 						<h:column headerClass="col0">
 							<f:facet name="header">Severity</f:facet>
+							<p:graphicImage library="#{userBean.cssTheme}" name="img/#{webhookBean.getSeverityStatusIcon(n.severity)}" title="#{n.severity}" />
 							<h:outputText value="#{n.severity}" />
+						</h:column>
+						
+						<h:column headerClass="col0">
+							<f:facet name="header">Priority</f:facet>
+							<h:outputText value="#{n.priority}" />
 						</h:column>
 						
 						<h:column headerClass="col0">

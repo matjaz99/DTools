@@ -7,7 +7,13 @@ public class DNotification {
 	
 	/** Unique ID of notification */
 	private String uid;
+	/** Notification ID identifies the same events */
+	private String nid;
 	private long timestamp;
+	/** Counter of identical events (according to nid) */
+	private int counter;
+	/** timestamp of last occurrence */
+	private long lastTimestamp;
 	/** Source who sent the notification */
 	private String source;
 	private String userAgent;
@@ -30,6 +36,14 @@ public class DNotification {
 		this.uid = uid;
 	}
 
+	public String getNid() {
+		return nid;
+	}
+
+	public void setNid(String nid) {
+		this.nid = nid;
+	}
+
 	public long getTimestamp() {
 		return timestamp;
 	}
@@ -49,6 +63,22 @@ public class DNotification {
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		return sdf.format(cal.getTime());
+	}
+
+	public int getCounter() {
+		return counter;
+	}
+
+	public void setCounter(int counter) {
+		this.counter = counter;
+	}
+
+	public long getLastTimestamp() {
+		return lastTimestamp;
+	}
+
+	public void setLastTimestamp(long lastTimestamp) {
+		this.lastTimestamp = lastTimestamp;
 	}
 
 	public String getSource() {

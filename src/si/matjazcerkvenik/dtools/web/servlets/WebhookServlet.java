@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -32,6 +33,7 @@ public class WebhookServlet extends HttpServlet {
 	public static List<HttpMessage> messages = new LinkedList<HttpMessage>();
 	public static List<AmAlertMessage> amMessages = new LinkedList<AmAlertMessage>();
 	public static List<DNotification> dNotifs = new LinkedList<DNotification>();
+	public static Map<String, DNotification> activeAlerts = new HashMap<String, DNotification>();
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -138,25 +140,20 @@ public class WebhookServlet extends HttpServlet {
 		
 		messages.add(m);
 		
-		// TODO how to detect a format of message of the application who send the message so it can be properly parsed?
-		
-		// headers: host=172.30.19.6:8080, user-agent=Alertmanager/0.15.3, content-length=1889, content-type=application/json, 
-		
-		GsonBuilder builder = new GsonBuilder();
-		Gson gson = builder.create();
-		AmAlertMessage am = gson.fromJson(m.getBody(), AmAlertMessage.class);
-		System.out.println(am.toString());
-		System.out.println("Number of alerts: " + am.getAlerts().size());
-		amMessages.add(am);
-		
-		dNotifs.addAll(convertToDNotif(m, am));
-		
+		if (m.getHeaderMap().containsKey("user-agent")) {
+			String userAgent = m.getHeaderMap().get("user-agent");
+			
+			if (userAgent.startsWith("Alertmanager")) {
+				
+				// headers: host=172.30.19.6:8080, user-agent=Alertmanager/0.15.3, content-length=1889, content-type=application/json, 
+				
+				processAlertmanagerMessage(m);
+				
+			}
+			
+		}
 		
 		DMetrics.dtools_webhook_messages_received_total.labels(m.getRemoteHost(), "post").inc();
-		
-		for (Alert a : am.getAlerts()) {
-			DMetrics.dtools_am_alerts_received_total.labels(m.getRemoteHost(), a.getLabel("alerttype"), a.getLabel("severity")).inc();
-		}
 
 	}
 	
@@ -221,6 +218,42 @@ public class WebhookServlet extends HttpServlet {
 		}
 		
 		return body;
+		
+	}
+	
+	private void processAlertmanagerMessage(HttpMessage m) {
+		
+		GsonBuilder builder = new GsonBuilder();
+		Gson gson = builder.create();
+		AmAlertMessage am = gson.fromJson(m.getBody(), AmAlertMessage.class);
+		DToolsContext.getInstance().getLogger().info(am.toString());
+		DToolsContext.getInstance().getLogger().info("Number of alerts: " + am.getAlerts().size());
+		amMessages.add(am);
+		
+		List<DNotification> dn = convertToDNotif(m, am);
+		dNotifs.addAll(dn);
+		
+		for (DNotification n : dn) {
+			DMetrics.dtools_am_alerts_received_total.labels(n.getSource(), n.getAlerttype(), n.getSeverity()).inc();
+		}
+		
+		for (DNotification n : dn) {
+			if (n.getSeverity().equalsIgnoreCase("informational")) {
+				continue;
+			}
+			if (activeAlerts.containsKey(n.getNid())) {
+				if (n.getSeverity().equalsIgnoreCase("clear")) {
+					activeAlerts.remove(n.getNid());
+				} else {
+					activeAlerts.get(n.getNid()).setLastTimestamp(n.getTimestamp());
+					activeAlerts.get(n.getNid()).setCounter(n.getCounter() + 1);
+				}
+			} else {
+				activeAlerts.put(n.getNid(), n);
+			}
+		}
+		
+		
 		
 	}
 	
@@ -289,8 +322,14 @@ public class WebhookServlet extends HttpServlet {
 			}
 			
 			n.setStatus(a.getStatus());
-			n.setUid(MD5Checksum.getMd5Checksum(n.getAlertname() + n.getAlertdomain() 
-				+ n.getAlerttype() + n.getInstance() + n.getSummary() + n.getDescription()));
+			n.setUid(MD5Checksum.getMd5Checksum(n.getTimestamp() + n.hashCode() 
+				+ n.getPriority() + n.getAlertname() + n.getAlertdomain() 
+				+ n.getAlerttype() + n.getInstance() + n.getSummary() 
+				+ n.getDescription() + new Random().nextInt(9999999) + n.getSource()
+				+ n.getUserAgent()));
+			
+			n.setNid(MD5Checksum.getMd5Checksum(n.getAlertname() + n.getAlertdomain() 
+			+ n.getAlerttype() + n.getInstance() + n.getSummary()));
 			
 //			DNotification found = null;
 //			for (Iterator<DNotification> it1 = dNotifs.iterator(); it1.hasNext();) {

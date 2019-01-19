@@ -18,6 +18,9 @@
 
 package si.matjazcerkvenik.dtools.web.beans;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -27,6 +30,7 @@ import si.matjazcerkvenik.dtools.web.servlets.WebhookServlet;
 import si.matjazcerkvenik.dtools.web.webhook.AmAlertMessage;
 import si.matjazcerkvenik.dtools.web.webhook.DNotification;
 import si.matjazcerkvenik.dtools.web.webhook.HttpMessage;
+import si.matjazcerkvenik.dtools.xml.Service;
 
 @ManagedBean
 @SessionScoped
@@ -42,6 +46,36 @@ public class WebhookBean {
 	
 	public List<DNotification> getDNotifs() {
 		return WebhookServlet.dNotifs;
+	}
+	
+	public List<DNotification> getActiveAlarms() {
+		List<DNotification> list = new ArrayList<DNotification>(WebhookServlet.activeAlerts.values());
+//		Collections.sort(list, new Comparator<Long>() {
+//		    @Override
+//		    public int compare(Long lhs, Long rhs) {
+//		        // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+//		        return lhs > rhs ? -1 : (lhs < rhs) ? 1 : 0;
+//		    }
+//		});
+		return list;
+	}
+	
+	public String getSeverityStatusIcon(String severity) {
+		
+		if (severity.equalsIgnoreCase("critical")) {
+			return "bullet_red.png";
+		} else if (severity.equalsIgnoreCase("major")) {
+			return "bullet_orange.png";
+		} else if (severity.equalsIgnoreCase("minor")) {
+			return "bullet_orange.png";
+		} else if (severity.equalsIgnoreCase("warning")) {
+			return "bullet_yellow.png";
+		} else if (severity.equalsIgnoreCase("informational")) {
+			return "bullet_blue.png";
+		} else {
+			return "bullet_black.png";
+		}
+		
 	}
 	
 }
