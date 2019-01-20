@@ -74,7 +74,7 @@ public class PrometheusMetricsServlet extends HttpServlet {
 	
 	private void collectMetrics() {
 		
-		DMetrics.dtools_build_info.labels(DToolsContext.version, System.getProperty("os.name"), startTimestamp + "").set(1);
+		DMetrics.dtools_build_info.labels("DTools", DToolsContext.version, System.getProperty("os.name"), startTimestamp + "").set(1);
 		
 		List<NetworkLocation> locs = DAO.getInstance().loadNetworkLocations();
 		for (NetworkLocation nl : locs) {

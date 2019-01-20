@@ -8,7 +8,7 @@ public class DMetrics {
 	public static final Gauge dtools_build_info = Gauge.build()
 			.name("dtools_build_info")
 			.help("DTools version")
-			.labelNames("version","os","starttime")
+			.labelNames("app", "version","os","starttime")
 			.register();
 	
 	public static final Gauge dtools_monitored_nodes_count = Gauge.build()

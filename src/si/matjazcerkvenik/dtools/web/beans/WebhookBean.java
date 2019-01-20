@@ -70,6 +70,8 @@ public class WebhookBean {
 			return "bullet_orange.png";
 		} else if (severity.equalsIgnoreCase("warning")) {
 			return "bullet_yellow.png";
+		} else if (severity.equalsIgnoreCase("clear")) {
+			return "bullet_green.png";
 		} else if (severity.equalsIgnoreCase("informational")) {
 			return "bullet_blue.png";
 		} else {
