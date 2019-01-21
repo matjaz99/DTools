@@ -7,21 +7,31 @@ public class DNotification {
 	
 	/** Unique ID of notification */
 	private String uid;
+	
 	/** Notification ID identifies the same events */
 	private String nid;
+	
+	/** timestamp of first occurence */
 	private long timestamp;
-	/** Counter of identical events (according to nid) */
+	
+	/** Counter of identical events (according to NID) */
 	private int counter = 1;
+	
 	/** timestamp of last occurrence */
 	private long lastTimestamp;
-	/** Source who sent the notification */
+	
+	/** Source IP who sent the notification */
 	private String source;
+	
+	/** user-agent from http header */
 	private String userAgent;
 	private String alertdomain;
 	private String alertname;
 	private String alerttype;
-	/** IP or hostname of node, preferably IP */
+	
+	/** IP address of node */
 	private String instance;
+	
 	/** Name or hostname of node */
 	private String nodename;
 	private String severity;

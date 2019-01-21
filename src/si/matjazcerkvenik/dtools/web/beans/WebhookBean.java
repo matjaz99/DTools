@@ -50,13 +50,13 @@ public class WebhookBean {
 	
 	public List<DNotification> getActiveAlarms() {
 		List<DNotification> list = new ArrayList<DNotification>(WebhookServlet.activeAlerts.values());
-//		Collections.sort(list, new Comparator<Long>() {
-//		    @Override
-//		    public int compare(Long lhs, Long rhs) {
-//		        // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-//		        return lhs > rhs ? -1 : (lhs < rhs) ? 1 : 0;
-//		    }
-//		});
+		Collections.sort(list, new Comparator<DNotification>() {
+		    @Override
+		    public int compare(DNotification lhs, DNotification rhs) {
+		        // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+		        return lhs.getTimestamp() > rhs.getTimestamp() ? -1 : (lhs.getTimestamp() < rhs.getTimestamp()) ? 1 : 0;
+		    }
+		});
 		return list;
 	}
 	
