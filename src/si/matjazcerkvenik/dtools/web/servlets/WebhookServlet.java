@@ -237,6 +237,9 @@ public class WebhookServlet extends HttpServlet {
 			DMetrics.dtools_am_alerts_received_total.labels(n.getSource(), n.getAlerttype(), n.getSeverity()).inc();
 		}
 		
+		
+		// resynchronization
+		
 		for (DNotification n : dn) {
 			if (n.getSeverity().equalsIgnoreCase("informational")) {
 				continue;
@@ -249,7 +252,10 @@ public class WebhookServlet extends HttpServlet {
 					activeAlerts.get(n.getNid()).setCounter(n.getCounter() + 1);
 				}
 			} else {
-				activeAlerts.put(n.getNid(), n);
+				// if clear comes to here, then it means there is no such NID to be deleted. Such clear can be ignored.
+				if (!n.getSeverity().equalsIgnoreCase("clear")) {
+					activeAlerts.put(n.getNid(), n);
+				}
 			}
 		}
 		
@@ -293,6 +299,12 @@ public class WebhookServlet extends HttpServlet {
 				n.setInstance("unknown");
 			}
 			
+			if (a.getLabels().containsKey("nodename")) {
+				n.setNodename(a.getLabels().get("nodename"));
+			} else {
+				n.setNodename(n.getInstance());
+			}
+			
 			if (a.getLabels().containsKey("severity")) {
 				n.setSeverity(a.getLabels().get("severity"));
 			} else {
@@ -306,7 +318,10 @@ public class WebhookServlet extends HttpServlet {
 			}
 			
 			if (a.getStatus().equalsIgnoreCase("resolved")) {
-				n.setSeverity("clear");
+				// set severity=clear for all events that have status=resolved, but not for those with severity=informational
+				if (!n.getSeverity().equalsIgnoreCase("informational")) {
+					n.setSeverity("clear");
+				}
 			}
 			
 			if (a.getAnnotations().containsKey("summary")) {

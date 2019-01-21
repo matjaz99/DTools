@@ -32,11 +32,6 @@
 						</h:column>
 						
 						<h:column headerClass="col0">
-							<f:facet name="header">UID</f:facet>
-							<h:outputText value="#{n.uid}" />
-						</h:column>
-						
-						<h:column headerClass="col0">
 							<f:facet name="header">Source</f:facet>
 							<h:outputText value="#{n.source}" />
 						</h:column>
@@ -65,10 +60,19 @@
 							<f:facet name="header">Instance</f:facet>
 							<h:outputText value="#{n.instance}" />
 						</h:column>
+						
+						<h:column headerClass="col0">
+							<f:facet name="header">Nodename</f:facet>
+							<h:outputText value="#{n.nodename}" />
+						</h:column>
 
 						<h:column headerClass="col0">
-							<f:facet name="header">Severity</f:facet>
+							<f:facet name="header">Icon</f:facet>
 							<p:graphicImage library="#{userBean.cssTheme}" name="img/#{webhookBean.getSeverityStatusIcon(n.severity)}" title="#{n.severity}" />
+						</h:column>
+						
+						<h:column headerClass="col0">
+							<f:facet name="header">Severity</f:facet>
 							<h:outputText value="#{n.severity}" />
 						</h:column>
 						
@@ -80,6 +84,11 @@
 						<h:column headerClass="col0">
 							<f:facet name="header">Status</f:facet>
 							<h:outputText value="#{n.status}" />
+						</h:column>
+						
+						<h:column headerClass="col0">
+							<f:facet name="header">Counter</f:facet>
+							<h:outputText value="#{n.counter}" />
 						</h:column>
 						
 						<h:column headerClass="col0 col2">

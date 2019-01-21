@@ -11,7 +11,7 @@ public class DNotification {
 	private String nid;
 	private long timestamp;
 	/** Counter of identical events (according to nid) */
-	private int counter;
+	private int counter = 1;
 	/** timestamp of last occurrence */
 	private long lastTimestamp;
 	/** Source who sent the notification */
@@ -20,7 +20,10 @@ public class DNotification {
 	private String alertdomain;
 	private String alertname;
 	private String alerttype;
+	/** IP or hostname of node, preferably IP */
 	private String instance;
+	/** Name or hostname of node */
+	private String nodename;
 	private String severity;
 	private String priority;
 	private String summary;
@@ -127,6 +130,14 @@ public class DNotification {
 
 	public void setInstance(String instance) {
 		this.instance = instance;
+	}
+
+	public String getNodename() {
+		return nodename;
+	}
+
+	public void setNodename(String nodename) {
+		this.nodename = nodename;
 	}
 
 	public String getSeverity() {
