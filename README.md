@@ -27,6 +27,21 @@ Current stable release: 5.3.0
 Commons-logging is required by commons-vfs
 
 
+## Docker image
+
+Build:
+
+```
+docker build -t dtools .
+docker tag dtools matjaz99/dtools:5.4.1
+docker push matjaz99/dtools:5.4.1
+```
+
+docker run -d --name dtools -p 8088:8080 matjaz99/dtools:5.4.1
+
+
+
+
 ## Version history
 
 moved to functional specification
