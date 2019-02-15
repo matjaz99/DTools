@@ -1,7 +1,7 @@
 # DTools
 Developer tools (SSH, FTP, SNMP simulator, automatization of common tasks, network status, docker status...)
 
-Current stable release: 5.3.0
+Current stable release: 5.4.1
 
 
 ## Features
@@ -17,6 +17,9 @@ Current stable release: 5.3.0
 - snmp agent
 - snmp simulator
 - docker status
+- webhook receiver for alertmanager notifications
+- active alerts (from alertmanager)
+- sending metrics to Pushgateway
 - quick notes
 - todo list
 - find duplicate files
