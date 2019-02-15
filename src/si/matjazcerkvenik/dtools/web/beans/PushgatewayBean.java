@@ -3,6 +3,7 @@ package si.matjazcerkvenik.dtools.web.beans;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -16,8 +17,13 @@ import si.matjazcerkvenik.dtools.tools.PromMetric;
 public class PushgatewayBean {
 
 	private String pgAddress = "localhost:9091";
+	private String job = "test_job";
+	private String instance = "this_host";
+	private String label;
 	private String metric = "test_pushgw_java{directory=\"/opt/docker\",hostname=\"this_host\"}";
-	private long value = 1234;
+	private long value = 100;
+	
+	private String curlCli;
 
 	public String getPgAddress() {
 		return pgAddress;
@@ -25,6 +31,30 @@ public class PushgatewayBean {
 
 	public void setPgAddress(String pgAddress) {
 		this.pgAddress = pgAddress;
+	}
+
+	public String getJob() {
+		return job;
+	}
+
+	public void setJob(String job) {
+		this.job = job;
+	}
+
+	public String getInstance() {
+		return instance;
+	}
+
+	public void setInstance(String instance) {
+		this.instance = instance;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
 	}
 
 	public String getMetric() {
@@ -43,6 +73,10 @@ public class PushgatewayBean {
 		this.value = value;
 	}
 
+	public String getCurlCli() {
+		return curlCli;
+	}
+
 	public void executeBatchJob() throws Exception {
 		CollectorRegistry registry = new CollectorRegistry();
 		try {
@@ -55,16 +89,38 @@ public class PushgatewayBean {
 				v[i] = pm.getLabels().get(s);
 				i++;
 			}
-			Gauge g = Gauge.build().name("test_pushgw_java").help("Sending metrics to pushgateway from Java")
+			Gauge g = Gauge.build().name(pm.getMetricName()).help("Sending metrics to pushgateway from Java")
 					.labelNames(k).register(registry);
 			g.labels(v).set(value);
+			
+			// generate curl cli command
+			curlCli = "echo \"" + pm.getMetricName();
+			if (pm.getLabels() != null) {
+				curlCli += "{";
+				for (String s : pm.getLabels().keySet()) {
+					curlCli += s + "=\\\"" + pm.getLabels().get(s) + "\\\", ";
+				}
+				curlCli = curlCli.substring(0, curlCli.length()-2);
+				curlCli += "}";
+			}
+			curlCli += " " + value + "\"";
+			curlCli += " | curl --data-binary @- http://" + pgAddress + "/metrics/job/" + job + "/instance/" + instance;
+			System.out.println("curlcli: " + curlCli);			
+			
 		} finally {
 			PushGateway pg = new PushGateway(pgAddress);
 			Map<String, String> map = new LinkedHashMap<String, String>();
-			map.put("instance", "this_host");
-			map.put("label", "abc");
-			pg.pushAdd(registry, "my_batch_job", map);
+			if (instance != null && !instance.isEmpty()) {
+				map.put("instance", instance);
+			}
+			if (label != null && !label.isEmpty()) {
+				map.put("label", label);
+			}
+			pg.pushAdd(registry, job, map);
 		}
+		Growl.addGrowlMessage("Metric pushed");
+		
+		
 	}
 
 	private PromMetric generateMetric() {

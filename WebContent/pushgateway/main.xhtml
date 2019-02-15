@@ -18,15 +18,23 @@
 				<p:panelGrid columns="2">
 					<p:outputLabel value="Address" />
 					<p:inputText value="#{pushgatewayBean.pgAddress}" />
+					<p:outputLabel value="Job" />
+					<p:inputText value="#{pushgatewayBean.job}" />
+					<p:outputLabel value="Instance" />
+					<p:inputText value="#{pushgatewayBean.instance}" />
+					<p:outputLabel value="Label" />
+					<p:inputText value="#{pushgatewayBean.label}" />
 					<p:outputLabel value="Metric" />
 					<p:inputText value="#{pushgatewayBean.metric}" size="150" />
 					<p:outputLabel value="Value" />
 					<p:inputText value="#{pushgatewayBean.value}" />
 					<p:commandButton value="Submit"
 									action="#{pushgatewayBean.executeBatchJob()}"
-									update="growl"
+									update="growl curlCli"
 									ajax="true" />
 				</p:panelGrid>
+				<h3>Command line</h3>
+				<p:outputLabel id="curlCli" value="#{pushgatewayBean.curlCli}" />
 			</h:form>
 
 		</ui:define>
