@@ -21,12 +21,27 @@
 		<ui:define name="contentFrame">
 		
 			<h1>Version history</h1>
-	
+				
+				<h:panelGrid columns="2" cellpadding="5" cellspacing="0" width="100%">
+					<h:outputText value="Version" />
+					<h:outputText value="5.4.1" />
+					<h:outputText value="Status" />
+					<h:outputText value="In development" />
+					<h:outputText value="Features" />
+					<ul>
+						<li>improvements in alertmanager</li>
+						<li>active alerts view</li>
+						<li>push custom metric to Pushgateway</li>
+					</ul>
+				</h:panelGrid>
+				
+				<hr/>
+				
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="0" width="100%">
 					<h:outputText value="Version" />
 					<h:outputText value="5.4.0" />
 					<h:outputText value="Status" />
-					<h:outputText value="In development" />
+					<h:outputText value="Released" />
 					<h:outputText value="Features" />
 					<ul>
 						<li>changed navigation, moved xhtml files into subdirectories</li>

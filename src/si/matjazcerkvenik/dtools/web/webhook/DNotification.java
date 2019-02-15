@@ -34,7 +34,11 @@ public class DNotification {
 	
 	/** Name or hostname of node */
 	private String nodename;
+	
+	/** Severity of notification */
 	private String severity;
+	
+	/** Urgency of notification */
 	private String priority;
 	private String summary;
 	private String description;

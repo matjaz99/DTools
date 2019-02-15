@@ -1,0 +1,35 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<div id="navigationFrame">
+		<ui:define name="navigationFrame">
+			<ui:include src="/pushgateway/_breadcrumb.xhtml" />
+		</ui:define>
+	</div>
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+
+			<h:form id="submitMetricForm">
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Address" />
+					<p:inputText value="#{pushgatewayBean.pgAddress}" />
+					<p:outputLabel value="Metric" />
+					<p:inputText value="#{pushgatewayBean.metric}" size="150" />
+					<p:outputLabel value="Value" />
+					<p:inputText value="#{pushgatewayBean.value}" />
+					<p:commandButton value="Submit"
+									action="#{pushgatewayBean.executeBatchJob()}"
+									update="growl"
+									ajax="true" />
+				</p:panelGrid>
+			</h:form>
+
+		</ui:define>
+	</div>
+
+</ui:composition>
