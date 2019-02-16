@@ -3,7 +3,6 @@ package si.matjazcerkvenik.dtools.web.beans;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
