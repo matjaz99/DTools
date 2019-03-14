@@ -3,12 +3,14 @@ package si.matjazcerkvenik.dtools.web.beans;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import io.prometheus.client.CollectorRegistry;
 import io.prometheus.client.Gauge;
 import io.prometheus.client.exporter.PushGateway;
+import si.matjazcerkvenik.dtools.context.DToolsContext;
 import si.matjazcerkvenik.dtools.tools.PromMetric;
 
 @ManagedBean
@@ -76,7 +78,7 @@ public class PushgatewayBean {
 		return curlCli;
 	}
 
-	public void executeBatchJob() throws Exception {
+	public void executeBatchJob() {
 		CollectorRegistry registry = new CollectorRegistry();
 		try {
 			PromMetric pm = generateMetric();
@@ -104,9 +106,8 @@ public class PushgatewayBean {
 			}
 			curlCli += " " + value + "\"";
 			curlCli += " | curl --data-binary @- http://" + pgAddress + "/metrics/job/" + job + "/instance/" + instance;
-			System.out.println("curlcli: " + curlCli);			
+			System.out.println("curlcli: " + curlCli);
 			
-		} finally {
 			PushGateway pg = new PushGateway(pgAddress);
 			Map<String, String> map = new LinkedHashMap<String, String>();
 			if (instance != null && !instance.isEmpty()) {
@@ -116,8 +117,18 @@ public class PushgatewayBean {
 				map.put("label", label);
 			}
 			pg.pushAdd(registry, job, map);
+			
+			Growl.addGrowlMessage("Metric pushed");
+			
+		} catch (Exception e) {
+			
+			DToolsContext.getInstance().getLogger().error("Push failed: " + e.getMessage());
+			
+			Growl.addGrowlMessage("Failed to push", FacesMessage.SEVERITY_ERROR);
+			
 		}
-		Growl.addGrowlMessage("Metric pushed");
+		
+		
 		
 		
 	}

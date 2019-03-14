@@ -36,12 +36,22 @@ Build:
 
 ```
 docker build -t dtools .
-docker tag dtools matjaz99/dtools:5.4.1
-docker push matjaz99/dtools:5.4.1
+docker tag dtools matjaz99/dtools:5.4.2-beta
+docker push matjaz99/dtools:5.4.2-beta
 ```
 
-docker run -d --name dtools -p 8088:8080 matjaz99/dtools:5.4.1
+docker run -d --name dtools -p 7070:8080 matjaz99/dtools:5.4.1
 
+
+
+Prometheus metrics:
+
+/api/prometheus/metrics
+
+
+Webhook:
+
+/api/webhook/*
 
 
 
