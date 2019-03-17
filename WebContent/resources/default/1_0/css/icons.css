@@ -60,6 +60,12 @@
 	width: 32px;
 }
 
+.ui-menuitem-icon.ui-icon.gear-icon {
+	background: url("#{resource['default:img/gear-icon.png']}") no-repeat;
+	height: 32px; 
+	width: 32px;
+}
+
 .ui-menuitem-icon.ui-icon.docker-icon {
 	background: url("#{resource['default:img/docker.png']}") no-repeat;
 	height: 32px; 

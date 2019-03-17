@@ -60,6 +60,12 @@
 	width: 20px;
 }
 
+.ui-menuitem-icon.ui-icon.gear-icon {
+	background: url("#{resource['antracit:img/gear-icon.png']}") no-repeat;
+	height: 20px; 
+	width: 20px;
+}
+
 .ui-menuitem-icon.ui-icon.docker-icon {
 	background: url("#{resource['antracit:img/docker.png']}") no-repeat;
 	height: 20px; 
