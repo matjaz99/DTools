@@ -16,4 +16,12 @@
         <protocol>SFTP</protocol>
         <username>ftpuser</username>
     </ftpClient>
+    <ftpClient>
+        <favorite>false</favorite>
+        <hostname>tt</hostname>
+        <password>ee</password>
+        <port>21</port>
+        <protocol>FTP</protocol>
+        <username>rr</username>
+    </ftpClient>
 </ftpClients>

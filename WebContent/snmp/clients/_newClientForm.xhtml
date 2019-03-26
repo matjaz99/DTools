@@ -1,0 +1,48 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:dt="http://dtools.com/ui" >
+    
+    <h:form id="addSnmpClientsForm">
+					<p:commandButton value="New client"
+						onclick="PF('addDlg').show();" icon="ui-icon-plus" />
+					<p:dialog header="New SNMP client" widgetVar="addDlg"
+						resizable="false">
+						<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+							<h:outputLabel value="Name: " />
+							<p:inputText id="clientName" value="#{snmpClientsBean.name}"
+								required="true" requiredMessage="Missing value">
+<!-- 								<f:validator validatorId="newFtpClientValidator" /> -->
+<!-- 								<f:attribute name="port" value="#{ftpPort}" /> -->
+<!-- 								<f:attribute name="user" value="#{ftpUser}" /> -->
+							</p:inputText>
+							<h:outputLabel value="Hostname:" />
+							<p:inputText id="hostname" value="#{snmpClientsBean.hostname}" 
+								required="true" requiredMessage="Missing value" />
+							<h:outputLabel value="Port: " />
+							<p:inputText id="port" value="#{snmpClientsBean.port}" required="true"
+								requiredMessage="Missing value" />
+							<h:outputText value="SNMP version: " />
+							<h:selectOneRadio value="#{snmpClientsBean.snmpVersion}" 
+								required="true" requiredMessage="Missing value">
+								<f:selectItem itemLabel="v1" itemValue="v1" />
+								<f:selectItem itemLabel="v2c" itemValue="v2c" />
+							</h:selectOneRadio>
+							<h:outputText value="Community: " />
+							<p:inputText id="community" value="#{snmpClientsBean.community}" />
+							<f:facet name="footer">
+								<p:commandButton value="Add"
+									action="#{snmpClientsBean.addSnmpClient}"
+									update="growl clientName hostname port community snmpClientsForm"
+									oncomplete="handleDialogRequest('addDlg', xhr, status, args)" />
+								<p:commandButton value="Cancel"
+									onclick="PF('addDlg').hide();" />
+							</f:facet>
+						</h:panelGrid>
+					</p:dialog>
+				</h:form>
+    
+</ui:composition>

@@ -19,37 +19,10 @@
 
 	<div id="contentFrame">
 		<ui:define name="contentFrame">
+			
+			<h:panelGrid columns="1" cellpadding="5" cellspacing="0" width="100%">
 
-			<h:form id="addSnmpForm">
-				<p:fieldset legend="Add new SNMP client" toggleable="true"
-					toggleSpeed="300" collapsed="true">
-					<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
-
-						<h:outputLabel value="Name: " />
-						<p:inputText value="#{snmpClientsBean.name}"></p:inputText>
-
-						<h:outputLabel value="Hostname: " />
-						<p:inputText value="#{snmpClientsBean.hostname}" />
-
-						<h:outputLabel value="Port: " />
-						<p:inputText value="#{snmpClientsBean.port}" />
-
-						<h:outputText value="SNMP version: " />
-						<h:selectOneRadio value="#{snmpClientsBean.snmpVersion}">
-							<f:selectItem itemLabel="v1" itemValue="v1" />
-							<f:selectItem itemLabel="v2c" itemValue="v2c" />
-						</h:selectOneRadio>
-
-						<h:outputText value="Community: " />
-						<p:inputText value="#{snmpClientsBean.community}" />
-
-						<p:commandButton value="Add"
-							action="#{snmpClientsBean.addSnmpClient}"
-							update="growl addSnmpForm snmpClientsForm" ajax="true" />
-
-					</h:panelGrid>
-				</p:fieldset>
-			</h:form>
+			<ui:include src="/snmp/clients/_newClientForm.xhtml"/>
 
 
 			<h:form id="snmpClientsForm" styleClass="myForm">
@@ -99,7 +72,8 @@
 					</h:dataTable>
 				</h:panelGrid>
 			</h:form>
-
+			
+			</h:panelGrid>
 
 		</ui:define>
 	</div>

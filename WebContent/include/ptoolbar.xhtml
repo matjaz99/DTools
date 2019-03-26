@@ -14,14 +14,18 @@
 	        <p:submenu label="Tools" icon="tools-icon">
 	            <p:menuitem value="SSH Clients" url="/ssh" icon="cabriolet-icon" />
 	            <p:menuitem value="FTP Clients" url="/ftp" icon="truck-icon" />
-	            <p:menuitem value="SNMP Browser" url="/snmp/clients" icon="tractor-icon" />
-	            <p:menuitem value="Trap receiver" url="/snmp/manager" icon="fire-truck-icon" />
-	            <p:menuitem value="SNMP Sim" url="/snmp/simulator" icon="rocket-icon" />
+		        <p:submenu label="SNMP" icon="tractor-icon">
+	                <p:menuitem value="SNMP Browser" url="/snmp/clients" icon="tractor-icon" />
+	                <p:menuitem value="Trap receiver" url="/snmp/manager" icon="fire-truck-icon" />
+	                <p:menuitem value="SNMP Sim" url="/snmp/simulator" icon="rocket-icon" />
+	            </p:submenu>
 	            <p:menuitem value="Docker" url="/docker" icon="docker-icon" />
 	            <p:menuitem value="Composer" url="/docker/composer" icon="docker-icon" />
 	            <p:menuitem value="Webhook" url="/wh" icon="target-icon" />
-	            <p:menuitem value="Alertmanager History" url="/alertmanager/history" icon="prometheus-icon" />
-	            <p:menuitem value="Alertmanager Active" url="/alertmanager/active" icon="prometheus-icon" />
+	            <p:submenu label="Alertmanager" icon="prometheus-icon">
+	                <p:menuitem value="History" url="/alertmanager/history" icon="prometheus-icon" />
+	            	<p:menuitem value="Active" url="/alertmanager/active" icon="prometheus-icon" />
+	            </p:submenu>
 	            <p:menuitem value="Pushgateway" url="/pushgateway" icon="prometheus-icon" />
 	        </p:submenu>
 	        <p:submenu label="Misc" icon="favorites-icon">

@@ -23,6 +23,8 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import org.primefaces.context.RequestContext;
+
 import si.matjazcerkvenik.dtools.io.DAO;
 import si.matjazcerkvenik.dtools.tools.snmp.SnmpClient;
 
@@ -95,6 +97,9 @@ public class SnmpClientsBean {
 		port = 161;
 		community = "public";
 		snmpVersion = "v2c";
+		
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.addCallbackParam("success", true);
 
 	}
 
