@@ -24,8 +24,8 @@
 	        
 			<h:form id="breadCrumb">
     		<p:breadCrumb>
-			    <p:menuitem value="Home" url="home.xhtml" />
-			    <p:menuitem value="Network" url="network.xhtml" />
+			    <p:menuitem value="Home" url="/" />
+			    <p:menuitem value="Network" url="/network" />
 			</p:breadCrumb>
     		</h:form>
     		
@@ -123,7 +123,7 @@
 							
 							<h:column headerClass="col0 col1">
 								<f:facet name="header">Icon</f:facet>
-								<p:link outcome="node" >
+								<p:link outcome="/network/node/main.xhtml" >
 								    <f:param name="nodeName" value="#{node.name}" />
 								    <p:graphicImage library="#{userBean.cssTheme}" name="img/#{node.icon}" title="#{node.type}" />
 								</p:link>
@@ -139,7 +139,7 @@
 							
 							<h:column headerClass="col0 col2">
 								<f:facet name="header">Name</f:facet>
-								<p:link outcome="node" value="#{node.name}" >
+								<p:link outcome="/network/node/main.xhtml" value="#{node.name}" >
 								    <f:param name="nodeName" value="#{node.name}" />
 								    <f:param name="location" value="#{networkBean.selectedNetworkLocation.locationName}" />
 								</p:link>
@@ -147,7 +147,7 @@
 							
 							<h:column headerClass="col0 col2">
 								<f:facet name="header">Hostname</f:facet>
-								<p:link outcome="node" value="#{node.hostname}">
+								<p:link outcome="/network/node/main.xhtml" value="#{node.hostname}">
 									<f:param name="nodeName" value="#{node.name}" />
 									<f:param name="location" value="#{networkBean.selectedNetworkLocation.locationName}" />
 								</p:link>
@@ -160,7 +160,7 @@
 							
 							<h:column headerClass="col0 col1">
 								<f:facet name="header">Stat</f:facet>
-								<p:link outcome="nodeStat">
+								<p:link outcome="/network/node/nodeStat.xhtml">
 									<p:graphicImage library="#{userBean.cssTheme}" name="img/bar-chart-icon.png" />
 									<f:param name="nodeName" value="#{node.name}" />
 									<f:param name="location" value="#{networkBean.selectedNetworkLocation.locationName}" />

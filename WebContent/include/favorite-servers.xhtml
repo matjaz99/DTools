@@ -25,7 +25,7 @@
 			<h:column headerClass="col0">
 				<f:facet name="header">Name</f:facet>
 				<h:form rendered="#{node.favorite}" styleClass="myForm">
-					<p:link outcome="node" value="#{node.name}">
+					<p:link outcome="/network/node/main.xhtml" value="#{node.name}">
 					    <f:param name="nodeName" value="#{node.name}" />
 					    <f:param name="location" value="#{networkBean.selectedNetworkLocation.locationName}" />
 					</p:link>
@@ -34,7 +34,7 @@
 			<h:column headerClass="col0">
 				<f:facet name="header">Hostname</f:facet>
 				<h:form rendered="#{node.favorite}" styleClass="myForm">
-					<p:link outcome="node" value="#{node.hostname}">
+					<p:link outcome="/network/node/main.xhtml" value="#{node.hostname}">
 					    <f:param name="nodeName" value="#{node.name}" />
 					    <f:param name="location" value="#{networkBean.selectedNetworkLocation.locationName}" />
 					</p:link>

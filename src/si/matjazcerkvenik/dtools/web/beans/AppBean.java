@@ -82,7 +82,7 @@ public class AppBean {
 			if (locations.get(i).isMonitoringActive()) {
 				ActiveConnection ac = new ActiveConnection();
 				ac.name = "Network Monitoring; location: " + locations.get(i).getLocationName();
-				ac.outcome = "network.xhtml?location="+locations.get(i).getLocationName();
+				ac.outcome = "network/main.xhtml?location="+locations.get(i).getLocationName();
 				ac.status = "Running";
 				activeConnectionsList.add(ac);
 			}

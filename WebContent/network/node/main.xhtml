@@ -24,9 +24,9 @@
 			
 			<h:form id="breadCrumb">
 			<p:breadCrumb>
-			    <p:menuitem value="Home" url="home.xhtml" />
-			    <p:menuitem value="Network" url="network.xhtml" />
-			    <p:menuitem value="#{nodeBean.networkLocation.locationName}" url="network.xhtml?location=#{nodeBean.networkLocation.locationName}" />
+			    <p:menuitem value="Home" url="/" />
+			    <p:menuitem value="Network" url="/network" />
+			    <p:menuitem value="#{nodeBean.networkLocation.locationName}" url="/network/main.xhtml?location=#{nodeBean.networkLocation.locationName}" />
 			    <p:menuitem value="#{nodeBean.node.name}" url="#" />
 			</p:breadCrumb>
 			</h:form>
