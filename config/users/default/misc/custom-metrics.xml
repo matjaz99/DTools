@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<prometheusCustomMetrics>
+    <metric>
+        <help>to je test</help>
+        <label key="id" value="1"/>
+        <label key="label2" value="value2"/>
+        <label key="wave" value="15m"/>
+        <name>test_metric</name>
+        <randomGenerator maxDeviation="20" maxValue="100" minValue="0" wavePeriod="15m"/>
+        <type>GAUGE</type>
+        <value>0.0</value>
+    </metric>
+    <metric>
+        <help>test_metric</help>
+        <label key="id" value="2"/>
+        <label key="label2" value="222"/>
+        <label key="wave" value="1h"/>
+        <name>test_metric</name>
+        <randomGenerator maxDeviation="10" maxValue="300" minValue="0" wavePeriod="1h"/>
+        <type>GAUGE</type>
+        <value>1.0</value>
+    </metric>
+    <metric>
+        <help>test_metric</help>
+        <label key="id" value="3"/>
+        <label key="label2" value="bbb"/>
+        <label key="wave" value="12h"/>
+        <name>test_metric</name>
+        <randomGenerator maxDeviation="20" maxValue="100" minValue="0" wavePeriod="12h"/>
+        <type>GAUGE</type>
+        <value>0.0</value>
+    </metric>
+    <metric>
+        <help>test_metric</help>
+        <label key="id" value="4"/>
+        <label key="label2" value="bbb"/>
+        <label key="wave" value="100d"/>
+        <name>test_metric</name>
+        <randomGenerator maxDeviation="20" maxValue="100" minValue="0" wavePeriod="100d"/>
+        <type>GAUGE</type>
+        <value>0.0</value>
+    </metric>
+</prometheusCustomMetrics>
