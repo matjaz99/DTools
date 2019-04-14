@@ -53,12 +53,14 @@ import si.matjazcerkvenik.dtools.tools.ssh.Commands;
 import si.matjazcerkvenik.dtools.tools.ssh.SshClient;
 import si.matjazcerkvenik.dtools.tools.ssh.SshClients;
 import si.matjazcerkvenik.dtools.tools.ssh.SshResponse;
+import si.matjazcerkvenik.dtools.xml.CustomMetric;
 import si.matjazcerkvenik.dtools.xml.GrafanaPanel;
 import si.matjazcerkvenik.dtools.xml.GrafanaPanels;
 import si.matjazcerkvenik.dtools.xml.NetworkNodes;
 import si.matjazcerkvenik.dtools.xml.Node;
 import si.matjazcerkvenik.dtools.xml.Note;
 import si.matjazcerkvenik.dtools.xml.Notes;
+import si.matjazcerkvenik.dtools.xml.PrometheusCustomMetrics;
 import si.matjazcerkvenik.dtools.xml.Service;
 import si.matjazcerkvenik.dtools.xml.Todo;
 import si.matjazcerkvenik.dtools.xml.Todos;
@@ -79,6 +81,7 @@ public class DAO {
 	private SnmpSimulator snmpSimulator;
 	private Notes notes;
 	private Todos todos;
+	private PrometheusCustomMetrics customMetrics;
 	
 	private String DIR_NETWORK = "/config/users/$DTOOLS_USER$/network";
 	
@@ -98,6 +101,8 @@ public class DAO {
 	
 	private String XML_NOTES = "/config/users/$DTOOLS_USER$/misc/notes.xml";
 	private String XML_TODOS = "/config/users/$DTOOLS_USER$/misc/todos.xml";
+	
+	private String XML_CUSTOM_METRICS = "/config/users/$DTOOLS_USER$/misc/custom-metrics.xml";
 	
 	private String DIR_GRAFANA = "/config/users/$DTOOLS_USER$/grafana";
 	
@@ -125,6 +130,8 @@ public class DAO {
 		XML_NOTES = XML_NOTES.replace("$DTOOLS_USER$", "default");
 		XML_TODOS = XML_TODOS.replace("$DTOOLS_USER$", "default");
 		
+		XML_CUSTOM_METRICS = XML_CUSTOM_METRICS.replace("$DTOOLS_USER$", "default");
+		
 		DIR_GRAFANA = DIR_GRAFANA.replace("$DTOOLS_USER$", "default");
 		
 	}
@@ -148,6 +155,7 @@ public class DAO {
 		snmpSimulator = null;
 		notes = null;
 		todos = null;
+		customMetrics = null;
 	}
 	
 	
@@ -1679,6 +1687,107 @@ public class DAO {
 ////		saveSnmpTraps();
 //
 //	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	/* CUSTOM METRICS */
+	
+
+	/**
+	 * Load custom metrics
+	 * @return customMetrics
+	 */
+	public PrometheusCustomMetrics loadCustomMetrics() {
+
+		if (customMetrics != null) {
+			return customMetrics;
+		}
+
+		try {
+
+			File file = new File(DToolsContext.HOME_DIR + XML_CUSTOM_METRICS);
+			if (!file.exists()) {
+				customMetrics = new PrometheusCustomMetrics();
+				JAXBContext jaxbContext = JAXBContext.newInstance(PrometheusCustomMetrics.class);
+				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+				jaxbMarshaller.marshal(customMetrics, file);
+			}
+			JAXBContext jaxbContext = JAXBContext.newInstance(PrometheusCustomMetrics.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			customMetrics = (PrometheusCustomMetrics) jaxbUnmarshaller.unmarshal(file);
+			
+			logger.info("DAO:loadCustomMetrics(): " + file.getAbsolutePath());
+
+		} catch (JAXBException e) {
+			logger.error("DAO:loadCustomMetrics(): JAXBException: ", e);
+		}
+
+		return customMetrics;
+
+	}
+
+	
+	/**
+	 * Save SSH commands to file
+	 */
+	public void saveCustomMetrics() {
+
+		try {
+
+			File file = new File(DToolsContext.HOME_DIR + XML_CUSTOM_METRICS);
+			JAXBContext jaxbContext = JAXBContext.newInstance(PrometheusCustomMetrics.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.marshal(customMetrics, file);
+			
+			logger.info("DAO:saveCustomMetrics(): " + file.getAbsolutePath());
+
+		} catch (JAXBException e) {
+			logger.error("DAO:saveCustomMetrics(): JAXBException: ", e);
+		}
+
+	}
+
+	
+	/**
+	 * Add new metric
+	 * @param metric
+	 */
+	public void addCustomMetric(CustomMetric m) {
+
+		customMetrics.addMetric(m);
+		saveCustomMetrics();
+
+	}
+
+	
+	/**
+	 * Delete metric
+	 * @param metric
+	 */
+	public void deleteCustomMetric(CustomMetric m) {
+
+		customMetrics.deleteMetric(m);
+		saveCustomMetrics();
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

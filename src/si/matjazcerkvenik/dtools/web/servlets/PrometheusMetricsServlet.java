@@ -5,7 +5,6 @@ import java.io.Writer;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -14,29 +13,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import io.prometheus.client.CollectorRegistry;
 import io.prometheus.client.Counter;
 import io.prometheus.client.Gauge;
 import io.prometheus.client.exporter.common.TextFormat;
 import si.matjazcerkvenik.dtools.context.DMetrics;
-import si.matjazcerkvenik.dtools.context.DToolsContext;
-import si.matjazcerkvenik.dtools.io.DAO;
-import si.matjazcerkvenik.dtools.tools.NetworkLocation;
 
 public class PrometheusMetricsServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -5776148450627134391L;
 	
-	private long startTimestamp = 0;
-
-	private CollectorRegistry registry;
-
-	/**
-	 * Construct a MetricsServlet for the given registry.
-	 */
+	
 	public PrometheusMetricsServlet() {
-		this.registry = CollectorRegistry.defaultRegistry;
-		startTimestamp = System.currentTimeMillis();
 	}
 
 	@Override
@@ -45,12 +32,12 @@ public class PrometheusMetricsServlet extends HttpServlet {
 		resp.setStatus(HttpServletResponse.SC_OK);
 		resp.setContentType(TextFormat.CONTENT_TYPE_004);
 		
-		collectMetrics();
+		DMetrics.collectMetrics();
 		simulateMetrics();
 
 		Writer writer = resp.getWriter();
 		try {
-			TextFormat.write004(writer, registry.filteredMetricFamilySamples(parse(req)));
+			TextFormat.write004(writer, DMetrics.registry.filteredMetricFamilySamples(parse(req)));
 			writer.flush();
 		} finally {
 			writer.close();
@@ -72,16 +59,7 @@ public class PrometheusMetricsServlet extends HttpServlet {
 		doGet(req, resp);
 	}
 	
-	private void collectMetrics() {
-		
-		DMetrics.dtools_build_info.labels("DTools", DToolsContext.version, System.getProperty("os.name"), startTimestamp + "").set(1);
-		
-		List<NetworkLocation> locs = DAO.getInstance().loadNetworkLocations();
-		for (NetworkLocation nl : locs) {
-			DMetrics.dtools_monitored_nodes_count.labels(nl.getLocationName()).set(nl.getNetworkNodes().getNodesList().size());
-		}
-		
-	}
+	
 	
 	
 	

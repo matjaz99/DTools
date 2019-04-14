@@ -6,24 +6,16 @@ Current stable release: 5.4.1
 
 ## Features
 
-- create a network of servers
-- monitor network
-- monitor services
-- autodiscovery
+- monitor network nodes and services
+- auto-discovery
 - execute ssh commands
 - save common ssh commands
 - upload/download files using ftp/sftp
-- snmp manager
-- snmp agent
-- snmp simulator
+- snmp manager, agent and trap sender/receiver
 - docker status
 - webhook receiver for alertmanager notifications
 - active alerts (from alertmanager)
 - sending metrics to Pushgateway
-- quick notes
-- todo list
-- find duplicate files
-- external links, favorites
 
 
 

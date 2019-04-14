@@ -22,6 +22,10 @@
 	            <p:menuitem value="Docker" url="/docker" icon="docker-icon" />
 	            <p:menuitem value="Composer" url="/docker/composer" icon="docker-icon" />
 	            <p:menuitem value="Webhook" url="/wh" icon="target-icon" />
+	            <p:submenu label="Metrics" icon="prometheus-icon">
+	                <p:menuitem value="Exporter" url="/api/prometheus/metrics" target="_blank" icon="prometheus-icon" />
+	            	<p:menuitem value="Simulator" url="/metricsim" icon="prometheus-icon" />
+	            </p:submenu>
 	            <p:submenu label="Alertmanager" icon="prometheus-icon">
 	                <p:menuitem value="History" url="/alertmanager/history" icon="prometheus-icon" />
 	            	<p:menuitem value="Active" url="/alertmanager/active" icon="prometheus-icon" />
@@ -32,7 +36,6 @@
 	            <p:menuitem value="Todo list" url="/todo" icon="todo-icon" />
 	            <p:menuitem value="Notes" url="/notes" icon="notes-icon" />
 	            <p:menuitem value="FileInspector" url="/fileInspector" icon="view-file-icon" />
-	            <p:menuitem value="Metrics" url="/api/prometheus/metrics" icon="prometheus-icon" />
 	            <p:menuitem value="Grafana" url="/grafana" icon="grafana-icon" />
 	            <p:menuitem value="Google" url="http://www.google.com" icon="google-icon" target="_blank" />
 	        </p:submenu>

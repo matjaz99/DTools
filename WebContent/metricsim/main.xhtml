@@ -1,0 +1,145 @@
+<ui:composition template="/templates/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:dt="http://dtools.com/ui">
+
+	<div id="navigationFrame">
+		<ui:define name="navigationFrame">
+			<h:form id="breadCrumb">
+				<p:breadCrumb>
+					<p:menuitem value="Home" url="/" />
+					<p:menuitem value="Metrics simulator" url="/metricsim" />
+				</p:breadCrumb>
+			</h:form>
+		</ui:define>
+	</div>
+
+	<div id="contentFrame">
+		<ui:define name="contentFrame">
+			
+			<h:outputText value="Prometheus metrics simulator" styleClass="title" />
+			
+			<h:form id="addMetricDialogForm">
+				<p:commandButton value="New metric"
+					onclick="PF('addMetricDlg').show();" icon="ui-icon-plus" />
+				<p:dialog header="New metric" widgetVar="addMetricDlg"
+					resizable="false">
+					<h:panelGrid columns="2" cellpadding="2" cellspacing="0">
+						<h:outputLabel value="Metric name: " />
+						<p:inputText value="#{metricSimBean.newMetric.name}"
+							required="true" requiredMessage="Missing metric name">
+						</p:inputText>
+						<h:outputLabel value="Metric help: " />
+						<p:inputText value="#{metricSimBean.newMetric.help}" />
+						<h:outputLabel value="Type: " />
+						<h:selectOneMenu value="#{metricSimBean.newMetric.type}">
+							<f:selectItem itemValue="GAUGE" />
+							<f:selectItem itemValue="COUNTER" />
+						</h:selectOneMenu>
+						<h:outputLabel value="Value: " />
+						<h:panelGroup>
+							<p:inputText value="#{metricSimBean.newMetric.value}" />
+							<h:outputLabel value=" | Min: " />
+							<p:inplace editor="true">
+								<p:inputText value="#{metricSimBean.newMetric.randomGenerator.minValue}" />
+							</p:inplace>
+							<h:outputLabel value=" | Max: " />
+							<p:inplace editor="true">
+								<p:inputText value="#{metricSimBean.newMetric.randomGenerator.maxValue}" />
+							</p:inplace>
+							<h:outputLabel value=" | Dev: ±" />
+							<p:inplace editor="true">
+								<p:inputText value="#{metricSimBean.newMetric.randomGenerator.maxDeviation}" />
+							</p:inplace>
+						</h:panelGroup>
+						<h:outputText value="Labels" />
+						<p:dataTable id="labelsTable" value="#{metricSimBean.newMetric.labels}"
+							var="lbl" styleClass="table" rowClasses="tableOddRow,tableEvenRow"
+							cellpadding="0" cellspacing="0" width="100%">
+							<p:column>
+								<f:facet name="header">Label name</f:facet>
+								<p:inplace editor="true">
+									<p:inputText value="#{lbl.key}" required="true" label="text" />
+								</p:inplace>
+							</p:column>
+							<p:column>
+								<f:facet name="header">Label value</f:facet>
+								<p:inplace editor="true">
+									<p:inputText value="#{lbl.value}" required="true" label="text" />
+								</p:inplace>
+							</p:column>
+							<p:column>
+								<f:facet name="header">Remove</f:facet>
+								<p:commandButton value="Remove"
+									action="#{metricSimBean.removeLabel(lbl)}" update="labelsTable"
+									ajax="true" />
+							</p:column>
+						</p:dataTable>
+						<f:facet name="footer">
+							<p:commandButton value="Add label"
+								action="#{metricSimBean.addLabel()}" update="labelsTable"
+								ajax="true" />
+							<p:commandButton value="Save metric"
+								action="#{metricSimBean.saveMetrics()}" update="growl mainForm"
+								ajax="true" oncomplete="handleDialogRequest('addMetricDlg', xhr, status, args)" />
+							<p:commandButton value="Cancel" onclick="PF('addMetricDlg').hide();" />
+						</f:facet>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+			
+
+
+			<h:form id="mainForm">
+			
+				<p:dataTable id="metricsTable" value="#{metricSimBean.getCustomMetricsList()}"
+					var="m" styleClass="table" rowClasses="tableOddRow,tableEvenRow"
+					cellpadding="0" cellspacing="0" width="100%">
+				
+					<p:column>
+						<f:facet name="header">Metric</f:facet>
+						<h:outputLabel value="#{m.toPromString()}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">Value</f:facet>
+						<p:inplace editor="true">
+							<p:inputText value="#{m.value}" required="true" />
+						</p:inplace>
+						<h:outputLabel value=" | Min=" />
+						<p:inplace editor="true">
+							<p:inputText value="#{m.randomGenerator.minValue}" valueChangeListener="#{metricSimBean.updateMetric(m)}" />
+						</p:inplace>
+						<h:outputLabel value=" | Max=" />
+						<p:inplace editor="true">
+							<p:inputText value="#{m.randomGenerator.maxValue}" valueChangeListener="#{metricSimBean.changedMax()}" />
+						</p:inplace>
+						<h:outputLabel value=" | ∆=±" />
+						<p:inplace editor="true">
+							<p:inputText value="#{m.randomGenerator.maxDeviation}" valueChangeListener="#{metricSimBean.saveMetrics()}" />
+						</p:inplace>
+						<h:outputLabel value=" | Wave=" />
+						<p:inplace editor="true" >
+							<p:inputText value="#{m.randomGenerator.wavePeriod}" valueChangeListener="#{metricSimBean.saveMetrics()}" />
+						</p:inplace>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Actions</f:facet>
+						<p:commandButton value="Remove"
+							action="#{metricSimBean.removeMetric(m)}" update="metricsTable"
+							ajax="true" />
+					</p:column>
+				
+				</p:dataTable>
+				<p:poll interval="30" update="metricsTable" />
+
+			</h:form>
+			
+
+		</ui:define>
+	</div>
+
+</ui:composition>
+
