@@ -36,12 +36,16 @@ public class CustomMetric implements Serializable {
 	}
 
 	public Double getValue() {
-		value = new Double(randomGenerator.getNextInt());
 		return value;
 	}
 
 	public void setValue(Double value) {
 		this.value = value;
+	}
+	
+	public Double simulateValue() {
+		value = new Double(randomGenerator.getNextInt());
+		return value;
 	}
 
 	public String getType() {

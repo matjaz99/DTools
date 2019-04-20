@@ -104,7 +104,8 @@
 						<h:outputLabel value="#{m.toPromString()}" />
 					</p:column>
 					<p:column>
-						<f:facet name="header">Value</f:facet>
+						<f:facet name="header">Value generator</f:facet>
+						<h:outputLabel value="Value=" />
 						<p:inplace editor="true">
 							<p:inputText value="#{m.value}" required="true" />
 						</p:inplace>

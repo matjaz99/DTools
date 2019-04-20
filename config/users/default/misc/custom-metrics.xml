@@ -8,7 +8,7 @@
         <name>test_metric</name>
         <randomGenerator maxDeviation="20" maxValue="100" minValue="0" wavePeriod="15m"/>
         <type>GAUGE</type>
-        <value>0.0</value>
+        <value>10.0</value>
     </metric>
     <metric>
         <help>test_metric</help>
@@ -18,7 +18,7 @@
         <name>test_metric</name>
         <randomGenerator maxDeviation="10" maxValue="300" minValue="0" wavePeriod="1h"/>
         <type>GAUGE</type>
-        <value>1.0</value>
+        <value>4.0</value>
     </metric>
     <metric>
         <help>test_metric</help>
@@ -28,7 +28,7 @@
         <name>test_metric</name>
         <randomGenerator maxDeviation="20" maxValue="100" minValue="0" wavePeriod="12h"/>
         <type>GAUGE</type>
-        <value>0.0</value>
+        <value>12.0</value>
     </metric>
     <metric>
         <help>test_metric</help>
@@ -37,6 +37,16 @@
         <label key="wave" value="100d"/>
         <name>test_metric</name>
         <randomGenerator maxDeviation="20" maxValue="100" minValue="0" wavePeriod="100d"/>
+        <type>GAUGE</type>
+        <value>0.0</value>
+    </metric>
+    <metric>
+        <help>llll</help>
+        <label key="label" value="value"/>
+        <label key="label" value="value"/>
+        <label key="label" value="value"/>
+        <name>llll</name>
+        <randomGenerator maxDeviation="20" maxValue="100" minValue="0" wavePeriod="5m"/>
         <type>GAUGE</type>
         <value>0.0</value>
     </metric>

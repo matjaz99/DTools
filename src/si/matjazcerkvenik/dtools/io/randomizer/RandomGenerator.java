@@ -37,14 +37,14 @@ public class RandomGenerator implements Serializable {
 		Random rand = new Random();
 
 		int dev = rand.nextInt(maxDeviation);
+		
+		currentValue = (int) (currentValue * getCosinusFactor());
 
 		if (rand.nextBoolean()) {
 			currentValue = currentValue + dev;
 		} else {
 			currentValue = currentValue - dev;
 		}
-		
-		currentValue = (int) (currentValue * getCosinusFactor());
 
 		if (currentValue > maxValue) {
 			currentValue = maxValue;

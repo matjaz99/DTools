@@ -89,10 +89,10 @@ public class DMetrics {
 		for (CustomMetric m : DAO.getInstance().loadCustomMetrics().getMetricsList()) {
 			if (m.getType().equals("GAUGE")) {
 				Gauge g = (Gauge) simulatedMetrics.get(m.getName());
-				g.labels(m.getValuesAsArray()).set(m.getValue());
+				g.labels(m.getValuesAsArray()).set(m.simulateValue());
 			} else if (m.getType().equals("COUNTER")) {
 				Counter c = (Counter) simulatedMetrics.get(m.getName());
-				c.labels(m.getValuesAsArray()).inc(Math.abs(m.getValue()));
+				c.labels(m.getValuesAsArray()).inc(Math.abs(m.simulateValue()));
 			}
 		}
 		
