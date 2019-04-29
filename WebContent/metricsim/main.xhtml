@@ -41,19 +41,13 @@
 						</h:selectOneMenu>
 						<h:outputLabel value="Value: " />
 						<h:panelGroup>
-							<p:inputText value="#{metricSimBean.newMetric.value}" />
-							<h:outputLabel value=" | Min: " />
-							<p:inplace editor="true">
-								<p:inputText value="#{metricSimBean.newMetric.randomGenerator.minValue}" />
-							</p:inplace>
-							<h:outputLabel value=" | Max: " />
-							<p:inplace editor="true">
-								<p:inputText value="#{metricSimBean.newMetric.randomGenerator.maxValue}" />
-							</p:inplace>
-							<h:outputLabel value=" | Dev: ±" />
-							<p:inplace editor="true">
-								<p:inputText value="#{metricSimBean.newMetric.randomGenerator.maxDeviation}" />
-							</p:inplace>
+							<p:inputText value="#{metricSimBean.newMetric.randomGenerator.value}" />
+							<h:outputLabel value=" Min value: " />
+							<p:inputText value="#{metricSimBean.newMetric.randomGenerator.min}" />
+							<h:outputLabel value=" Max value: " />
+							<p:inputText value="#{metricSimBean.newMetric.randomGenerator.max}" />
+							<h:outputLabel value=" Deviation: ±" />
+							<p:inputText value="#{metricSimBean.newMetric.randomGenerator.dev}" />
 						</h:panelGroup>
 						<h:outputText value="Labels" />
 						<p:dataTable id="labelsTable" value="#{metricSimBean.newMetric.labels}"
@@ -61,15 +55,11 @@
 							cellpadding="0" cellspacing="0" width="100%">
 							<p:column>
 								<f:facet name="header">Label name</f:facet>
-								<p:inplace editor="true">
-									<p:inputText value="#{lbl.key}" required="true" label="text" />
-								</p:inplace>
+								<p:inputText value="#{lbl.key}" required="true" label="text" />
 							</p:column>
 							<p:column>
 								<f:facet name="header">Label value</f:facet>
-								<p:inplace editor="true">
-									<p:inputText value="#{lbl.value}" required="true" label="text" />
-								</p:inplace>
+								<p:inputText value="#{lbl.value}" required="true" label="text" />
 							</p:column>
 							<p:column>
 								<f:facet name="header">Remove</f:facet>
@@ -78,7 +68,9 @@
 									ajax="true" />
 							</p:column>
 						</p:dataTable>
+						
 						<f:facet name="footer">
+							<hr/>
 							<p:commandButton value="Add label"
 								action="#{metricSimBean.addLabel()}" update="labelsTable"
 								ajax="true" />
@@ -105,26 +97,7 @@
 					</p:column>
 					<p:column>
 						<f:facet name="header">Value generator</f:facet>
-						<h:outputLabel value="Value=" />
-						<p:inplace editor="true">
-							<p:inputText value="#{m.value}" required="true" />
-						</p:inplace>
-						<h:outputLabel value=" | Min=" />
-						<p:inplace editor="true">
-							<p:inputText value="#{m.randomGenerator.minValue}" valueChangeListener="#{metricSimBean.updateMetric(m)}" />
-						</p:inplace>
-						<h:outputLabel value=" | Max=" />
-						<p:inplace editor="true">
-							<p:inputText value="#{m.randomGenerator.maxValue}" valueChangeListener="#{metricSimBean.changedMax()}" />
-						</p:inplace>
-						<h:outputLabel value=" | ∆=±" />
-						<p:inplace editor="true">
-							<p:inputText value="#{m.randomGenerator.maxDeviation}" valueChangeListener="#{metricSimBean.saveMetrics()}" />
-						</p:inplace>
-						<h:outputLabel value=" | Wave=" />
-						<p:inplace editor="true" >
-							<p:inputText value="#{m.randomGenerator.wavePeriod}" valueChangeListener="#{metricSimBean.saveMetrics()}" />
-						</p:inplace>
+						<h:outputLabel value="Value=#{m.currentValue} | Min=#{m.randomGenerator.min} | Max=#{m.randomGenerator.max} | ∆=±#{m.randomGenerator.dev} | Wave=#{m.randomGenerator.wave}" />
 					</p:column>
 					<p:column>
 						<f:facet name="header">Actions</f:facet>

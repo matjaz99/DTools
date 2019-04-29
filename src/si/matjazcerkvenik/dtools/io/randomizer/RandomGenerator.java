@@ -11,11 +11,12 @@ public class RandomGenerator implements Serializable {
 	
 	private static final long serialVersionUID = 9160875147783887518L;
 	
-	private int minValue = 0;
-	private int maxValue = 100;
-	private int maxDeviation = 20;
-	private String wavePeriod = "5m";
-	private int currentValue = 10;
+	private int min = 0;
+	private int max = 100;
+	private int dev = 20;
+	private String wave = "9999d";
+	private Double value = 20.0;
+	private Double currentValue = 10.0;
 	
 
 	/**
@@ -24,33 +25,33 @@ public class RandomGenerator implements Serializable {
 	 * maxValue and not less than 0.
 	 * 
 	 * @param currentValue
-	 * @param maxValue
-	 * @param maxDeviation
+	 * @param max
+	 * @param dev
 	 * @return
 	 */
-	public int getNextInt() {
+	public double getNextInt() {
 
-		if (minValue >= maxValue) {
+		if (min >= max) {
 			return 0;
 		}
 
 		Random rand = new Random();
 
-		int dev = rand.nextInt(maxDeviation);
+		int d = rand.nextInt(dev);
 		
-		currentValue = (int) (currentValue * getCosinusFactor());
+		currentValue = currentValue * getCosinusFactor();
 
 		if (rand.nextBoolean()) {
-			currentValue = currentValue + dev;
+			currentValue = currentValue + d;
 		} else {
-			currentValue = currentValue - dev;
+			currentValue = currentValue - d;
 		}
 
-		if (currentValue > maxValue) {
-			currentValue = maxValue;
+		if (currentValue > max) {
+			currentValue = (double) max;
 		}
-		if (currentValue < minValue) {
-			currentValue = minValue;
+		if (currentValue < min) {
+			currentValue = (double) min;
 		}
 		
 		return currentValue;
@@ -62,19 +63,19 @@ public class RandomGenerator implements Serializable {
 		double waveMillis = 5 * 60 * 1000;
 		long time = System.currentTimeMillis() - DMetrics.startTimestamp;
 		
-		if (wavePeriod.endsWith("d")) {
-			waveMillis = new Double(wavePeriod.split("d")[0]);
+		if (wave.endsWith("d")) {
+			waveMillis = new Double(wave.split("d")[0]);
 			waveMillis = waveMillis * 24 * 60 * 60 * 1000;
-		} else if (wavePeriod.endsWith("h")) {
-			waveMillis = new Double(wavePeriod.split("h")[0]);
+		} else if (wave.endsWith("h")) {
+			waveMillis = new Double(wave.split("h")[0]);
 			waveMillis = waveMillis * 60 * 60 * 1000;
-		} else if (wavePeriod.endsWith("m")) {
-			waveMillis = new Double(wavePeriod.split("m")[0]);
+		} else if (wave.endsWith("m")) {
+			waveMillis = new Double(wave.split("m")[0]);
 			waveMillis = waveMillis * 60 * 1000;
 		}
 		
 		double d = 2 * Math.PI * time / waveMillis;
-		System.out.format("The cosine for " + wavePeriod + " of %.4f is %.4f%n", d, Math.cos(d));
+		System.out.format("The cosine for " + wave + " of %.4f is %.4f%n", d, Math.cos(d));
 		return Math.abs(Math.cos(d));
 		
 //		double degrees = 45.0;
@@ -84,41 +85,55 @@ public class RandomGenerator implements Serializable {
 //	      System.out.format("The cosine of %.1f degrees is %.4f%n", degrees, Math.cos(radians));
 		
 	}
-
-	public int getMinValue() {
-		return minValue;
+	
+	public Double getValue() {
+		return value;
 	}
 
 	@XmlAttribute
-	public void setMinValue(int minValue) {
-		this.minValue = minValue;
+	public void setValue(Double value) {
+		this.value = value;
+		this.currentValue = value;
 	}
 
-	public int getMaxValue() {
-		return maxValue;
-	}
-
-	@XmlAttribute
-	public void setMaxValue(int maxValue) {
-		this.maxValue = maxValue;
-	}
-
-	public int getMaxDeviation() {
-		return maxDeviation;
+	public int getMin() {
+		return min;
 	}
 
 	@XmlAttribute
-	public void setMaxDeviation(int maxDeviation) {
-		this.maxDeviation = maxDeviation;
+	public void setMin(int min) {
+		this.min = min;
 	}
 
-	public String getWavePeriod() {
-		return wavePeriod;
+	public int getMax() {
+		return max;
 	}
 
 	@XmlAttribute
-	public void setWavePeriod(String wavePeriod) {
-		this.wavePeriod = wavePeriod;
+	public void setMax(int max) {
+		this.max = max;
+	}
+
+	public int getDev() {
+		return dev;
+	}
+
+	@XmlAttribute
+	public void setDev(int dev) {
+		this.dev = dev;
+	}
+
+	public String getWave() {
+		return wave;
+	}
+
+	@XmlAttribute
+	public void setWave(String wave) {
+		this.wave = wave;
+	}
+	
+	public static Double abs(double d) {
+		return Math.abs(d);
 	}
 
 }

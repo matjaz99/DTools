@@ -6,7 +6,6 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.ValueChangeEvent;
 
 import org.primefaces.context.RequestContext;
 
@@ -46,33 +45,20 @@ public class MetricSimBean implements Serializable {
 	
 	public void removeMetric(CustomMetric metric) {
 		DAO.getInstance().deleteCustomMetric(metric);
+		DMetrics.dMetricsRegistry.unregisterMetric(metric);
 	}
 
 	public void saveMetrics() {
 		if (newMetric.getHelp() == null || newMetric.getHelp().isEmpty()) {
 			newMetric.setHelp(newMetric.getName());
 		}
+		DMetrics.dMetricsRegistry.registerMetric(newMetric);
 		DAO.getInstance().addCustomMetric(newMetric);
-		DMetrics.registerMetric(newMetric);
 		newMetric = null;
 		newMetric = new CustomMetric();
 		Growl.addGrowlMessage("Metric registered", FacesMessage.SEVERITY_INFO);
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.addCallbackParam("success", true);
-	}
-	
-	public void changedMax(ValueChangeEvent e) {
-		if (e.getOldValue().toString().equalsIgnoreCase(e.getNewValue().toString())) {
-			return;
-		}
-		System.out.println("changedMax: " + e.getNewValue().toString());
-//		localIp = e.getNewValue().toString();
-//		DAO.getInstance().saveAgentMetadata(this);
-	}
-	
-	public void updateMetric(CustomMetric m) {
-		System.out.println("updateMetric: " + m.getName());
-		DAO.getInstance().saveCustomMetrics();
 	}
 	
 }
