@@ -3,7 +3,7 @@
     <metric>
         <help>test_temperature_current</help>
         <name>test_temperature_current</name>
-        <randomGenerator dev="7" max="60" min="-10" value="16.0" wave="9999d"/>
+        <randomGenerator dev="7" max="60" min="-10" value="16" wave="9999d"/>
         <type>GAUGE</type>
     </metric>
     <metric>
@@ -11,7 +11,7 @@
         <label key="country" value="England"/>
         <label key="city" value="London"/>
         <name>test_temperature_by_city_current</name>
-        <randomGenerator dev="10" max="35" min="0" value="7.0" wave="9999d"/>
+        <randomGenerator dev="10" max="35" min="0" value="7" wave="9999d"/>
         <type>GAUGE</type>
     </metric>
     <metric>
@@ -19,7 +19,7 @@
         <label key="country" value="England"/>
         <label key="city" value="Bristol"/>
         <name>test_temperature_by_city_current</name>
-        <randomGenerator dev="10" max="35" min="0" value="7.0" wave="9999d"/>
+        <randomGenerator dev="10" max="35" min="0" value="7" wave="9999d"/>
         <type>GAUGE</type>
     </metric>
     <metric>
@@ -27,7 +27,7 @@
         <label key="country" value="England"/>
         <label key="city" value="Liverpool"/>
         <name>test_temperature_by_city_current</name>
-        <randomGenerator dev="10" max="35" min="0" value="7.0" wave="9999d"/>
+        <randomGenerator dev="10" max="35" min="0" value="7" wave="9999d"/>
         <type>GAUGE</type>
     </metric>
     <metric>
@@ -35,7 +35,7 @@
         <label key="country" value="Finland"/>
         <label key="city" value="Helsinki"/>
         <name>test_temperature_by_city_current</name>
-        <randomGenerator dev="5" max="25" min="-20" value="7.0" wave="9999d"/>
+        <randomGenerator dev="5" max="25" min="-20" value="7" wave="9999d"/>
         <type>GAUGE</type>
     </metric>
     <metric>
@@ -43,7 +43,7 @@
         <label key="country" value="Uae"/>
         <label key="city" value="Dubai"/>
         <name>test_temperature_by_city_current</name>
-        <randomGenerator dev="3" max="45" min="25" value="7.0" wave="9999d"/>
+        <randomGenerator dev="3" max="45" min="25" value="7" wave="9999d"/>
         <type>GAUGE</type>
     </metric>
     <metric>
@@ -51,7 +51,7 @@
         <label key="country" value="France"/>
         <label key="city" value="Toulouse"/>
         <name>test_temperature_by_city_current</name>
-        <randomGenerator dev="10" max="35" min="10" value="7.0" wave="9999d"/>
+        <randomGenerator dev="10" max="35" min="10" value="7" wave="9999d"/>
         <type>GAUGE</type>
     </metric>
     <metric>
@@ -59,7 +59,7 @@
         <label key="country" value="France"/>
         <label key="city" value="Paris"/>
         <name>test_temperature_by_city_current</name>
-        <randomGenerator dev="7" max="35" min="10" value="7.0" wave="9999d"/>
+        <randomGenerator dev="7" max="35" min="10" value="7" wave="9999d"/>
         <type>GAUGE</type>
     </metric>
     <metric>
@@ -67,7 +67,7 @@
         <label key="shop" value="Ikea"/>
         <label key="country" value="Austria"/>
         <name>test_customers_current</name>
-        <randomGenerator dev="2" max="20" min="0" value="1.0" wave="9999d"/>
+        <randomGenerator dev="2" max="20" min="0" value="1" wave="9999d"/>
         <type>GAUGE</type>
     </metric>
     <metric>
@@ -75,7 +75,7 @@
         <label key="shop" value="Ikea"/>
         <label key="country" value="Germany"/>
         <name>test_customers_current</name>
-        <randomGenerator dev="2" max="20" min="0" value="1.0" wave="9999d"/>
+        <randomGenerator dev="2" max="20" min="0" value="1" wave="9999d"/>
         <type>GAUGE</type>
     </metric>
     <metric>
@@ -83,7 +83,7 @@
         <label key="shop" value="Ikea"/>
         <label key="country" value="France"/>
         <name>test_customers_current</name>
-        <randomGenerator dev="2" max="20" min="0" value="1.0" wave="9999d"/>
+        <randomGenerator dev="2" max="20" min="0" value="1" wave="9999d"/>
         <type>GAUGE</type>
     </metric>
     <metric>
@@ -91,7 +91,7 @@
         <label key="shop" value="Hofer"/>
         <label key="country" value="Austria"/>
         <name>test_customers_current</name>
-        <randomGenerator dev="2" max="20" min="0" value="1.0" wave="9999d"/>
+        <randomGenerator dev="2" max="20" min="0" value="1" wave="9999d"/>
         <type>GAUGE</type>
     </metric>
     <metric>
@@ -99,7 +99,7 @@
         <label key="shop" value="Hofer"/>
         <label key="country" value="Germany"/>
         <name>test_customers_current</name>
-        <randomGenerator dev="2" max="20" min="0" value="1.0" wave="9999d"/>
+        <randomGenerator dev="2" max="20" min="0" value="1" wave="9999d"/>
         <type>GAUGE</type>
     </metric>
     <metric>
@@ -107,7 +107,7 @@
         <label key="shop" value="Hofer"/>
         <label key="country" value="France"/>
         <name>test_customers_current</name>
-        <randomGenerator dev="2" max="20" min="0" value="1.0" wave="9999d"/>
+        <randomGenerator dev="2" max="20" min="0" value="1" wave="9999d"/>
         <type>GAUGE</type>
     </metric>
     <metric>
@@ -115,7 +115,7 @@
         <label key="shop" value="Spar"/>
         <label key="country" value="Austria"/>
         <name>test_customers_current</name>
-        <randomGenerator dev="2" max="20" min="0" value="1.0" wave="9999d"/>
+        <randomGenerator dev="2" max="20" min="0" value="1" wave="9999d"/>
         <type>GAUGE</type>
     </metric>
     <metric>
@@ -123,7 +123,7 @@
         <label key="shop" value="Spar"/>
         <label key="country" value="Germany"/>
         <name>test_customers_current</name>
-        <randomGenerator dev="2" max="20" min="0" value="1.0" wave="9999d"/>
+        <randomGenerator dev="2" max="20" min="0" value="1" wave="9999d"/>
         <type>GAUGE</type>
     </metric>
     <metric>
@@ -131,7 +131,7 @@
         <label key="shop" value="Spar"/>
         <label key="country" value="France"/>
         <name>test_customers_current</name>
-        <randomGenerator dev="2" max="20" min="0" value="1.0" wave="9999d"/>
+        <randomGenerator dev="2" max="20" min="0" value="1" wave="9999d"/>
         <type>GAUGE</type>
     </metric>
     <metric>
@@ -139,7 +139,7 @@
         <label key="shop" value="Ikea"/>
         <label key="country" value="Austria"/>
         <name>test_customers_payment_total</name>
-        <randomGenerator dev="20" max="100" min="0" value="1.0" wave="9999d"/>
+        <randomGenerator dev="20" max="100" min="0" value="1" wave="9999d"/>
         <type>COUNTER</type>
     </metric>
     <metric>
@@ -147,7 +147,7 @@
         <label key="shop" value="Ikea"/>
         <label key="country" value="Germany"/>
         <name>test_customers_payment_total</name>
-        <randomGenerator dev="20" max="100" min="0" value="1.0" wave="9999d"/>
+        <randomGenerator dev="20" max="100" min="0" value="1" wave="9999d"/>
         <type>COUNTER</type>
     </metric>
     <metric>
@@ -155,7 +155,7 @@
         <label key="shop" value="Ikea"/>
         <label key="country" value="France"/>
         <name>test_customers_payment_total</name>
-        <randomGenerator dev="20" max="100" min="0" value="1.0" wave="9999d"/>
+        <randomGenerator dev="20" max="100" min="0" value="1" wave="9999d"/>
         <type>COUNTER</type>
     </metric>
     <metric>
@@ -163,7 +163,7 @@
         <label key="shop" value="Hofer"/>
         <label key="country" value="Austria"/>
         <name>test_customers_payment_total</name>
-        <randomGenerator dev="20" max="100" min="0" value="1.0" wave="9999d"/>
+        <randomGenerator dev="20" max="100" min="0" value="1" wave="9999d"/>
         <type>COUNTER</type>
     </metric>
     <metric>
@@ -171,7 +171,7 @@
         <label key="shop" value="Hofer"/>
         <label key="country" value="Germany"/>
         <name>test_customers_payment_total</name>
-        <randomGenerator dev="20" max="100" min="0" value="1.0" wave="9999d"/>
+        <randomGenerator dev="20" max="100" min="0" value="1" wave="9999d"/>
         <type>COUNTER</type>
     </metric>
     <metric>
@@ -179,7 +179,7 @@
         <label key="shop" value="Hofer"/>
         <label key="country" value="France"/>
         <name>test_customers_payment_total</name>
-        <randomGenerator dev="20" max="100" min="0" value="1.0" wave="9999d"/>
+        <randomGenerator dev="20" max="100" min="0" value="1" wave="9999d"/>
         <type>COUNTER</type>
     </metric>
     <metric>
@@ -187,7 +187,7 @@
         <label key="shop" value="Spar"/>
         <label key="country" value="Austria"/>
         <name>test_customers_payment_total</name>
-        <randomGenerator dev="20" max="100" min="0" value="1.0" wave="9999d"/>
+        <randomGenerator dev="20" max="100" min="0" value="1" wave="9999d"/>
         <type>COUNTER</type>
     </metric>
     <metric>
@@ -195,7 +195,7 @@
         <label key="shop" value="Spar"/>
         <label key="country" value="Germany"/>
         <name>test_customers_payment_total</name>
-        <randomGenerator dev="20" max="100" min="0" value="1.0" wave="9999d"/>
+        <randomGenerator dev="20" max="100" min="0" value="1" wave="9999d"/>
         <type>COUNTER</type>
     </metric>
     <metric>
@@ -203,7 +203,7 @@
         <label key="shop" value="Spar"/>
         <label key="country" value="France"/>
         <name>test_customers_payment_total</name>
-        <randomGenerator dev="20" max="100" min="0" value="1.0" wave="9999d"/>
+        <randomGenerator dev="20" max="100" min="0" value="1" wave="9999d"/>
         <type>COUNTER</type>
     </metric>
     <metric>
@@ -212,7 +212,7 @@
         <label key="label2" value="value2"/>
         <label key="wave" value="15m"/>
         <name>test_metric</name>
-        <randomGenerator dev="20" max="100" min="10" value="10.0" wave="15m"/>
+        <randomGenerator dev="20" max="100" min="10" value="10" wave="15m"/>
         <type>GAUGE</type>
     </metric>
     <metric>
@@ -221,7 +221,7 @@
         <label key="label2" value="222"/>
         <label key="wave" value="1h"/>
         <name>test_metric</name>
-        <randomGenerator dev="10" max="300" min="0" value="0.0" wave="1h"/>
+        <randomGenerator dev="10" max="300" min="0" value="0" wave="1h"/>
         <type>GAUGE</type>
     </metric>
     <metric>
@@ -230,7 +230,7 @@
         <label key="label2" value="bbb"/>
         <label key="wave" value="12h"/>
         <name>test_metric</name>
-        <randomGenerator dev="20" max="100" min="0" value="31.0" wave="12h"/>
+        <randomGenerator dev="20" max="100" min="0" value="31" wave="12h"/>
         <type>GAUGE</type>
     </metric>
     <metric>
@@ -239,13 +239,7 @@
         <label key="label2" value="bbb"/>
         <label key="wave" value="100d"/>
         <name>test_metric</name>
-        <randomGenerator dev="20" max="100" min="0" value="39.0" wave="100d"/>
-        <type>GAUGE</type>
-    </metric>
-    <metric>
-        <help>ddddd</help>
-        <name>ddddd</name>
-        <randomGenerator dev="20" max="100" min="0" value="20.0" wave="9999d"/>
+        <randomGenerator dev="20" max="100" min="0" value="39" wave="100d"/>
         <type>GAUGE</type>
     </metric>
 </prometheusCustomMetrics>

@@ -15,8 +15,8 @@ public class RandomGenerator implements Serializable {
 	private int max = 100;
 	private int dev = 20;
 	private String wave = "9999d";
-	private Double value = 20.0;
-	private Double currentValue = 10.0;
+	private int value = 20;
+	private int currentValue = 10;
 	
 
 	/**
@@ -29,7 +29,7 @@ public class RandomGenerator implements Serializable {
 	 * @param dev
 	 * @return
 	 */
-	public double getNextInt() {
+	public int getNextInt() {
 
 		if (min >= max) {
 			return 0;
@@ -39,7 +39,7 @@ public class RandomGenerator implements Serializable {
 
 		int d = rand.nextInt(dev);
 		
-		currentValue = currentValue * getCosinusFactor();
+		currentValue = (int) (currentValue * getCosinusFactor());
 
 		if (rand.nextBoolean()) {
 			currentValue = currentValue + d;
@@ -48,10 +48,10 @@ public class RandomGenerator implements Serializable {
 		}
 
 		if (currentValue > max) {
-			currentValue = (double) max;
+			currentValue = max;
 		}
 		if (currentValue < min) {
-			currentValue = (double) min;
+			currentValue = min;
 		}
 		
 		return currentValue;
@@ -75,7 +75,7 @@ public class RandomGenerator implements Serializable {
 		}
 		
 		double d = 2 * Math.PI * time / waveMillis;
-		System.out.format("The cosine for " + wave + " of %.4f is %.4f%n", d, Math.cos(d));
+//		System.out.format("The cosine for " + wave + " of %.4f is %.4f%n", d, Math.cos(d));
 		return Math.abs(Math.cos(d));
 		
 //		double degrees = 45.0;
@@ -86,12 +86,12 @@ public class RandomGenerator implements Serializable {
 		
 	}
 	
-	public Double getValue() {
+	public int getValue() {
 		return value;
 	}
 
 	@XmlAttribute
-	public void setValue(Double value) {
+	public void setValue(int value) {
 		this.value = value;
 		this.currentValue = value;
 	}
